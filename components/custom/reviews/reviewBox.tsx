@@ -1,0 +1,43 @@
+// CustomerReviews.jsx
+import React from "react";
+import { IoIosStar } from "react-icons/io";
+import StarsSection from "@/components/custom/reviews/reviews";
+import ReviewFormDialog from "./review-form-dialog";
+
+const CustomerReviews: React.FC<{ productId: number }> = ({ productId }) => {
+  return (
+    <div className="bg-white py-6 sm:py-8 lg:py-12">
+      <div className="mx-auto max-w-screen-md px-4 md:px-8">
+        <h2 className="mb-4 text-center text-2xl font-bold text-gray-800 md:mb-8 lg:text-3xl xl:mb-12">
+          Customer Reviews
+        </h2>
+
+        <div className="mb-4 flex items-center justify-between border-t border-b py-4">
+          <div className="flex flex-col gap-0.5">
+            <span className="block font-bold">Total</span>
+
+            {/* stars - start */}
+            <div className="-ml-1 flex gap-0.5">
+              <IoIosStar color="gold" size={25} />
+
+              {/* Add the remaining star SVGs */}
+            </div>
+            {/* stars - end */}
+
+            <span className="block text-sm text-gray-500">
+              Based on 27 reviews
+            </span>
+          </div>
+
+          <ReviewFormDialog productId={productId} />
+        </div>
+
+        <div className="divide-y">
+          <StarsSection num={5}/>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default CustomerReviews;
