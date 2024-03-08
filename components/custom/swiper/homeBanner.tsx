@@ -9,6 +9,7 @@ import "swiper/css/pagination";
 
 // import required modules
 import { Pagination } from "swiper/modules";
+import { domain } from "@/components/backend/apiRouth";
 
 const swiperProps = {
   loop: true,
@@ -24,9 +25,7 @@ const HomeBanner = () => {
   useEffect(() => {
     const fetchImages = async () => {
       try {
-        const response = await fetch(
-          "http://localhost:1337/api/hero-imgs?populate=*"
-        );
+        const response = await fetch(`${domain}/api/hero-imgs?populate=*`);
         if (!response.ok) {
           throw new Error("Failed to fetch images");
         }

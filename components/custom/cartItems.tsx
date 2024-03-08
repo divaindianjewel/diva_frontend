@@ -6,6 +6,7 @@ import { MdAdd } from "react-icons/md";
 import { FaMinus } from "react-icons/fa6";
 
 import img1 from "@/app/assets/product_img/stock-img (1).jpg";
+import { domain } from "../backend/apiRouth";
 
 export interface cartItemProps {
   id: number;
@@ -30,7 +31,7 @@ const CartItems: React.FC<{ productId: number }> = ({ productId }) => {
   const fetchCartData = async () => {
     try {
       const response = await fetch(
-        "http://localhost:1337/api/carts?populate=*"
+        `${ domain }/api/carts?populate=*`
       );
       const data = await response.json();
 

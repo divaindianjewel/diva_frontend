@@ -14,7 +14,7 @@ import Autoplay from "embla-carousel-autoplay";
 import CustomerReviews from "@/components/custom/reviews/reviewBox";
 import { addToCart } from "@/backend/add-to-cart";
 import { useAuth, useUser } from "@clerk/nextjs";
-import { errorTost, successTost } from "@/components/toast/allTost";
+import { domain } from "@/components/backend/apiRouth";
 
 interface ImageData {
   id: number;
@@ -55,7 +55,7 @@ interface paramsProps {
 const Page: React.FC<paramsProps> = ({ params }) => {
   const [product, setProduct] = useState<ProductData | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
-  const { userId, sessionId, getToken } = useAuth();
+  const { userId } = useAuth();
   const { isSignedIn } = useUser();
 
   const width = 500;
@@ -65,7 +65,7 @@ const Page: React.FC<paramsProps> = ({ params }) => {
     const fetchProduct = async () => {
       try {
         const response = await fetch(
-          `http://localhost:1337/api/products/${params.id}?populate=*`
+          `${domain}/api/products/${params.id}?populate=*`
         );
         if (!response.ok) {
           throw new Error("Failed to fetch product");
@@ -85,7 +85,7 @@ const Page: React.FC<paramsProps> = ({ params }) => {
   if (loading) {
     return <div>Loading...</div>;
   }
-  
+
   if (!product) {
     return <div>No product found</div>;
   }
@@ -114,7 +114,7 @@ const Page: React.FC<paramsProps> = ({ params }) => {
                       <CarouselItem key={index}>
                         <Image
                           className="rounded-md"
-                          src={`http://localhost:1337${image.attributes.url}`}
+                          src={`${domain}${image.attributes.url}`}
                           alt={`Image ${index + 1}`}
                           width={width}
                           height={height}
@@ -176,10 +176,8 @@ const Page: React.FC<paramsProps> = ({ params }) => {
                       isSignedIn,
                       product.attributes.name,
                       product.attributes.price
-                    ).then(() => {
-                      successTost("product added successfully");
-                    }) .catch((err) => {
-                      errorTost(err);
+                    ).catch((err) => {
+                      console.log(err);
                     })
                   }}
                 >

@@ -11,6 +11,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
+import { domain } from "@/components/backend/apiRouth";
 
 // Define an interface for the product data
 export interface Product {
@@ -37,9 +38,7 @@ const FeatureSection = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(
-          "http://localhost:1337/api/products?populate=*"
-        );
+        const response = await fetch(`${domain}/api/products?populate=*`);
         const data = await response.json();
         setProducts(data.data);
       } catch (error) {
@@ -72,9 +71,9 @@ const FeatureSection = () => {
                 <CarouselContent>
                   {product.attributes.images.data.map((image) => (
                     <CarouselItem className="shadow-lg " key={image.id}>
-                      <Image
+                      <img
                         className="rounded-md"
-                        src={`http://localhost:1337${image.attributes.url}`}
+                        src={`${domain}${image.attributes.url}`}
                         alt={image.attributes.name}
                         width={600}
                         height={500}

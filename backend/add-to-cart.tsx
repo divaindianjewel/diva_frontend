@@ -1,6 +1,6 @@
 "use client";
-import { warningTost } from "@/components/toast/allTost";
-import axios from "axios";
+import { domain } from "@/components/backend/apiRouth";
+import { successTost, warningTost } from "@/components/toast/allTost";
 
 export const addToCart = async (
   productId: number,
@@ -11,7 +11,7 @@ export const addToCart = async (
 ) => {
   if (isSignIn) {
     try {
-      const response = await fetch("http://localhost:1337/api/carts", {
+      const response = await fetch(`${ domain }/api/carts`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -29,11 +29,12 @@ export const addToCart = async (
 
       if (!response.ok) {
         throw new Error("something went wrong");
+      } else {
+        successTost("Product is added to cart successfully");
       }
       const data = await response.json();
       console.log("Item added to cart:", data);
       return data;
-
     } catch (error) {
       console.error("Error adding item to cart:", error);
       throw error;

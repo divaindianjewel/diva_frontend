@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
+import { domain } from "../backend/apiRouth";
 
 interface categories {
   id: number;
@@ -20,7 +21,7 @@ const CategoriesButton = () => {
     const fetchCategoriesName = async () => {
       try {
         const response = await fetch(
-          `http://localhost:1337/api/categories?populate=*`
+          `${domain}/api/categories?populate=*`
         );
         const data = await response.json();
 

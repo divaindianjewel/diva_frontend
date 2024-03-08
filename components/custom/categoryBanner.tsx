@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
+import { domain } from "../backend/apiRouth";
 
 interface Category {
   id: number;
   attributes: {
     name: string;
-    banner: {
+    home_pic: {
       data: {
         id: number;
         attributes: {
@@ -27,11 +28,15 @@ const CategoryBanner: React.FC<CategoryId> = ({ categoryId }) => {
   useEffect(() => {
     const fetchCategory = async () => {
       try {
-        if (!categoryId) return; // Check if categoryId exists
+        if (!categoryId) return;
 
         const response = await fetch(
-          `http://localhost:1337/api/categories/${categoryId}?populate=*`
+          `${domain}/api/categories/${categoryId}?populate=*`
         );
+
+        if (!response.ok) {
+          throw new Error("Failed to fetch category");
+        }
 
         const data = await response.json();
 
@@ -46,14 +51,16 @@ const CategoryBanner: React.FC<CategoryId> = ({ categoryId }) => {
 
   return (
     <div>
-      {category && (
-        <Image
-          src={category.attributes.banner?.data.attributes.url}
-          width={2000}
-          height={1000}
-          alt={category.attributes.banner?.data.attributes.name || "banner"}
-        />
-      )}
+      {category &&
+        category.attributes.home_pic &&
+        category.attributes.home_pic.data && (
+          <Image
+            src={category.attributes.home_pic.data.attributes.url}
+            width={2000}
+            height={1000}
+            alt={category.attributes.home_pic.data.attributes.name || "banner"}
+          />
+        )}
     </div>
   );
 };

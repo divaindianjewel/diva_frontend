@@ -1,4 +1,5 @@
 "use client";
+
 import React, { useEffect, useState } from "react";
 import { Separator } from "@/components/ui/separator";
 import {
@@ -9,8 +10,9 @@ import {
   Card,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { JSX, SVGProps } from "react";
 import CartItems from "@/components/custom/cartItems";
+import { useAuth, useUser } from "@clerk/nextjs";
+import { domain } from "@/components/backend/apiRouth";
 
 interface CartItem {
   id: number;
@@ -27,12 +29,14 @@ export default function Component() {
   const [cartData, setCartData] = useState<CartItem[]>([]);
   const [subtotal, setSubtotal] = useState<number>(0);
   const [total, setTotal] = useState<number>(0);
+  const { userId } = useAuth();
+  const { isSignedIn } = useUser();
 
   useEffect(() => {
     const fetchCartData = async () => {
       try {
         const response = await fetch(
-          "http://localhost:1337/api/carts?populate=*"
+          `${domain}/api/carts?populate=*`
         );
         const data = await response.json();
         if (data && data.data && data.data.length > 0) {
@@ -62,46 +66,52 @@ export default function Component() {
   }, [cartData]);
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>My Cart</CardTitle>
-      </CardHeader>
-      <CardContent>
-        <div className="grid gap-6">
-          {cartData.map((item) => (
-            <CartItems
-              key={item.id}
-              productId={item.attributes.Product_id}
-            />
-          ))}
-        </div>
-      </CardContent>
-
-      <Separator />
-
-      <div className="w-full flex justify-end mr-10 mt-10">
-        <div className="w-[30rem] max-w-[40rem] ">
-          <CardContent className="grid gap-4">
-            <div className="flex items-center gap-4">
-              <div>Subtotal</div>
-              <div className="ml-auto">₹{subtotal.toFixed(2)}</div>
-            </div>
-            <div className="flex items-center gap-4">
-              <div>GST (18%)</div>
-              <div className="ml-auto">₹{(subtotal * 0.18).toFixed(2)}</div>
-            </div>
-            <div className="flex items-center font-medium">
-              <div>Total</div>
-              <div className="ml-auto">₹{total.toFixed(2)}</div>
+    <>
+      {isSignedIn ? (
+        <Card>
+          <CardHeader>
+            <CardTitle>My Cart</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="grid gap-6">
+              {cartData.map((item) => (
+                <CartItems
+                  key={item.id}
+                  productId={item.attributes.Product_id}
+                />
+              ))}
             </div>
           </CardContent>
-          <CardFooter>
-            <Button className="w-full" size="lg">
-              Proceed to Checkout
-            </Button>
-          </CardFooter>
-        </div>
-      </div>
-    </Card>
+
+          <Separator />
+
+          <div className="w-full flex justify-end mr-10 mt-10">
+            <div className="w-[30rem] max-w-[40rem] ">
+              <CardContent className="grid gap-4">
+                <div className="flex items-center gap-4">
+                  <div>Subtotal</div>
+                  <div className="ml-auto">₹{subtotal.toFixed(2)}</div>
+                </div>
+                <div className="flex items-center gap-4">
+                  <div>GST (18%)</div>
+                  <div className="ml-auto">₹{(subtotal * 0.18).toFixed(2)}</div>
+                </div>
+                <div className="flex items-center font-medium">
+                  <div>Total</div>
+                  <div className="ml-auto">₹{total.toFixed(2)}</div>
+                </div>
+              </CardContent>
+              <CardFooter>
+                <Button className="w-full" size="lg">
+                  Proceed to Checkout
+                </Button>
+              </CardFooter>
+            </div>
+          </div>
+        </Card>
+      ) : (
+        <div>Please Login first</div>
+      )}
+    </>
   );
 }

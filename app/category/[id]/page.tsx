@@ -19,6 +19,7 @@ import {
 // images
 import banner from "@/app/assets/banners/banner-2.jpg";
 import CategoryBanner from "@/components/custom/categoryBanner";
+import { domain } from "@/components/backend/apiRouth";
 
 interface categories {
   id: number;
@@ -75,11 +76,10 @@ const page: React.FC<categoryId> = ({ params }) => {
 
   useEffect(() => {
    
-
     const fetchData = async () => {
       try {
         const response = await fetch(
-          "http://localhost:1337/api/products?populate=*"
+          `${domain}/api/products?populate=*`
         );
         const fetchedProducts = await response.json();
 

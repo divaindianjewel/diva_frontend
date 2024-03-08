@@ -1,10 +1,39 @@
 // CustomerReviews.jsx
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { IoIosStar } from "react-icons/io";
-import StarsSection from "@/components/custom/reviews/reviews";
+import Reviews from "@/components/custom/reviews/reviews";
 import ReviewFormDialog from "./review-form-dialog";
+import axios from "axios";
+import { domain } from "@/components/backend/apiRouth";
+
+export interface ReviewProps {
+  id: number;
+  attributes: {
+    product_id: number;
+    ratting: number;
+    Description: string;
+    user_id: string;
+    user_name: string;
+  };
+}
 
 const CustomerReviews: React.FC<{ productId: number }> = ({ productId }) => {
+  const [reviews, setReviews] = useState<ReviewProps[]>([]);
+
+  useEffect(() => {
+    const fetchReviews = async () => {
+      try {
+        const response = await axios.get(`${domain}/api/reviews`);
+        setReviews(response.data.data);
+        console.log(response.data.data);
+      } catch (error) {
+        console.error("Error fetching reviews:", error);
+      }
+    };
+
+    fetchReviews();
+  }, []);
+
   return (
     <div className="bg-white py-6 sm:py-8 lg:py-12">
       <div className="mx-auto max-w-screen-md px-4 md:px-8">
@@ -33,7 +62,9 @@ const CustomerReviews: React.FC<{ productId: number }> = ({ productId }) => {
         </div>
 
         <div className="divide-y">
-          <StarsSection num={5}/>
+          {reviews.map((review) => (
+            <Reviews review={review} />
+          ))}
         </div>
       </div>
     </div>

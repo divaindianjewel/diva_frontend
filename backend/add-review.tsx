@@ -1,3 +1,4 @@
+import { domain } from "@/components/backend/apiRouth";
 import axios from "axios";
 
 export const addReview = async (
@@ -8,7 +9,7 @@ export const addReview = async (
   userName: string
 ) => {
   try {
-    const response = await axios.post("http://localhost:1337/api/reviews", {
+    const response = await axios.post(`${ domain }/api/reviews`, {
       data: {
         product_id: productId,
         ratting: rating,

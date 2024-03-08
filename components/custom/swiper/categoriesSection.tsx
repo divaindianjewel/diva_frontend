@@ -9,6 +9,7 @@ import {
   CarouselItem,
 } from "@/components/ui/carousel";
 import Autoplay from "embla-carousel-autoplay";
+import { domain } from "@/components/backend/apiRouth";
 
 interface categories {
   id: number;
@@ -41,9 +42,7 @@ const Categories = () => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await fetch(
-          "http://localhost:1337/api/categories?populate=*"
-        );
+        const response = await fetch(`${domain}/api/categories?populate=*`);
         const data = await response.json();
         setCategories(data.data);
       } catch (error) {
@@ -81,7 +80,7 @@ const Categories = () => {
                 <Link href={`category/${item.id}`}>
                   <div>
                     <Image
-                      src={`http://localhost:1337${item.attributes.home_pic.data.attributes.url}`}
+                      src={`${domain}${item.attributes.home_pic.data.attributes.url}`}
                       alt="category"
                       width={width}
                       height={height}
