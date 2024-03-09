@@ -37,7 +37,7 @@ const CategoriesButton = () => {
   return (
     <div className="flex items-center justify-start gap-5 mx-5 max-w-[95vw] w-[93vw]  relative">
       {categoriesName?.map((items) => (
-        <Link
+        <Link key={items.id}
           className="filterBtn drop-shadow-bg-gray-900 my-2"
           href={`/category/${items.id}`}
         >

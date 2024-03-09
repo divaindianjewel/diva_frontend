@@ -70,7 +70,7 @@ const FeatureSection = () => {
               >
                 <CarouselContent>
                   {product.attributes.images.data.map((image) => (
-                    <CarouselItem className="shadow-lg " key={image.id}>
+                    <CarouselItem  className="shadow-lg " key={image.id}>
                       <Image
                         className="rounded-md"
                         src={`${domain}${image.attributes.url}`}

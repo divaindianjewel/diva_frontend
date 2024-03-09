@@ -63,7 +63,7 @@ const CustomerReviews: React.FC<{ productId: number }> = ({ productId }) => {
 
         <div className="divide-y">
           {reviews.map((review) => (
-            <Reviews review={review} />
+            <Reviews key={review.id} review={review} />
           ))}
         </div>
       </div>

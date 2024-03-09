@@ -46,7 +46,11 @@ const Navbar = () => {
 
         <ul className="hidden lg:flex  items-center justify-evenly gap-x-14 text-xl">
           {navItems.map((items) => (
-            <Link className="hover:underline" href={items.href}>
+            <Link
+              key={items.href}
+              className="hover:underline"
+              href={items.href}
+            >
               {items.label}
             </Link>
           ))}
@@ -101,7 +105,11 @@ const Navbar = () => {
       >
         <ul className="flex flex-col items-center justify-evenly gap-x-14 text-xl">
           {navItems.map((items) => (
-            <Link className="border border-white w-full py-3" href={items.href}>
+            <Link
+              key={items.href}
+              className="border border-white w-full py-3"
+              href={items.href}
+            >
               {items.label}
             </Link>
           ))}

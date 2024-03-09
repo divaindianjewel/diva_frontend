@@ -24,33 +24,33 @@ const CartItems: React.FC<{ productId: number }> = ({ productId }) => {
   const [cartData, setCartData] = useState<cartItemProps | null>(null);
   const [total, setTotal] = useState<number>();
 
+  
   useEffect(() => {
-    fetchCartData();
-  }, []);
-
-  const fetchCartData = async () => {
-    try {
-      const response = await fetch(
-        `${ domain }/api/carts?populate=*`
-      );
-      const data = await response.json();
-
-      if (data && data.data && data.data.length > 0) {
-        const product = data.data.find(
-          (item: cartItemProps) => item.attributes.Product_id == productId
+    const fetchCartData = async () => {
+      try {
+        const response = await fetch(
+          `${domain}/api/carts?populate=*`
         );
-
-        if (product) {
-          setTotal(product.attributes.product_price.toFixed(2));
-          setQuantity(product.attributes.qnt);
-          setCartData(product);
+        const data = await response.json();
+  
+        if (data && data.data && data.data.length > 0) {
+          const product = data.data.find(
+            (item: cartItemProps) => item.attributes.Product_id == productId
+          );
+  
+          if (product) {
+            setTotal(product.attributes.product_price.toFixed(2));
+            setQuantity(product.attributes.qnt);
+            setCartData(product);
+          }
         }
+      } catch (error) {
+        console.error("Error fetching cart data:", error);
       }
-    } catch (error) {
-      console.error("Error fetching cart data:", error);
-    }
-  };
-
+    };
+    fetchCartData(); // Call the fetch function
+  }, [productId]); // Add productId to the dependency array
+  
   return (
     <>
       {cartData && (

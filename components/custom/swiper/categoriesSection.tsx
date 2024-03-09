@@ -76,7 +76,10 @@ const Categories = () => {
         >
           <CarouselContent>
             {categories.map((item) => (
-              <CarouselItem className="lg:basis-1/4 md:basis-1/3 sm:basis-1/2 flex items-center justify-center ">
+              <CarouselItem
+                key={item.id}
+                className="lg:basis-1/4 md:basis-1/3 sm:basis-1/2 flex items-center justify-center "
+              >
                 <Link href={`category/${item.id}`}>
                   <div>
                     <Image

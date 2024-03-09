@@ -52,7 +52,7 @@ const HomeBanner = () => {
         className="mySwiper"
       >
         {imageUrls.map((url, index) => (
-          <SwiperSlide>
+          <SwiperSlide key={index} >
             <Image
               src={`http://localhost:1337${url}`}
               alt={`Image ${index}`}

@@ -63,13 +63,13 @@ interface Product {
   };
 }
 
-interface categoryId {
+interface CategoryId {
   params: {
     id: number;
   };
 }
 
-const page: React.FC<categoryId> = ({ params }) => {
+const Page: React.FC<CategoryId> = ({ params }) => {
   const categoryId = params.id;
 
   const [products, setProducts] = useState<Product[]>();
@@ -96,7 +96,7 @@ const page: React.FC<categoryId> = ({ params }) => {
 
     fetchData(); // Call the fetch function
     // fetchCategories();
-  }, [params.id]); // Re-run effect when params.id changes
+  }, [categoryId]); // Re-run effect when params.id changes
 
   const width = 500;
   const height = 450;
@@ -111,7 +111,7 @@ const page: React.FC<categoryId> = ({ params }) => {
         <div className="container mt-8">
           <div className="flex gap-10 flex-wrap items-center justify-center mb-5 shadow-xl ">
             {products?.map((items) => (
-              <div className="card p-5 max-w-96 px-5 flex-col items-center justify-center shadow-2xl mb-8">
+              <div key={items.id} className="card p-5 max-w-96 px-5 flex-col items-center justify-center shadow-2xl mb-8">
                 <Carousel
                   opts={{
                     align: "start",
@@ -119,9 +119,9 @@ const page: React.FC<categoryId> = ({ params }) => {
                   }}
                   className="w-80"
                 >
-                  <CarouselContent>
+                  <CarouselContent key={items.id}>
                     {items.attributes.images.data.map((imgs) => (
-                      <CarouselItem className="shadow-lg">
+                      <CarouselItem key={imgs.id} className="shadow-lg">
                         <Image
                           className="rounded-md"
                           src={`http://localhost:1337${imgs.attributes.url}`}
@@ -164,4 +164,4 @@ const page: React.FC<categoryId> = ({ params }) => {
   );
 };
 
-export default page;
+export default Page;

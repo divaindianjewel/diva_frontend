@@ -75,7 +75,7 @@ export default function Component() {
           <CardContent>
             <div className="grid gap-6">
               {cartData.map((item) => (
-                <CartItems
+                <CartItems 
                   key={item.id}
                   productId={item.attributes.Product_id}
                 />
