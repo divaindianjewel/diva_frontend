@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { domain } from "../backend/apiRouth";
 
+import bannerImage from "@/app/assets/banners/banner-2.jpg";
+
 interface Category {
   id: number;
   attributes: {
@@ -51,7 +53,7 @@ const CategoryBanner: React.FC<CategoryId> = ({ categoryId }) => {
 
   return (
     <div>
-      {category &&
+      {/* {category &&
         category.attributes.home_pic &&
         category.attributes.home_pic.data && (
           <Image
@@ -60,7 +62,8 @@ const CategoryBanner: React.FC<CategoryId> = ({ categoryId }) => {
             height={1000}
             alt={category.attributes.home_pic.data.attributes.name || "banner"}
           />
-        )}
+        )} */}
+      <Image src={bannerImage} width={2000} height={1000} alt={"this is image"} />
     </div>
   );
 };
