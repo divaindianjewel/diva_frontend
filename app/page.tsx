@@ -1,8 +1,10 @@
 import HomeBanner from "@/components/custom/swiper/homeBanner";
-import FeatureSection from "@/components/custom/swiper/FeatureSection";
+import MensFeatureSection from "@/components/custom/swiper/MensFeatureSection";
+import WomensFeatureSection from "@/components/custom/swiper/WomensFeatureSection";
+import FeaturesSection from "@/components/custom/swiper/FeatureSection";
 import Categories from "@/components/custom/swiper/categoriesSection";
 import { auth, currentUser } from "@clerk/nextjs";
-import { User } from "lucide-react";
+
 // Images
 
 export default async function Home() {
@@ -17,10 +19,10 @@ export default async function Home() {
   return (
     <main className="text-center">
       <HomeBanner />
-      <FeatureSection />
+      <FeaturesSection />
       <Categories />
+      <MensFeatureSection />
+      <WomensFeatureSection />
     </main>
   );
 }
-
-

@@ -44,7 +44,7 @@ const FeatureSection = () => {
         // Filter products where feature is true and gender is male
         const filteredProducts = data.data.filter(
           (product: { attributes: { feature: any; gender: string; }; }) =>
-            product.attributes.feature == true
+            product.attributes.feature && product.attributes.gender === "female"
         );
         setProducts(filteredProducts);
       } catch (error) {
@@ -58,7 +58,7 @@ const FeatureSection = () => {
   return (
     <div className="bg-white my-10 w-full shadow-2xl">
       <h2 className="text-left p-10 text-3xl font-medium">
-        Best Selling Jewels
+        Best Selling Jewels For women's
       </h2>
       <div className="flex items-center gap-28 justify-center overflow-x-scroll">
         {products.map((product) => (
