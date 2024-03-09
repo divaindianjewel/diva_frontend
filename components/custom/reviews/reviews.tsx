@@ -1,10 +1,20 @@
-import React from "react";
+"use client";
+import React, { useState } from "react";
 import { IoIosStar } from "react-icons/io";
 import { ReviewProps } from "./reviewBox";
 
 const Review: React.FC<{ review: ReviewProps }> = ({ review }) => {
+  const [randomNum, setRandomNum] = useState<number>(12345);
+
   return (
-    <div className="divide-y">
+    <div
+      key={randomNum}
+      onLoad={() => {
+        let tmp = Math.floor(Math.random() + 1000) * 9000;
+        setRandomNum(tmp);
+      }}
+      className="divide-y"
+    >
       <div className="flex flex-col gap-3 py-4 md:py-8">
         <div>
           <span className="block text-sm font-bold">

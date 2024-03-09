@@ -54,7 +54,7 @@ const HomeBanner = () => {
         {imageUrls.map((url, index) => (
           <SwiperSlide key={index} >
             <Image
-              src={`http://localhost:1337${url}`}
+              src={`${domain}${url}`}
               alt={`Image ${index}`}
               width={3000}
               height={700}

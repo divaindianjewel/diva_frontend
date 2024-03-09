@@ -94,9 +94,8 @@ const Page: React.FC<CategoryId> = ({ params }) => {
       }
     };
 
-    fetchData(); // Call the fetch function
-    // fetchCategories();
-  }, [categoryId]); // Re-run effect when params.id changes
+    fetchData();
+  }, [categoryId]);
 
   const width = 500;
   const height = 450;
