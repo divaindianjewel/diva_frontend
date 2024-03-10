@@ -33,8 +33,8 @@ const Footer = () => {
             </div>
             {/* logo - end */}
             <p className="mb-6 text-gray-400 sm:pr-8">
-              Filler text is dummy text which has no meaning however looks very
-              similar to real text.
+              Diva the indian jewel, india most affordable jewelry brands where
+              you will get the best design and quality under your budget
             </p>
             {/* social - start */}
             <div className="flex gap-4 items-center justify-center">
@@ -76,7 +76,7 @@ const Footer = () => {
                   href="#"
                   className="text-gray-400 transition duration-100 hover:text-indigo-500 active:text-indigo-600"
                 >
-                  Overview
+                  product-1
                 </a>
               </div>
               <div>
@@ -84,7 +84,7 @@ const Footer = () => {
                   href="#"
                   className="text-gray-400 transition duration-100 hover:text-indigo-500 active:text-indigo-600"
                 >
-                  Solutions
+                  product-2
                 </a>
               </div>
               <div>
@@ -92,7 +92,7 @@ const Footer = () => {
                   href="#"
                   className="text-gray-400 transition duration-100 hover:text-indigo-500 active:text-indigo-600"
                 >
-                  Pricing
+                  product-3
                 </a>
               </div>
               <div>
@@ -100,62 +100,12 @@ const Footer = () => {
                   href="#"
                   className="text-gray-400 transition duration-100 hover:text-indigo-500 active:text-indigo-600"
                 >
-                  Customers
+                  product-4
                 </a>
               </div>
             </nav>
           </div>
-          {/* nav - end */}
-          {/* nav - start */}
-          <div>
-            <div className="mb-4 font-bold uppercase tracking-widest text-gray-100">
-              Company
-            </div>
-            <nav className="flex flex-col gap-4">
-              <div>
-                <a
-                  href="#"
-                  className="text-gray-400 transition duration-100 hover:text-indigo-500 active:text-indigo-600"
-                >
-                  About
-                </a>
-              </div>
-              <div>
-                <a
-                  href="#"
-                  className="text-gray-400 transition duration-100 hover:text-indigo-500 active:text-indigo-600"
-                >
-                  Investor Relations
-                </a>
-              </div>
-              <div>
-                <a
-                  href="#"
-                  className="text-gray-400 transition duration-100 hover:text-indigo-500 active:text-indigo-600"
-                >
-                  Jobs
-                </a>
-              </div>
-              <div>
-                <a
-                  href="#"
-                  className="text-gray-400 transition duration-100 hover:text-indigo-500 active:text-indigo-600"
-                >
-                  Press
-                </a>
-              </div>
-              <div>
-                <a
-                  href="#"
-                  className="text-gray-400 transition duration-100 hover:text-indigo-500 active:text-indigo-600"
-                >
-                  Blog
-                </a>
-              </div>
-            </nav>
-          </div>
-          {/* nav - end */}
-          {/* nav - start */}
+
           <div>
             <div className="mb-4 font-bold uppercase tracking-widest text-gray-100">
               Support
@@ -163,34 +113,10 @@ const Footer = () => {
             <nav className="flex flex-col gap-4">
               <div>
                 <a
-                  href="#"
+                  href="tel:+919579896842"
                   className="text-gray-400 transition duration-100 hover:text-indigo-500 active:text-indigo-600"
                 >
-                  Contact
-                </a>
-              </div>
-              <div>
-                <a
-                  href="#"
-                  className="text-gray-400 transition duration-100 hover:text-indigo-500 active:text-indigo-600"
-                >
-                  Documentation
-                </a>
-              </div>
-              <div>
-                <a
-                  href="#"
-                  className="text-gray-400 transition duration-100 hover:text-indigo-500 active:text-indigo-600"
-                >
-                  Chat
-                </a>
-              </div>
-              <div>
-                <a
-                  href="#"
-                  className="text-gray-400 transition duration-100 hover:text-indigo-500 active:text-indigo-600"
-                >
-                  FAQ
+                  Contact us
                 </a>
               </div>
             </nav>
@@ -199,7 +125,7 @@ const Footer = () => {
           {/* nav - start */}
           <div>
             <div className="mb-4 font-bold uppercase tracking-widest text-gray-100">
-              Legal
+              our Policies
             </div>
             <nav className="flex flex-col gap-4">
               <div>
@@ -207,23 +133,30 @@ const Footer = () => {
                   href="#"
                   className="text-gray-400 transition duration-100 hover:text-indigo-500 active:text-indigo-600"
                 >
-                  Terms of Service
+                  Term and conditions
+                </a>
+              </div>
+
+              <div>
+                <a
+                  href="#"
+                  className="text-gray-400 transition duration-100 hover:text-indigo-500 active:text-indigo-600"
+                >
+                  Shipping
                 </a>
               </div>
               <div>
                 <a
                   href="#"
                   className="text-gray-400 transition duration-100 hover:text-indigo-500 active:text-indigo-600"
-                >
-                  Privacy Policy
-                </a>
+                ></a>
               </div>
               <div>
                 <a
                   href="#"
                   className="text-gray-400 transition duration-100 hover:text-indigo-500 active:text-indigo-600"
                 >
-                  Cookie settings
+                  Return, Refund and Exchange
                 </a>
               </div>
             </nav>
