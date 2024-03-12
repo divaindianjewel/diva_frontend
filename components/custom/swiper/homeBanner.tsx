@@ -10,6 +10,7 @@ import "swiper/css/pagination";
 // import required modules
 import { Pagination } from "swiper/modules";
 import { domain } from "@/components/backend/apiRouth";
+import Link from "next/link";
 
 const swiperProps = {
   loop: true,
@@ -19,8 +20,29 @@ const swiperProps = {
     delay: 4000,
   },
 };
+
+interface bannerProps {
+  id: number;
+  attributes: {
+    hero_img: {
+      data: {
+        id: number;
+        attributes: {
+          name: string;
+          url: string;
+        };
+      };
+    };
+    category: {
+      data: {
+        id: number;
+      };
+    };
+  };
+}
+
 const HomeBanner = () => {
-  const [imageUrls, setImageUrls] = useState<string[]>([]);
+  const [banner, setBanner] = useState<bannerProps[]>([]);
 
   useEffect(() => {
     const fetchImages = async () => {
@@ -30,11 +52,9 @@ const HomeBanner = () => {
           throw new Error("Failed to fetch images");
         }
         const data = await response.json();
-        const urls = data.data.map(
-          (item: any) =>
-            item.attributes.hero_img.data.attributes.formats.large.url
-        );
-        setImageUrls(urls);
+        setBanner(data.data);
+
+        console.log(data.data);
       } catch (error) {
         console.error("Error fetching images:", error);
       }
@@ -51,14 +71,16 @@ const HomeBanner = () => {
         modules={[Pagination]}
         className="mySwiper"
       >
-        {imageUrls.map((url, index) => (
-          <SwiperSlide key={index} >
-            <Image
-              src={`${domain}${url}`}
-              alt={`Image ${index}`}
-              width={3000}
-              height={700}
-            />
+        {banner.map((banner, index) => (
+          <SwiperSlide key={index}>
+            <Link href={`/category/${banner.attributes.category.data.id}`}>
+              <Image
+                src={`${domain}${banner.attributes.hero_img.data.attributes.url}`}
+                alt={`Image ${index}`}
+                width={3000}
+                height={700}
+              />
+            </Link>
           </SwiperSlide>
         ))}
       </Swiper>
