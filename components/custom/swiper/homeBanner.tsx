@@ -24,7 +24,7 @@ const swiperProps = {
 interface bannerProps {
   id: number;
   attributes: {
-    hero_img: {
+    banner: {
       data: {
         id: number;
         attributes: {
@@ -47,14 +47,13 @@ const HomeBanner = () => {
   useEffect(() => {
     const fetchImages = async () => {
       try {
-        const response = await fetch(`${domain}/api/hero-imgs?populate=*`);
+        const response = await fetch(`${domain}/api/home-banners?populate=*`);
         if (!response.ok) {
           throw new Error("Failed to fetch images");
         }
         const data = await response.json();
         setBanner(data.data);
 
-        console.log(data.data);
       } catch (error) {
         console.error("Error fetching images:", error);
       }
@@ -75,7 +74,7 @@ const HomeBanner = () => {
           <SwiperSlide key={index}>
             <Link href={`/category/${banner.attributes.category.data.id}`}>
               <Image
-                src={`${domain}${banner.attributes.hero_img.data.attributes.url}`}
+                src={`${banner.attributes.banner.data.attributes.url}`}
                 alt={`Image ${index}`}
                 width={3000}
                 height={700}

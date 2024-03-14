@@ -43,7 +43,7 @@ const FeatureSection = () => {
         const data = await response.json();
         // Filter products where feature is true and gender is male
         const filteredProducts = data.data.filter(
-          (product: { attributes: { feature: any; gender: string; }; }) =>
+          (product: { attributes: { feature: any; gender: string } }) =>
             product.attributes.feature && product.attributes.gender === "male"
         );
         setProducts(filteredProducts);
@@ -77,13 +77,15 @@ const FeatureSection = () => {
                 <CarouselContent>
                   {product.attributes.images.data.map((image) => (
                     <CarouselItem className="shadow-lg " key={image.id}>
-                      <Image
-                        className="rounded-md"
-                        src={`${domain}${image.attributes.url}`}
-                        alt={image.attributes.name}
-                        width={600}
-                        height={500}
-                      />
+                      <Link href={`/products/${product.id}`}>
+                        <Image
+                          className="rounded-md"
+                          src={`${image.attributes.url}`}
+                          alt={image.attributes.name}
+                          width={600}
+                          height={500}
+                        />
+                      </Link>
                     </CarouselItem>
                   ))}
                 </CarouselContent>

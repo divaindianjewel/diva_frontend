@@ -114,7 +114,7 @@ const Page: React.FC<paramsProps> = ({ params }) => {
                       <CarouselItem key={index}>
                         <Image
                           className="rounded-md"
-                          src={`${domain}${image.attributes.url}`}
+                          src={`${image.attributes.url}`}
                           alt={`Image ${index + 1}`}
                           width={width}
                           height={height}

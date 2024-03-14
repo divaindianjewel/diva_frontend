@@ -123,7 +123,7 @@ const Page: React.FC<CategoryId> = ({ params }) => {
                       <CarouselItem key={imgs.id} className="shadow-lg">
                         <Image
                           className="rounded-md"
-                          src={`${domain}${imgs.attributes.url}`}
+                          src={`${imgs.attributes.url}`}
                           alt={"img"}
                           width={width}
                           height={height}

@@ -83,7 +83,7 @@ const Categories = () => {
                 <Link href={`category/${item.id}`}>
                   <div>
                     <Image
-                      src={`${domain}${item.attributes.home_pic.data.attributes.url}`}
+                      src={`${item.attributes.home_pic.data.attributes.url}`}
                       alt="category"
                       width={width}
                       height={height}

@@ -80,7 +80,7 @@ const FeatureSection = () => {
                       <Link href={`/products/${product.id}`}>
                         <Image
                           className="rounded-md"
-                          src={`${domain}${image.attributes.url}`}
+                          src={`${image.attributes.url}`}
                           alt={image.attributes.name}
                           width={600}
                           height={500}
