@@ -43,7 +43,7 @@ const FeatureSection = () => {
         const data = await response.json();
         // Filter products where feature is true and gender is male
         const filteredProducts = data.data.filter(
-          (product: { attributes: { feature: any; gender: string; }; }) =>
+          (product: { attributes: { feature: any; gender: string } }) =>
             product.attributes.feature && product.attributes.gender === "female"
         );
         setProducts(filteredProducts);
@@ -62,53 +62,55 @@ const FeatureSection = () => {
       </h2>
       <div className="flex items-center gap-28 justify-center overflow-x-scroll">
         {products.map((product) => (
-          <div
-            key={product.id}
-            className="flex-col items-center justify-center mb-5 shadow-xl"
-          >
-            <div className="card p-5">
-              <Carousel
-                opts={{
-                  align: "start",
-                  loop: true,
-                }}
-                className="w-80"
-              >
-                <CarouselContent>
-                  {product.attributes.images.data.map((image) => (
-                    <CarouselItem className="shadow-lg " key={image.id}>
-                      <Image
-                        className="rounded-md"
-                        src={`${image.attributes.url}`}
-                        alt={image.attributes.name}
-                        width={600}
-                        height={500}
-                      />
-                    </CarouselItem>
-                  ))}
-                </CarouselContent>
-                <CarouselPrevious />
-                <CarouselNext />
-              </Carousel>
-            </div>
-            <h3 className="text-2xl font-semibold mt-3">
-              {product.attributes.name}
-            </h3>
-            <div className="price flex items-center justify-between px-20 text-xl mt-2">
-              <div className="first-price font-medium">
-                ₹ {product.attributes.price} /-
+          <Link href={`/products/${product.id}`}>
+            <div
+              key={product.id}
+              className="flex-col items-center justify-center mb-5 shadow-xl"
+            >
+              <div className="card p-5">
+                <Carousel
+                  opts={{
+                    align: "start",
+                    loop: true,
+                  }}
+                  className="w-80"
+                >
+                  <CarouselContent>
+                    {product.attributes.images.data.map((image) => (
+                      <CarouselItem className="shadow-lg " key={image.id}>
+                        <Image
+                          className="rounded-md"
+                          src={`${image.attributes.url}`}
+                          alt={image.attributes.name}
+                          width={600}
+                          height={500}
+                        />
+                      </CarouselItem>
+                    ))}
+                  </CarouselContent>
+                  <CarouselPrevious />
+                  <CarouselNext />
+                </Carousel>
               </div>
-              <div className="second-price text-gray-500 line-through">
-                ₹ {product.attributes.compare_price} /-
+              <h3 className="text-2xl font-semibold mt-3">
+                {product.attributes.name}
+              </h3>
+              <div className="price flex items-center justify-between px-20 text-xl mt-2">
+                <div className="first-price font-medium">
+                  ₹ {product.attributes.price} /-
+                </div>
+                <div className="second-price text-gray-500 line-through">
+                  ₹ {product.attributes.compare_price} /-
+                </div>
               </div>
-            </div>
 
-            <Link href={`/products/${product.id}`}>
-              <button className="myBtn mb-6" type="button">
-                View Product
-              </button>
-            </Link>
-          </div>
+              <Link href={`/products/${product.id}`}>
+                <button className="myBtn mb-6" type="button">
+                  View Product
+                </button>
+              </Link>
+            </div>
+          </Link>
         ))}
       </div>
     </div>
