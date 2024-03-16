@@ -112,54 +112,56 @@ const Page: React.FC<CategoryId> = ({ params }) => {
         <div className="container mt-8">
           <div className="flex gap-10 flex-wrap items-center justify-center mb-5 shadow-xl ">
             {products?.map((items) => (
-              <div
-                key={items.id}
-                className="card p-5 max-w-96 px-5 flex-col items-center justify-center shadow-2xl mb-8"
-              >
-                <Carousel
-                  opts={{
-                    align: "start",
-                    loop: true,
-                  }}
-                  className="w-80"
+              <Link href={`/products/${items.id}`}>
+                <div
+                  key={items.id}
+                  className="card p-5 max-w-96 px-5 flex-col items-center justify-center shadow-2xl mb-8"
                 >
-                  <CarouselContent key={items.id}>
-                    {items.attributes.images.data.map((imgs) => (
-                      <CarouselItem key={imgs.id} className="shadow-lg">
-                        <Image
-                          className="rounded-md"
-                          src={`${imgs.attributes.url}`}
-                          alt={"img"}
-                          width={width}
-                          height={height}
-                        />
-                      </CarouselItem>
-                    ))}
-                  </CarouselContent>
-                </Carousel>
-                <div>
-                  <h3 className="text-2xl font-semibold mt-3">
-                    {items.attributes.name}
-                  </h3>
-                  <div className="price flex items-center justify-between gap-10 text-xl mt-2">
-                    <div className="first-price font-medium">
-                      ₹ {items.attributes.price} /-
-                    </div>
-                    <div className="second-price text-gray-height line-through">
-                      ₹ {items.attributes.compare_price} /-
-                    </div>
-                  </div>
-
-                  <Link
-                    href={`/products/${items.id}`}
-                    className="flex items-center justify-center"
+                  <Carousel
+                    opts={{
+                      align: "start",
+                      loop: true,
+                    }}
+                    className="w-80"
                   >
-                    <button className="myBtn mb-6" type="button">
-                      View Product
-                    </button>
-                  </Link>
+                    <CarouselContent key={items.id}>
+                      {items.attributes.images.data.map((imgs) => (
+                        <CarouselItem key={imgs.id} className="shadow-lg">
+                          <Image
+                            className="rounded-md"
+                            src={`${imgs.attributes.url}`}
+                            alt={"img"}
+                            width={width}
+                            height={height}
+                          />
+                        </CarouselItem>
+                      ))}
+                    </CarouselContent>
+                  </Carousel>
+                  <div>
+                    <h3 className="text-2xl font-semibold mt-3">
+                      {items.attributes.name}
+                    </h3>
+                    <div className="price flex items-center justify-between gap-10 text-xl mt-2">
+                      <div className="first-price font-medium">
+                        ₹ {items.attributes.price} /-
+                      </div>
+                      <div className="second-price text-gray-height line-through">
+                        ₹ {items.attributes.compare_price} /-
+                      </div>
+                    </div>
+
+                    <Link
+                      href={`/products/${items.id}`}
+                      className="flex items-center justify-center"
+                    >
+                      <button className="myBtn mb-6" type="button">
+                        View Product
+                      </button>
+                    </Link>
+                  </div>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
         </div>
