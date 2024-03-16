@@ -15,8 +15,8 @@ import { DialogClose } from "@radix-ui/react-dialog";
 import { addReview } from "@/backend/add-review";
 
 // clerk
-import { auth, useAuth } from "@clerk/nextjs";
-import { useUser } from "@clerk/nextjs";
+import { auth, useAuth , useUser } from "@clerk/nextjs";
+import {  } from "@clerk/nextjs";
 
 const ReviewFormDialog: React.FC<{ productId: number }> = ({ productId }) => {
   const starSize = 30;
@@ -108,7 +108,6 @@ const ReviewFormDialog: React.FC<{ productId: number }> = ({ productId }) => {
                 aria-label="Close dialog"
               />
             )}{" "}
-            {/* Add close button if dialog is open */}
           </DialogHeader>
         </DialogContent>
       </Dialog>

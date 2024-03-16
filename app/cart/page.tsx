@@ -1,4 +1,4 @@
-"use client";
+"use client"
 
 import React, { useEffect, useState } from "react";
 import { Separator } from "@/components/ui/separator";
@@ -40,15 +40,21 @@ export default function Component() {
         );
         const data = await response.json();
         if (data && data.data && data.data.length > 0) {
-          setCartData(data.data);
+          // Filter the cart data based on the current user's ID
+          const userCartData = data.data.filter(
+            (item: CartItem) => item.attributes.user_id === userId
+          );
+          setCartData(userCartData);
         }
       } catch (error) {
         console.error("Error fetching cart data:", error);
       }
     };
 
-    fetchCartData();
-  }, []);
+    if (isSignedIn) {
+      fetchCartData();
+    }
+  }, [userId, isSignedIn]);
 
   useEffect(() => {
     const subtotalValue = cartData.reduce(

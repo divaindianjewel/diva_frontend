@@ -16,6 +16,9 @@ import { addToCart } from "@/backend/add-to-cart";
 import { useAuth, useUser } from "@clerk/nextjs";
 import { domain } from "@/components/backend/apiRouth";
 
+import { getTotalReview } from "@/backend/get-total-review";
+import YTvideo from "@/components/custom/yt-video";
+
 interface ImageData {
   id: number;
   attributes: {
@@ -30,6 +33,7 @@ interface ProductData {
     price: number;
     compare_price: number;
     description: string;
+    youtube_link: string;
     images: {
       data: {
         id: number;
@@ -57,7 +61,6 @@ const Page: React.FC<paramsProps> = ({ params }) => {
   const [loading, setLoading] = useState<boolean>(true);
   const { userId } = useAuth();
   const { isSignedIn } = useUser();
-
   const width = 500;
   const height = 500;
 
@@ -138,7 +141,7 @@ const Page: React.FC<paramsProps> = ({ params }) => {
                     <span className=" mr-1">5</span>{" "}
                     <IoIosStar size={20} color="gold" className="" />
                   </div>
-                  <span className="text-lg text-gray-500">(27 reviews)</span>
+                  <span className="text-lg text-gray-500">(30 reviews)</span>
                 </div>
               </h1>
               <div className="flex mb-4"></div>
@@ -178,7 +181,7 @@ const Page: React.FC<paramsProps> = ({ params }) => {
                       product.attributes.price
                     ).catch((err) => {
                       console.log(err);
-                    })
+                    });
                   }}
                 >
                   <FaShoppingCart /> Add To cart
@@ -193,6 +196,10 @@ const Page: React.FC<paramsProps> = ({ params }) => {
             </div>
           </div>
         </div>
+      </section>
+
+      <section className="flex items-center justify-center">
+        <YTvideo src={product.attributes.youtube_link} />
       </section>
 
       <section>

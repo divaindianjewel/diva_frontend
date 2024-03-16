@@ -8,11 +8,10 @@ interface Category {
   id: number;
   attributes: {
     name: string;
-    home_pic: {
+    bannner: {
       data: {
         id: number;
         attributes: {
-          name: string;
           url: string;
         };
       };
@@ -42,7 +41,7 @@ const CategoryBanner: React.FC<CategoryId> = ({ categoryId }) => {
 
         const data = await response.json();
 
-        setCategory(data);
+        setCategory(data.data);
       } catch (error) {
         console.log(error);
       }
@@ -51,19 +50,18 @@ const CategoryBanner: React.FC<CategoryId> = ({ categoryId }) => {
     fetchCategory();
   }, [categoryId]);
 
+  const bannerURL = category?.attributes.bannner.data.attributes.url;
+
   return (
     <div>
-      {/* {category &&
-        category.attributes.home_pic &&
-        category.attributes.home_pic.data && (
-          <Image
-            src={category.attributes.home_pic.data.attributes.url}
-            width={2000}
-            height={1000}
-            alt={category.attributes.home_pic.data.attributes.name || "banner"}
-          />
-        )} */}
-      <Image src={bannerImage} width={2000} height={1000} alt={"this is image"} />
+      {
+        <Image
+          src={bannerURL}
+          alt="Home Banner Image"
+          width={1519}
+          height={30}
+        />
+      }
     </div>
   );
 };

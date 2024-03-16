@@ -105,7 +105,7 @@ const FeatureSection = () => {
               </div>
 
               <Link href={`/products/${product.id}`}>
-                <button className="myBtn mb-6" type="button">
+                <button className="myBtn product mb-6" type="button">
                   View Product
                 </button>
               </Link>

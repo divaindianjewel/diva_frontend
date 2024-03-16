@@ -118,7 +118,7 @@
 .myBtn {
   padding: 0.5rem 1rem;
   margin: 1rem auto;
-  width: 100%;
+  width: fit-content;
   border: 2px solid #000;
   border-radius: 5px;
   background: #fff;
@@ -128,7 +128,15 @@
   transition: all ease-in 0.1s;
 }
 
+.myBtn.product {
+  width: 100% !important;
+}
+
 .myBtn:hover {
+  box-shadow: 0 0 0 4px #fff, 0 0 0 8px #333;
+}
+
+.myBtn.active {
   box-shadow: 0 0 0 4px #fff, 0 0 0 8px #333;
 }
 
@@ -147,4 +155,13 @@
 
 .gold-color {
   background-color: #f7a855;
+}
+
+.product-card:hover .img {
+  transform: scale(1.1);
+}
+
+.img {
+  mix-blend-mode: transparent;
+  transition: all ease 0.5s;
 }

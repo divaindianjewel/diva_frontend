@@ -1,4 +1,4 @@
-// CustomerReviews.jsx
+"use client"
 import React, { useEffect, useState } from "react";
 import { IoIosStar } from "react-icons/io";
 import Reviews from "@/components/custom/reviews/reviews";
@@ -24,15 +24,18 @@ const CustomerReviews: React.FC<{ productId: number }> = ({ productId }) => {
     const fetchReviews = async () => {
       try {
         const response = await axios.get(`${domain}/api/reviews`);
-        setReviews(response.data.data);
-        console.log(response.data.data);
+        // Filter the reviews based on the product ID
+        const filteredReviews = response.data.data.filter(
+          (review: ReviewProps) => review.attributes.product_id === productId
+        );
+        setReviews(filteredReviews);
       } catch (error) {
         console.error("Error fetching reviews:", error);
       }
     };
 
     fetchReviews();
-  }, []);
+  }, [productId]); // Add productId to the dependency array
 
   return (
     <div className="bg-white py-6 sm:py-8 lg:py-12">
@@ -43,19 +46,7 @@ const CustomerReviews: React.FC<{ productId: number }> = ({ productId }) => {
 
         <div className="mb-4 flex items-center justify-between border-t border-b py-4">
           <div className="flex flex-col gap-0.5">
-            <span className="block font-bold">Total</span>
-
-            {/* stars - start */}
-            <div className="-ml-1 flex gap-0.5">
-              <IoIosStar color="gold" size={25} />
-
-              {/* Add the remaining star SVGs */}
-            </div>
-            {/* stars - end */}
-
-            <span className="block text-sm text-gray-500">
-              Based on 27 reviews
-            </span>
+            <span className="block font-bold">Write about our product</span>
           </div>
 
           <ReviewFormDialog productId={productId} />

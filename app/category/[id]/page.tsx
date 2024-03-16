@@ -79,18 +79,12 @@ const Page: React.FC<CategoryId> = ({ params }) => {
       try {
         const response = await fetch(`${domain}/api/products?populate=*`);
         const fetchedProducts = await response.json();
-
-        console.log(fetchedProducts);
-
         const categoriesProduct = fetchedProducts.data.filter(
           (product: Product) =>
             product.attributes.category.data.id == categoryId
         );
 
-        console.log("-----------------------------------------");
-
         setProducts(categoriesProduct);
-        console.log(products);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -126,9 +120,12 @@ const Page: React.FC<CategoryId> = ({ params }) => {
                   >
                     <CarouselContent key={items.id}>
                       {items.attributes.images.data.map((imgs) => (
-                        <CarouselItem key={imgs.id} className="shadow-lg">
+                        <CarouselItem
+                          key={imgs.id}
+                          className="shadow-lg product-card"
+                        >
                           <Image
-                            className="rounded-md"
+                            className="rounded-md img"
                             src={`${imgs.attributes.url}`}
                             alt={"img"}
                             width={width}
@@ -155,7 +152,7 @@ const Page: React.FC<CategoryId> = ({ params }) => {
                       href={`/products/${items.id}`}
                       className="flex items-center justify-center"
                     >
-                      <button className="myBtn mb-6" type="button">
+                      <button className="myBtn product mb-6" type="button">
                         View Product
                       </button>
                     </Link>

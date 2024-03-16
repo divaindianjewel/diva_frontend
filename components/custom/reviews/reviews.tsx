@@ -4,7 +4,7 @@ import { IoIosStar } from "react-icons/io";
 import { ReviewProps } from "./reviewBox";
 
 const Review: React.FC<{ review: ReviewProps }> = ({ review }) => {
-  const [randomNum, setRandomNum] = useState<number>(12345);
+  const [randomNum, setRandomNum] = useState<number>();
 
   return (
     <div
