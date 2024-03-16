@@ -112,7 +112,7 @@ const Page: React.FC<CategoryId> = ({ params }) => {
         <div className="container mt-8">
           <div className="flex gap-10 flex-wrap items-center justify-center mb-5 shadow-xl ">
             {products?.map((items) => (
-              <Link href={`/products/${items.id}`}>
+              <Link href={`/products/${items.id}`} key={items.id}>
                 <div
                   key={items.id}
                   className="card p-5 max-w-96 px-5 flex-col items-center justify-center shadow-2xl mb-8"
