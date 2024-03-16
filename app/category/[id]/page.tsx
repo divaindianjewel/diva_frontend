@@ -75,20 +75,22 @@ const Page: React.FC<CategoryId> = ({ params }) => {
   const [products, setProducts] = useState<Product[]>();
 
   useEffect(() => {
-   
     const fetchData = async () => {
       try {
-        const response = await fetch(
-          `${domain}/api/products?populate=*`
-        );
+        const response = await fetch(`${domain}/api/products?populate=*`);
         const fetchedProducts = await response.json();
+
+        console.log(fetchedProducts);
 
         const categoriesProduct = fetchedProducts.data.filter(
           (product: Product) =>
             product.attributes.category.data.id == categoryId
         );
 
+        console.log("-----------------------------------------");
+
         setProducts(categoriesProduct);
+        console.log(products);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -103,14 +105,17 @@ const Page: React.FC<CategoryId> = ({ params }) => {
   return (
     <div>
       <div id="banner">
-       <CategoryBanner categoryId={categoryId} />
+        <CategoryBanner categoryId={categoryId} />
         <CategoriesButton />
         <Separator />
 
         <div className="container mt-8">
           <div className="flex gap-10 flex-wrap items-center justify-center mb-5 shadow-xl ">
             {products?.map((items) => (
-              <div key={items.id} className="card p-5 max-w-96 px-5 flex-col items-center justify-center shadow-2xl mb-8">
+              <div
+                key={items.id}
+                className="card p-5 max-w-96 px-5 flex-col items-center justify-center shadow-2xl mb-8"
+              >
                 <Carousel
                   opts={{
                     align: "start",
