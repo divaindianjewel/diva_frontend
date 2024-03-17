@@ -50,7 +50,8 @@ const CategoryBanner: React.FC<CategoryId> = ({ categoryId }) => {
     fetchCategory();
   }, [categoryId]);
 
-  const bannerURL = category?.attributes.bannner.data.attributes.url;
+  const bannerURL =
+    category?.attributes.bannner.data.attributes.url || bannerImage;
 
   return (
     <div>

@@ -15,16 +15,11 @@ import CustomerReviews from "@/components/custom/reviews/reviewBox";
 import { addToCart } from "@/backend/add-to-cart";
 import { useAuth, useUser } from "@clerk/nextjs";
 import { domain } from "@/components/backend/apiRouth";
-
-import { getTotalReview } from "@/backend/get-total-review";
 import YTvideo from "@/components/custom/yt-video";
-
-interface ImageData {
-  id: number;
-  attributes: {
-    url: string;
-  };
-}
+import {
+  BlocksRenderer,
+  type BlocksContent,
+} from "@strapi/blocks-react-renderer";
 
 interface ProductData {
   id: number;
@@ -32,7 +27,7 @@ interface ProductData {
     name: string;
     price: number;
     compare_price: number;
-    description: string;
+    desctiption: any;
     youtube_link: string;
     images: {
       data: {
@@ -93,6 +88,10 @@ const Page: React.FC<paramsProps> = ({ params }) => {
     return <div>No product found</div>;
   }
 
+  const handleDescription = (description: BlocksContent | any) => {
+    return <BlocksRenderer content={description} />;
+  };
+
   return (
     <>
       <section className="text-gray-600 body-font">
@@ -145,14 +144,8 @@ const Page: React.FC<paramsProps> = ({ params }) => {
                 </div>
               </h1>
               <div className="flex mb-4"></div>
-              <p
-                className="leading-relaxed w-fit text-left"
-                dangerouslySetInnerHTML={{
-                  __html: product.attributes.description,
-                }}
-              >
-                {product.attributes.description}
-              </p>
+              <p></p>
+
               <div className="flex mt-6 items-center pb-5 border-b-2 border-gray-100 mb-5">
                 <div className="flex"></div>
                 <div className="flex ml-6 items-center"></div>
