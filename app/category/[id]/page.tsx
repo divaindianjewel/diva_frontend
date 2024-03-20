@@ -1,11 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
-
-// next Components
 import Link from "next/link";
 import Image from "next/image";
-
-// shadecn components
 import CategoriesButton from "@/components/custom/categoriesButton";
 import { Separator } from "@/components/ui/separator";
 import {
@@ -13,31 +9,11 @@ import {
   CarouselContent,
   CarouselItem,
 } from "@/components/ui/carousel";
-
-// import axios from "axios";
-
-// images
-import banner from "@/app/assets/banners/banner-2.jpg";
 import CategoryBanner from "@/components/custom/categoryBanner";
 import { domain } from "@/components/backend/apiRouth";
 
-interface categories {
-  id: number;
-  attributes: {
-    name: string;
-    banner: {
-      data: {
-        id: number;
-        attributes: {
-          name: string;
-          url: string;
-        };
-      };
-    };
-  };
-}
-
-interface Product {
+// Assuming your interfaces are defined as before
+export interface Product {
   id: number;
   attributes: {
     name: string;
@@ -71,27 +47,43 @@ interface CategoryId {
 
 const Page: React.FC<CategoryId> = ({ params }) => {
   const categoryId = params.id;
-
-  const [products, setProducts] = useState<Product[]>();
+  const [allProducts, setAllProducts] = useState<Product[]>([]); // Global allProducts state
+  const [categoryProduct, setCategoryProduct] = useState<Product[]>();
 
   useEffect(() => {
     const fetchData = async () => {
-      try {
-        const response = await fetch(`${domain}/api/products?populate=*`);
-        const fetchedProducts = await response.json();
-        const categoriesProduct = fetchedProducts.data.filter(
-          (product: Product) =>
-            product.attributes.category.data.id == categoryId
-        );
+      let currentPage = 1;
+      let totalPages = 1;
+      let fetchedProducts = [];
 
-        setProducts(categoriesProduct);
-      } catch (error) {
-        console.error("Error fetching data:", error);
+      while (currentPage <= totalPages) {
+        const products = await fetchProducts(currentPage);
+        fetchedProducts.push(...products.data); // Spread operator for efficient concatenation
+        totalPages = products.meta.pagination.pageCount;
+        currentPage++;
       }
+
+      const productsArray = Object.values(fetchedProducts);
+      setAllProducts(productsArray);
+
+      const tmp = productsArray.flat();
+
+      const categoryProduct = tmp.filter(
+        (i: Product) => i.attributes.category.data.id == categoryId
+      );
+
+      setCategoryProduct(categoryProduct);
     };
 
     fetchData();
-  }, [categoryId]);
+  }, []);
+
+  const fetchProducts = async (page: number) => {
+    const response = await fetch(
+      `${domain}/api/products?populate=*&pagination[pageSize]=100&pagination[page]=${page}`
+    );
+    return response.json();
+  };
 
   const width = 500;
   const height = 450;
@@ -105,7 +97,7 @@ const Page: React.FC<CategoryId> = ({ params }) => {
 
         <div className="container mt-8">
           <div className="flex gap-10 flex-wrap items-center justify-center mb-5 shadow-xl ">
-            {products?.map((items) => (
+            {categoryProduct?.map((items) => (
               <Link href={`/products/${items.id}`} key={items.id}>
                 <div
                   key={items.id}

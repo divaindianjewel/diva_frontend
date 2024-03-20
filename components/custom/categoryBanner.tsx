@@ -26,6 +26,8 @@ interface CategoryId {
 const CategoryBanner: React.FC<CategoryId> = ({ categoryId }) => {
   const [category, setCategory] = useState<Category | null>(null);
 
+  
+
   useEffect(() => {
     const fetchCategory = async () => {
       try {
