@@ -14,7 +14,7 @@ const Footer = () => {
 
   const instagramID = "https://www.instagram.com/diva.theindianjewel/";
   const faceBookID = "https://www.instagram.com/diva.theindianjewel/";
-  const youtubeId = "https://www.instagram.com/diva.theindianjewel/";
+  const youtubeId = "https://www.youtube.com/@DIVATHEINDIANJEWEL";
 
   return (
     <div className="bg-black">
@@ -129,35 +129,32 @@ const Footer = () => {
             </div>
             <nav className="flex flex-col gap-4">
               <div>
-                <a
-                  href="#"
+                <Link
+                  href="/T&C"
                   className="text-gray-400 transition duration-100 hover:text-indigo-500 active:text-indigo-600"
                 >
                   Term and conditions
-                </a>
+                </Link>
               </div>
 
               <div>
-                <a
-                  href="#"
+                <Link
+                  href="/shipping"
                   className="text-gray-400 transition duration-100 hover:text-indigo-500 active:text-indigo-600"
                 >
                   Shipping
-                </a>
+                </Link>
               </div>
               <div>
-                <a
-                  href="#"
-                  className="text-gray-400 transition duration-100 hover:text-indigo-500 active:text-indigo-600"
-                ></a>
+               
               </div>
               <div>
-                <a
-                  href="#"
+                <Link
+                  href="/return"
                   className="text-gray-400 transition duration-100 hover:text-indigo-500 active:text-indigo-600"
                 >
                   Return, Refund and Exchange
-                </a>
+                </Link>
               </div>
             </nav>
           </div>
