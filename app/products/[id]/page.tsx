@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Children } from "react";
 import { IoIosStar } from "react-icons/io";
 import { FaShoppingCart } from "react-icons/fa";
 import Image from "next/image";
@@ -16,10 +16,7 @@ import { addToCart } from "@/backend/add-to-cart";
 import { useAuth, useUser } from "@clerk/nextjs";
 import { domain } from "@/components/backend/apiRouth";
 import YTvideo from "@/components/custom/yt-video";
-import {
-  BlocksRenderer,
-  type BlocksContent,
-} from "@strapi/blocks-react-renderer";
+import Markdown, { MarkdownToJSX } from "markdown-to-jsx";
 
 interface ProductData {
   id: number;
@@ -27,7 +24,7 @@ interface ProductData {
     name: string;
     price: number;
     compare_price: number;
-    desctiption: any;
+    desctiption: string;
     youtube_link: string;
     images: {
       data: {
@@ -88,9 +85,8 @@ const Page: React.FC<paramsProps> = ({ params }) => {
     return <div>No product found</div>;
   }
 
-  const handleDescription = (description: BlocksContent | any) => {
-    return <BlocksRenderer content={description} />;
-  };
+
+  console.log(product);
 
   return (
     <>
@@ -116,7 +112,7 @@ const Page: React.FC<paramsProps> = ({ params }) => {
                       <CarouselItem key={index}>
                         <Image
                           className="rounded-md"
-                          src={`${image.attributes.url}`}
+                          src={`${domain}${image.attributes.url}`}
                           alt={`Image ${index + 1}`}
                           width={width}
                           height={height}
@@ -143,8 +139,11 @@ const Page: React.FC<paramsProps> = ({ params }) => {
                   <span className="text-lg text-gray-500">(30 reviews)</span>
                 </div>
               </h1>
-              <div className="flex mb-4"></div>
-              <p></p>
+              <div className="flex mb-4 my-3">
+                {" "}
+                {/* {blockContentHandler(product.attributes.desctiption)} */}
+                {/* <Markdown  options={{ forceBlock: true }} > {product.attributes.desctiption}</Markdown> */}
+              </div>
 
               <div className="flex mt-6 items-center pb-5 border-b-2 border-gray-100 mb-5">
                 <div className="flex"></div>

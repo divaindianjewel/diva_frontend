@@ -17,6 +17,12 @@ const page = () => {
           result of the defect. If you are entitled to a replacement or refund,
           we will replace the product or refund the purchase price, using the
           original method of payment.
+
+          <ul>
+            <li>10 days return policy</li>
+            <li>The products's tag should not be removed</li>
+          </ul>
+
         </p>
       </div>
 
@@ -37,6 +43,11 @@ const page = () => {
           sophistication. Elevate your ensemble with our stunning array of
           jewelry crafted from premium materials and adorned with precious
           gemstones.
+
+          <ul>
+            <li>the amount will be refunded with in 4 working days </li>
+          </ul>
+
         </p>
       </div>
 

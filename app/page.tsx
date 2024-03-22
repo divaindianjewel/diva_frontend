@@ -6,7 +6,6 @@ import Categories from "@/components/custom/swiper/categoriesSection";
 import { auth, currentUser } from "@clerk/nextjs";
 
 // Images
-
 export default async function Home() {
   const { userId } = auth();
 
