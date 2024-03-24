@@ -16,7 +16,10 @@ import { addToCart } from "@/backend/add-to-cart";
 import { useAuth, useUser } from "@clerk/nextjs";
 import { domain } from "@/components/backend/apiRouth";
 import YTvideo from "@/components/custom/yt-video";
-import Markdown, { MarkdownToJSX } from "markdown-to-jsx";
+import {
+  BlocksRenderer,
+  type BlocksContent,
+} from "@strapi/blocks-react-renderer";
 
 interface ProductData {
   id: number;
@@ -24,7 +27,7 @@ interface ProductData {
     name: string;
     price: number;
     compare_price: number;
-    desctiption: string;
+    description: BlocksContent;
     youtube_link: string;
     images: {
       data: {
@@ -85,8 +88,10 @@ const Page: React.FC<paramsProps> = ({ params }) => {
     return <div>No product found</div>;
   }
 
-
-  console.log(product);
+  const handelDescription = (content: BlocksContent) => {
+    console.log(content);
+    return <BlocksRenderer content={content}  />;
+  };
 
   return (
     <>
@@ -112,7 +117,7 @@ const Page: React.FC<paramsProps> = ({ params }) => {
                       <CarouselItem key={index}>
                         <Image
                           className="rounded-md"
-                          src={`${domain}${image.attributes.url}`}
+                          src={`${image.attributes.url}`}
                           alt={`Image ${index + 1}`}
                           width={width}
                           height={height}
@@ -140,9 +145,8 @@ const Page: React.FC<paramsProps> = ({ params }) => {
                 </div>
               </h1>
               <div className="flex mb-4 my-3">
-                {" "}
-                {/* {blockContentHandler(product.attributes.desctiption)} */}
-                {/* <Markdown  options={{ forceBlock: true }} > {product.attributes.desctiption}</Markdown> */}
+                
+                { product.attributes.description ?  handelDescription(product.attributes.description) : "No Description"}
               </div>
 
               <div className="flex mt-6 items-center pb-5 border-b-2 border-gray-100 mb-5">
