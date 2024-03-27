@@ -9,10 +9,6 @@ const Review: React.FC<{ review: ReviewProps }> = ({ review }) => {
   return (
     <div
       key={randomNum}
-      onLoad={() => {
-        let tmp = Math.floor(Math.random() + 1000) * 9000;
-        setRandomNum(tmp);
-      }}
       className="divide-y"
     >
       <div className="flex flex-col gap-3 py-4 md:py-8">

@@ -35,7 +35,6 @@ const ReviewFormDialog: React.FC<{ productId: number }> = ({ productId }) => {
   };
 
   const submitHandler = async (e: React.FormEvent) => {
-    e.preventDefault();
     if (isSignedIn) {
       if (userId != null && userId != undefined) {
         let userName = "User";
@@ -52,6 +51,7 @@ const ReviewFormDialog: React.FC<{ productId: number }> = ({ productId }) => {
           });
       }
     } else {
+    e.preventDefault();
       errorTost("Please Login first");
     }
   };
