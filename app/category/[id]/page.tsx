@@ -1,6 +1,5 @@
 "use client"
 import React, { useState, useEffect, ReactNode } from "react";
-import { useRouter } from 'next/router'; // Import useRouter
 import Link from "next/link";
 import Image from "next/image";
 import CategoriesButton from "@/components/custom/categoriesButton";
@@ -12,6 +11,7 @@ import {
 } from "@/components/ui/carousel";
 import CategoryBanner from "@/components/custom/categoryBanner";
 import { domain } from "@/components/backend/apiRouth";
+import { useParams } from "next/navigation";
 
 export interface Product {
  id: number;
@@ -41,9 +41,10 @@ export interface Product {
 
 
 const Page = () => {
-//  const router = useRouter(); // Use the useRouter hook to access the router object
- const categoryId = 7 // Access the id parameter from the router's query object
- const [allProducts, setAllProducts] = useState<Product[]>([]); // Global allProducts state
+  const params = useParams();
+  
+ const categoryId = Number(params.id); 
+ const [allProducts, setAllProducts] = useState<Product[]>([]); 
  const [categoryProduct, setCategoryProduct] = useState<Product[]>();
 
  useEffect(() => {

@@ -21,6 +21,7 @@ import {
   type BlocksContent,
 } from "@strapi/blocks-react-renderer";
 import { useRouter } from "next/router";
+import { useParams } from "next/navigation";
 
 interface ProductData {
   id: number;
@@ -54,8 +55,9 @@ const Page = () => {
   const width = 500;
   const height = 500;
 
-  // const router = useRouter();
-  const productId = 129;
+  const params = useParams();
+  const productId = Number(params.id);
+
 
   useEffect(() => {
     const fetchProduct = async () => {
