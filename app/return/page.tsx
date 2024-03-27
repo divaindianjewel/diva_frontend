@@ -28,7 +28,7 @@ const page = () => {
 
       <div className="py-3">
         <h1 className="text-center text-3xl capitalize py-6 font-semibold underline">
-          Refund Policy
+          Refund and exchange Policy
         </h1>
         <p>
         We strive to satisfy our customers to the best of our ability and we understand that every individual has different tastes and choices. Hence, for any reason if you need to return the purchased products, we ask no questions and accept return requests for up to 7 days from the date of delivery of the order. Yes, no questions asked, we believe in delighting our customers with every purchase, hence we do not negotiate further if the customer is not satisfied to any degree.
@@ -43,23 +43,7 @@ Once the returned product reaches us, we conduct a routine check for the retenti
 
 We highly recommend you initiate the return / exchange process as soon as possible to stay within the 7 days’ time limit as per the return / exchange policy. Further delay beyond 7 days may lead to the product becoming unacceptable for returns / exchanges. Hence, we recommend you make sure you initiate a return request as soon as possible if needed.
 
-          <ul>
-            <li>the amount will be refunded with in 4 working days </li>
-          </ul>
-
-        </p>
-      </div>
-
-      <div className="py-3">
-        <h1 className="text-center text-3xl capitalize py-6 font-semibold underline">
-          Exchange Policy
-        </h1>
-        <p>
-          At Diva the indian jewel, we strive to ensure your complete
-          satisfaction with every purchase. If for any reason you are not
-          entirely satisfied with your jewelry item, we offer a hassle-free
-          exchange policy to make your shopping experience enjoyable and
-          worry-free.
+      
         </p>
       </div>
     </div>
