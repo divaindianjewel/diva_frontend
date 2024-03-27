@@ -1,21 +1,21 @@
-"use client";
 import React, { useState, useEffect, ReactNode } from "react";
+import { useRouter } from 'next/router'; // Import useRouter
 import Link from "next/link";
 import Image from "next/image";
 import CategoriesButton from "@/components/custom/categoriesButton";
 import { Separator } from "@/components/ui/separator";
 import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
+ Carousel,
+ CarouselContent,
+ CarouselItem,
 } from "@/components/ui/carousel";
 import CategoryBanner from "@/components/custom/categoryBanner";
 import { domain } from "@/components/backend/apiRouth";
 
 // Assuming your interfaces are defined as before
 export interface Product {
-  id: number;
-  attributes: {
+ id: number;
+ attributes: {
     name: string;
     price: number;
     compare_price: number;
@@ -36,22 +36,21 @@ export interface Product {
         };
       };
     };
-  };
+ };
 }
 
+// Adjust the interface to remove params since we're using useRouter
 interface CategoryId {
-  params: {
-    id: number;
-  };
-  children?: ReactNode;
+ children?: ReactNode;
 }
 
-const Page: React.FC<CategoryId> = ({ params }) => {
-  const categoryId = params.id;
-  const [allProducts, setAllProducts] = useState<Product[]>([]); // Global allProducts state
-  const [categoryProduct, setCategoryProduct] = useState<Product[]>();
+const Page: React.FC<CategoryId> = ({ children }) => {
+ const router = useRouter(); // Use the useRouter hook to access the router object
+ const categoryId = Number(router.query.id); // Access the id parameter from the router's query object
+ const [allProducts, setAllProducts] = useState<Product[]>([]); // Global allProducts state
+ const [categoryProduct, setCategoryProduct] = useState<Product[]>();
 
-  useEffect(() => {
+ useEffect(() => {
     const fetchData = async () => {
       let currentPage = 1;
       let totalPages = 1;
@@ -77,19 +76,19 @@ const Page: React.FC<CategoryId> = ({ params }) => {
     };
 
     fetchData();
-  }, []);
+ }, [categoryId]); // Add categoryId as a dependency to re-run the effect when categoryId changes
 
-  const fetchProducts = async (page: number) => {
+ const fetchProducts = async (page: number) => {
     const response = await fetch(
       `${domain}/api/products?populate=*&pagination[pageSize]=100&pagination[page]=${page}`
     );
     return response.json();
-  };
+ };
 
-  const width = 500;
-  const height = 450;
+ const width = 500;
+ const height = 450;
 
-  return (
+ return (
     <div>
       <div id="banner">
         <CategoryBanner categoryId={categoryId} />
@@ -101,16 +100,16 @@ const Page: React.FC<CategoryId> = ({ params }) => {
             {categoryProduct?.map((items) => (
               <Link href={`/products/${items.id}`} key={items.id}>
                 <div
-                  key={items.id}
-                  className="card p-5 max-w-96 px-5 flex-col items-center justify-center shadow-2xl mb-8"
+                 key={items.id}
+                 className="card p-5 max-w-96 px-5 flex-col items-center justify-center shadow-2xl mb-8"
                 >
-                  <Carousel
+                 <Carousel
                     opts={{
                       align: "start",
                       loop: true,
                     }}
                     className="w-80"
-                  >
+                 >
                     <CarouselContent key={items.id}>
                       {items.attributes.images.data.map((imgs) => (
                         <CarouselItem
@@ -127,8 +126,8 @@ const Page: React.FC<CategoryId> = ({ params }) => {
                         </CarouselItem>
                       ))}
                     </CarouselContent>
-                  </Carousel>
-                  <div>
+                 </Carousel>
+                 <div>
                     <h3 className="text-2xl font-semibold mt-3">
                       {items.attributes.name}
                     </h3>
@@ -149,7 +148,7 @@ const Page: React.FC<CategoryId> = ({ params }) => {
                         View Product
                       </button>
                     </Link>
-                  </div>
+                 </div>
                 </div>
               </Link>
             ))}
@@ -157,7 +156,7 @@ const Page: React.FC<CategoryId> = ({ params }) => {
         </div>
       </div>
     </div>
-  );
+ );
 };
 
 export default Page;
