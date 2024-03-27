@@ -45,13 +45,13 @@ interface ApiResponse {
   data: ProductData;
 }
 
-interface paramsProps {
+interface ParamsProps {
   params: {
     id: number;
   };
 }
 
-const Page: React.FC<paramsProps> = ({ params }) => {
+const Page: React.FC<ParamsProps> = ({ params }) => {
   const [product, setProduct] = useState<ProductData | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const { userId } = useAuth();
