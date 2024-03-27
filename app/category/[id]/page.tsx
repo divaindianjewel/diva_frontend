@@ -40,11 +40,9 @@ export interface Product {
 }
 
 // Adjust the interface to remove params since we're using useRouter
-interface CategoryId {
- children?: ReactNode;
-}
 
-const Page: React.FC<CategoryId> = ({ children }) => {
+
+const Page = () => {
  const router = useRouter(); // Use the useRouter hook to access the router object
  const categoryId = Number(router.query.id); // Access the id parameter from the router's query object
  const [allProducts, setAllProducts] = useState<Product[]>([]); // Global allProducts state
