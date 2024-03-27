@@ -4,7 +4,7 @@ import { authMiddleware } from "@clerk/nextjs";
 // Please edit this to allow other routes to be public as needed.
 // See https://clerk.com/docs/references/nextjs/auth-middleware for more information about configuring your Middleware
 export default authMiddleware({
-  publicRoutes : ["/", "/products/(.*)", "/cart", "/category/(.*)", "/shipping", "/return", "T&C"], // An array of paths that should be accessible without authentication.
+  publicRoutes : ["/", "/products/(.*)", "/cart", "/category/(.*)", "/shipping", "/return", "/T&C"], // An array of paths that should be accessible without authentication.
 });
 
 export const config = {
