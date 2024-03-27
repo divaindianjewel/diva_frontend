@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, ReactNode } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import CategoriesButton from "@/components/custom/categoriesButton";
@@ -43,6 +43,7 @@ interface CategoryId {
   params: {
     id: number;
   };
+  children?: ReactNode;
 }
 
 const Page: React.FC<CategoryId> = ({ params }) => {
