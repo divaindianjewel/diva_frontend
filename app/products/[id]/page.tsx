@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect, Children } from "react";
+import React, { useState, useEffect, Children, ReactNode } from "react";
 import { IoIosStar } from "react-icons/io";
 import { FaShoppingCart } from "react-icons/fa";
 import Image from "next/image";
@@ -49,13 +49,10 @@ interface ParamsProps {
   params: {
     id: number;
   };
+  children?: ReactNode;
 }
 
-const Page: React.FC<{
-  params: {
-    id: number;
-  };
-}> = ({ params }) => {
+const Page: React.FC<ParamsProps> = ({ params }) => {
   const [product, setProduct] = useState<ProductData | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const { userId } = useAuth();
@@ -94,7 +91,7 @@ const Page: React.FC<{
 
   const handelDescription = (content: BlocksContent) => {
     console.log(content);
-    return <BlocksRenderer content={content} />;
+    return <BlocksRenderer content={content}  />;
   };
 
   return (
@@ -149,9 +146,8 @@ const Page: React.FC<{
                 </div>
               </h1>
               <div className="flex mb-4 my-3">
-                {product.attributes.description
-                  ? handelDescription(product.attributes.description)
-                  : "No Description"}
+                
+                { product.attributes.description ?  handelDescription(product.attributes.description) : "No Description"}
               </div>
 
               <div className="flex mt-6 items-center pb-5 border-b-2 border-gray-100 mb-5">
