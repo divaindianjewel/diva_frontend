@@ -20,6 +20,7 @@ import {
   BlocksRenderer,
   type BlocksContent,
 } from "@strapi/blocks-react-renderer";
+import { useRouter } from "next/router";
 
 interface ProductData {
   id: number;
@@ -45,14 +46,7 @@ interface ApiResponse {
   data: ProductData;
 }
 
-interface ParamsProps {
-  params: {
-    id: number;
-  };
-  children?: ReactNode;
-}
-
-const Page: React.FC<ParamsProps> = ({ params }) => {
+const Page = () => {
   const [product, setProduct] = useState<ProductData | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const { userId } = useAuth();
@@ -60,11 +54,14 @@ const Page: React.FC<ParamsProps> = ({ params }) => {
   const width = 500;
   const height = 500;
 
+  const router = useRouter();
+  const productId = Number(router.query.id);
+
   useEffect(() => {
     const fetchProduct = async () => {
       try {
         const response = await fetch(
-          `${domain}/api/products/${params.id}?populate=*`
+          `${domain}/api/products/${productId}?populate=*`
         );
         if (!response.ok) {
           throw new Error("Failed to fetch product");
@@ -91,7 +88,7 @@ const Page: React.FC<ParamsProps> = ({ params }) => {
 
   const handelDescription = (content: BlocksContent) => {
     console.log(content);
-    return <BlocksRenderer content={content}  />;
+    return <BlocksRenderer content={content} />;
   };
 
   return (
@@ -146,8 +143,9 @@ const Page: React.FC<ParamsProps> = ({ params }) => {
                 </div>
               </h1>
               <div className="flex mb-4 my-3">
-                
-                { product.attributes.description ?  handelDescription(product.attributes.description) : "No Description"}
+                {product.attributes.description
+                  ? handelDescription(product.attributes.description)
+                  : "No Description"}
               </div>
 
               <div className="flex mt-6 items-center pb-5 border-b-2 border-gray-100 mb-5">
