@@ -39,7 +39,8 @@ const CategoriesButton = () => {
       {categoriesName?.map((items) => (
         <Link key={items.id}
           className="myBtn drop-shadow-bg-gray-900 my-2"
-          href={`/category/${items.id}`}
+          // href={`/category/${items.id}`}
+          href={"#"}
         >
           {items.attributes.name}
         </Link>
