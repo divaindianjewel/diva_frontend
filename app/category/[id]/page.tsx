@@ -47,7 +47,7 @@ interface CategoryId {
 
 const Page: React.FC<CategoryId> = ({ params }) => {
   const categoryId = params.id;
-  const [allProducts, setAllProducts] = useState<Product[]>([]); // Global allProducts state
+  const [allProducts, setAllProducts] = useState<Product[]>([]);
   const [categoryProduct, setCategoryProduct] = useState<Product[]>();
 
   useEffect(() => {
@@ -58,7 +58,7 @@ const Page: React.FC<CategoryId> = ({ params }) => {
 
       while (currentPage <= totalPages) {
         const products = await fetchProducts(currentPage);
-        fetchedProducts.push(...products.data); // Spread operator for efficient concatenation
+        fetchedProducts.push(...products.data);
         totalPages = products.meta.pagination.pageCount;
         currentPage++;
       }
@@ -76,7 +76,7 @@ const Page: React.FC<CategoryId> = ({ params }) => {
     };
 
     fetchData();
-  }, []);
+  }, [categoryId]); // Include categoryId in the dependency array
 
   const fetchProducts = async (page: number) => {
     const response = await fetch(
