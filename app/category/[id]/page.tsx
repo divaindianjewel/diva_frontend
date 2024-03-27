@@ -13,7 +13,6 @@ import {
 import CategoryBanner from "@/components/custom/categoryBanner";
 import { domain } from "@/components/backend/apiRouth";
 
-// Assuming your interfaces are defined as before
 export interface Product {
  id: number;
  attributes: {
@@ -41,11 +40,13 @@ export interface Product {
 }
 
 // Adjust the interface to remove params since we're using useRouter
+interface CategoryId {
+ children?: ReactNode;
+}
 
-
-const Page = () => {
- const router = useRouter(); 
- const categoryId = Number(router.query.id); // Access the id parameter from the router's query object
+const Page: React.FC<CategoryId> = ({ children }) => {
+//  const router = useRouter(); // Use the useRouter hook to access the router object
+ const categoryId = 7 // Access the id parameter from the router's query object
  const [allProducts, setAllProducts] = useState<Product[]>([]); // Global allProducts state
  const [categoryProduct, setCategoryProduct] = useState<Product[]>();
 

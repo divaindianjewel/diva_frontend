@@ -54,8 +54,8 @@ const Page = () => {
   const width = 500;
   const height = 500;
 
-  const router = useRouter();
-  const productId = Number(router.query.id);
+  // const router = useRouter();
+  const productId = 129;
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -76,7 +76,7 @@ const Page = () => {
     };
 
     fetchProduct();
-  }, [params.id]);
+  }, [productId]);
 
   if (loading) {
     return <div>Loading...</div>;
@@ -169,7 +169,7 @@ const Page = () => {
                   type="button"
                   onClick={() => {
                     addToCart(
-                      params.id,
+                      productId,
                       userId,
                       isSignedIn,
                       product.attributes.name,
@@ -198,7 +198,7 @@ const Page = () => {
       </section>
 
       <section>
-        <CustomerReviews productId={params.id} />
+        <CustomerReviews productId={productId} />
       </section>
     </>
   );
