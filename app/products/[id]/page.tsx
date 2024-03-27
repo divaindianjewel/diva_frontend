@@ -51,7 +51,11 @@ interface ParamsProps {
   };
 }
 
-const Page: React.FC<ParamsProps> = ({ params }) => {
+const Page: React.FC<{
+  params: {
+    id: number;
+  };
+}> = ({ params }) => {
   const [product, setProduct] = useState<ProductData | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const { userId } = useAuth();
@@ -90,7 +94,7 @@ const Page: React.FC<ParamsProps> = ({ params }) => {
 
   const handelDescription = (content: BlocksContent) => {
     console.log(content);
-    return <BlocksRenderer content={content}  />;
+    return <BlocksRenderer content={content} />;
   };
 
   return (
@@ -145,8 +149,9 @@ const Page: React.FC<ParamsProps> = ({ params }) => {
                 </div>
               </h1>
               <div className="flex mb-4 my-3">
-                
-                { product.attributes.description ?  handelDescription(product.attributes.description) : "No Description"}
+                {product.attributes.description
+                  ? handelDescription(product.attributes.description)
+                  : "No Description"}
               </div>
 
               <div className="flex mt-6 items-center pb-5 border-b-2 border-gray-100 mb-5">
