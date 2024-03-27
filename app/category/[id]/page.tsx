@@ -1,3 +1,4 @@
+"use client"
 import React, { useState, useEffect, ReactNode } from "react";
 import { useRouter } from 'next/router'; // Import useRouter
 import Link from "next/link";
@@ -43,7 +44,7 @@ export interface Product {
 
 
 const Page = () => {
- const router = useRouter(); // Use the useRouter hook to access the router object
+ const router = useRouter(); 
  const categoryId = Number(router.query.id); // Access the id parameter from the router's query object
  const [allProducts, setAllProducts] = useState<Product[]>([]); // Global allProducts state
  const [categoryProduct, setCategoryProduct] = useState<Product[]>();
