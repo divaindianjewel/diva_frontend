@@ -7,6 +7,7 @@ import { FaMinus } from "react-icons/fa6";
 
 import img1 from "@/app/assets/product_img/stock-img (1).jpg";
 import { domain } from "../backend/apiRouth";
+import { incrementQnt } from "@/backend/cart-operation";
 
 export interface cartItemProps {
   id: number;
@@ -99,9 +100,10 @@ const CartItems: React.FC<{ productId: number }> = ({ productId }) => {
                 size="icon"
                 variant="outline"
                 onClick={() => {
-                  let tmp = quantity;
-                  tmp++;
-                  setQuantity(tmp);
+                  // let tmp = quantity;
+                  // tmp++;
+                  // setQuantity(tmp);
+                  incrementQnt(1, quantity);
                 }}
               >
                 <MdAdd />

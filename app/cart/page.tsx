@@ -63,7 +63,6 @@ export default function Component() {
     );
     setSubtotal(subtotalValue);
 
-    // Calculate GST (18%)
     const gst = subtotalValue * 0.18;
 
     // Calculate total price
