@@ -1,6 +1,9 @@
 "use client";
 import React, { useState } from "react";
 import makePayment from "../phonepeApi";
+import sha256 from "sha256";
+import axios from "axios";
+
 
 const PaymentForm = () => {
   const local_domain = "http://localhost:3000";
@@ -30,12 +33,15 @@ const PaymentForm = () => {
   const merchantTransactionId = generateRandomId(10);
   const userId = 1234;
 
+  
+
   return (
     <div>
       <form
         onSubmit={(e) => {
           makePayment(e);
         }}
+        method="post"
       >
         <input
           onChange={(e) => {

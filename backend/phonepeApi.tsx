@@ -25,18 +25,19 @@ const merchantTransactionId = generateRandomId(10);
 const userId = 1234;
 
 const makePayment = async (e: any) => {
-  const router = useRouter();
-
   e.preventDefault();
+
+  console.log("hello");
+
   const payload = {
     merchantId: merchantId,
     merchantTransactionId: merchantTransactionId,
     merchantUserId: userId,
     amount: 100,
-    redirectUrl: `${pro_domain}/api/status/${merchantTransactionId}`,
+    redirectUrl: `${local_domain}/api/status/${merchantTransactionId}`,
     redirectMode: "POST",
-    callbackUrl: `${pro_domain}/api/status/${merchantTransactionId}`,
-    mobileNumber: "957996842",
+    callbackUrl: `${local_domain}/api/status/${merchantTransactionId}`,
+    mobileNumber: "9579896842",
     paymentInstrument: {
       type: "PAY_PAGE",
     },
@@ -70,9 +71,9 @@ const makePayment = async (e: any) => {
     }
   );
 
-  const redirect = response.data.data.instrumentResponse.redirectInfo.url;
-  console.log(redirect);
-  router.push(redirect);
-};
+  console.log(response);
 
+  console.log("Hello 2");
+  console.log("Hello 3");
+};
 export default makePayment;
