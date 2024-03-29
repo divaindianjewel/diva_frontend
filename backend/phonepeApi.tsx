@@ -34,9 +34,9 @@ const makePayment = async (e: any) => {
     merchantTransactionId: merchantTransactionId,
     merchantUserId: userId,
     amount: 100,
-    redirectUrl: `${local_domain}/api/status/${merchantTransactionId}`,
+    redirectUrl: `${pro_domain}/api/status/${merchantTransactionId}`,
     redirectMode: "POST",
-    callbackUrl: `${local_domain}/api/status/${merchantTransactionId}`,
+    callbackUrl: `${pro_domain}/api/status/${merchantTransactionId}`,
     mobileNumber: "9579896842",
     paymentInstrument: {
       type: "PAY_PAGE",
