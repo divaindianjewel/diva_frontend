@@ -1,21 +1,21 @@
-"use client"
+"use client";
 import React, { useState, useEffect, ReactNode } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import CategoriesButton from "@/components/custom/categoriesButton";
 import { Separator } from "@/components/ui/separator";
 import {
- Carousel,
- CarouselContent,
- CarouselItem,
+  Carousel,
+  CarouselContent,
+  CarouselItem,
 } from "@/components/ui/carousel";
 import CategoryBanner from "@/components/custom/categoryBanner";
 import { domain } from "@/components/backend/apiRouth";
 import { useParams } from "next/navigation";
 
 export interface Product {
- id: number;
- attributes: {
+  id: number;
+  attributes: {
     name: string;
     price: number;
     compare_price: number;
@@ -36,18 +36,22 @@ export interface Product {
         };
       };
     };
- };
+  };
 }
-
 
 const Page = () => {
   const params = useParams();
-  
- const categoryId = Number(params.id); 
- const [allProducts, setAllProducts] = useState<Product[]>([]); 
- const [categoryProduct, setCategoryProduct] = useState<Product[]>();
 
- useEffect(() => {
+  let categoryId = 0;
+
+  if (params != null) {
+    categoryId = Number(params.id);
+  }
+
+  const [allProducts, setAllProducts] = useState<Product[]>([]);
+  const [categoryProduct, setCategoryProduct] = useState<Product[]>();
+
+  useEffect(() => {
     const fetchData = async () => {
       let currentPage = 1;
       let totalPages = 1;
@@ -73,19 +77,19 @@ const Page = () => {
     };
 
     fetchData();
- }, [categoryId]); // Add categoryId as a dependency to re-run the effect when categoryId changes
+  }, [categoryId]); // Add categoryId as a dependency to re-run the effect when categoryId changes
 
- const fetchProducts = async (page: number) => {
+  const fetchProducts = async (page: number) => {
     const response = await fetch(
       `${domain}/api/products?populate=*&pagination[pageSize]=100&pagination[page]=${page}`
     );
     return response.json();
- };
+  };
 
- const width = 500;
- const height = 450;
+  const width = 500;
+  const height = 450;
 
- return (
+  return (
     <div>
       <div id="banner">
         <CategoryBanner categoryId={categoryId} />
@@ -97,16 +101,16 @@ const Page = () => {
             {categoryProduct?.map((items) => (
               <Link href={`/products/${items.id}`} key={items.id}>
                 <div
-                 key={items.id}
-                 className="card p-5 max-w-96 px-5 flex-col items-center justify-center shadow-2xl mb-8"
+                  key={items.id}
+                  className="card p-5 max-w-96 px-5 flex-col items-center justify-center shadow-2xl mb-8"
                 >
-                 <Carousel
+                  <Carousel
                     opts={{
                       align: "start",
                       loop: true,
                     }}
                     className="w-80"
-                 >
+                  >
                     <CarouselContent key={items.id}>
                       {items.attributes.images.data.map((imgs) => (
                         <CarouselItem
@@ -123,8 +127,8 @@ const Page = () => {
                         </CarouselItem>
                       ))}
                     </CarouselContent>
-                 </Carousel>
-                 <div>
+                  </Carousel>
+                  <div>
                     <h3 className="text-2xl font-semibold mt-3">
                       {items.attributes.name}
                     </h3>
@@ -145,7 +149,7 @@ const Page = () => {
                         View Product
                       </button>
                     </Link>
-                 </div>
+                  </div>
                 </div>
               </Link>
             ))}
@@ -153,7 +157,7 @@ const Page = () => {
         </div>
       </div>
     </div>
- );
+  );
 };
 
 export default Page;

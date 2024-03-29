@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import { IoIosStar } from "react-icons/io";
 import { FaShoppingCart } from "react-icons/fa";
 import Image from "next/image";
@@ -56,8 +56,12 @@ const Page = () => {
   const height = 500;
 
   const params = useParams();
-  const productId = Number(params.id);
 
+  let productId = 0;
+
+  if (params) {
+    productId = Number(params.id);
+  }
 
   useEffect(() => {
     const fetchProduct = async () => {
