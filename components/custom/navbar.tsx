@@ -47,6 +47,7 @@ const Navbar = () => {
             <Image src={Logo} alt="Logo" height={95} width={195} />
           </Link>
         </div>
+
         <div className="flex items-center justify-center gap-x-10">
           {isSignedIn ? (
             <UserButton afterSignOutUrl="/" />

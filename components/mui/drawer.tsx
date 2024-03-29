@@ -1,4 +1,5 @@
 "use client";
+
 import React, { useState } from "react";
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
@@ -13,12 +14,12 @@ import Link from "next/link";
 // react icons
 
 // Icons
-import { MdHome } from "react-icons/md";
-import { FaStickyNote } from "react-icons/fa";
-import { IoIosSchool } from "react-icons/io";
 import { IoMenu } from "react-icons/io5";
-import { FaFileAlt } from "react-icons/fa";
-import { FaLaptopCode } from "react-icons/fa";
+import { LiaRingSolid } from "react-icons/lia";
+import { GiDropEarrings } from "react-icons/gi";
+import { GiHeartNecklace } from "react-icons/gi";
+import { FaGem } from "react-icons/fa";
+import { GiGemChain } from "react-icons/gi";
 
 interface NavItem {
   href: string;
@@ -30,11 +31,11 @@ export default function TemporaryDrawer() {
   const [open, setOpen] = useState(false);
 
   const navItems: NavItem[] = [
-    { href: "/", label: "Home", icon: <MdHome /> },
-    { href: "/blog", label: "blog", icon: <FaStickyNote /> },
-    { href: "/college", label: "Student", icon: <IoIosSchool /> },
-    { href: "/resume", label: "Resume", icon: <FaFileAlt /> },
-    { href: "/skills", label: "Needed Skills", icon: <FaLaptopCode /> },
+    { href: "/", label: "Rings", icon: <LiaRingSolid /> },
+    { href: "/", label: "Earrings", icon: <GiDropEarrings /> },
+    { href: "/", label: "Neckless", icon: <GiHeartNecklace /> },
+    { href: "/", label: "Bracelets", icon: <FaGem /> },
+    { href: "/", label: "Gem Stone", icon: <GiGemChain /> },
   ];
   const toggleDrawer = (newOpen: boolean) => () => {
     setOpen(newOpen);
