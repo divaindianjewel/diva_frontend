@@ -71,6 +71,7 @@ const makePayment = async (e: any) => {
   );
 
   const redirect = response.data.data.instrumentResponse.redirectInfo.url;
+  console.log(redirect);
   router.push(redirect);
 };
 
