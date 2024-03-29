@@ -1,14 +1,8 @@
 "use client";
 import React, { useState } from "react";
-import sha256 from "sha256";
-import axios from "axios";
-import { useRouter } from "next/navigation";
-
 import makePayment from "../phonepeApi";
 
 const PaymentForm = () => {
-  const router = useRouter();
-
   const local_domain = "http://localhost:3000";
   const pro_domain = "https://divatheindianjewel.com";
 

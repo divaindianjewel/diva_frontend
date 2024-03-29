@@ -13,10 +13,8 @@ function generateRandomId(length: number): string {
   return result;
 }
 
-const router = useRouter();
 const local_domain = "http://localhost:3000";
 const pro_domain = "https://divatheindianjewel.com";
-
 
 const endpoint = "/pg/v1/pay";
 const phonePeUrl = "https://api.phonepe.com/apis/hermes";
@@ -27,6 +25,8 @@ const merchantTransactionId = generateRandomId(10);
 const userId = 1234;
 
 const makePayment = async (e: any) => {
+  const router = useRouter();
+
   e.preventDefault();
   const payload = {
     merchantId: merchantId,
@@ -73,6 +73,5 @@ const makePayment = async (e: any) => {
   const redirect = response.data.data.instrumentResponse.redirectInfo.url;
   router.push(redirect);
 };
-
 
 export default makePayment;
