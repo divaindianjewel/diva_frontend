@@ -3,16 +3,18 @@ import Link from "next/link";
 import Image from "next/image";
 
 // image
-import Logo from "@/assets/logo.png";
+import Logo from "@/app/assets/logo.png";
 import TemporaryDrawer from "../mui/drawer";
 
 // clerk
 import { UserButton, useAuth, useUser } from "@clerk/nextjs";
 import { FaHeart } from "react-icons/fa";
 
-const Navbar = () => {
-  const { isSignedIn } = useUser();
+export default function Navbar2() {
+  // const { isSignedIn } = useUser();
   const yellowColor = "bg-amber-500";
+
+  const isSignedIn = true;
 
   return (
     <>
@@ -59,5 +61,3 @@ const Navbar = () => {
     </>
   );
 };
-
-export default Navbar;

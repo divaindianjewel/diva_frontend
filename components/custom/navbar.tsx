@@ -14,6 +14,7 @@ import Link from "next/link";
 import { FaShoppingCart } from "react-icons/fa";
 import { TfiMenu } from "react-icons/tfi";
 import { RxCross1 } from "react-icons/rx";
+import TemporaryDrawer from "../mui/drawer";
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
@@ -38,29 +39,19 @@ const Navbar = () => {
   return (
     <nav className="sticky top-0 z-10">
       <div className="bg-black h-[5.2rem] text-white flex items-center justify-between px-8">
-        <div className="logo">
+        <div className="logo flex items-center justify-center">
+          <div>
+            <TemporaryDrawer />
+          </div>
           <Link href="/">
             <Image src={Logo} alt="Logo" height={95} width={195} />
           </Link>
         </div>
-
-        <ul className="hidden lg:flex  items-center justify-evenly gap-x-14 text-xl">
-          {navItems.map((items) => (
-            <Link
-              key={items.href}
-              className="hover:underline"
-              href={items.href}
-            >
-              {items.label}
-            </Link>
-          ))}
-        </ul>
-
         <div className="flex items-center justify-center gap-x-10">
           {isSignedIn ? (
             <UserButton afterSignOutUrl="/" />
           ) : (
-            <ul className="hidden lg:flex  items-center justify-evenly gap-x-14 text-xl">
+            <ul className="flex items-center justify-evenly gap-x-14 text-xl">
               <Link className="hover:underline" href="/sign-in">
                 Sign-in
               </Link>
@@ -78,42 +69,7 @@ const Navbar = () => {
               </label>
             </div>
           </Link>
-
-          {open ? (
-            <RxCross1
-              size="30"
-              className="cursor-pointer lg:hidden md:block"
-              onClick={() => {
-                setOpen(!open);
-              }}
-            />
-          ) : (
-            <TfiMenu
-              size={icon_size}
-              className="cursor-pointer lg:hidden md:block"
-              onClick={() => {
-                setOpen(!open);
-              }}
-            />
-          )}
         </div>
-      </div>
-      <div
-        className={`bg-black text-white second-nav transition-all  ease-in-out delay-100 ${
-          open ? "showNav h-fit" : "hideNav h-0"
-        } `}
-      >
-        <ul className="flex flex-col items-center justify-evenly gap-x-14 text-xl">
-          {navItems.map((items) => (
-            <Link
-              key={items.href}
-              className="border border-white w-full py-3"
-              href={items.href}
-            >
-              {items.label}
-            </Link>
-          ))}
-        </ul>
       </div>
     </nav>
   );

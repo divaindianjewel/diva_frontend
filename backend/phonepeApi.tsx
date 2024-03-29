@@ -1,3 +1,5 @@
+"use server"
+
 import { useRouter } from "next/navigation";
 import sha256 from "sha256";
 import axios from "axios";

@@ -62,7 +62,7 @@ export default function TemporaryDrawer() {
   return (
     <div>
       <Button onClick={toggleDrawer(true)}>
-        <IoMenu color={"black"} size={30} />{" "}
+        <IoMenu color={"white"} size={30} />{" "}
       </Button>
       <Drawer open={open} onClose={toggleDrawer(false)}>
         {DrawerList}

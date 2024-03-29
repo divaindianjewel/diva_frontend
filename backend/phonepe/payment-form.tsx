@@ -4,7 +4,6 @@ import makePayment from "../phonepeApi";
 import sha256 from "sha256";
 import axios from "axios";
 
-
 const PaymentForm = () => {
   const local_domain = "http://localhost:3000";
   const pro_domain = "https://divatheindianjewel.com";

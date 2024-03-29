@@ -20,7 +20,6 @@ import {
   BlocksRenderer,
   type BlocksContent,
 } from "@strapi/blocks-react-renderer";
-import { useRouter } from "next/router";
 import { useParams } from "next/navigation";
 
 interface ProductData {
@@ -148,7 +147,7 @@ const Page = () => {
                   <span className="text-lg text-gray-500">(30 reviews)</span>
                 </div>
               </h1>
-              <div className="flex mb-4 my-3">
+              <div className="mb-4 my-3">
                 {product.attributes.description
                   ? handelDescription(product.attributes.description)
                   : "No Description"}
