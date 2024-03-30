@@ -23,7 +23,7 @@ interface CartItem {
     product_name: string;
     product_price: number;
     qnt: number;
-    img : any
+    img: any;
   };
 }
 
@@ -81,14 +81,16 @@ export default function Component() {
           <CardContent>
             <div className="grid gap-6">
               {cartData.map((item) => (
-                <CartItems
-                  key={item.id}
-                  productId={item.attributes.Product_id}
-                  cartId={item.id}
-                  qnt={item.attributes.qnt}
-                  image={item.attributes.img}
-                  show={true}
-                />
+                <Link href={"/products" + item.id}>
+                  <CartItems
+                    key={item.id}
+                    productId={item.attributes.Product_id}
+                    cartId={item.id}
+                    qnt={item.attributes.qnt}
+                    image={item.attributes.img}
+                    show={true}
+                  />
+                </Link>
               ))}
             </div>
           </CardContent>
