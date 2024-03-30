@@ -92,7 +92,6 @@ const Page = () => {
   }
 
   const handelDescription = (content: BlocksContent) => {
-    console.log(content);
     return <BlocksRenderer content={content} />;
   };
 
@@ -174,11 +173,12 @@ const Page = () => {
                   type="button"
                   onClick={() => {
                     addToCart(
-                      productId,
+                      String(productId),
                       userId,
                       isSignedIn,
                       product.attributes.name,
-                      product.attributes.price
+                      product.attributes.price,
+                      product.attributes.images.data[0].attributes.url
                     ).catch((err) => {
                       console.log(err);
                     });

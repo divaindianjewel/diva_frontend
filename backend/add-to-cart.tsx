@@ -1,17 +1,22 @@
 "use client";
 import { domain } from "@/components/backend/apiRouth";
-import { successTost, warningTost } from "@/components/toast/allTost";
+import {
+  errorTost,
+  successTost,
+  warningTost,
+} from "@/components/toast/allTost";
 
 export const addToCart = async (
-  productId: number,
+  productId: string,
   userId: any,
   isSignIn: any,
   product_name: string,
-  product_price: number
+  product_price: number,
+  img : any
 ) => {
   if (isSignIn) {
     try {
-      const response = await fetch(`${ domain }/api/carts`, {
+      const response = await fetch(`${domain}/api/carts`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -23,12 +28,13 @@ export const addToCart = async (
             product_price: product_price,
             user_id: userId,
             qnt: 1,
+            img : img
           },
         }),
       });
 
       if (!response.ok) {
-        throw new Error("something went wrong");
+        errorTost("Something went wrong");
       } else {
         successTost("Product is added to cart successfully");
       }

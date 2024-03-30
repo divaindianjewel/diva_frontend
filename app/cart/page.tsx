@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import React, { useEffect, useState } from "react";
 import { Separator } from "@/components/ui/separator";
@@ -13,6 +13,7 @@ import { Button } from "@/components/ui/button";
 import CartItems from "@/components/custom/cartItems";
 import { useAuth, useUser } from "@clerk/nextjs";
 import { domain } from "@/components/backend/apiRouth";
+import Link from "next/link";
 
 interface CartItem {
   id: number;
@@ -22,6 +23,7 @@ interface CartItem {
     product_name: string;
     product_price: number;
     qnt: number;
+    img : any
   };
 }
 
@@ -35,12 +37,9 @@ export default function Component() {
   useEffect(() => {
     const fetchCartData = async () => {
       try {
-        const response = await fetch(
-          `${domain}/api/carts?populate=*`
-        );
+        const response = await fetch(`${domain}/api/carts?populate=*`);
         const data = await response.json();
         if (data && data.data && data.data.length > 0) {
-          // Filter the cart data based on the current user's ID
           const userCartData = data.data.filter(
             (item: CartItem) => item.attributes.user_id === userId
           );
@@ -57,16 +56,18 @@ export default function Component() {
   }, [userId, isSignedIn]);
 
   useEffect(() => {
-    const subtotalValue = cartData.reduce(
-      (acc, item) => acc + item.attributes.product_price,
-      0
+    let tmpsubtotal = 0;
+
+    cartData.map(
+      (item) =>
+        (tmpsubtotal =
+          tmpsubtotal + item.attributes.product_price * item.attributes.qnt)
     );
-    setSubtotal(subtotalValue);
+    setSubtotal(tmpsubtotal);
 
-    const gst = subtotalValue * 0.18;
+    const gst = tmpsubtotal * 0.18;
 
-    // Calculate total price
-    const totalPrice = subtotalValue + gst;
+    const totalPrice = tmpsubtotal + gst;
     setTotal(totalPrice);
   }, [cartData]);
 
@@ -80,9 +81,13 @@ export default function Component() {
           <CardContent>
             <div className="grid gap-6">
               {cartData.map((item) => (
-                <CartItems 
+                <CartItems
                   key={item.id}
                   productId={item.attributes.Product_id}
+                  cartId={item.id}
+                  qnt={item.attributes.qnt}
+                  image={item.attributes.img}
+                  show={true}
                 />
               ))}
             </div>
@@ -107,9 +112,11 @@ export default function Component() {
                 </div>
               </CardContent>
               <CardFooter>
-                <Button className="w-full" size="lg">
-                  Proceed to Checkout
-                </Button>
+                <Link href={"/checkout"} target="_blank">
+                  <Button className="w-full" size="lg">
+                    Proceed to Checkout
+                  </Button>
+                </Link>
               </CardFooter>
             </div>
           </div>

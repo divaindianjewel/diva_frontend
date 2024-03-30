@@ -36,6 +36,7 @@ const page = () => {
         online e-commerce platform that allows us to sell our products and
         services to you.
       </p>
+
     </div>
   );
 };

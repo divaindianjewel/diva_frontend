@@ -4,6 +4,18 @@ import makePayment from "../phonepeApi";
 import sha256 from "sha256";
 import axios from "axios";
 
+
+export function generateRandomId(length: number): string {
+  const characters =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  let result = "";
+  const charactersLength = characters.length;
+  for (let i = 0; i < length; i++) {
+    result += characters.charAt(Math.floor(Math.random() * charactersLength));
+  }
+  return result;
+}
+
 const PaymentForm = () => {
   const local_domain = "http://localhost:3000";
   const pro_domain = "https://divatheindianjewel.com";
@@ -13,16 +25,6 @@ const PaymentForm = () => {
   const [amount, setAmount] = useState<number>();
   const [mu_id, setMu_id] = useState("");
 
-  function generateRandomId(length: number): string {
-    const characters =
-      "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-    let result = "";
-    const charactersLength = characters.length;
-    for (let i = 0; i < length; i++) {
-      result += characters.charAt(Math.floor(Math.random() * charactersLength));
-    }
-    return result;
-  }
 
   const endpoint = "/pg/v1/pay";
   const phonePeUrl = "https://api.phonepe.com/apis/hermes";
