@@ -1,6 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
 import {
   CardTitle,
   CardHeader,
@@ -32,8 +33,8 @@ import rupe from "@/app/assets/checkout/rupe.svg";
 import mastercard from "@/app/assets/checkout/mastercard.svg";
 import phonepe from "@/app/assets/checkout/phonpe.svg";
 import gpay from "@/app/assets/checkout/gpay.svg";
-import axios from "axios";
-import { generateRandomId } from "@/backend/phonepe/payment-form";
+import addOrder from "@/backend/shiprocket/addOrder";
+import { makePayment } from "@/backend/phonepe/pay-method";
 
 interface CartItem {
   id: number;
@@ -43,17 +44,30 @@ interface CartItem {
     product_name: string;
     product_price: number;
     qnt: number;
-    img : any
+    img: any;
   };
 }
 
-export const setUserData = (obj: any) => {
-  return obj;
-};
+interface addressProps {
+  id: number;
+  attributes: {
+    first_name: string;
+    last_name: string;
+    address: string;
+    city: string;
+    pincode: string;
+    state: string;
+    country: string;
+    email: string;
+    phone_number: number;
+    user_id: string;
+  };
+}
 
 const page = () => {
+  const [addressId, setAddressId] = useState();
   const [cartData, setCartData] = useState<CartItem[]>([]);
-
+  const router = useRouter();
   const [subtotal, setSubtotal] = useState<number>(0);
   const [total, setTotal] = useState<number>(0);
   const { userId } = useAuth();
@@ -66,10 +80,44 @@ const page = () => {
   const [pinCode, setPinCode] = useState("");
   const [address, setAddress] = useState("");
   const [selectedMethod, setSelectedMethod] = useState("online");
-  const [userData, setUserData] = useState<any>();
+  const [tmpUserData, setTmpUserData] = useState<any>();
+  const [dataPresent, setDataPresent] = useState<boolean>(false);
+
+  useEffect(() => {
+    const getUserData = async () => {
+      const userResponse = await fetch(`${domain}/api/billing-addresses`, {
+        method: "GET",
+      });
+
+      const data = await userResponse.json();
+
+      console.log(data.data);
+      const tmpUserData = data.data?.filter(
+        (items: addressProps) => items.attributes.user_id == userId
+      );
+
+      console.log(tmpUserData);
+      console.log(tmpUserData.length);
+      if (tmpUserData.length > 0) {
+        setDataPresent(true);
+        setAddressId(tmpUserData[0].id);
+        setFirstName(tmpUserData[0].attributes.first_name);
+        setLastName(tmpUserData[0].attributes.last_name);
+        setPhoneNumber(tmpUserData[0].attributes.phone_number);
+        setEmail(tmpUserData[0].attributes.email);
+        setCity(tmpUserData[0].attributes.city);
+        setPinCode(tmpUserData[0].attributes.pincode);
+        setAddress(tmpUserData[0].attributes.address);
+        setState(tmpUserData[0].attributes.state);
+      }
+    };
+
+    getUserData();
+  }, []);
 
   const handelPay = async (e: any) => {
     e.preventDefault;
+
     if (
       !state ||
       !firstName ||
@@ -87,110 +135,76 @@ const page = () => {
         last_name: lastName,
         address: address,
         city: city,
-        pincode: pinCode,
+        pincode: String(pinCode),
         state: state,
         country: "India",
         email: email,
-        phone_number: phoneNumber,
+        phone_number: String(phoneNumber),
         user_id: userId,
       };
 
-      setUserData(obj);
+      setTmpUserData(obj);
 
-      const response = await fetch(`${domain}/api/billing-addresses`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          data: {
-            ...obj,
+      if (!dataPresent) {
+        const response = await fetch(`${domain}/api/billing-addresses`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
           },
-        }),
-      });
-      if (!response.ok) {
-        errorTost("Something went wrong");
-        return;
-      } else {
-        successTost("Billing address added successfully");
-      }
-
-      // const data = await response.json();
-      // console.log("Address :", data);
-
-      if (selectedMethod == "online") {
-        warningTost("selected online");
-      } else {
-        warningTost("Selected COD");
-        try {
-          const shiprocketResponse = await fetch(
-            "https://apiv2.shiprocket.in/v1/external/orders/create/adhoc",
-            {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-                Authorization: "Bearer " + process.env.NEXT_PUBLIC_SHIPROCKET_ID
-              },
-
-              body: JSON.stringify({
-                order_id: `OR-${generateRandomId(10)}`,
-                order_date: "2024-03-27 11:11",
-                pickup_location: "Primary",
-                channel_id: "4854844",
-                comment: "Reseller: M/s Goku",
-                billing_customer_name: "Rushikesh",
-                billing_last_name: "Shrimanwar",
-                billing_address: "House 221B, Leaf Village",
-                billing_address_2: "Near Hokage House",
-                billing_city: "Nanded",
-                billing_pincode: "110002",
-                billing_state: "maharastra",
-                billing_country: "India",
-                billing_email: "rushikeshshrimanwar@gmail.com",
-                billing_phone: "9579896842",
-                shipping_is_billing: true,
-                shipping_customer_name: "Rushikesh",
-                shipping_last_name: "Shrimanwar",
-                shipping_address: "shrinager nanded",
-                shipping_address_2: "shrinager nanded",
-                shipping_city: "nanded",
-                shipping_pincode: "431605",
-                shipping_country: "india",
-                shipping_state: "Maharashtra",
-                shipping_email: "rushikeshshrimanwar@gmail.com",
-                shipping_phone: "9579896842",
-                order_items: [
-                  {
-                    name: "Kunai",
-                    sku: "chakra123",
-                    units: 10,
-                    selling_price: "900",
-                    discount: "",
-                    tax: "",
-                    hsn: 441122,
-                  },
-                ],
-                payment_method: "Online",
-                shipping_charges: 0,
-                giftwrap_charges: 0,
-                transaction_charges: 0,
-                total_discount: 0,
-                sub_total: 9000,
-                length: 10,
-                breadth: 15,
-                height: 20,
-                weight: 2.5,
-              }),
-            }
-          );
-
-          if (shiprocketResponse.ok) {
-            successTost("Order shipped successfully");
-          } else {
-            errorTost("something went wrong");
+          body: JSON.stringify({
+            data: {
+              ...obj,
+            },
+          }),
+        });
+        if (!response.ok) {
+          errorTost("Something went wrong");
+          return;
+        } else {
+          successTost("Billing address added successfully");
+        }
+        if (selectedMethod == "online") {
+          makePayment(router);
+        } else {
+          warningTost("Selected COD");
+          try {
+            addOrder(obj, router);
+          } catch (error) {
+            console.log(error);
           }
-        } catch (error) {
-          console.log(error);
+        }
+      } else {
+        const response = await fetch(
+          `${domain}/api/billing-addresses/${addressId}`,
+          {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              data: {
+                ...obj,
+              },
+            }),
+          }
+        );
+
+        if (!response.ok) {
+          errorTost("Something went wrong");
+          return;
+        } else {
+          successTost("Billing address added successfully");
+        }
+
+        if (selectedMethod == "online") {
+          makePayment(router);
+        } else {
+          warningTost("Selected COD");
+          try {
+            addOrder(obj, router);
+          } catch (error) {
+            console.log(error);
+          }
         }
       }
     }
@@ -348,6 +362,7 @@ const page = () => {
                   variant="outlined"
                   fullWidth
                   onChange={handleFirstNameChange}
+                  value={firstName}
                 />
 
                 <TextField
@@ -356,6 +371,7 @@ const page = () => {
                   variant="outlined"
                   fullWidth
                   onChange={handleLastNameChange}
+                  value={lastName}
                 />
               </div>
 
@@ -367,6 +383,7 @@ const page = () => {
                   type="number"
                   fullWidth
                   onChange={handlePhoneNumberChange}
+                  value={phoneNumber}
                 />
                 <TextField
                   id="standard-basic"
@@ -375,6 +392,7 @@ const page = () => {
                   type="email"
                   fullWidth
                   onChange={handleEmailChange}
+                  value={email}
                 />
               </div>
 
@@ -385,6 +403,7 @@ const page = () => {
                   variant="outlined"
                   fullWidth
                   onChange={handleCityChange}
+                  value={city}
                 />
 
                 <TextField
@@ -393,6 +412,7 @@ const page = () => {
                   variant="outlined"
                   fullWidth
                   onChange={handlePinCodeChange}
+                  value={pinCode}
                 />
               </div>
 
@@ -403,6 +423,7 @@ const page = () => {
                   variant="outlined"
                   fullWidth
                   onChange={handleAddressChange}
+                  value={address}
                 />
               </div>
             </FormControl>

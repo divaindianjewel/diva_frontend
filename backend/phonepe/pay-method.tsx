@@ -1,10 +1,9 @@
-"use server"
-
+import { domain } from "@/components/backend/apiRouth";
+import axios from "axios";
 import { useRouter } from "next/navigation";
 import sha256 from "sha256";
-import axios from "axios";
 
-function generateRandomId(length: number): string {
+export function generateRandomId(length: number): string {
   const characters =
     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
   let result = "";
@@ -15,31 +14,22 @@ function generateRandomId(length: number): string {
   return result;
 }
 
-const local_domain = "http://localhost:3000";
-const pro_domain = "https://divatheindianjewel.com";
-
-const endpoint = "/pg/v1/pay";
-const phonePeUrl = "https://api.phonepe.com/apis/hermes";
-const merchantId = "M22VIIUXDMB7J";
-const saltId = "de5e9ea0-e6f5-4eca-860b-6e3c25c30d3f";
+const merchantId = "PGTESTPAYUAT";
+const saltId = "099eb0cd-02cf-4e2a-8aca-3e6c6aff0399";
 const saltKeyIndex = 1;
 const merchantTransactionId = generateRandomId(10);
 const userId = 1234;
 
-const makePayment = async (e: any) => {
-  e.preventDefault();
-
-  console.log("hello");
-
+export const makePayment = async (router : any) => {
   const payload = {
     merchantId: merchantId,
     merchantTransactionId: merchantTransactionId,
     merchantUserId: userId,
     amount: 100,
-    redirectUrl: `${pro_domain}/api/status/${merchantTransactionId}`,
+    redirectUrl: `http://localhost:3000/api/status/${merchantTransactionId}`,
     redirectMode: "POST",
-    callbackUrl: `${pro_domain}/api/status/${merchantTransactionId}`,
-    mobileNumber: "9579896842",
+    callbackUrl: `http://localhost:3000/api/status/${merchantTransactionId}`,
+    mobileNumber: "957996842",
     paymentInstrument: {
       type: "PAY_PAGE",
     },
@@ -57,7 +47,8 @@ const makePayment = async (e: any) => {
   const checksum = dataSha256 + "###" + saltKeyIndex;
   console.log("c====", checksum);
 
-  const PAYMENT_URL = "https://api.phonepe.com/apis/hermes/pg/v1/pay";
+  const PAYMENT_URL =
+    "https://api-preprod.phonepe.com/apis/pg-sandbox/pg/v1/pay";
 
   const response = await axios.post(
     PAYMENT_URL,
@@ -73,9 +64,6 @@ const makePayment = async (e: any) => {
     }
   );
 
-  console.log(response);
-
-  console.log("Hello 2");
-  console.log("Hello 3");
+  const redirect = response.data.data.instrumentResponse.redirectInfo.url;
+  router.push(redirect);
 };
-export default makePayment;

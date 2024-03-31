@@ -12,7 +12,7 @@ export async function POST(req: any, res: any) {
   const merchantId = data.get("merchantId");
   const transactionId = data.get("transactionId");
 
-  const salt_key = "de5e9ea0-e6f5-4eca-860b-6e3c25c30d3f";
+  const salt_key = "099eb0cd-02cf-4e2a-8aca-3e6c6aff0399";
 
   const st = `/pg/v1/status/${merchantId}/${transactionId}` + salt_key;
   const dataSha256 = sha256(st);
@@ -35,11 +35,13 @@ export async function POST(req: any, res: any) {
   const response = await axios.request(options);
   console.log("r===", response.data.code);
 
-  if (response.data.code == "PAYMENT_SUCCESS")
+  if (response.data.code == "PAYMENT_SUCCESS") {
+
+    
     return NextResponse.redirect(`${local_domain}/success`, {
       status: 301,
     });
-  else
+  } else
     return NextResponse.redirect(`${local_domain}/fail`, {
       // a 301 status is required to redirect from a POST to a GET route
       status: 301,
