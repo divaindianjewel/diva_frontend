@@ -3,7 +3,6 @@ import { generateRandomId } from "../phonepe/pay-method";
 import { useRouter } from "next/navigation";
 
 export const addOrder = async (obj: any, router: any) => {
-  // Pass the router object as an argument
   const shiprocketResponse = await fetch(
     "https://apiv2.shiprocket.in/v1/external/orders/create/adhoc",
     {
