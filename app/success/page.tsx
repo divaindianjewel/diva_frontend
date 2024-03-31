@@ -56,7 +56,7 @@ const Page = () => {
     };
 
     getUserData();
-  }, []);
+  }, [userId]);
 
   return <div>success</div>;
 };

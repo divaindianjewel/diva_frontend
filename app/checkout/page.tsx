@@ -114,7 +114,7 @@ const Page = () => {
     };
 
     getUserData();
-  }, []);
+  }, [userId]);
 
   const handelPay = async (e: any) => {
     e.preventDefault;
@@ -234,7 +234,7 @@ const Page = () => {
     };
 
     fetchCartData();
-  }, []);
+  }, [userId]);
 
   useEffect(() => {
     let tmpsubtotal = 0;
