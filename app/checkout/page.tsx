@@ -64,7 +64,8 @@ interface addressProps {
   };
 }
 
-const page = () => {
+const Page = () => {
+
   const [addressId, setAddressId] = useState();
   const [cartData, setCartData] = useState<CartItem[]>([]);
   const router = useRouter();
@@ -557,4 +558,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

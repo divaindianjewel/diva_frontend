@@ -21,7 +21,7 @@ interface addressProps {
   };
 }
 
-const page = () => {
+const Page = () => {
   const { userId } = useAuth();
 
   const router = useRouter();
@@ -61,4 +61,4 @@ const page = () => {
   return <div>success</div>;
 };
 
-export default page;
+export default Page;
