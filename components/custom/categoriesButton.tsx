@@ -20,9 +20,7 @@ const CategoriesButton = () => {
   useEffect(() => {
     const fetchCategoriesName = async () => {
       try {
-        const response = await fetch(
-          `${domain}/api/categories?populate=*`
-        );
+        const response = await fetch(`${domain}/api/categories?populate=*`);
         const data = await response.json();
 
         setCategoriesName(data.data);
@@ -35,13 +33,14 @@ const CategoriesButton = () => {
   }, []);
 
   return (
-    <div className="flex items-center justify-start gap-5 mx-5 max-w-[95vw] w-[93vw]  relative">
+    <div className="no-scrollbar flex items-center justify-start gap-5 mx-5 max-w-[95vw] w-[93vw]  relative overflow-x-scroll">
       {categoriesName?.map((items) => (
-        <Link key={items.id}
+        <Link
+          key={items.id}
           className="myBtn drop-shadow-bg-gray-900 my-2"
           href={`/category/${items.id}`}
         >
-          {items.attributes.name}
+          <p className="max-content-width">{items.attributes.name}</p>
         </Link>
       ))}
     </div>

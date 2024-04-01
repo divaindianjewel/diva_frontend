@@ -12,7 +12,6 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import { domain } from "@/components/backend/apiRouth";
-import { FaUser } from "react-icons/fa";
 
 // Define an interface for the product data
 export interface Product {
@@ -42,7 +41,6 @@ const FeatureSection = () => {
       try {
         const response = await fetch(`${domain}/api/products?populate=*`);
         const data = await response.json();
-        // Filter products where feature is true and gender is male
         const filteredProducts = data.data.filter(
           (product: { attributes: { feature: any; gender: string } }) =>
             product.attributes.feature == true

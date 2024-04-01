@@ -165,3 +165,11 @@
   mix-blend-mode: transparent;
   transition: all ease 0.5s;
 }
+
+.max-content-width {
+  width: max-content !important;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}

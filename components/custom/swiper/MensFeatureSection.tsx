@@ -60,7 +60,7 @@ const FeatureSection = () => {
       <h2 className="text-left p-10 text-3xl font-medium">
         Best Selling Jewels For Mens
       </h2>
-      <div className="flex items-center gap-28 justify-center overflow-x-scroll">
+      <div className="no-scrollbar flex items-center gap-28 justify-center overflow-x-scroll">
         {products.map((product, index) => (
           <Link href={`/products/${product.id}`} key={index}>
             <div
