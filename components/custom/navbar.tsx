@@ -13,6 +13,7 @@ import Link from "next/link";
 // react icons
 import { FaShoppingCart } from "react-icons/fa";
 import TemporaryDrawer from "../mui/drawer";
+import { FaUser } from "react-icons/fa";
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
@@ -36,7 +37,7 @@ const Navbar = () => {
 
   return (
     <nav className="sticky top-0 z-10">
-      <div className="bg-black h-[5.2rem] text-white flex items-center justify-between px-4">
+      <div className="bg-black h-[5.2rem] text-white flex items-center justify-between lg:px-10 sm:px-6">
         <div className="logo flex items-center justify-center">
           <div>
             <TemporaryDrawer />
@@ -46,7 +47,7 @@ const Navbar = () => {
           </Link>
         </div>
 
-        <div className="flex items-center justify-center md:gap-x-10 sm:gap-x-4">
+        <div className="flex items-center justify-center md:gap-x-5 sm:gap-x-4">
           {isSignedIn ? (
             <UserButton afterSignOutUrl="/" />
           ) : (
@@ -55,7 +56,7 @@ const Navbar = () => {
                 className="hover:underline lg:text-xl md:text-lg sm:text-sm px-5"
                 href="/sign-up"
               >
-                Login
+                <FaUser size={25} />
               </Link>
             </ul>
           )}

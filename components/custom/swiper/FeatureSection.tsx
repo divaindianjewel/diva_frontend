@@ -12,7 +12,7 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import { domain } from "@/components/backend/apiRouth";
-import Autoplay from "embla-carousel-autoplay";
+import { FaUser } from "react-icons/fa";
 
 // Define an interface for the product data
 export interface Product {
@@ -63,11 +63,6 @@ const FeatureSection = () => {
       </h2>
       <div className="flex items-center justify-center mb-5 ">
         <Carousel
-          plugins={[
-            Autoplay({
-              delay: 2000,
-            }),
-          ]}
           opts={{
             align: "start",
             loop: true,

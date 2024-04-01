@@ -15,7 +15,7 @@ import CustomerReviews from "@/components/custom/reviews/reviewBox";
 import { addToCart } from "@/backend/add-to-cart";
 import { useAuth, useUser } from "@clerk/nextjs";
 import { domain } from "@/components/backend/apiRouth";
-import YTvideo from "@/components/custom/yt-video";
+
 import {
   BlocksRenderer,
   type BlocksContent,
@@ -52,7 +52,7 @@ const Page = () => {
   const { userId } = useAuth();
   const { isSignedIn } = useUser();
   const width = 500;
-  const height = 500;
+  const height = 375;
 
   const params = useParams();
 
@@ -126,6 +126,15 @@ const Page = () => {
                         />
                       </CarouselItem>
                     ))}
+                    <CarouselItem>
+                      <div className="video-container">
+                        <iframe
+                          width={width}
+                          height={500}
+                          src={product.attributes.youtube_link}
+                        ></iframe>
+                      </div>
+                    </CarouselItem>
                   </CarouselContent>
                   <CarouselPrevious />
                   <CarouselNext className="sm:hidden md:flex" />
@@ -197,11 +206,6 @@ const Page = () => {
           </div>
         </div>
       </section>
-
-      <section className="flex items-center justify-center">
-        <YTvideo src={product.attributes.youtube_link} />
-      </section>
-
       <section>
         <CustomerReviews productId={productId} />
       </section>
