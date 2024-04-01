@@ -1,21 +1,17 @@
 "use client";
-
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
-import React, { useState, useEffect } from "react";
 import {
   Carousel,
   CarouselContent,
   CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
 } from "@/components/ui/carousel";
-import { domain } from "@/components/backend/apiRouth";
 import Autoplay from "embla-carousel-autoplay";
+import { domain } from "@/components/backend/apiRouth";
 
-// Define an interface for the product data
-export interface Product {
+interface Product {
   id: number;
   attributes: {
     name: string;
@@ -35,14 +31,14 @@ export interface Product {
   };
 }
 
-const FeatureSection = () => {
+const TmpSection = () => {
   const [products, setProducts] = useState<Product[]>([]); // Define the type of products
+
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await fetch(`${domain}/api/products?populate=*`);
         const data = await response.json();
-        // Filter products where feature is true and gender is male
         const filteredProducts = data.data.filter(
           (product: { attributes: { feature: any; gender: string } }) =>
             product.attributes.feature == true
@@ -56,11 +52,14 @@ const FeatureSection = () => {
     fetchData();
   }, []);
 
+  const width = 200;
+  const height = 200;
+
+  const categoriesImgClass = "rounded-full border-2 border-yellow-600 my-5";
+
   return (
     <div className="bg-white my-10 w-full shadow-2xl">
-      <h2 className="text-left p-10 text-3xl font-medium">
-        Best Selling Jewels
-      </h2>
+      <h2 className="text-left p-10 text-3xl font-medium">our Categories</h2>
       <div className="flex items-center justify-center mb-5 ">
         <Carousel
           plugins={[
@@ -139,4 +138,4 @@ const FeatureSection = () => {
   );
 };
 
-export default FeatureSection;
+export default TmpSection;

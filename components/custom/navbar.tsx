@@ -12,8 +12,6 @@ import Link from "next/link";
 
 // react icons
 import { FaShoppingCart } from "react-icons/fa";
-import { TfiMenu } from "react-icons/tfi";
-import { RxCross1 } from "react-icons/rx";
 import TemporaryDrawer from "../mui/drawer";
 
 const Navbar = () => {
@@ -38,7 +36,7 @@ const Navbar = () => {
 
   return (
     <nav className="sticky top-0 z-10">
-      <div className="bg-black h-[5.2rem] text-white flex items-center justify-between px-8">
+      <div className="bg-black h-[5.2rem] text-white flex items-center justify-between px-4">
         <div className="logo flex items-center justify-center">
           <div>
             <TemporaryDrawer />
@@ -48,16 +46,16 @@ const Navbar = () => {
           </Link>
         </div>
 
-        <div className="flex items-center justify-center gap-x-10">
+        <div className="flex items-center justify-center md:gap-x-10 sm:gap-x-4">
           {isSignedIn ? (
             <UserButton afterSignOutUrl="/" />
           ) : (
-            <ul className="flex items-center justify-evenly gap-x-14 text-xl">
-              <Link className="hover:underline" href="/sign-in">
-                Sign-in
-              </Link>
-              <Link className="hover:underline" href="/sign-up">
-                Sign-up
+            <ul className="flex items-center justify-evenly lg:text-xl md:text-xl">
+              <Link
+                className="hover:underline lg:text-xl md:text-lg sm:text-sm px-5"
+                href="/sign-up"
+              >
+                Login
               </Link>
             </ul>
           )}

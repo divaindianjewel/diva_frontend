@@ -3,18 +3,10 @@ import MensFeatureSection from "@/components/custom/swiper/MensFeatureSection";
 import WomensFeatureSection from "@/components/custom/swiper/WomensFeatureSection";
 import FeaturesSection from "@/components/custom/swiper/FeatureSection";
 import Categories from "@/components/custom/swiper/categoriesSection";
-import { auth, currentUser } from "@clerk/nextjs";
+import TmpSection from "@/components/custom/swiper/tmp-section";
 
 // Images
 export default async function Home() {
-  const { userId } = auth();
-
-  console.log(userId);
-  if (userId) {
-  }
-
-  const user = await currentUser();
-
   return (
     <main className="text-center">
       <HomeBanner />
@@ -22,6 +14,7 @@ export default async function Home() {
       <Categories />
       <MensFeatureSection />
       <WomensFeatureSection />
+      {/* <TmpSection/> */}
     </main>
   );
 }
