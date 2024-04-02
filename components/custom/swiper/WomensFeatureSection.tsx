@@ -76,8 +76,11 @@ const FeatureSection = () => {
       <div className="no-scrollbar flex items-center gap-28 justify-center overflow-x-scroll">
         {loading ? (
           <>
-            {product.map((item) => (
-              <div className="flex flex-col space-y-3 card p-5 max-w-96 px-5 shadow-2xl mb-8 flex-wrap">
+            {product.map((item, index) => (
+              <div
+                key={index}
+                className="flex flex-col space-y-3 card p-5 max-w-96 px-5 shadow-2xl mb-8 flex-wrap"
+              >
                 <div>
                   <Skeleton className="h-[250px] w-[250px] rounded-xl skeleton-bg" />
                 </div>

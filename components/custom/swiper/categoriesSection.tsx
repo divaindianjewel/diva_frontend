@@ -91,8 +91,11 @@ const Categories = () => {
           <CarouselContent>
             {loading ? (
               <div className="flex gap-8 my-5">
-                {product.map((item) => (
-                  <Skeleton className="h-[200px] w-[200px] rounded-full skeleton-bg" />
+                {product.map((item, index) => (
+                  <Skeleton
+                    key={index}
+                    className="h-[200px] w-[200px] rounded-full skeleton-bg"
+                  />
                 ))}
               </div>
             ) : (

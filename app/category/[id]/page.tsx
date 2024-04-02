@@ -113,8 +113,11 @@ const Page = () => {
           <div className="flex gap-10 flex-wrap px-5 mb-5 shadow-xl ">
             {loading ? (
               <>
-                {product.map((item) => (
-                  <div className="flex flex-col space-y-3 card p-5 max-w-96 px-5 shadow-2xl mb-8 flex-wrap">
+                {product.map((item, index) => (
+                  <div
+                    key={index}
+                    className="flex flex-col space-y-3 card p-5 max-w-96 px-5 shadow-2xl mb-8 flex-wrap"
+                  >
                     <div>
                       <Skeleton className="h-[300px] w-[250px] rounded-xl skeleton-bg margin--3" />
                     </div>
