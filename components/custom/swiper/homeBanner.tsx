@@ -11,6 +11,7 @@ import "swiper/css/pagination";
 import { Pagination } from "swiper/modules";
 import { domain } from "@/components/backend/apiRouth";
 import Link from "next/link";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const swiperProps = {
   loop: true,
@@ -43,6 +44,7 @@ interface bannerProps {
 
 const HomeBanner = () => {
   const [banner, setBanner] = useState<bannerProps[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     const fetchImages = async () => {
@@ -53,7 +55,7 @@ const HomeBanner = () => {
         }
         const data = await response.json();
         setBanner(data.data);
-
+        setLoading(false);
       } catch (error) {
         console.error("Error fetching images:", error);
       }
@@ -62,7 +64,9 @@ const HomeBanner = () => {
     fetchImages();
   }, []);
 
-  return (
+  return loading ? (
+    <Skeleton className="h-[500px] w-[1519px] skeleton-bg" />
+  ) : (
     <>
       <Swiper
         {...swiperProps}

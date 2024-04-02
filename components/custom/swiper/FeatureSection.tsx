@@ -12,6 +12,7 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import { domain } from "@/components/backend/apiRouth";
+import { Skeleton } from "@/components/ui/skeleton";
 
 // Define an interface for the product data
 export interface Product {
@@ -36,6 +37,18 @@ export interface Product {
 
 const FeatureSection = () => {
   const [products, setProducts] = useState<Product[]>([]); // Define the type of products
+  const [loading, setLoading] = useState<boolean>(true);
+  const [product, setProduct] = useState<string[]>([
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+  ]);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -46,6 +59,7 @@ const FeatureSection = () => {
             product.attributes.feature == true
         );
         setProducts(filteredProducts);
+        setLoading(false);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -68,63 +82,80 @@ const FeatureSection = () => {
           className="w-screen px-10 "
         >
           <CarouselContent>
-            {products.map((product, index) => (
-              <CarouselItem
-                key={product.id}
-                className="lg:basis-1/4 md:basis-1/3 sm:basis-1/2 flex items-center justify-center "
-              >
-                <Link href={`/products/${product.id}`} key={index}>
-                  <div
-                    key={product.id}
-                    className="flex-col w-[20rem] items-center justify-center mb-5 shadow-xl"
-                  >
-                    <div className="card p-3">
-                      <Carousel
-                        opts={{
-                          align: "start",
-                          loop: true,
-                        }}
-                        className="w-80"
-                      >
-                        <CarouselContent className="flex items-center justify-center">
-                          {product.attributes.images.data.map((image) => (
-                            <CarouselItem
-                              className="shadow-lg flex items-center justify-center"
-                              key={image.id}
-                            >
-                              <Image
-                                className="rounded-md"
-                                src={`${image.attributes.url}`}
-                                alt={image.attributes.name}
-                                width={200}
-                                height={150}
-                              />
-                            </CarouselItem>
-                          ))}
-                        </CarouselContent>
-                      </Carousel>
+            {loading ? (
+              <div className="flex gap-8">
+                {product.map((item) => (
+                  <div className="flex flex-col space-y-3 card p-5 max-w-96 px-5 shadow-2xl mb-8 flex-wrap">
+                    <div>
+                      <Skeleton className="h-[250px] w-[250px] rounded-xl skeleton-bg" />
                     </div>
-                    <h3 className="text-xl mx-auto font-semibold mt-3 w-[15rem] text-center">
-                      {product.attributes.name}
-                    </h3>
-                    <div className="price flex items-center justify-between px-5 text-lg mt-2">
-                      <div className="first-price font-medium">
-                        ₹ {product.attributes.price} /-
-                      </div>
-                      <div className="second-price text-gray-500 line-through">
-                        ₹ {product.attributes.compare_price} /-
-                      </div>
+                    <div className="mt-2rem items-start">
+                      <Skeleton className="h-4 w-[200px] skeleton-bg mb-3" />
+                      <Skeleton className="h-4 w-[180px] skeleton-bg " />
+                      <Skeleton className="h-7 w-[200px] skeleton-bg m-auto mt-4" />
                     </div>
-
-                    <Link href={`/products/${product.id}`}>
-                      <button className="myBtn product mb-6" type="button">
-                        View Product
-                      </button>
-                    </Link>
                   </div>
-                </Link>
-              </CarouselItem>
-            ))}
+                ))}
+              </div>
+            ) : (
+              products.map((product, index) => (
+                <CarouselItem
+                  key={product.id}
+                  className="lg:basis-1/4 md:basis-1/3 sm:basis-1/2 flex items-center justify-center "
+                >
+                  <Link href={`/products/${product.id}`} key={index}>
+                    <div
+                      key={product.id}
+                      className="flex-col w-[20rem] items-center justify-center mb-5 shadow-xl"
+                    >
+                      <div className="card p-3">
+                        <Carousel
+                          opts={{
+                            align: "start",
+                            loop: true,
+                          }}
+                          className="w-80"
+                        >
+                          <CarouselContent className="flex items-center justify-center">
+                            {product.attributes.images.data.map((image) => (
+                              <CarouselItem
+                                className="shadow-lg flex items-center justify-center"
+                                key={image.id}
+                              >
+                                <Image
+                                  className="rounded-md"
+                                  src={`${image.attributes.url}`}
+                                  alt={image.attributes.name}
+                                  width={200}
+                                  height={150}
+                                />
+                              </CarouselItem>
+                            ))}
+                          </CarouselContent>
+                        </Carousel>
+                      </div>
+                      <h3 className="text-xl mx-auto font-semibold mt-3 w-[15rem] text-center">
+                        {product.attributes.name}
+                      </h3>
+                      <div className="price flex items-center justify-between px-5 text-lg mt-2">
+                        <div className="first-price font-medium">
+                          ₹ {product.attributes.price} /-
+                        </div>
+                        <div className="second-price text-gray-500 line-through">
+                          ₹ {product.attributes.compare_price} /-
+                        </div>
+                      </div>
+
+                      <Link href={`/products/${product.id}`}>
+                        <button className="myBtn product mb-6" type="button">
+                          View Product
+                        </button>
+                      </Link>
+                    </div>
+                  </Link>
+                </CarouselItem>
+              ))
+            )}
           </CarouselContent>
         </Carousel>
       </div>

@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/carousel";
 import Autoplay from "embla-carousel-autoplay";
 import { domain } from "@/components/backend/apiRouth";
+import { Skeleton } from "@/components/ui/skeleton";
 
 interface categories {
   id: number;
@@ -38,6 +39,18 @@ interface categories {
 
 const Categories = () => {
   const [categories, setCategories] = useState<categories[]>([]);
+  const [product, setProduct] = useState<string[]>([
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+  ]);
+
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -45,6 +58,7 @@ const Categories = () => {
         const response = await fetch(`${domain}/api/categories?populate=*`);
         const data = await response.json();
         setCategories(data.data);
+        setLoading(false);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -75,25 +89,33 @@ const Categories = () => {
           className="w-screen px-10 "
         >
           <CarouselContent>
-            {categories.map((item) => (
-              <CarouselItem
-                key={item.id}
-                className="lg:basis-1/4 md:basis-1/3 sm:basis-1/2 flex items-center justify-center "
-              >
-                <Link href={`category/${item.id}`}>
-                  <div className="flex items-center justify-center flex-col">
-                    <Image
-                      src={`${item.attributes.home_pic.data.attributes.url}`}
-                      alt="category"
-                      width={width}
-                      height={height}
-                      className={categoriesImgClass}
-                    />
-                    <h2 className="text-2xl mb-10">{item.attributes.name}</h2>
-                  </div>
-                </Link>
-              </CarouselItem>
-            ))}
+            {loading ? (
+              <div className="flex gap-8 my-5">
+                {product.map((item) => (
+                  <Skeleton className="h-[200px] w-[200px] rounded-full skeleton-bg" />
+                ))}
+              </div>
+            ) : (
+              categories.map((item) => (
+                <CarouselItem
+                  key={item.id}
+                  className="lg:basis-1/4 md:basis-1/3 sm:basis-1/2 flex items-center justify-center "
+                >
+                  <Link href={`category/${item.id}`}>
+                    <div className="flex items-center justify-center flex-col">
+                      <Image
+                        src={`${item.attributes.home_pic.data.attributes.url}`}
+                        alt="category"
+                        width={width}
+                        height={height}
+                        className={categoriesImgClass}
+                      />
+                      <h2 className="text-2xl mb-10">{item.attributes.name}</h2>
+                    </div>
+                  </Link>
+                </CarouselItem>
+              ))
+            )}
           </CarouselContent>
         </Carousel>
       </div>
