@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { domain } from "../backend/apiRouth";
+import { Skeleton } from "../ui/skeleton";
 
 interface categories {
   id: number;
@@ -16,6 +17,8 @@ const CategoriesButton = () => {
     null
   );
 
+  const [loading, setLoading] = useState<boolean>(true);
+
   // Fetch data on component mount
   useEffect(() => {
     const fetchCategoriesName = async () => {
@@ -24,6 +27,7 @@ const CategoriesButton = () => {
         const data = await response.json();
 
         setCategoriesName(data.data);
+        setLoading(false);
       } catch (err) {
         console.log(`the error is : ${err}`);
       }
@@ -32,7 +36,16 @@ const CategoriesButton = () => {
     fetchCategoriesName();
   }, []);
 
-  return (
+  return loading ? (
+    <div className="my-[10px] mx-4 flex items-center gap-5">
+      <Skeleton className="h-[40px] w-[170px] skeleton-bg" />
+      <Skeleton className="h-[40px] w-[170px] skeleton-bg" />
+      <Skeleton className="h-[40px] w-[170px] skeleton-bg" />
+      <Skeleton className="h-[40px] w-[170px] skeleton-bg" />
+      <Skeleton className="h-[40px] w-[170px] skeleton-bg" />
+      <Skeleton className="h-[40px] w-[170px] skeleton-bg" />
+    </div>
+  ) : (
     <div className="no-scrollbar flex items-center justify-start gap-5 mx-5 max-w-[95vw] w-[93vw]  relative overflow-x-scroll">
       {categoriesName?.map((items) => (
         <Link

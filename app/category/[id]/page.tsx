@@ -12,6 +12,7 @@ import {
 import CategoryBanner from "@/components/custom/categoryBanner";
 import { domain } from "@/components/backend/apiRouth";
 import { useParams } from "next/navigation";
+import { Skeleton } from "@mui/material";
 
 export interface Product {
   id: number;
@@ -50,6 +51,17 @@ const Page = () => {
 
   const [allProducts, setAllProducts] = useState<Product[]>([]);
   const [categoryProduct, setCategoryProduct] = useState<Product[]>();
+  const [loading, setLoading] = useState<boolean>(true);
+  const [product, setProduct] = useState<string[]>([
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+  ]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -74,10 +86,11 @@ const Page = () => {
       );
 
       setCategoryProduct(categoryProduct);
+      setLoading(false);
     };
 
     fetchData();
-  }, [categoryId]); // Add categoryId as a dependency to re-run the effect when categoryId changes
+  }, [categoryId]);
 
   const fetchProducts = async (page: number) => {
     const response = await fetch(
@@ -97,62 +110,79 @@ const Page = () => {
         <Separator />
 
         <div className="container mt-8">
-          <div className="flex gap-10 flex-wrap items-center justify-center mb-5 shadow-xl ">
-            {categoryProduct?.map((items) => (
-              <Link href={`/products/${items.id}`} key={items.id}>
-                <div
-                  key={items.id}
-                  className="card p-5 max-w-96 px-5 flex-col items-center justify-center shadow-2xl mb-8"
-                >
-                  <Carousel
-                    opts={{
-                      align: "start",
-                      loop: true,
-                    }}
-                    className="w-80"
-                  >
-                    <CarouselContent key={items.id}>
-                      {items.attributes.images.data.map((imgs) => (
-                        <CarouselItem
-                          key={imgs.id}
-                          className="shadow-lg product-card"
-                        >
-                          <Image
-                            className="rounded-md img"
-                            src={`${imgs.attributes.url}`}
-                            alt={"img"}
-                            width={width}
-                            height={height}
-                          />
-                        </CarouselItem>
-                      ))}
-                    </CarouselContent>
-                  </Carousel>
-                  <div>
-                    <h3 className="text-2xl font-semibold mt-3">
-                      {items.attributes.name}
-                    </h3>
-                    <div className="price flex items-center justify-between gap-10 text-xl mt-2">
-                      <div className="first-price font-medium">
-                        ₹ {items.attributes.price} /-
-                      </div>
-                      <div className="second-price text-gray-height line-through">
-                        ₹ {items.attributes.compare_price} /-
-                      </div>
+          <div className="flex gap-10 flex-wrap px-5 mb-5 shadow-xl ">
+            {loading ? (
+              <>
+                {product.map((item) => (
+                  <div className="flex flex-col space-y-3 card p-5 max-w-96 px-5 shadow-2xl mb-8 flex-wrap">
+                    <div>
+                      <Skeleton className="h-[300px] w-[250px] rounded-xl skeleton-bg margin--3" />
                     </div>
-
-                    <Link
-                      href={`/products/${items.id}`}
-                      className="flex items-center justify-center"
-                    >
-                      <button className="myBtn product mb-6" type="button">
-                        View Product
-                      </button>
-                    </Link>
+                    <div className="mt-2rem items-start">
+                      <Skeleton className="h-4 w-[200px] skeleton-bg margin--3" />
+                      <Skeleton className="h-4 w-[180px] skeleton-bg " />
+                      <Skeleton className="h-10 w-[200px] skeleton-bg m-auto mt-4" />
+                    </div>
                   </div>
-                </div>
-              </Link>
-            ))}
+                ))}
+              </>
+            ) : (
+              categoryProduct?.map((items) => (
+                <Link href={`/products/${items.id}`} key={items.id}>
+                  <div
+                    key={items.id}
+                    className="card p-5 max-w-96 px-5 flex-col items-center justify-center shadow-2xl mb-8"
+                  >
+                    <Carousel
+                      opts={{
+                        align: "start",
+                        loop: true,
+                      }}
+                      className="w-80"
+                    >
+                      <CarouselContent key={items.id}>
+                        {items.attributes.images.data.map((imgs) => (
+                          <CarouselItem
+                            key={imgs.id}
+                            className="shadow-lg product-card"
+                          >
+                            <Image
+                              className="rounded-md img"
+                              src={`${imgs.attributes.url}`}
+                              alt={"img"}
+                              width={width}
+                              height={height}
+                            />
+                          </CarouselItem>
+                        ))}
+                      </CarouselContent>
+                    </Carousel>
+                    <div>
+                      <h3 className="text-2xl font-semibold mt-3">
+                        {items.attributes.name}
+                      </h3>
+                      <div className="price flex items-center justify-between gap-10 text-xl mt-2">
+                        <div className="first-price font-medium">
+                          ₹ {items.attributes.price} /-
+                        </div>
+                        <div className="second-price text-gray-height line-through">
+                          ₹ {items.attributes.compare_price} /-
+                        </div>
+                      </div>
+
+                      <Link
+                        href={`/products/${items.id}`}
+                        className="flex items-center justify-center"
+                      >
+                        <button className="myBtn product mb-6" type="button">
+                          View Product
+                        </button>
+                      </Link>
+                    </div>
+                  </div>
+                </Link>
+              ))
+            )}
           </div>
         </div>
       </div>

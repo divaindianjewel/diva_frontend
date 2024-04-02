@@ -2,6 +2,28 @@
 @tailwind components;
 @tailwind utilities;
 
+body {
+  max-width: 99vw;
+  overflow-x: hidden;
+  height: 100%;
+}
+
+.skeleton-bg {
+  background: #7f7f7f;
+}
+
+.mt-2rem {
+  margin-top: -2rem;
+}
+
+.margin--3 {
+  margin-top: -3rem;
+}
+
+.skeleton-bg-dark {
+  background: #575757;
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;

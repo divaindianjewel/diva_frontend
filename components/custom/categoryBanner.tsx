@@ -3,6 +3,7 @@ import Image from "next/image";
 import { domain } from "../backend/apiRouth";
 
 import bannerImage from "@/app/assets/banners/banner-2.jpg";
+import { Skeleton } from "@/components/ui/skeleton";
 
 interface Category {
   id: number;
@@ -25,8 +26,7 @@ interface CategoryId {
 
 const CategoryBanner: React.FC<CategoryId> = ({ categoryId }) => {
   const [category, setCategory] = useState<Category | null>(null);
-
-  
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     const fetchCategory = async () => {
@@ -44,6 +44,7 @@ const CategoryBanner: React.FC<CategoryId> = ({ categoryId }) => {
         const data = await response.json();
 
         setCategory(data.data);
+        setLoading(false);
       } catch (error) {
         console.log(error);
       }
@@ -55,17 +56,10 @@ const CategoryBanner: React.FC<CategoryId> = ({ categoryId }) => {
   const bannerURL =
     category?.attributes.bannner.data.attributes.url || bannerImage;
 
-  return (
-    <div>
-      {
-        <Image
-          src={bannerURL}
-          alt="Home Banner Image"
-          width={1519}
-          height={30}
-        />
-      }
-    </div>
+  return loading ? (
+    <Skeleton className="h-[500px] w-[1519px] skeleton-bg" />
+  ) : (
+    <Image src={bannerURL} alt="Home Banner Image" width={1519} height={30} />
   );
 };
 

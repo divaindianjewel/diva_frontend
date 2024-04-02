@@ -81,7 +81,7 @@ const Categories = () => {
                 className="lg:basis-1/4 md:basis-1/3 sm:basis-1/2 flex items-center justify-center "
               >
                 <Link href={`category/${item.id}`}>
-                  <div>
+                  <div className="flex items-center justify-center flex-col">
                     <Image
                       src={`${item.attributes.home_pic.data.attributes.url}`}
                       alt="category"
