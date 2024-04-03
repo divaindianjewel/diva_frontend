@@ -71,7 +71,7 @@ const Page = () => {
 
       while (currentPage <= totalPages) {
         const products = await fetchProducts(currentPage);
-        fetchedProducts.push(...products.data); // Spread operator for efficient concatenation
+        fetchedProducts.push(...products.data);
         totalPages = products.meta.pagination.pageCount;
         currentPage++;
       }

@@ -21,6 +21,7 @@ import {
   type BlocksContent,
 } from "@strapi/blocks-react-renderer";
 import { useParams } from "next/navigation";
+import { Skeleton } from "@/components/ui/skeleton";
 
 interface ProductData {
   id: number;
@@ -48,11 +49,11 @@ interface ApiResponse {
 
 const Page = () => {
   const [product, setProduct] = useState<ProductData | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
   const { userId } = useAuth();
   const { isSignedIn } = useUser();
   const width = 500;
   const height = 375;
+  const [loading, setLoading] = useState<boolean>(true);
 
   const params = useParams();
 
@@ -83,14 +84,6 @@ const Page = () => {
     fetchProduct();
   }, [productId]);
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
-  if (!product) {
-    return <div>No product found</div>;
-  }
-
   const handelDescription = (content: BlocksContent) => {
     return <BlocksRenderer content={content} />;
   };
@@ -115,26 +108,47 @@ const Page = () => {
                   className="lg:w-[30rem] md:w-[30rem] sm:w-[70vw]"
                 >
                   <CarouselContent>
-                    {product.attributes.images.data.map((image, index) => (
-                      <CarouselItem key={index}>
-                        <Image
-                          className="rounded-md"
-                          src={`${image.attributes.url}`}
-                          alt={`Image ${index + 1}`}
-                          width={width}
-                          height={height}
-                        />
+                    {loading ? (
+                      <>
+                        <CarouselItem>
+                          <Skeleton className="h-[550px] w-[490px] rounded-xl skeleton-bg margin--3" />
+                        </CarouselItem>
+                        <CarouselItem>
+                          <Skeleton className="h-[550px] w-[490px] rounded-xl skeleton-bg margin--3" />
+                        </CarouselItem>
+                        <CarouselItem>
+                          <Skeleton className="h-[550px] w-[490px] rounded-xl skeleton-bg margin--3" />
+                        </CarouselItem>
+                      </>
+                    ) : (
+                      product?.attributes.images.data.map((image, index) => (
+                        <CarouselItem key={index}>
+                          <Image
+                            className="rounded-md"
+                            src={`${image.attributes.url}`}
+                            alt={`Image ${index + 1}`}
+                            width={width}
+                            height={height}
+                          />{" "}
+                          | (
+                          <Skeleton className="h-[550px] w-[490px] rounded-xl skeleton-bg margin--3" />
+                          )
+                        </CarouselItem>
+                      ))
+                    )}
+                    {loading ? (
+                      ""
+                    ) : (
+                      <CarouselItem>
+                        <div className="video-container">
+                          <iframe
+                            width={width}
+                            height={500}
+                            src={product?.attributes.youtube_link}
+                          ></iframe>
+                        </div>
                       </CarouselItem>
-                    ))}
-                    <CarouselItem>
-                      <div className="video-container">
-                        <iframe
-                          width={width}
-                          height={500}
-                          src={product.attributes.youtube_link}
-                        ></iframe>
-                      </div>
-                    </CarouselItem>
+                    )}
                   </CarouselContent>
                   <CarouselPrevious />
                   <CarouselNext className="sm:hidden md:flex" />
@@ -146,7 +160,7 @@ const Page = () => {
                 Diva The Indian Jewel
               </h2>
               <h1 className="text-gray-900 text-3xl title-font font-medium mb-1">
-                {product.attributes.name}
+                {product?.attributes.name}
                 <div className="flex gap-2 items-center ">
                   <div className="ratting mt-2 flex items-center px-3 py-1 bg-yellow-100 w-fit text-lg">
                     <span className=" mr-1">5</span>{" "}
@@ -156,8 +170,8 @@ const Page = () => {
                 </div>
               </h1>
               <div className="mb-4 my-3">
-                {product.attributes.description
-                  ? handelDescription(product.attributes.description)
+                {product?.attributes.description
+                  ? handelDescription(product?.attributes.description)
                   : "No Description"}
               </div>
 
@@ -167,11 +181,11 @@ const Page = () => {
               </div>
               <div className="flex">
                 <span className="title-font font-medium text-2xl text-gray-900 mr-1">
-                  ₹{product.attributes.price}
+                  ₹{product?.attributes.price}
                   <span className="text-gray-600 text-sm">
                     MRP{" "}
                     <span className="line-through">
-                      ₹{product.attributes.compare_price}
+                      ₹{product?.attributes.compare_price}
                     </span>{" "}
                   </span>
                 </span>
@@ -185,9 +199,9 @@ const Page = () => {
                       String(productId),
                       userId,
                       isSignedIn,
-                      product.attributes.name,
-                      product.attributes.price,
-                      product.attributes.images.data[0].attributes.url
+                      product?.attributes.name,
+                      product?.attributes.price,
+                      product?.attributes.images.data[0].attributes.url
                     ).catch((err) => {
                       console.log(err);
                     });

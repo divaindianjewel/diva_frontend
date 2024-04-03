@@ -4,7 +4,6 @@ import WomensFeatureSection from "@/components/custom/swiper/WomensFeatureSectio
 import FeaturesSection from "@/components/custom/swiper/FeatureSection";
 import Categories from "@/components/custom/swiper/categoriesSection";
 
-// Images
 export default async function Home() {
   return (
     <main className="text-center">
@@ -13,7 +12,6 @@ export default async function Home() {
       <Categories />
       <MensFeatureSection />
       <WomensFeatureSection />
-      {/* <TmpSection/> */}
     </main>
   );
 }

@@ -7,12 +7,12 @@ import {
 } from "@/components/toast/allTost";
 
 export const addToCart = async (
-  productId: string,
+  productId: string | undefined,
   userId: any,
   isSignIn: any,
-  product_name: string,
-  product_price: number,
-  img : any
+  product_name: string | undefined,
+  product_price: number | undefined,
+  img: any
 ) => {
   if (isSignIn) {
     try {
@@ -28,7 +28,7 @@ export const addToCart = async (
             product_price: product_price,
             user_id: userId,
             qnt: 1,
-            img : img
+            img: img,
           },
         }),
       });
