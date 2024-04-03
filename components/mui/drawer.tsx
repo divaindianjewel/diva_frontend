@@ -31,11 +31,10 @@ export default function TemporaryDrawer() {
   const [open, setOpen] = useState(false);
 
   const navItems: NavItem[] = [
-    { href: "/", label: "Rings", icon: <LiaRingSolid /> },
-    { href: "/", label: "Earrings", icon: <GiDropEarrings /> },
-    { href: "/", label: "Neckless", icon: <GiHeartNecklace /> },
-    { href: "/", label: "Bracelets", icon: <FaGem /> },
-    { href: "/", label: "Gem Stone", icon: <GiGemChain /> },
+    { href: "/", label: "GOLD JEWELLERY", icon: "" },
+    { href: "/", label: "SILVER JEWELLERY", icon: "" },
+    { href: "/", label: "1 GRAM JEWELLERY", icon: "" },
+    { href: "/", label: "FUSION JEWELLERY", icon: "" },
   ];
   const toggleDrawer = (newOpen: boolean) => () => {
     setOpen(newOpen);

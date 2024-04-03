@@ -129,7 +129,7 @@ const FeatureSection = () => {
                                   className="rounded-md"
                                   src={`${image.attributes.url}`}
                                   alt={image.attributes.name}
-                                  width={200}
+                                  width={300}
                                   height={150}
                                 />
                               </CarouselItem>
