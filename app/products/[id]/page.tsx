@@ -74,7 +74,7 @@ const Page = () => {
         }
         const data: ApiResponse = await response.json();
         setProduct(data.data);
-        setLoading(false);
+        setLoading(true);
       } catch (error) {
         console.error("Error fetching product:", error);
         setLoading(false);
@@ -129,10 +129,7 @@ const Page = () => {
                             alt={`Image ${index + 1}`}
                             width={width}
                             height={height}
-                          />{" "}
-                          | (
-                          <Skeleton className="h-[550px] w-[490px] rounded-xl skeleton-bg margin--3" />
-                          )
+                          /> 
                         </CarouselItem>
                       ))
                     )}
