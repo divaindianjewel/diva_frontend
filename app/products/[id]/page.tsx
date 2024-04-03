@@ -50,6 +50,7 @@ interface ApiResponse {
 const Page = () => {
   const [product, setProduct] = useState<ProductData | null>(null);
   const { userId } = useAuth();
+  const [imageLoad, setImageLoad] = useState<boolean>(true);
   const { isSignedIn } = useUser();
   const width = 500;
   const height = 375;
@@ -123,13 +124,21 @@ const Page = () => {
                     ) : (
                       product?.attributes.images.data.map((image, index) => (
                         <CarouselItem key={index}>
-                          <Image
-                            className="rounded-md"
-                            src={`${image.attributes.url}`}
-                            alt={`Image ${index + 1}`}
-                            width={width}
-                            height={height}
-                          /> 
+                          {imageLoad ? (
+                            <Skeleton className="h-[550px] w-[490px] rounded-xl skeleton-bg margin--3" />
+                          ) : (
+                            <Image
+                              className="rounded-md"
+                              src={`${image.attributes.url}`}
+                              alt={`Image ${index + 1}`}
+                              width={width}
+                              height={height}
+                              loading="lazy"
+                              onLoad={() => {
+                                setImageLoad(false);
+                              }}
+                            />
+                          )}
                         </CarouselItem>
                       ))
                     )}
