@@ -50,7 +50,6 @@ interface ApiResponse {
 const Page = () => {
   const [product, setProduct] = useState<ProductData | null>(null);
   const { userId } = useAuth();
-  const [imageLoad, setImageLoad] = useState<boolean>(true);
   const { isSignedIn } = useUser();
   const width = 500;
   const height = 375;
@@ -75,7 +74,7 @@ const Page = () => {
         }
         const data: ApiResponse = await response.json();
         setProduct(data.data);
-        setLoading(true);
+        setLoading(false);
       } catch (error) {
         console.error("Error fetching product:", error);
         setLoading(false);
@@ -124,21 +123,13 @@ const Page = () => {
                     ) : (
                       product?.attributes.images.data.map((image, index) => (
                         <CarouselItem key={index}>
-                          {imageLoad ? (
-                            <Skeleton className="h-[550px] w-[490px] rounded-xl skeleton-bg margin--3" />
-                          ) : (
-                            <Image
-                              className="rounded-md"
-                              src={`${image.attributes.url}`}
-                              alt={`Image ${index + 1}`}
-                              width={width}
-                              height={height}
-                              loading="lazy"
-                              onLoad={() => {
-                                setImageLoad(false);
-                              }}
-                            />
-                          )}
+                          <Image
+                            className="rounded-md"
+                            src={`${image.attributes.url}`}
+                            alt={`Image ${index + 1}`}
+                            width={width}
+                            height={height}
+                          />
                         </CarouselItem>
                       ))
                     )}
@@ -163,64 +154,108 @@ const Page = () => {
             </div>
             <div className="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0">
               <h2 className="text-sm title-font text-gray-500 tracking-widest">
-                Diva The Indian Jewel
+                {loading ? (
+                  <Skeleton className="h-[10px] w-[100px] rounded-xl skeleton-bg margin--3 mb-5" />
+                ) : (
+                  "Diva The Indian Jewel"
+                )}
               </h2>
               <h1 className="text-gray-900 text-3xl title-font font-medium mb-1">
-                {product?.attributes.name}
+                {loading ? (
+                  <>
+                    <Skeleton className="h-[20px] w-[300px] rounded-xl skeleton-bg" />
+                    <Skeleton className="h-[20px] w-[200px] rounded-xl mt-1 mb-5 skeleton-bg" />
+                  </>
+                ) : (
+                  product?.attributes.name
+                )}
                 <div className="flex gap-2 items-center ">
-                  <div className="ratting mt-2 flex items-center px-3 py-1 bg-yellow-100 w-fit text-lg">
-                    <span className=" mr-1">5</span>{" "}
-                    <IoIosStar size={20} color="gold" className="" />
-                  </div>
-                  <span className="text-lg text-gray-500">(30 reviews)</span>
+                  {loading ? (
+                    <Skeleton className="h-[20px] w-[100px] rounded-xl mt-3 mb-7 skeleton-bg" />
+                  ) : (
+                    <>
+                      <div className="ratting mt-2 flex items-center px-3 py-1 bg-yellow-100 w-fit text-lg">
+                        <span className=" mr-1">5</span>{" "}
+                        <IoIosStar size={20} color="gold" className="" />
+                      </div>
+                      <span className="text-lg text-gray-500">
+                        (30 reviews)
+                      </span>
+                    </>
+                  )}
                 </div>
               </h1>
               <div className="mb-4 my-3">
-                {product?.attributes.description
-                  ? handelDescription(product?.attributes.description)
-                  : "No Description"}
+                {loading ? (
+                  <>
+                    <Skeleton className="h-[15px] w-[340px] rounded-xl skeleton-bg" />
+                    <Skeleton className="h-[15px] w-[340px] rounded-xl skeleton-bg mt-1" />
+                    <Skeleton className="h-[15px] w-[340px] rounded-xl skeleton-bg mt-1" />
+                  </>
+                ) : product?.attributes.description ? (
+                  handelDescription(product?.attributes.description)
+                ) : (
+                  "No Description"
+                )}
               </div>
 
               <div className="flex mt-6 items-center pb-5 border-b-2 border-gray-100 mb-5">
                 <div className="flex"></div>
                 <div className="flex ml-6 items-center"></div>
               </div>
-              <div className="flex">
-                <span className="title-font font-medium text-2xl text-gray-900 mr-1">
-                  ₹{product?.attributes.price}
-                  <span className="text-gray-600 text-sm">
-                    MRP{" "}
-                    <span className="line-through">
-                      ₹{product?.attributes.compare_price}
-                    </span>{" "}
-                  </span>
-                </span>
-              </div>
+
+              {loading ? (
+                ""
+              ) : (
+                <>
+                  <div className="flex">
+                    <span className="title-font font-medium text-2xl text-gray-900 mr-1">
+                      ₹{product?.attributes.price}
+                      <span className="text-gray-600 text-sm">
+                        MRP{" "}
+                        <span className="line-through">
+                          ₹{product?.attributes.compare_price}
+                        </span>{" "}
+                      </span>
+                    </span>
+                  </div>
+                </>
+              )}
+
               <div className="flex flex-col gap-3 mt-3">
-                <button
-                  className="rounded-md text-xl font-semibold gold-color text-black py-2 flex items-center justify-center gap-3  w-[22rem]"
-                  type="button"
-                  onClick={() => {
-                    addToCart(
-                      String(productId),
-                      userId,
-                      isSignedIn,
-                      product?.attributes.name,
-                      product?.attributes.price,
-                      product?.attributes.images.data[0].attributes.url
-                    ).catch((err) => {
-                      console.log(err);
-                    });
-                  }}
-                >
-                  <FaShoppingCart /> Add To cart
-                </button>
-                <button
-                  className=" rounded-md text-xl font-semibold bg-gray-400 py-2 text-black w-[22rem]"
-                  type="button"
-                >
-                  Buy it now
-                </button>
+                {loading ? (
+                  <>
+                    <Skeleton className="h-[35px] w-[250px] rounded-xl mt-3 skeleton-bg" />
+                    <Skeleton className="h-[35px] w-[250px] rounded-xl skeleton-bg" />
+                  </>
+                ) : (
+                  <>
+                    <button
+                      className="rounded-md text-xl font-semibold gold-color text-black py-2 flex items-center justify-center gap-3  w-[22rem]"
+                      type="button"
+                      onClick={() => {
+                        addToCart(
+                          String(productId),
+                          userId,
+                          isSignedIn,
+                          product?.attributes.name,
+                          product?.attributes.price,
+                          product?.attributes.images.data[0].attributes.url
+                        ).catch((err) => {
+                          console.log(err);
+                        });
+                      }}
+                    >
+                      <FaShoppingCart /> Add To cart
+                    </button>
+                    <button
+                      className=" rounded-md text-xl font-semibold bg-gray-400 py-2 text-black w-[22rem]"
+                      type="button"
+                    >
+                      Buy it now
+                    </button>
+                  </>
+                )}
               </div>
             </div>
           </div>
