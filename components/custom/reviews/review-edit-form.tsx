@@ -15,14 +15,14 @@ import { DialogClose } from "@radix-ui/react-dialog";
 import { addReview } from "@/backend/add-review";
 
 // clerk
+import { TiPencil } from "react-icons/ti";
+
 import { auth, useAuth, useUser } from "@clerk/nextjs";
 import {} from "@clerk/nextjs";
 
-const ReviewFormDialog: React.FC<{
-  productId: number;
-  edit: boolean;
-  admin: boolean;
-}> = ({ productId, edit, admin }) => {
+const EditReviewFormDialog: React.FC<{
+  reviewId: number;
+}> = ({ reviewId}) => {
   const starSize = 30;
 
   const [rating, setRating] = useState<number>(0);
@@ -45,7 +45,7 @@ const ReviewFormDialog: React.FC<{
         if (user != null) {
           userName = user.firstName + " " + user.lastName;
         }
-        await addReview(productId, rating, description, userId, userName)
+        await addReview(reviewId, rating, description, userId, userName)
           .then(() => {
             setIsOpen(false);
             successTost("your review added successfully");
@@ -64,12 +64,9 @@ const ReviewFormDialog: React.FC<{
     <section>
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
         <DialogTrigger>
-          <button
-            type="button"
-            className="inline-block rounded-lg border bg-white px-4 py-2 text-center text-sm font-semibold text-gray-500 outline-none ring-indigo-300 transition duration-100 hover:bg-gray-100 focus-visible:ring active:bg-gray-200 md:px-8 md:py-3 md:text-base"
-          >
-            Write a review
-          </button>
+          <div className="edit bg-yellow-500 p-[0.5rem]">
+            <TiPencil color="white" size={25} />
+          </div>
         </DialogTrigger>
         <DialogContent>
           <DialogHeader>
@@ -119,4 +116,4 @@ const ReviewFormDialog: React.FC<{
   );
 };
 
-export default ReviewFormDialog;
+export default EditReviewFormDialog;

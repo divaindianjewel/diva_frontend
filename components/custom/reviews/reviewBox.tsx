@@ -50,13 +50,13 @@ const CustomerReviews: React.FC<{ productId: number }> = ({ productId }) => {
             <span className="block font-bold">Write about our product</span>
           </div>
 
-          <ReviewFormDialog productId={productId} />
+          <ReviewFormDialog productId={productId} edit={false} admin={true}/>
         </div>
 
         <div className="divide-y">
           {console.log(reviews)}
           {reviews.map((review) => (
-            <Reviews key={review.id} review={review} />
+            <Reviews key={review.id} review={review} admin={false} />
           ))}
         </div>
       </div>

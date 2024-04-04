@@ -51,7 +51,7 @@ const Page = () => {
   const [product, setProduct] = useState<ProductData | null>(null);
   const { userId } = useAuth();
   const { isSignedIn } = useUser();
-  const width = 500;
+  const width = 350;
   const height = 375;
   const [loading, setLoading] = useState<boolean>(true);
 
@@ -111,13 +111,7 @@ const Page = () => {
                     {loading ? (
                       <>
                         <CarouselItem>
-                          <Skeleton className="h-[550px] w-[490px] rounded-xl skeleton-bg margin--3" />
-                        </CarouselItem>
-                        <CarouselItem>
-                          <Skeleton className="h-[550px] w-[490px] rounded-xl skeleton-bg margin--3" />
-                        </CarouselItem>
-                        <CarouselItem>
-                          <Skeleton className="h-[550px] w-[490px] rounded-xl skeleton-bg margin--3" />
+                          <Skeleton className="h-[370px] w-[350px] rounded-xl skeleton-bg margin--3" />
                         </CarouselItem>
                       </>
                     ) : (
@@ -140,15 +134,13 @@ const Page = () => {
                         <div className="video-container">
                           <iframe
                             width={width}
-                            height={500}
+                            height={370}
                             src={product?.attributes.youtube_link}
                           ></iframe>
                         </div>
                       </CarouselItem>
                     )}
                   </CarouselContent>
-                  <CarouselPrevious />
-                  <CarouselNext className="sm:hidden md:flex" />
                 </Carousel>
               </div>
             </div>

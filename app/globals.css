@@ -24,6 +24,9 @@ body {
   background: #575757;
 }
 
+.br-0-5 {
+  border-radius: 0.5rem;
+}
 
 @layer base {
   :root {

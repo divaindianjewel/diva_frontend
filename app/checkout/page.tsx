@@ -306,13 +306,13 @@ const Page = () => {
   return (
     <>
       <div className="flex flex-col md:flex-row sm:items-center lg:items-start md:items-start  justify-center gap-5 ">
-        <Card className="max-w-[50rem] w-[40rem] my-7">
+        <Card className="max-w-[50rem] w-fit my-7">         
           <CardHeader>
             <CardTitle>Billing Address</CardTitle>
           </CardHeader>
           <CardContent>
             <FormControl fullWidth>
-              <div id="state" className="my-3">
+              <div id="state" className="my-3 w-[18rem]">
                 <InputLabel variant="standard" htmlFor="uncontrolled-native">
                   Select State
                 </InputLabel>
@@ -355,7 +355,7 @@ const Page = () => {
                 </NativeSelect>
               </div>
 
-              <div id="name" className="flex flex-col md:flex-row gap-5 justify-between my-3 ">
+              <div id="name" className="flex flex-col md:flex-row gap-5 justify-between my-3 w-[18rem]">
                 <TextField
                   id="standard-basic"
                   label="First name"
@@ -375,7 +375,7 @@ const Page = () => {
                 />
               </div>
 
-              <div id="phone" className="my-3 flex gap-5 flex-col md:flex-row">
+              <div id="phone" className="my-3 flex gap-5 flex-col md:flex-row w-[18rem]">
                 <TextField
                   id="standard-basic"
                   label="Phone Number"
@@ -396,7 +396,7 @@ const Page = () => {
                 />
               </div>
 
-              <div id="info" className="flex gap-5  justify-between my-3 flex-col md:flex-row">
+              <div id="info" className="flex gap-5  justify-between my-3 flex-col md:flex-row w-[18rem]">
                 <TextField
                   id="standard-basic"
                   label="City"
@@ -404,7 +404,6 @@ const Page = () => {
                   fullWidth
                   onChange={handleCityChange}
                   value={city}
-                  className="w-[45%]"
                 />
 
                 <TextField
@@ -414,11 +413,10 @@ const Page = () => {
                   fullWidth
                   onChange={handlePinCodeChange}
                   value={pinCode}
-                  className="w-[45%]"
                 />
               </div>
 
-              <div id="address" className="my-3">
+              <div id="address" className="my-3 w-[18rem]">
                 <TextField
                   id="standard-basic"
                   label="Address"
@@ -426,7 +424,6 @@ const Page = () => {
                   fullWidth
                   onChange={handleAddressChange}
                   value={address}
-                  className="w-[80%] mx-auto"
                 />
               </div>
             </FormControl>
@@ -434,7 +431,7 @@ const Page = () => {
           <Separator />
         </Card>
 
-        <Card className="max-w-[50rem] w-[40rem] my-7 max-h-[30rem] overflow-y-scroll">
+        <Card className="max-w-[50rem] my-7 max-h-[30rem] w-fit overflow-y-scroll">
           <CardHeader>
             <CardTitle>My Cart</CardTitle>
           </CardHeader>
@@ -462,7 +459,7 @@ const Page = () => {
             <CardTitle className="text-center">Payment Method</CardTitle>
           </CardHeader>
 
-          <div className="container">
+          <div className="">
             <div className="plans flex flex-row">
               <label
                 className={`plan basic-plan ${
