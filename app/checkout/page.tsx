@@ -305,7 +305,7 @@ const Page = () => {
 
   return (
     <>
-      <div className="flex lg:flex-row md:flex-row sm:flex-col sm:items-center lg:items-start md:items-start  justify-center gap-5">
+      <div className="flex flex-col md:flex-row sm:items-center lg:items-start md:items-start  justify-center gap-5 ">
         <Card className="max-w-[50rem] w-[40rem] my-7">
           <CardHeader>
             <CardTitle>Billing Address</CardTitle>
@@ -355,7 +355,7 @@ const Page = () => {
                 </NativeSelect>
               </div>
 
-              <div id="name" className="flex gap-5  justify-between my-3 ">
+              <div id="name" className="flex flex-col md:flex-row gap-5 justify-between my-3 ">
                 <TextField
                   id="standard-basic"
                   label="First name"
@@ -375,7 +375,7 @@ const Page = () => {
                 />
               </div>
 
-              <div id="phone" className="my-3 flex gap-5">
+              <div id="phone" className="my-3 flex gap-5 flex-col md:flex-row">
                 <TextField
                   id="standard-basic"
                   label="Phone Number"
@@ -396,7 +396,7 @@ const Page = () => {
                 />
               </div>
 
-              <div id="info" className="flex gap-5  justify-between my-3 ">
+              <div id="info" className="flex gap-5  justify-between my-3 flex-col md:flex-row">
                 <TextField
                   id="standard-basic"
                   label="City"
@@ -404,6 +404,7 @@ const Page = () => {
                   fullWidth
                   onChange={handleCityChange}
                   value={city}
+                  className="w-[45%]"
                 />
 
                 <TextField
@@ -413,6 +414,7 @@ const Page = () => {
                   fullWidth
                   onChange={handlePinCodeChange}
                   value={pinCode}
+                  className="w-[45%]"
                 />
               </div>
 
@@ -424,6 +426,7 @@ const Page = () => {
                   fullWidth
                   onChange={handleAddressChange}
                   value={address}
+                  className="w-[80%] mx-auto"
                 />
               </div>
             </FormControl>
@@ -453,7 +456,7 @@ const Page = () => {
       </div>
       <Separator />
 
-      <div className="flex items-center justify-center gap-5">
+      <div className="flex flex-col md:flex-row items-center justify-center gap-5">
         <Card className="max-w-[70rem] w-[40rem] my-5">
           <CardHeader>
             <CardTitle className="text-center">Payment Method</CardTitle>

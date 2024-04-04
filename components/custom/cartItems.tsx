@@ -59,7 +59,7 @@ const CartItems: React.FC<{
   return (
     <>
       {cartData && (
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-4 flex-col justify-center md:flex-row">
           <Link
             href={`/products/${productId}`}
             className="flex items-center gap-4"

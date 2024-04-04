@@ -24,6 +24,7 @@ body {
   background: #575757;
 }
 
+
 @layer base {
   :root {
     --background: 0 0% 100%;
