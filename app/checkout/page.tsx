@@ -65,7 +65,6 @@ interface addressProps {
 }
 
 const Page = () => {
-
   const [addressId, setAddressId] = useState();
   const [cartData, setCartData] = useState<CartItem[]>([]);
   const router = useRouter();

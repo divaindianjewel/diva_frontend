@@ -8,6 +8,7 @@ import { FaMinus } from "react-icons/fa6";
 import img1 from "@/app/assets/product_img/stock-img (1).jpg";
 import { domain } from "../backend/apiRouth";
 import { decrementQnt, incrementQnt } from "@/backend/cart-operation";
+import Link from "next/link";
 
 export interface cartItemProps {
   id: number;
@@ -25,7 +26,7 @@ const CartItems: React.FC<{
   cartId: number;
   qnt: number;
   show: boolean;
-  image : any
+  image: any;
 }> = ({ productId, cartId, qnt, show, image }) => {
   const [quantity, setQuantity] = useState<any>(qnt);
   const [cartData, setCartData] = useState<cartItemProps | null>(null);
@@ -59,29 +60,35 @@ const CartItems: React.FC<{
     <>
       {cartData && (
         <div className="flex items-center gap-4">
-          <Image
-            alt="Product image"
-            className="aspect-square rounded-lg object-cover"
-            height="120"
-            src={image}
-            width="120"
-          />
-          <div className="grid gap-1.5">
-            <div className="font-medium">
-              {cartData.attributes.product_name}
-            </div>
-            <div className="text-sm text-gray-500 dark:text-gray-400">
-              #{cartData.attributes.Product_id}
-            </div>
-
-            {show ? (
-              ""
-            ) : (
-              <div className="text-sm font-medium">
-                quantity : {cartData.attributes.qnt}
+          <Link
+            href={`/products/${productId}`}
+            className="flex items-center gap-4"
+          >
+            <Image
+              alt="Product image"
+              className="aspect-square rounded-lg object-cover"
+              height="120"
+              src={image}
+              width="120"
+            />
+            <div className="grid gap-1.5">
+              <div className="font-medium">
+                {cartData.attributes.product_name}
               </div>
-            )}
-          </div>
+              <div className="text-sm text-gray-500 dark:text-gray-400">
+                #{cartData.attributes.Product_id}
+              </div>
+
+              {show ? (
+                ""
+              ) : (
+                <div className="text-sm font-medium">
+                  quantity : {cartData.attributes.qnt}
+                </div>
+              )}
+            </div>
+          </Link>
+
           <div className="ml-auto flex items-center gap-4">
             <div className="flex items-center gap-4">
               <div className="font-semibold">

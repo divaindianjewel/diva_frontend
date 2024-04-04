@@ -81,7 +81,6 @@ export default function Component() {
           <CardContent>
             <div className="grid gap-6">
               {cartData.map((item) => (
-                <Link key={item.id} href={"/products" + item.id}>
                   <CartItems
                     key={item.id}
                     productId={item.attributes.Product_id}
@@ -90,7 +89,6 @@ export default function Component() {
                     image={item.attributes.img}
                     show={true}
                   />
-                </Link>
               ))}
             </div>
           </CardContent>

@@ -15,11 +15,6 @@ import Link from "next/link";
 
 // Icons
 import { IoMenu } from "react-icons/io5";
-import { LiaRingSolid } from "react-icons/lia";
-import { GiDropEarrings } from "react-icons/gi";
-import { GiHeartNecklace } from "react-icons/gi";
-import { FaGem } from "react-icons/fa";
-import { GiGemChain } from "react-icons/gi";
 
 interface NavItem {
   href: string;
