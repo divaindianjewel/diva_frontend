@@ -23,7 +23,6 @@ const CustomerReviews: React.FC<{ productId: number }> = ({ productId }) => {
     const fetchReviews = async () => {
       try {
         const response = await fetch(`${domain}/api/reviews`);
-        // Filter the reviews based on the product ID
         const data = await response.json();
         const filteredReviews = data.data.filter(
           (review: ReviewProps) => review.attributes.product_id == productId
@@ -54,7 +53,6 @@ const CustomerReviews: React.FC<{ productId: number }> = ({ productId }) => {
         </div>
 
         <div className="divide-y">
-          {console.log(reviews)}
           {reviews.map((review) => (
             <Reviews key={review.id} review={review} admin={false} />
           ))}

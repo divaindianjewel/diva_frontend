@@ -19,10 +19,12 @@ import { TiPencil } from "react-icons/ti";
 
 import { auth, useAuth, useUser } from "@clerk/nextjs";
 import {} from "@clerk/nextjs";
+import Review from "./reviews";
+import { EditReview } from "@/backend/edit-review";
 
 const EditReviewFormDialog: React.FC<{
   reviewId: number;
-}> = ({ reviewId}) => {
+}> = ({ reviewId }) => {
   const starSize = 30;
 
   const [rating, setRating] = useState<number>(0);
@@ -39,25 +41,13 @@ const EditReviewFormDialog: React.FC<{
   };
 
   const submitHandler = async (e: React.FormEvent) => {
-    if (isSignedIn) {
-      if (userId != null && userId != undefined) {
-        let userName = "User";
-        if (user != null) {
-          userName = user.firstName + " " + user.lastName;
-        }
-        await addReview(reviewId, rating, description, userId, userName)
-          .then(() => {
-            setIsOpen(false);
-            successTost("your review added successfully");
-          })
-          .catch((error) => {
-            console.error("Error submitting review:", error);
-          });
-      }
-    } else {
-      e.preventDefault();
-      errorTost("Please Login first");
-    }
+    await EditReview(rating, description, reviewId).then(() => {
+      setIsOpen(false);
+      successTost("your Edited added successfully");
+    })
+    .catch((error) => {
+      console.error("Error submitting review:", error);
+    });;
   };
 
   return (
@@ -98,7 +88,7 @@ const EditReviewFormDialog: React.FC<{
                     type="submit"
                     className="text-white bg-gray-900 p-3 border rounded-lg"
                   >
-                    Submit Review
+                    Edit Review
                   </button>
                 </div>
               </form>
