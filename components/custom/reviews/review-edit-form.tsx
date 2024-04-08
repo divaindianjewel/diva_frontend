@@ -12,7 +12,6 @@ import {
 import { successTost, errorTost } from "@/components/toast/allTost";
 import { IoIosStar } from "react-icons/io";
 import { DialogClose } from "@radix-ui/react-dialog";
-import { addReview } from "@/backend/add-review";
 
 // clerk
 import { TiPencil } from "react-icons/ti";
@@ -20,7 +19,7 @@ import { TiPencil } from "react-icons/ti";
 import { auth, useAuth, useUser } from "@clerk/nextjs";
 import {} from "@clerk/nextjs";
 import Review from "./reviews";
-import { EditReview } from "@/backend/edit-review";
+import { EditReview } from "@/components/custom/reviews/reviewBox";
 
 const EditReviewFormDialog: React.FC<{
   reviewId: number;
@@ -41,13 +40,14 @@ const EditReviewFormDialog: React.FC<{
   };
 
   const submitHandler = async (e: React.FormEvent) => {
-    await EditReview(rating, description, reviewId).then(() => {
-      setIsOpen(false);
-      successTost("your Edited added successfully");
-    })
-    .catch((error) => {
-      console.error("Error submitting review:", error);
-    });;
+    await EditReview(rating, description, reviewId)
+      .then(() => {
+        setIsOpen(false);
+        successTost("your Edited added successfully");
+      })
+      .catch((error) => {
+        console.error("Error submitting review:", error);
+      });
   };
 
   return (

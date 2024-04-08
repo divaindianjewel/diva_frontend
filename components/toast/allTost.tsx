@@ -14,7 +14,7 @@ export const successTost = (message: string) => {
   });
 };
 
-export const errorTost = (message: string) => {
+export const errorTost = (message: any) => {
   toast.error(message, {
     position: "top-center",
     autoClose: 2000,

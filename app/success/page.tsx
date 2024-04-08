@@ -1,7 +1,7 @@
 "use client";
 import { domain } from "@/components/backend/apiRouth";
 import { useAuth } from "@clerk/nextjs";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import addOrder from "@/backend/shiprocket/addOrder";
 
@@ -22,9 +22,30 @@ interface addressProps {
 }
 
 const Page = () => {
+  const [cartData, setCartData] = useState<any[]>([]);
+
   const { userId } = useAuth();
 
   const router = useRouter();
+
+  useEffect(() => {
+    const fetchCartData = async () => {
+      try {
+        const response = await fetch(`${domain}/api/carts?populate=*`);
+        const data = await response.json();
+        if (data && data.data && data.data.length > 0) {
+          const userCartData = data.data.filter(
+            (item: any) => item.attributes.user_id === userId
+          );
+          setCartData(userCartData);
+        }
+      } catch (error) {
+        console.error("Error fetching cart data:", error);
+      }
+    };
+
+    fetchCartData();
+  }, [userId]);
 
   useEffect(() => {
     const getUserData = async () => {
@@ -52,7 +73,7 @@ const Page = () => {
         phone_number: String(tmpUserData[0].attributes.phone_number),
         user_id: userId,
       };
-      addOrder(obj, router);
+      addOrder(obj, router, cartData);
     };
 
     getUserData();

@@ -168,7 +168,7 @@ const Page = () => {
         } else {
           warningTost("Selected COD");
           try {
-            addOrder(obj, router);
+            addOrder(obj, router, cartData);
           } catch (error) {
             console.log(error);
           }
@@ -201,7 +201,7 @@ const Page = () => {
         } else {
           warningTost("Selected COD");
           try {
-            addOrder(obj, router);
+            addOrder(obj, router, cartData);
           } catch (error) {
             console.log(error);
           }
@@ -303,10 +303,11 @@ const Page = () => {
     console.log(newAddress);
   };
 
+
   return (
     <>
       <div className="flex flex-col md:flex-row sm:items-center lg:items-start md:items-start  justify-center gap-5 ">
-        <Card className="max-w-[50rem] w-fit my-7">         
+        <Card className="max-w-[50rem] w-fit my-7">
           <CardHeader>
             <CardTitle>Billing Address</CardTitle>
           </CardHeader>
@@ -355,7 +356,10 @@ const Page = () => {
                 </NativeSelect>
               </div>
 
-              <div id="name" className="flex flex-col md:flex-row gap-5 justify-between my-3 w-[18rem]">
+              <div
+                id="name"
+                className="flex flex-col md:flex-row gap-5 justify-between my-3 w-[18rem]"
+              >
                 <TextField
                   id="standard-basic"
                   label="First name"
@@ -375,7 +379,10 @@ const Page = () => {
                 />
               </div>
 
-              <div id="phone" className="my-3 flex gap-5 flex-col md:flex-row w-[18rem]">
+              <div
+                id="phone"
+                className="my-3 flex gap-5 flex-col md:flex-row w-[18rem]"
+              >
                 <TextField
                   id="standard-basic"
                   label="Phone Number"
@@ -396,7 +403,10 @@ const Page = () => {
                 />
               </div>
 
-              <div id="info" className="flex gap-5  justify-between my-3 flex-col md:flex-row w-[18rem]">
+              <div
+                id="info"
+                className="flex gap-5  justify-between my-3 flex-col md:flex-row w-[18rem]"
+              >
                 <TextField
                   id="standard-basic"
                   label="City"

@@ -2,8 +2,68 @@
 import React, { useEffect, useState } from "react";
 import Reviews from "@/components/custom/reviews/reviews";
 import ReviewFormDialog from "./review-form-dialog";
-import axios from "axios";
 import { domain } from "@/components/backend/apiRouth";
+import { errorTost, successTost } from "@/components/toast/allTost";
+import axios from "axios";
+import { IoIosStar } from "react-icons/io";
+import EditReviewFormDialog from "./review-edit-form";
+import { FaTrashCan } from "react-icons/fa6";
+
+export const addReview = async (
+  productId: number,
+  rating: number,
+  description: string,
+  userId: string,
+  userName: string
+) => {
+  try {
+    const response = await axios.post(`${ domain }/api/reviews`, {
+      data: {
+        product_id: productId,
+        ratting: rating,
+        Description: description,
+        user_id: userId,
+        user_name: userName,
+      },
+    });
+    console.log("Review added successfully:", response.data);
+    return response.data;
+  } catch (error) {
+    console.error("Error adding review:", error);
+    throw error;
+  }
+};
+
+export const EditReview = async (
+  rating: number,
+  description: string,
+  reviewId: number
+) => {
+  try {
+    const response = await axios.put(`${domain}/api/reviews/${reviewId}`, {
+      data: {
+        ratting: rating,
+        Description: description,
+      },
+    });
+    console.log("Review Edited successfully:", response.data);
+    return response.data;
+  } catch (error) {
+    console.error("Error adding review:", error);
+    throw error;
+  }
+};
+
+export const deleteReview = async (reviewId: any) => {
+  try {
+    const response = await axios.delete(`${domain}/api/reviews/${reviewId}`);
+
+    successTost("review deleted successfully");
+  } catch (error) {
+    errorTost("Something went wrong can't delete the review");
+  }
+};
+
 
 export interface ReviewProps {
   id: number;
@@ -18,6 +78,16 @@ export interface ReviewProps {
 
 const CustomerReviews: React.FC<{ productId: number }> = ({ productId }) => {
   const [reviews, setReviews] = useState<ReviewProps[]>([]);
+
+  const deleteReview = async (reviewId: any) => {
+    try {
+      const response = await axios.delete(`${domain}/api/reviews/${reviewId}`);
+
+      successTost("review deleted successfully");
+    } catch (error) {
+      errorTost("Something went wrong can't delete the review");
+    }
+  };
 
   useEffect(() => {
     const fetchReviews = async () => {
@@ -35,7 +105,7 @@ const CustomerReviews: React.FC<{ productId: number }> = ({ productId }) => {
     };
 
     fetchReviews();
-  }, [productId]); // Add productId to the dependency array
+  }, [productId]);
 
   return (
     <div className="bg-white py-6 sm:py-8 lg:py-12">
@@ -49,12 +119,44 @@ const CustomerReviews: React.FC<{ productId: number }> = ({ productId }) => {
             <span className="block font-bold">Write about our product</span>
           </div>
 
-          <ReviewFormDialog productId={productId} edit={false} admin={true}/>
+          <ReviewFormDialog productId={productId} />
         </div>
 
         <div className="divide-y">
           {reviews.map((review) => (
-            <Reviews key={review.id} review={review} admin={false} />
+            <div key={review.id} className="divide-y">
+              <div className="flex items-center justify-between">
+                <div className="flex flex-col gap-3 py-4 md:py-8">
+                  <div>
+                    <span className="block text-sm font-bold">
+                      {review.attributes.user_name}
+                    </span>
+                  </div>
+
+                  <div className="-ml-1 flex gap-0.5">
+                    {[...Array(review.attributes.ratting)].map((_, index) => (
+                      <IoIosStar key={index} color="gold" size={25} />
+                    ))}
+                  </div>
+
+                  <p className="text-gray-600">
+                    {review.attributes.Description}
+                  </p>
+                </div>
+
+                <div className="action flex items-center justify-between gap-5  br-0-5">
+                  <EditReviewFormDialog reviewId={review.id} />
+                  <div
+                    className="delete bg-red-600 p-[0.5rem] br-0-5"
+                    onClick={() => {
+                      deleteReview(review.id);
+                    }}
+                  >
+                    <FaTrashCan color="white" size={25} />
+                  </div>
+                </div>
+              </div>
+            </div>
           ))}
         </div>
       </div>
