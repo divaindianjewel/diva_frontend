@@ -1,7 +1,8 @@
-import { domain } from "@/components/backend/apiRouth";
+// pages/api/payment.ts
 import axios from "axios";
-import { useRouter } from "next/navigation";
 import sha256 from "sha256";
+import type { NextApiRequest, NextApiResponse } from "next";
+import { domain } from "@/components/backend/apiRouth";
 
 export function generateRandomId(length: number): string {
   const characters =
@@ -14,21 +15,20 @@ export function generateRandomId(length: number): string {
   return result;
 }
 
-const merchantId = "PGTESTPAYUAT";
-const saltId = "099eb0cd-02cf-4e2a-8aca-3e6c6aff0399";
-const saltKeyIndex = 1;
-const merchantTransactionId = generateRandomId(10);
-const userId = 1234;
+export default async function MakePayment(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
+  const merchantTransactionId = generateRandomId(10);
 
-export const makePayment = async (router : any) => {
   const payload = {
-    merchantId: merchantId,
+    merchantId: 'M22VIIUXDMB7J',
     merchantTransactionId: merchantTransactionId,
-    merchantUserId: userId,
+    merchantUserId: 1234, // Assuming this is a constant or you have a way to dynamically set it
     amount: 100,
-    redirectUrl: `http://localhost:3000/api/status/${merchantTransactionId}`,
+    redirectUrl: `https://divatheindianjewel.com/api/status/${merchantTransactionId}`,
     redirectMode: "POST",
-    callbackUrl: `http://localhost:3000/api/status/${merchantTransactionId}`,
+    callbackUrl: `http://divatheindianjewel.com/api/status/${merchantTransactionId}`,
     mobileNumber: "957996842",
     paymentInstrument: {
       type: "PAY_PAGE",
@@ -36,34 +36,35 @@ export const makePayment = async (router : any) => {
   };
 
   const dataPayload = JSON.stringify(payload);
-  console.log(dataPayload);
-
   const dataBase64 = Buffer.from(dataPayload).toString("base64");
-  console.log(dataBase64);
-
-  const fullURL = dataBase64 + "/pg/v1/pay" + saltId;
+  const fullURL =
+    dataBase64 + "/pg/v1/pay" + 'de5e9ea0-e6f5-4eca-860b-6e3c25c30d3f';
   const dataSha256 = sha256(fullURL);
+  const checksum = dataSha256 + "###" + 1; // Assuming saltKeyIndex is a constant
 
-  const checksum = dataSha256 + "###" + saltKeyIndex;
-  console.log("c====", checksum);
+  const PAYMENT_URL = "https://api.phonepe.com/apis/hermes/pg/v1/pay";
 
-  const PAYMENT_URL =
-    "https://api-preprod.phonepe.com/apis/pg-sandbox/pg/v1/pay";
-
-  const response = await axios.post(
-    PAYMENT_URL,
-    {
-      request: dataBase64,
-    },
-    {
-      headers: {
-        accept: "application/json",
-        "Content-Type": "application/json",
-        "X-VERIFY": checksum,
+  try {
+    const response = await axios.post(
+      PAYMENT_URL,
+      {
+        request: dataBase64,
       },
-    }
-  );
+      {
+        headers: {
+          accept: "application/json",
+          "Content-Type": "application/json",
+          "X-VERIFY": checksum,
+        },
+      }
+    );
 
-  const redirect = response.data.data.instrumentResponse.redirectInfo.url;
-  router.push(redirect);
-};
+    const redirect = response.data.data.instrumentResponse.redirectInfo.url;
+    res.status(200).json({ redirect });
+  } catch (error) {
+    console.error("Payment error:", error);
+    res
+      .status(500)
+      .json({ error: "An error occurred while processing payment." });
+  }
+}

@@ -23,7 +23,7 @@ import {} from "@clerk/nextjs";
 
 const ReviewFormDialog: React.FC<{
   productId: number;
-  random: any;
+  random: () => void;
 }> = ({ productId, random }) => {
   const starSize = 30;
 
@@ -49,9 +49,6 @@ const ReviewFormDialog: React.FC<{
           userName = user.firstName + " " + user.lastName;
         }
 
-        const num = generateRandomNumber();
-        random(num);
-
         await addReview(productId, rating, description, userId, userName)
           .then(() => {
             setIsOpen(false);
@@ -60,6 +57,8 @@ const ReviewFormDialog: React.FC<{
           .catch((error) => {
             console.error("Error submitting review:", error);
           });
+
+        random();
       }
     } else {
       e.preventDefault();

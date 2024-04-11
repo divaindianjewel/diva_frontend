@@ -23,7 +23,8 @@ import { EditReview } from "@/components/custom/reviews/reviewBox";
 
 const EditReviewFormDialog: React.FC<{
   reviewId: number;
-}> = ({ reviewId }) => {
+  random: () => void;
+}> = ({ reviewId, random }) => {
   const starSize = 30;
 
   const [rating, setRating] = useState<number>(0);
@@ -48,6 +49,8 @@ const EditReviewFormDialog: React.FC<{
       .catch((error) => {
         console.error("Error submitting review:", error);
       });
+
+    random();
   };
 
   return (

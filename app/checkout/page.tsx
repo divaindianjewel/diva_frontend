@@ -34,7 +34,8 @@ import mastercard from "@/app/assets/checkout/mastercard.svg";
 import phonepe from "@/app/assets/checkout/phonpe.svg";
 import gpay from "@/app/assets/checkout/gpay.svg";
 import addOrder from "@/backend/shiprocket/addOrder";
-import { makePayment } from "@/backend/phonepe/pay-method";
+import MakePayment from "@/backend/phonepe/pay-method";
+import { NextApiRequest, NextApiResponse } from "next";
 
 interface CartItem {
   id: number;
@@ -64,6 +65,17 @@ interface addressProps {
   };
 }
 
+const req = {} as NextApiRequest;
+const res = {
+  status: (code: number) => ({
+     json: (body: any) => {
+       console.log(`Mock response: ${code}`, body);
+       return res;
+     },
+  }),
+  // Add other methods as needed
+ } as unknown as NextApiResponse;
+ 
 const Page = () => {
   const [addressId, setAddressId] = useState();
   const [cartData, setCartData] = useState<CartItem[]>([]);
@@ -164,7 +176,7 @@ const Page = () => {
           successTost("Billing address added successfully");
         }
         if (selectedMethod == "online") {
-          makePayment(router);
+          MakePayment(req, res);
         } else {
           warningTost("Selected COD");
           try {
@@ -197,7 +209,7 @@ const Page = () => {
         }
 
         if (selectedMethod == "online") {
-          makePayment(router);
+          MakePayment(req, res);
         } else {
           warningTost("Selected COD");
           try {
@@ -302,7 +314,6 @@ const Page = () => {
     setAddress(newAddress);
     console.log(newAddress);
   };
-
 
   return (
     <>

@@ -12,7 +12,7 @@ export async function POST(req: any, res: any) {
   const merchantId = data.get("merchantId");
   const transactionId = data.get("transactionId");
 
-  const salt_key = "099eb0cd-02cf-4e2a-8aca-3e6c6aff0399";
+  const salt_key = process.env.NEXT_PUBLIC_PHONEPE_SALT;
 
   const st = `/pg/v1/status/${merchantId}/${transactionId}` + salt_key;
   const dataSha256 = sha256(st);
@@ -20,9 +20,12 @@ export async function POST(req: any, res: any) {
   const checksum = dataSha256 + "###" + 1;
   console.log(checksum);
 
+  // const url = "https://api-preprod.phonepe.com/apis/pg-sandbox/pg/v1/status"
+  const url = "https://api.phonepe.com/apis/hermes/pg/v1/status";
+
   const options = {
     method: "GET",
-    url: `https://api-preprod.phonepe.com/apis/pg-sandbox/pg/v1/status/${merchantId}/${transactionId}`,
+    url: `${url}/${merchantId}/${transactionId}`,
     headers: {
       accept: "application/json",
       "Content-Type": "application/json",
@@ -36,14 +39,11 @@ export async function POST(req: any, res: any) {
   console.log("r===", response.data.code);
 
   if (response.data.code == "PAYMENT_SUCCESS") {
-
-    
     return NextResponse.redirect(`${local_domain}/success`, {
       status: 301,
     });
   } else
     return NextResponse.redirect(`${local_domain}/fail`, {
-      // a 301 status is required to redirect from a POST to a GET route
       status: 301,
     });
 }
