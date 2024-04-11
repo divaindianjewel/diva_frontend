@@ -1,6 +1,5 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import Reviews from "@/components/custom/reviews/reviews";
 import ReviewFormDialog from "./review-form-dialog";
 import { domain } from "@/components/backend/apiRouth";
 import { errorTost, successTost } from "@/components/toast/allTost";
