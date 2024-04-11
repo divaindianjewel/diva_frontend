@@ -12,7 +12,10 @@ import {
 import { successTost, errorTost } from "@/components/toast/allTost";
 import { IoIosStar } from "react-icons/io";
 import { DialogClose } from "@radix-ui/react-dialog";
-import { addReview } from "@/components/custom/reviews/reviewBox";
+import {
+  addReview,
+  generateRandomNumber,
+} from "@/components/custom/reviews/reviewBox";
 
 // clerk
 import { auth, useAuth, useUser } from "@clerk/nextjs";
@@ -20,8 +23,8 @@ import {} from "@clerk/nextjs";
 
 const ReviewFormDialog: React.FC<{
   productId: number;
-
-}> = ({ productId}) => {
+  random: any;
+}> = ({ productId, random }) => {
   const starSize = 30;
 
   const [rating, setRating] = useState<number>(0);
@@ -38,12 +41,17 @@ const ReviewFormDialog: React.FC<{
   };
 
   const submitHandler = async (e: React.FormEvent) => {
+    e.preventDefault();
     if (isSignedIn) {
       if (userId != null && userId != undefined) {
         let userName = "User";
         if (user != null) {
           userName = user.firstName + " " + user.lastName;
         }
+
+        const num = generateRandomNumber();
+        random(num);
+
         await addReview(productId, rating, description, userId, userName)
           .then(() => {
             setIsOpen(false);
@@ -118,4 +126,4 @@ const ReviewFormDialog: React.FC<{
   );
 };
 
-export default ReviewFormDialog
+export default ReviewFormDialog;

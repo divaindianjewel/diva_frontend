@@ -25,37 +25,6 @@ const addOrder = async (obj: any, router: any, cartData: CartItem[]) => {
     hsn: 441122,
   }));
 
-  orderItems.push({
-    name: "Kunai",
-    sku: "chakra123",
-    units: 10,
-    selling_price: 900,
-    discount: "",
-    tax: "",
-    hsn: 441122,
-  });
-
-  const data2 = {
-    name: "Kunai",
-    sku: "chakra123",
-    units: 10,
-    selling_price: 900,
-    discount: "",
-    tax: "",
-    hsn: 441122,
-  };
-
-  const tmp = orderItems[0];
-
-  console.log(tmp);
-
-  console.log(...orderItems);
-
-  orderItems.map(
-    (item) => (console.log("--------------------"), console.log(item))
-  );
-
-  // Construct the request payload
   const payload = {
     order_id: `OR-${generateRandomId(10)}`,
     order_date: "2024-03-27 11:11",
@@ -96,14 +65,10 @@ const addOrder = async (obj: any, router: any, cartData: CartItem[]) => {
     weight: 2.5,
   };
 
-  console.log("Request Payload:", payload);
-
   const headers = {
     "Content-Type": "application/json",
     Authorization: "Bearer " + process.env.NEXT_PUBLIC_SHIPROCKET_ID,
   };
-
-  console.log(orderItems);
 
   const shiprocketResponse = await fetch(
     "https://apiv2.shiprocket.in/v1/external/orders/create/adhoc",
@@ -114,7 +79,6 @@ const addOrder = async (obj: any, router: any, cartData: CartItem[]) => {
     }
   );
 
-  // Handling the response from Shiprocket API
   if (shiprocketResponse.ok) {
     successTost("Order shipped successfully");
     router.push("/");

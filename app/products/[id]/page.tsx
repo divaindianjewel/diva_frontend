@@ -22,6 +22,7 @@ import {
 } from "@strapi/blocks-react-renderer";
 import { useParams } from "next/navigation";
 import { Skeleton } from "@/components/ui/skeleton";
+import { warningTost } from "@/components/toast/allTost";
 
 interface ProductData {
   id: number;
@@ -43,25 +44,68 @@ interface ProductData {
   };
 }
 
+interface CartItem {
+  id: number;
+  attributes: {
+    user_id: string;
+    Product_id: number;
+    product_name: string;
+    product_price: number;
+    qnt: number;
+    img: any;
+  };
+}
+
 interface ApiResponse {
   data: ProductData;
 }
 
 const Page = () => {
+  const [randomNum, setRandomNum] = useState<number>(0);
+  const [productAdded, setProductAdded] = useState<boolean>(false);
+  const [cartData, setCartData] = useState<CartItem[]>([]);
   const [product, setProduct] = useState<ProductData | null>(null);
   const { userId } = useAuth();
   const { isSignedIn } = useUser();
-  const width = 350;
+  const width = 550;
   const height = 375;
   const [loading, setLoading] = useState<boolean>(true);
 
   const params = useParams();
+
+  const generateRandomNumber = () => {
+    const randomNumber = Math.floor(Math.random() * 100) + 1;
+    setRandomNum(randomNumber);
+  };
 
   let productId = 0;
 
   if (params) {
     productId = Number(params.id);
   }
+
+  useEffect(() => {
+    const fetchCartData = async () => {
+      try {
+        const response = await fetch(`${domain}/api/carts?populate=*`);
+        const data = await response.json();
+        if (data && data.data && data.data.length > 0) {
+          const userCartData = data.data.filter(
+            (item: CartItem) =>
+              item.attributes.user_id === userId &&
+              item.attributes.Product_id == productId
+          );
+          setCartData(userCartData);
+        }
+      } catch (error) {
+        console.error("Error fetching cart data:", error);
+      }
+    };
+
+    if (isSignedIn) {
+      fetchCartData();
+    }
+  }, [randomNum]);
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -83,6 +127,13 @@ const Page = () => {
 
     fetchProduct();
   }, [productId]);
+  useEffect(() => {
+    if (cartData.length > 0) {
+      setProductAdded(true);
+    }
+  }, [cartData, randomNum]); // Depend on cartData to run this effect when cartData changes
+
+  console.log(cartData);
 
   const handelDescription = (content: BlocksContent) => {
     return <BlocksRenderer content={content} />;
@@ -111,7 +162,7 @@ const Page = () => {
                     {loading ? (
                       <>
                         <CarouselItem>
-                          <Skeleton className="h-[370px] w-[350px] rounded-xl skeleton-bg margin--3" />
+                          <Skeleton className="h-[600px] w-[350px] rounded-xl skeleton-bg margin--3" />
                         </CarouselItem>
                       </>
                     ) : (
@@ -134,7 +185,7 @@ const Page = () => {
                         <div className="video-container">
                           <iframe
                             width={width}
-                            height={370}
+                            height={470}
                             src={product?.attributes.youtube_link}
                           ></iframe>
                         </div>
@@ -226,16 +277,19 @@ const Page = () => {
                       className="rounded-md text-xl font-semibold gold-color text-black py-2 flex items-center justify-center gap-3  w-[22rem]"
                       type="button"
                       onClick={() => {
-                        addToCart(
-                          String(productId),
-                          userId,
-                          isSignedIn,
-                          product?.attributes.name,
-                          product?.attributes.price,
-                          product?.attributes.images.data[0].attributes.url
-                        ).catch((err) => {
-                          console.log(err);
-                        });
+                        if (!productAdded) {
+                          generateRandomNumber();
+                          addToCart(
+                            String(productId),
+                            userId,
+                            isSignedIn,
+                            product?.attributes.name,
+                            product?.attributes.price,
+                            product?.attributes.images.data[0].attributes.url
+                          );
+                        } else {
+                          warningTost("Product is already added");
+                        }
                       }}
                     >
                       <FaShoppingCart /> Add To cart

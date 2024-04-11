@@ -23,7 +23,6 @@ interface addressProps {
 
 const Page = () => {
   const [cartData, setCartData] = useState<any[]>([]);
-
   const { userId } = useAuth();
 
   const router = useRouter();
@@ -78,6 +77,8 @@ const Page = () => {
 
     getUserData();
   }, [userId]);
+
+  console.log(cartData);
 
   return <div>success</div>;
 };
