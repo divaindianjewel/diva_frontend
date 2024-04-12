@@ -105,7 +105,7 @@ const Page = () => {
     if (isSignedIn) {
       fetchCartData();
     }
-  }, [randomNum]);
+  }, [randomNum, isSignedIn, userId, productId]);
 
   useEffect(() => {
     const fetchProduct = async () => {

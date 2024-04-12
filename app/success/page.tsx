@@ -44,7 +44,7 @@ const Page = () => {
     };
 
     fetchCartData();
-  }, [userId]);
+  }, [userId, cartData, router]);
 
   useEffect(() => {
     const getUserData = async () => {
