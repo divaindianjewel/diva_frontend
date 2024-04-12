@@ -18,7 +18,6 @@ import { TiPencil } from "react-icons/ti";
 
 import { auth, useAuth, useUser } from "@clerk/nextjs";
 import {} from "@clerk/nextjs";
-import Review from "./reviews";
 import { EditReview } from "@/components/custom/reviews/reviewBox";
 
 const EditReviewFormDialog: React.FC<{
