@@ -34,7 +34,7 @@ import mastercard from "@/app/assets/checkout/mastercard.svg";
 import phonepe from "@/app/assets/checkout/phonpe.svg";
 import gpay from "@/app/assets/checkout/gpay.svg";
 import addOrder from "@/backend/shiprocket/addOrder";
-import { MakePayment } from "@/app/api/route";
+import { MakePayment } from "@/app/api/Payment";
 import { NextApiRequest, NextApiResponse } from "next";
 
 interface CartItem {
