@@ -34,7 +34,7 @@ import mastercard from "@/app/assets/checkout/mastercard.svg";
 import phonepe from "@/app/assets/checkout/phonpe.svg";
 import gpay from "@/app/assets/checkout/gpay.svg";
 import addOrder from "@/backend/shiprocket/addOrder";
-import MakePayment from "@/backend/phonepe/pay-method";
+import { MakePayment } from "@/app/api/route";
 import { NextApiRequest, NextApiResponse } from "next";
 
 interface CartItem {
@@ -65,21 +65,11 @@ interface addressProps {
   };
 }
 
-const req = {} as NextApiRequest;
-const res = {
-  status: (code: number) => ({
-     json: (body: any) => {
-       console.log(`Mock response: ${code}`, body);
-       return res;
-     },
-  }),
-  // Add other methods as needed
- } as unknown as NextApiResponse;
- 
 const Page = () => {
+  const router = useRouter();
+
   const [addressId, setAddressId] = useState();
   const [cartData, setCartData] = useState<CartItem[]>([]);
-  const router = useRouter();
   const [subtotal, setSubtotal] = useState<number>(0);
   const [total, setTotal] = useState<number>(0);
   const { userId } = useAuth();
@@ -176,7 +166,7 @@ const Page = () => {
           successTost("Billing address added successfully");
         }
         if (selectedMethod == "online") {
-          MakePayment(req, res);
+          MakePayment(router);
         } else {
           warningTost("Selected COD");
           try {
@@ -209,7 +199,7 @@ const Page = () => {
         }
 
         if (selectedMethod == "online") {
-          MakePayment(req, res);
+          MakePayment(router);
         } else {
           warningTost("Selected COD");
           try {
