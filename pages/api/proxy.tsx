@@ -22,7 +22,7 @@ export default async function handler(
         },
       }
     );
-    
+
     res.status(response.status).json(response.data);
   } catch (error) {
     console.error("Proxy error:", error);

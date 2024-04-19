@@ -5,10 +5,12 @@ import { Input } from "@/components/ui/input";
 import { MdAdd } from "react-icons/md";
 import { FaMinus } from "react-icons/fa6";
 
-import img1 from "@/app/assets/product_img/stock-img (1).jpg";
+import { FaTrashAlt } from "react-icons/fa";
 import { domain } from "../backend/apiRouth";
 import { decrementQnt, incrementQnt } from "@/backend/cart-operation";
 import Link from "next/link";
+import axios from "axios";
+import { errorTost, successTost, warningTost } from "../toast/allTost";
 
 export interface cartItemProps {
   id: number;
@@ -27,7 +29,8 @@ const CartItems: React.FC<{
   qnt: number;
   show: boolean;
   image: any;
-}> = ({ productId, cartId, qnt, show, image }) => {
+  random: () => void;
+}> = ({ productId, cartId, qnt, show, image, random }) => {
   const [quantity, setQuantity] = useState<any>(qnt);
   const [cartData, setCartData] = useState<cartItemProps | null>(null);
   const [total, setTotal] = useState<number>();
@@ -55,6 +58,25 @@ const CartItems: React.FC<{
     };
     fetchCartData();
   }, [productId]);
+
+  const handleRemoveFromCart = async (id: number) => {
+    try {
+      const response = await fetch(`${domain}/api/carts/${id}`, {
+        method: "DELETE",
+      });
+
+      const data = await response.json();
+
+      if (response) {
+        random();
+        successTost("Product Deleted Successfully");
+      } else {
+        warningTost("Please Try Again");
+      }
+    } catch (error) {
+      errorTost(`${error}`);
+    }
+  };
 
   return (
     <>
@@ -122,6 +144,12 @@ const CartItems: React.FC<{
                 >
                   <MdAdd />
                 </Button>
+                <div
+                  className="bg-red-700 w-fit py-2 px-2 m-3 rounded cursor-pointer"
+                  onClick={() => handleRemoveFromCart(cartData.id)}
+                >
+                  <FaTrashAlt color="white" size={19} />
+                </div>
               </div>
             ) : (
               ""

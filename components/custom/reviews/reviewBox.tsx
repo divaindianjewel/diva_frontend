@@ -79,6 +79,7 @@ export const addReview = async (
     throw error;
   }
 };
+
 const CustomerReviews: React.FC<{ productId: number }> = ({ productId }) => {
   const [randomNum, setRandomNum] = useState<number>(0);
   const [reviews, setReviews] = useState<ReviewProps[]>([]);
@@ -133,6 +134,7 @@ const CustomerReviews: React.FC<{ productId: number }> = ({ productId }) => {
             productId={productId}
           />
         </div>
+
         <div className="divide-y">
           {reviews.map((review) => (
             <div key={review.id} className="divide-y">
@@ -149,7 +151,6 @@ const CustomerReviews: React.FC<{ productId: number }> = ({ productId }) => {
                       <IoIosStar key={index} color="gold" size={25} />
                     ))}
                   </div>
-
                   <p className="text-gray-600">
                     {review.attributes.Description}
                   </p>
@@ -160,6 +161,7 @@ const CustomerReviews: React.FC<{ productId: number }> = ({ productId }) => {
                     random={generateRandomNumber}
                     reviewId={review.id}
                   />
+
                   <div
                     className="delete bg-red-600 p-[0.5rem] br-0-5 cursor-pointer"
                     onClick={() => {
@@ -168,9 +170,13 @@ const CustomerReviews: React.FC<{ productId: number }> = ({ productId }) => {
                   >
                     <FaTrashCan color="white" size={25} />
                   </div>
+
                 </div>
+
               </div>
+
             </div>
+
           ))}
         </div>
       </div>

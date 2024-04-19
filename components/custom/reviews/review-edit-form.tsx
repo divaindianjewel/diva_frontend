@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Textarea } from "@/components/ui/textarea";
 import {
   Dialog,
@@ -15,9 +15,6 @@ import { DialogClose } from "@radix-ui/react-dialog";
 
 // clerk
 import { TiPencil } from "react-icons/ti";
-
-import { auth, useAuth, useUser } from "@clerk/nextjs";
-import {} from "@clerk/nextjs";
 import { EditReview } from "@/components/custom/reviews/reviewBox";
 
 const EditReviewFormDialog: React.FC<{
@@ -30,8 +27,6 @@ const EditReviewFormDialog: React.FC<{
   const [stars, setStars] = useState<string[]>(["", "", "", "", ""]);
   const [description, setDescription] = useState<string>("");
   const [isOpen, setIsOpen] = useState(false);
-  const { isLoaded, isSignedIn, user } = useUser();
-  const { userId, sessionId, getToken } = useAuth();
 
   const setStar = (index: number) => {
     const newStars = stars.map((_, i) => (i < index ? "gold" : ""));
@@ -56,7 +51,7 @@ const EditReviewFormDialog: React.FC<{
     <section>
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
         <DialogTrigger>
-          <div className="edit bg-yellow-500 p-[0.5rem]">
+          <div className="edit bg-yellow-500 p-[0.5rem] rounded-lg mt-[9px]">
             <TiPencil color="white" size={25} />
           </div>
         </DialogTrigger>
@@ -64,6 +59,7 @@ const EditReviewFormDialog: React.FC<{
           <DialogHeader>
             <DialogTitle>Review</DialogTitle>
             <DialogDescription>
+              
               <form onSubmit={submitHandler}>
                 <div className="flex items-center justify-center gap-4 mt-3">
                   {stars.map((color, index) => (

@@ -20,7 +20,6 @@ export async function POST(req: any, res: any) {
   const checksum = dataSha256 + "###" + 1;
   console.log(checksum);
 
-  // const url = "https://api-preprod.phonepe.com/apis/pg-sandbox/pg/v1/status"
   const url = "https://api.phonepe.com/apis/hermes/pg/v1/status";
 
   const options = {

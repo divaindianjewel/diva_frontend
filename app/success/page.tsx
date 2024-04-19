@@ -60,24 +60,24 @@ const Page = () => {
         console.error("Error fetching cart data:", error);
       }
     };
-  
+
     fetchCartData();
   }, [userId, router]);
-  
+
   useEffect(() => {
     const getUserData = async () => {
       const userResponse = await fetch(`${domain}/api/billing-addresses`, {
         method: "GET",
       });
-  
+
       const data = await userResponse.json();
-  
+
       const tmpUserData = data.data?.filter(
         (items: addressProps) => items.attributes.user_id == userId
       );
-  
+
       console.log(data.data);
-  
+
       if (tmpUserData.length > 0) {
         const obj = {
           first_name: tmpUserData[0].attributes.first_name,
@@ -94,14 +94,16 @@ const Page = () => {
         addOrder(obj, router, cartData);
       }
     };
-  
+
     getUserData();
   }, [userId, cartData, router]);
-  
-
   console.log(cartData);
 
-  return <div>success</div>;
+  return (
+    <div>
+      <h1>Success Page</h1>
+    </div>
+  );
 };
 
 export default Page;

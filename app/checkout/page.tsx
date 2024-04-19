@@ -166,7 +166,7 @@ const Page = () => {
           successTost("Billing address added successfully");
         }
         if (selectedMethod == "online") {
-          MakePayment(router);
+          MakePayment(router, total);
         } else {
           warningTost("Selected COD");
           try {
@@ -199,7 +199,7 @@ const Page = () => {
         }
 
         if (selectedMethod == "online") {
-          MakePayment(router);
+          MakePayment(router, total);
         } else {
           warningTost("Selected COD");
           try {

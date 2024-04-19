@@ -14,17 +14,18 @@ export function generateRandomId(length: number): string {
   return result;
 }
 
-export async function MakePayment(router: any) {
+export async function MakePayment(router: any, amount: number) {
   const merchantTransactionId = generateRandomId(10);
+  const salt_key = process.env.NEXT_PUBLIC_PHONEPE_SALT;
 
   const payload = {
-    merchantId: "M22VIIUXDMB7J",
+    merchantId: process.env.NEXT_PUBLIC_PHONEPE_MERCHANT,
     merchantTransactionId: merchantTransactionId,
     merchantUserId: 1234,
-    amount: 100,
-    redirectUrl: "https://webhook.site/redirect-url",
+    amount: 100 * amount,
+    redirectUrl: `${domain}/api/status/${merchantTransactionId}`,
     redirectMode: "REDIRECT",
-    callbackUrl: "https://webhook.site/callback-url",
+    callbackUrl: `${domain}/api/status/${merchantTransactionId}`,
     mobileNumber: "957996842",
     paymentInstrument: {
       type: "PAY_PAGE",
@@ -34,7 +35,7 @@ export async function MakePayment(router: any) {
   const dataPayload = JSON.stringify(payload);
   const dataBase64 = Buffer.from(dataPayload).toString("base64");
   const fullURL =
-    dataBase64 + "/pg/v1/pay" + "de5e9ea0-e6f5-4eca-860b-6e3c25c30d3f";
+    dataBase64 + "/pg/v1/pay" + salt_key;
   const dataSha256 = sha256(fullURL).toString(); // Ensure you have a sha256 function
   const checksum = dataSha256 + "###" + 1; // Assuming saltKeyIndex is a constant
   const UAT_PAY_API_URL = "/api/proxy";

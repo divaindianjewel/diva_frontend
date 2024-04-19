@@ -55,7 +55,7 @@ const HomeBanner = () => {
         }
         const data = await response.json();
         setBanner(data.data);
-        setLoading(false);
+        setLoading(true);
       } catch (error) {
         console.error("Error fetching images:", error);
       }
@@ -65,7 +65,7 @@ const HomeBanner = () => {
   }, []);
 
   return loading ? (
-    <Skeleton className="h-[500px] w-[1519px] skeleton-bg" />
+    <Skeleton className="h-[500px] lg:w-[1519px] skeleton-bg" />
   ) : (
     <>
       <Swiper
