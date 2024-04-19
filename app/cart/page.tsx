@@ -58,14 +58,11 @@ export default function Component() {
       }
     };
 
-    if (isSignedIn) {
-      fetchCartData();
-    }
+    fetchCartData();
   }, [userId, isSignedIn, randomNum]);
 
   useEffect(() => {
     let tmpsubtotal = 0;
-
     cartData.map(
       (item) =>
         (tmpsubtotal =

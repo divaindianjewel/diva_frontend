@@ -34,6 +34,8 @@ const CartItems: React.FC<{
   const [quantity, setQuantity] = useState<any>(qnt);
   const [cartData, setCartData] = useState<cartItemProps | null>(null);
   const [total, setTotal] = useState<number>();
+  const [randomNum, setRandomNum] = useState<number>(0);
+
 
   useEffect(() => {
     const fetchCartData = async () => {
@@ -57,31 +59,25 @@ const CartItems: React.FC<{
       }
     };
     fetchCartData();
-  }, [productId]);
+  }, [randomNum, productId]);
 
   const handleRemoveFromCart = async (id: number) => {
-    useEffect(() => {
-      const getData = async () => {
-        try {
-          const response = await fetch(`${domain}/api/carts/${id}`, {
-            method: "DELETE",
-          });
+    try {
+      const response = await fetch(`${domain}/api/carts/${id}`, {
+        method: "DELETE",
+      });
 
-          const data = await response.json();
+      const data = await response.json();
 
-          if (response) {
-            random();
-            successTost("Product Deleted Successfully");
-          } else {
-            warningTost("Please Try Again");
-          }
-        } catch (error) {
-          errorTost(`${error}`);
-        }
-      };
-
-      getData();
-    }, [id]);
+      if (response) {
+        random();
+        successTost("Product Deleted Successfully");
+      } else {
+        warningTost("Please Try Again");
+      }
+    } catch (error) {
+      errorTost(`${error}`);
+    }
   };
 
   return (
