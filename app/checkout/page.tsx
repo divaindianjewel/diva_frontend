@@ -451,6 +451,7 @@ const Page = () => {
               {cartData.map((item) => (
                 <CartItems
                   key={item.id}
+                  random={() => {}}
                   productId={item.attributes.Product_id}
                   cartId={item.id}
                   qnt={item.attributes.qnt}
