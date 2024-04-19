@@ -81,7 +81,7 @@ const CartItems: React.FC<{
       };
 
       getData();
-    }, []);
+    }, [id]);
   };
 
   return (
