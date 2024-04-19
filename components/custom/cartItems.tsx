@@ -60,22 +60,28 @@ const CartItems: React.FC<{
   }, [productId]);
 
   const handleRemoveFromCart = async (id: number) => {
-    try {
-      const response = await fetch(`${domain}/api/carts/${id}`, {
-        method: "DELETE",
-      });
+    useEffect(() => {
+      const getData = async () => {
+        try {
+          const response = await fetch(`${domain}/api/carts/${id}`, {
+            method: "DELETE",
+          });
 
-      const data = await response.json();
+          const data = await response.json();
 
-      if (response) {
-        random();
-        successTost("Product Deleted Successfully");
-      } else {
-        warningTost("Please Try Again");
-      }
-    } catch (error) {
-      errorTost(`${error}`);
-    }
+          if (response) {
+            random();
+            successTost("Product Deleted Successfully");
+          } else {
+            warningTost("Please Try Again");
+          }
+        } catch (error) {
+          errorTost(`${error}`);
+        }
+      };
+
+      getData();
+    }, []);
   };
 
   return (
@@ -144,16 +150,16 @@ const CartItems: React.FC<{
                 >
                   <MdAdd />
                 </Button>
-                <div
-                  className="bg-red-700 w-fit py-2 px-2 m-3 rounded cursor-pointer"
-                  onClick={() => handleRemoveFromCart(cartData.id)}
-                >
-                  <FaTrashAlt color="white" size={19} />
-                </div>
               </div>
             ) : (
               ""
             )}
+            <div
+              className="bg-red-700 w-fit py-2 px-2 m-3 rounded cursor-pointer"
+              onClick={() => handleRemoveFromCart(cartData.id)}
+            >
+              <FaTrashAlt color="white" size={19} />
+            </div>
           </div>
         </div>
       )}
