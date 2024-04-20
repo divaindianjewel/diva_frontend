@@ -25,9 +25,14 @@ const addOrder = async (obj: any, router: any, cartData: CartItem[]) => {
     hsn: 441122,
   }));
 
+  const currentDate = new Date();
+  var day = currentDate.getDate();
+  var month = currentDate.getMonth() + 1; // Note: January is 0
+  var year = currentDate.getFullYear();
+
   const payload = {
     order_id: `OR-${generateRandomId(10)}`,
-    order_date: "2024-03-27 11:11",
+    order_date: `${year}-${month}-${day}`,
     pickup_location: "Primary",
     channel_id: "4854844",
     comment: "Reseller: M/s Goku",
