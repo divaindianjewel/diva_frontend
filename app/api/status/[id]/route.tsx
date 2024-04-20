@@ -12,7 +12,7 @@ export async function POST(req: any, res: any) {
   const merchantId = data.get("merchantId");
   const transactionId = data.get("transactionId");
 
-  const salt_key = process.env.NEXT_PUBLIC_PHONEPE_SALT;
+  const salt_key = 'de5e9ea0-e6f5-4eca-860b-6e3c25c30d3f';
 
   const st = `/pg/v1/status/${merchantId}/${transactionId}` + salt_key;
   const dataSha256 = sha256(st);
