@@ -9,8 +9,8 @@ export async function POST(req: any, res: any) {
   const data = await req.formData();
   console.log(data);
   const status = data.get("code");
-  const merchantId = data.get("merchantId");
   const merchantTransactionId = data.get("merchantTransactionId");
+  const merchantId = data.get("merchantId");
 
   const salt_key = 'de5e9ea0-e6f5-4eca-860b-6e3c25c30d3f';
 
