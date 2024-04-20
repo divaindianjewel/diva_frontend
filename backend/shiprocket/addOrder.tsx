@@ -72,7 +72,7 @@ const addOrder = async (obj: any, router: any, cartData: CartItem[]) => {
 
   const headers = {
     "Content-Type": "application/json",
-    Authorization: "Bearer " + process.env.NEXT_PUBLIC_SHIPROCKET_ID,
+    Authorization: `Bearer ${process.env.NEXT_PUBLIC_SHIPROCKET_ID}`,
   };
 
   const shiprocketResponse = await fetch(
