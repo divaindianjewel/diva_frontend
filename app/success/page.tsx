@@ -45,7 +45,7 @@ const Page = () => {
     };
 
     fetchCartData();
-  }, [userId, cartData, router]);
+  }, [cartData]);
 
   // ! user address data fetching
   useEffect(() => {
@@ -87,6 +87,9 @@ const Page = () => {
   return (
     <div>
       <h1>Success Page</h1>
+
+      <p>{cartData}</p>
+
     </div>
   );
 };
