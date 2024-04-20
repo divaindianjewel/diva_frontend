@@ -20,6 +20,17 @@ interface addressProps {
     user_id: string;
   };
 }
+interface CartItem {
+  id: number;
+  attributes: {
+    user_id: string;
+    Product_id: number;
+    product_name: string;
+    product_price: number;
+    qnt: number;
+    img: any;
+  };
+}
 
 const Page = () => {
   const [cartData, setCartData] = useState<any[]>([]);
@@ -29,6 +40,7 @@ const Page = () => {
   const router = useRouter();
 
   // ! user cart data fetching
+
   useEffect(() => {
     const fetchCartData = async () => {
       try {
@@ -36,7 +48,7 @@ const Page = () => {
         const data = await response.json();
         if (data && data.data && data.data.length > 0) {
           const userCartData = data.data.filter(
-            (item: any) => item.attributes.user_id === userId
+            (item: CartItem) => item.attributes.user_id === userId
           );
           setCartData(userCartData);
         }
@@ -46,7 +58,7 @@ const Page = () => {
     };
 
     fetchCartData();
-  }, [cartData]);
+  }, [userId]);
 
   // ! user address data fetching
   useEffect(() => {
@@ -80,17 +92,20 @@ const Page = () => {
     };
 
     getUserData();
-  }, [cartData]);
-
-  useEffect(() => {
     addOrder(obj, router, cartData);
-  }, [obj]);
+  }, [cartData]);
 
   return (
     <div>
       <h1>Success Page</h1>
 
-      <p>{cartData}</p>
+      <ul>
+        {cartData.map((item : CartItem) => (
+          <li key={item.id}>
+            {item.id}
+          </li>
+        ))}
+      </ul>
     </div>
   );
 };

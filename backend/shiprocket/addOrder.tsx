@@ -81,7 +81,7 @@ const addOrder = async (obj: any, router: any, cartData: CartItem[]) => {
 
     if (response.ok) {
       successTost("Order shipped successfully");
-      router.push("/");
+      // router.push("/");
     } else {
       errorTost("Something went wrong");
     }
