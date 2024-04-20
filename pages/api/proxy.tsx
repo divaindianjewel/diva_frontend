@@ -6,7 +6,8 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const PAYMENT_URL = "https://api.phonepe.com/apis/hermes/pg/v1/pay";
+  // const PAYMENT_URL = "https://api.phonepe.com/apis/hermes/pg/v1/pay";
+  const PAYMENT_URL = " https://api-preprod.phonepe.com/apis/pg-sandbox";
 
   const { request, checksum } = req.body;
 
