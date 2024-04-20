@@ -1,6 +1,5 @@
 import axios from "axios";
 import sha256 from "crypto-js/sha256";
-import { domain } from "@/components/backend/apiRouth";
 
 // Function to generate a random ID
 export function generateRandomId(length: number): string {

@@ -2,20 +2,17 @@ import { NextResponse } from "next/server";
 import sha256 from "crypto-js/sha256";
 import axios from "axios";
 
-export async function POST(req: any, res: any) {
-  const local_domain = "http://localhost:3000";
-  const pro_domain = "https://divatheindianjewel.com";
-
+export async function POST(req : any, res : any) {
   const data = await req.formData();
   console.log(data);
   const status = data.get("code");
   const merchantId = data.get("merchantId");
-  const transactionId = data.get("transactionId");
+  const transactionId = data.get("merchantTransactionId");
 
-  const salt_key = "de5e9ea0-e6f5-4eca-860b-6e3c25c30d3f";
-
-  const st = `/pg/v1/status/${merchantId}/${transactionId}` + salt_key;
-  // console.log(st)
+  const st =
+    `/pg/v1/status/${merchantId}/${transactionId}` +
+    process.env.NEXT_PUBLIC_PHONEPE_SALT;
+    
   const dataSha256 = sha256(st);
 
   const checksum = dataSha256 + "###" + 1;
@@ -32,16 +29,15 @@ export async function POST(req: any, res: any) {
     },
   };
 
-  // CHECK PAYMENT STATUS
   const response = await axios.request(options);
   console.log("r===", response.data.code);
 
   if (response.data.code == "PAYMENT_SUCCESS")
-    return NextResponse.redirect(`${pro_domain}/success`, {
+    return NextResponse.redirect("http://localhost:3000/success", {
       status: 301,
     });
   else
-    return NextResponse.redirect(`${pro_domain}/fail`, {
+    return NextResponse.redirect("http://localhost:3000/failure", {
       status: 301,
     });
 }
