@@ -14,12 +14,10 @@ export function generateRandomId(length: number): string {
 
 export async function MakePayment(router: any, amount: number) {
   const merchantTransactionId = generateRandomId(10);
-  // const salt_key = process.env.NEXT_PUBLIC_PHONEPE_SALT;
-  const salt_key = "099eb0cd-02cf-4e2a-8aca-3e6c6aff0399";
+  const salt_key = process.env.NEXT_PUBLIC_PHONEPE_SALT;
 
   const payload = {
-    // merchantId: process.env.NEXT_PUBLIC_PHONEPE_MERCHANT,
-    merchantId: "PGTESTPAYUAT",
+    merchantId: process.env.NEXT_PUBLIC_PHONEPE_MERCHANT,
     merchantTransactionId: merchantTransactionId,
     merchantUserId: 1234,
     amount: 100 * amount,
@@ -34,9 +32,10 @@ export async function MakePayment(router: any, amount: number) {
 
   const dataPayload = JSON.stringify(payload);
   const dataBase64 = Buffer.from(dataPayload).toString("base64");
-  const fullURL = dataBase64 + "/pg/v1/pay" + salt_key;
-  const dataSha256 = sha256(fullURL).toString();
-  const checksum = dataSha256 + "###" + 1;
+  const fullURL =
+    dataBase64 + "/pg/v1/pay" + salt_key;
+  const dataSha256 = sha256(fullURL).toString(); 
+  const checksum = dataSha256 + "###" + 1; 
   const UAT_PAY_API_URL = "/api/proxy";
 
   const response = await axios.post(UAT_PAY_API_URL, {
