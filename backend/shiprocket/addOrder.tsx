@@ -1,7 +1,10 @@
+// Your component file
+
 import { errorTost, successTost } from "@/components/toast/allTost";
 import { generateRandomId } from "@/app/api/Payment";
 import { useRouter } from "next/router";
 
+// Your component code...
 interface CartItem {
   id: number;
   attributes: {
@@ -70,24 +73,21 @@ const addOrder = async (obj: any, router: any, cartData: CartItem[]) => {
     weight: 2.5,
   };
 
-  const headers = {
-    "Content-Type": "application/json",
-    Authorization: `Bearer ${process.env.NEXT_PUBLIC_SHIPROCKET_ID}`,
-  };
-
-  const shiprocketResponse = await fetch(
-    "https://apiv2.shiprocket.in/v1/external/orders/create/adhoc",
-    {
-      method: "POST",
-      headers: headers,
+  try {
+    const response = await fetch('/api/createOrder', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload),
-    }
-  );
+    });
 
-  if (shiprocketResponse.ok) {
-    successTost("Order shipped successfully");
-    router.push("/");
-  } else {
+    if (response.ok) {
+      successTost("Order shipped successfully");
+      router.push("/");
+    } else {
+      errorTost("Something went wrong");
+    }
+  } catch (error) {
+    console.error('Error creating order:', error);
     errorTost("Something went wrong");
   }
 };
