@@ -24,6 +24,7 @@ interface addressProps {
 const Page = () => {
   const [cartData, setCartData] = useState<any[]>([]);
   const { userId } = useAuth();
+  let obj = {};
 
   const router = useRouter();
 
@@ -49,8 +50,6 @@ const Page = () => {
 
   // ! user address data fetching
   useEffect(() => {
-    const obj = {};
-
     const getUserData = async () => {
       const userResponse = await fetch(`${domain}/api/billing-addresses`, {
         method: "GET",
@@ -65,7 +64,7 @@ const Page = () => {
       console.log(data.data);
 
       if (tmpUserData.length > 0) {
-        const obj = {
+        obj = {
           first_name: tmpUserData[0].attributes.first_name,
           last_name: tmpUserData[0].attributes.last_name,
           address: tmpUserData[0].attributes.address,
@@ -81,15 +80,17 @@ const Page = () => {
     };
 
     getUserData();
-    addOrder(obj, router, cartData);
   }, [cartData]);
+
+  useEffect(() => {
+    addOrder(obj, router, cartData);
+  }, [obj]);
 
   return (
     <div>
       <h1>Success Page</h1>
 
       <p>{cartData}</p>
-
     </div>
   );
 };

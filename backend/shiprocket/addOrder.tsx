@@ -72,7 +72,6 @@ const addOrder = async (obj: any, router: any, cartData: CartItem[]) => {
     height: 20,
     weight: 2.5,
   };
-
   try {
     const response = await fetch('/api/createOrder', {
       method: 'POST',
@@ -82,7 +81,7 @@ const addOrder = async (obj: any, router: any, cartData: CartItem[]) => {
 
     if (response.ok) {
       successTost("Order shipped successfully");
-      // router.push("/");
+      router.push("/");
     } else {
       errorTost("Something went wrong");
     }
