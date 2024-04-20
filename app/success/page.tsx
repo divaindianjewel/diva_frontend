@@ -27,6 +27,7 @@ const Page = () => {
 
   const router = useRouter();
 
+  // ! user cart data fetching
   useEffect(() => {
     const fetchCartData = async () => {
       try {
@@ -45,26 +46,11 @@ const Page = () => {
 
     fetchCartData();
   }, [userId, cartData, router]);
-  useEffect(() => {
-    const fetchCartData = async () => {
-      try {
-        const response = await fetch(`${domain}/api/carts?populate=*`);
-        const data = await response.json();
-        if (data && data.data && data.data.length > 0) {
-          const userCartData = data.data.filter(
-            (item: any) => item.attributes.user_id === userId
-          );
-          setCartData(userCartData);
-        }
-      } catch (error) {
-        console.error("Error fetching cart data:", error);
-      }
-    };
 
-    fetchCartData();
-  }, [userId, router]);
-
+  // ! user address data fetching
   useEffect(() => {
+    const obj = {};
+
     const getUserData = async () => {
       const userResponse = await fetch(`${domain}/api/billing-addresses`, {
         method: "GET",
@@ -91,13 +77,12 @@ const Page = () => {
           phone_number: String(tmpUserData[0].attributes.phone_number),
           user_id: userId,
         };
-        addOrder(obj, router, cartData);
       }
     };
 
     getUserData();
-  }, [userId, cartData, router]);
-  console.log(cartData);
+    addOrder(obj, router, cartData);
+  }, [cartData]);
 
   return (
     <div>
