@@ -10,11 +10,11 @@ export async function POST(req: any, res: any) {
   console.log(data);
   const status = data.get("code");
   const merchantId = data.get("merchantId");
-  const transactionId = data.get("transactionId");
+  const merchantTransactionId = data.get("merchantTransactionId");
 
-  const salt_key = process.env.NEXT_PUBLIC_PHONEPE_SALT;
+  const salt_key = 'de5e9ea0-e6f5-4eca-860b-6e3c25c30d3f';
 
-  const st = `/pg/v1/status/${merchantId}/${transactionId}` + salt_key;
+  const st = `/pg/v1/status/${merchantId}/${merchantTransactionId}` + salt_key;
   const dataSha256 = sha256(st);
 
   const checksum = dataSha256 + "###" + 1;
@@ -24,7 +24,7 @@ export async function POST(req: any, res: any) {
 
   const options = {
     method: "GET",
-    url: `${url}/${merchantId}/${transactionId}`,
+    url: `${url}/${merchantId}/${merchantTransactionId}`,
     headers: {
       accept: "application/json",
       "Content-Type": "application/json",
