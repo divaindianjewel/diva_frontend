@@ -23,9 +23,9 @@ export async function MakePayment(router: any, amount: number) {
     merchantTransactionId: merchantTransactionId,
     merchantUserId: 1234,
     amount: 100 * amount,
-    redirectUrl: `${domain}/api/status/${merchantTransactionId}`,
+    redirectUrl: `https://divatheindianjewel.com/api/status/${merchantTransactionId}`,
     redirectMode: "REDIRECT",
-    callbackUrl: `${domain}/api/status/${merchantTransactionId}`,
+    callbackUrl: `https://divatheindianjewel.com/api/status/${merchantTransactionId}`,
     mobileNumber: "957996842",
     paymentInstrument: {
       type: "PAY_PAGE",
