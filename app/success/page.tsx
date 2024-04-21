@@ -51,7 +51,7 @@ const Page = () => {
     };
   }
 
-  addOrder(userDataObj, router, cartData);
+  addOrder(userDataObj, router, cartData, total);
 
   return <div>success</div>;
 };

@@ -17,7 +17,7 @@ interface CartItem {
   };
 }
 
-const addOrder = async (obj: any, router: any, cartData: CartItem[]) => {
+const addOrder = async (obj: any, router: any, cartData: CartItem[], total : number) => {
   const orderItems = cartData.map((item) => ({
     name: item.attributes.product_name,
     sku: item.attributes.Product_id.toString(),
