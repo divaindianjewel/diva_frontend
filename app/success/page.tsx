@@ -1,4 +1,5 @@
 "use client";
+
 import GetCartData, { CartItem } from "@/backend/cart/cart-data";
 import GetUserData from "@/backend/get-user-data";
 import addOrder from "@/backend/shiprocket/addOrder";
@@ -21,7 +22,7 @@ const Page = () => {
     0
   );
 
-  total = total * 0.3;
+  total = total + total * 0.3;
 
   let userData = GetUserData();
 
