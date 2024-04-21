@@ -5,7 +5,7 @@ import GetUserData from "@/backend/get-user-data";
 import addOrder from "@/backend/shiprocket/addOrder";
 import { useAuth } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
-import React from "react";
+import React, { useEffect } from "react";
 
 const Page = () => {
   const { userId } = useAuth();
@@ -21,7 +21,7 @@ const Page = () => {
   const subtotal = priceArray[priceArray.length - 1];
   const gst = subtotal * 0.03;
   const total = subtotal + gst;
-
+  const dependance = 1;
 
   // total = total + total * 0.3;
 
@@ -55,7 +55,13 @@ const Page = () => {
 
   console.log(total);
 
-  addOrder(userDataObj, router, cartData, total);
+  useEffect(() => {
+    try {
+      addOrder(userDataObj, router, cartData, total);
+    } catch (error) {
+      console.log("ERROR : " + error);
+    }
+  }, [dependance]);
 
   return <div>success</div>;
 };
