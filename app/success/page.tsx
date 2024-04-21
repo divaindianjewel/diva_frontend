@@ -1,113 +1,59 @@
 "use client";
-import { domain } from "@/components/backend/apiRouth";
-import { useAuth } from "@clerk/nextjs";
-import React, { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import GetCartData, { CartItem } from "@/backend/cart/cart-data";
+import GetUserData from "@/backend/get-user-data";
 import addOrder from "@/backend/shiprocket/addOrder";
-
-interface addressProps {
-  id: number;
-  attributes: {
-    first_name: string;
-    last_name: string;
-    address: string;
-    city: string;
-    pincode: string;
-    state: string;
-    country: string;
-    email: string;
-    phone_number: number;
-    user_id: string;
-  };
-}
-interface CartItem {
-  id: number;
-  attributes: {
-    user_id: string;
-    Product_id: number;
-    product_name: string;
-    product_price: number;
-    qnt: number;
-    img: any;
-  };
-}
+import { useAuth } from "@clerk/nextjs";
+import { useRouter } from "next/navigation";
+import React from "react";
 
 const Page = () => {
-  const [cartData, setCartData] = useState<any[]>([]);
   const { userId } = useAuth();
-  let obj = {};
 
   const router = useRouter();
 
-  // ! user cart data fetching
-
-  useEffect(() => {
-    const fetchCartData = async () => {
-      try {
-        const response = await fetch(`${domain}/api/carts?populate=*`);
-        const data = await response.json();
-        if (data && data.data && data.data.length > 0) {
-          const userCartData = data.data.filter(
-            (item: CartItem) => item.attributes.user_id === userId
-          );
-          setCartData(userCartData);
-        }
-      } catch (error) {
-        console.error("Error fetching cart data:", error);
-      }
-    };
-
-    fetchCartData();
-  }, [userId]);
-
-  // ! user address data fetching
-  useEffect(() => {
-    const getUserData = async () => {
-      const userResponse = await fetch(`${domain}/api/billing-addresses`, {
-        method: "GET",
-      });
-
-      const data = await userResponse.json();
-
-      const tmpUserData = data.data?.filter(
-        (items: addressProps) => items.attributes.user_id == userId
-      );
-
-      console.log(data.data);
-
-      if (tmpUserData.length > 0) {
-        obj = {
-          first_name: tmpUserData[0].attributes.first_name,
-          last_name: tmpUserData[0].attributes.last_name,
-          address: tmpUserData[0].attributes.address,
-          city: tmpUserData[0].attributes.city,
-          pincode: String(tmpUserData[0].attributes.pincode),
-          state: tmpUserData[0].attributes.state,
-          country: "India",
-          email: tmpUserData[0].attributes.email,
-          phone_number: String(tmpUserData[0].attributes.phone_number),
-          user_id: userId,
-        };
-      }
-    };
-
-    getUserData();
-    addOrder(obj, router, cartData);
-  }, [cartData]);
-
-  return (
-    <div>
-      <h1>Success Page</h1>
-
-      <ul>
-        {cartData.map((item : CartItem) => (
-          <li key={item.id}>
-            {item.id}
-          </li>
-        ))}
-      </ul>
-    </div>
+  let cartData = GetCartData();
+  let tmpPrice = 0;
+  const priceArray = cartData.map(
+    (item: CartItem) => (tmpPrice = item.attributes.product_price + tmpPrice)
   );
+  let total = priceArray.reduce(
+    (accumulator, currentValue) => accumulator + currentValue,
+    0
+  );
+
+  total = total * 0.3;
+
+  let userData = GetUserData();
+
+  let name = "";
+
+  if (userData != undefined) {
+    name =
+      userData[0].attributes.first_name +
+      " " +
+      userData[0].attributes.last_name;
+  }
+
+  let userDataObj = {};
+
+  if (userData != undefined) {
+    userDataObj = {
+      first_name: userData[0].attributes.first_name,
+      last_name: userData[0].attributes.last_name,
+      address: userData[0].attributes.address,
+      city: userData[0].attributes.city,
+      pincode: String(userData[0].attributes.pincode),
+      state: userData[0].attributes.state,
+      country: "India",
+      email: userData[0].attributes.email,
+      phone_number: String(userData[0].attributes.phone_number),
+      userId: userId,
+    };
+  }
+
+  addOrder(userDataObj, router, cartData);
+
+  return <div>success</div>;
 };
 
 export default Page;

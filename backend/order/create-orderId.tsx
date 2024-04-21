@@ -1,11 +1,11 @@
 import { useUser } from "@clerk/clerk-react";
 
-export const addOrder = async (price: number, discount: number) => {
-  const { user } = useUser();
-
-  const user_id = user?.id;
-  const user_name = user?.firstName;
-
+const CreateOrderId = async (
+  price: number,
+  discount: number,
+  user_id: string | null | undefined,
+  user_name: string | null | undefined
+) => {
   const currentDate = new Date();
   var day = currentDate.getDate();
   var month = currentDate.getMonth() + 1; // Note: January is 0
@@ -24,3 +24,5 @@ export const addOrder = async (price: number, discount: number) => {
     }),
   });
 };
+
+export default CreateOrderId;
