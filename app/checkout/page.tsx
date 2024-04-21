@@ -170,7 +170,7 @@ const Page = () => {
         } else {
           warningTost("Selected COD");
           try {
-            addOrder(obj, router, cartData);
+            addOrder(obj, router, cartData, total);
           } catch (error) {
             console.log(error);
           }
@@ -203,7 +203,7 @@ const Page = () => {
         } else {
           warningTost("Selected COD");
           try {
-            addOrder(obj, router, cartData);
+            addOrder(obj, router, cartData, total);
           } catch (error) {
             console.log(error);
           }
