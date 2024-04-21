@@ -66,7 +66,7 @@ const addOrder = async (obj: any, router: any, cartData: CartItem[], total : num
     giftwrap_charges: 0,
     transaction_charges: 0,
     total_discount: 0,
-    sub_total: 9000,
+    sub_total: total,
     length: 10,
     breadth: 15,
     height: 20,
