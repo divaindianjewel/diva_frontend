@@ -17,12 +17,13 @@ const Page = () => {
   const priceArray = cartData.map(
     (item: CartItem) => (tmpPrice = item.attributes.product_price + tmpPrice)
   );
-  let total = priceArray.reduce(
-    (accumulator, currentValue) => accumulator + currentValue,
-    0
-  );
 
-  total = total + total * 0.3;
+  const subtotal = priceArray[priceArray.length - 1];
+  const gst = subtotal * 0.03;
+  const total = subtotal + gst;
+
+
+  // total = total + total * 0.3;
 
   let userData = GetUserData();
 
@@ -51,6 +52,8 @@ const Page = () => {
       userId: userId,
     };
   }
+
+  console.log(total);
 
   addOrder(userDataObj, router, cartData, total);
 

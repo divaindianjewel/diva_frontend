@@ -247,7 +247,7 @@ const Page = () => {
     );
     setSubtotal(tmpsubtotal);
 
-    const gst = tmpsubtotal * 0.18;
+    const gst = tmpsubtotal * 0.03;
 
     const totalPrice = tmpsubtotal + gst;
     setTotal(totalPrice);
@@ -543,7 +543,7 @@ const Page = () => {
                 </div>
                 <div className="flex items-center gap-4">
                   <div>GST (3%)</div>
-                  <div className="ml-auto">₹{(subtotal * 0.3).toFixed(2)}</div>
+                  <div className="ml-auto">₹{(subtotal * 0.03).toFixed(2)}</div>
                 </div>
                 <div className="flex items-center font-medium">
                   <div>Total</div>
