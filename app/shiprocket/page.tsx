@@ -115,7 +115,7 @@ const Page = () => {
       }
     };
     addOrderAndOrderId();
-  }, [cartData, userInfo, total]);
+  }, [cartData, userInfo, total, router, userId, userName, userObj]);
 
   useEffect(() => {
     let tmpsubtotal = 0;
