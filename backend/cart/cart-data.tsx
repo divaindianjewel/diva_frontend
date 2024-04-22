@@ -2,6 +2,7 @@
 import { domain } from "@/components/backend/apiRouth";
 import { useAuth } from "@clerk/nextjs";
 import React, { useEffect, useState } from "react";
+import UseUserId from "../user/get-userId";
 
 export interface CartItem {
   id: number;
@@ -16,8 +17,10 @@ export interface CartItem {
 }
 
 const GetCartData = () => {
-  const { userId } = useAuth();
+  // const userId = UseUserId();
+  const userId = "Ruhsike"
   const [cartData, setCartData] = useState<CartItem[]>([]);
+
 
   const dependance = 1;
 
@@ -37,7 +40,7 @@ const GetCartData = () => {
       }
     };
     fetchCartData();
-  }, [dependance]);
+  }, [userId]); // Include userId in the dependencies array
 
   return cartData;
 };

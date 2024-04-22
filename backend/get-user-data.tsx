@@ -3,7 +3,7 @@ import { domain } from "@/components/backend/apiRouth";
 import { useAuth } from "@clerk/nextjs";
 import React, { useEffect, useState } from "react";
 
-interface addressProps {
+export interface addressProps {
   id: number;
   attributes: {
     first_name: string;

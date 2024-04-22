@@ -1,14 +1,17 @@
 "use client";
 
 import GetCartData, { CartItem } from "@/backend/cart/cart-data";
-import GetUserData from "@/backend/get-user-data";
+import GetUserData, { addressProps } from "@/backend/get-user-data";
 import addOrder from "@/backend/shiprocket/addOrder";
 import { useAuth } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 const Page = () => {
   const { userId } = useAuth();
+  const [ProUserData, setUserData] = useState<any>();
+  const [ProCartData, setCartData] = useState<any>();
+  const [ProTotal, setTotal] = useState<number>();
 
   const router = useRouter();
 
@@ -18,12 +21,9 @@ const Page = () => {
     (item: CartItem) => (tmpPrice = item.attributes.product_price + tmpPrice)
   );
 
-  const subtotal = priceArray[priceArray.length - 1];
-  const gst = subtotal * 0.03;
-  const total = subtotal + gst;
   const dependance = 1;
 
-  // total = total + total * 0.3;
+  const subtotal = priceArray[priceArray.length - 1];
 
   let userData = GetUserData();
 
@@ -53,11 +53,13 @@ const Page = () => {
     };
   }
 
-  console.log(total);
+  setUserData(userDataObj);
+
+  console.log(ProUserData);
 
   useEffect(() => {
     try {
-      addOrder(userDataObj, router, cartData, total);
+      addOrder(userDataObj, router, cartData, 10);
     } catch (error) {
       console.log("ERROR : " + error);
     }
