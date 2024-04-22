@@ -37,6 +37,9 @@ export interface addressProps {
 }
 
 const Page = () => {
+  
+  successTost("this page is working");
+
   const { userId } = useAuth();
   const [cartData, setCartData] = useState<CartItem[]>([]);
   const [userInfo, setUserInfo] = useState<addressProps[]>();
@@ -44,6 +47,7 @@ const Page = () => {
   const [userObj, setUserObj] = useState<any>({});
   const [userName, setUserName] = useState<any>();
   const router = useRouter();
+
 
   useEffect(() => {
     const UserData = async () => {
