@@ -1,5 +1,6 @@
 "use client";
 import { CalendarIcon, PackageIcon } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 
@@ -18,7 +19,7 @@ interface Product {
   };
 }
 
-const Pages: React.FC = () => {
+const Pages = () => {
   const [orderedProducts, setOrderedProducts] = useState<Product[]>([]);
 
   useEffect(() => {
@@ -64,7 +65,7 @@ const Pages: React.FC = () => {
                 <div className="p-4">
                   <div className="flex items-center space-x-4">
                     <div className="flex items-center space-x-2">
-                      <img
+                      <Image
                         alt="Product image"
                         className="aspect-square rounded-md object-cover"
                         height="120"

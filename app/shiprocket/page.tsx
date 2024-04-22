@@ -80,7 +80,7 @@ const Page = () => {
     };
 
     UserData();
-  }, []);
+  }, [userId]);
 
   useEffect(() => {
     const fetchCartData = async () => {
@@ -115,7 +115,7 @@ const Page = () => {
       }
     };
     addOrderAndOrderId();
-  }, [tmpCartData]);
+  }, [cartData, router, total, userId, userInfo, userName, userObj]);
   useEffect(() => {
     let tmpsubtotal = 0;
 
