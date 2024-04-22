@@ -39,7 +39,6 @@ export interface addressProps {
 const Page = () => {
   const { userId } = useAuth();
   const [cartData, setCartData] = useState<CartItem[]>([]);
-  const [tmpCartData, setTmpCartData] = useState<any[]>([]);
   const [userInfo, setUserInfo] = useState<addressProps[]>();
   const [total, setTotal] = useState<number>(0);
   const [userObj, setUserObj] = useState<any>({});
@@ -93,7 +92,6 @@ const Page = () => {
             (item: CartItem) => item.attributes.user_id === userId
           );
           setCartData(userCartData);
-          setTmpCartData(userCartData);
         }
       } catch (error) {
         console.error("Error fetching cart data:", error);
@@ -105,7 +103,7 @@ const Page = () => {
 
   const dependance = 1;
   useEffect(() => {
-    const addOrderAndOrderId = async () => {
+    const addOrderAndOrderId = () => {
       if (
         userInfo != undefined &&
         cartData != undefined &&
@@ -113,12 +111,12 @@ const Page = () => {
         userInfo.length > 0 &&
         total != 0
       ) {
-        // await addOrder(userObj, router, cartData, total, userId, userName);
-        successTost("working");
+        addOrder(userObj, router, cartData, total, userId, userName);
       }
     };
     addOrderAndOrderId();
-  }, [cartData]);
+  }, [cartData, userInfo, total]);
+
   useEffect(() => {
     let tmpsubtotal = 0;
 
