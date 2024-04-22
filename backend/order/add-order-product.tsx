@@ -3,7 +3,11 @@ import { domain } from "@/components/backend/apiRouth";
 const addOrderProduct = async (
   product_id: number,
   order_id: number,
-  qnt: number
+  qnt: number,
+  price: number,
+  img: string,
+  date: string,
+  name : string
 ) => {
   try {
     const response = await fetch(
@@ -18,6 +22,10 @@ const addOrderProduct = async (
             productId: product_id,
             orderId: order_id,
             qnt: qnt,
+            price: price,
+            image: img,
+            date : date,
+            name : name
           },
         }),
       }

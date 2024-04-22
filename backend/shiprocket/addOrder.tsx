@@ -99,14 +99,24 @@ const addOrder = async (
             console.log(item.id);
             console.log(item.attributes.qnt);
 
-            const res = await addOrderProduct(
-              orderId,
-              item.id,
-              item.attributes.qnt
-            );
+            const price = item.attributes.product_price;
+            const productId = item.id;
+            const qnt = item.attributes.qnt;
+            const date = `${year}-${month}-${day}`;
+            const name = item.attributes.product_name;
+            const img = item.attributes.img;
 
+            const res = await addOrderProduct(
+              productId,
+              orderId,
+              qnt,
+              price,
+              img,
+              date,
+              name
+            );
           } catch (error) {
-            console.log(error)
+            console.log(error);
           }
         }
         successTost("Order placed successfully");
