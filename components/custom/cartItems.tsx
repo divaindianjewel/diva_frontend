@@ -36,7 +36,6 @@ const CartItems: React.FC<{
   const [total, setTotal] = useState<number>();
   const [randomNum, setRandomNum] = useState<number>(0);
 
-
   useEffect(() => {
     const fetchCartData = async () => {
       try {
@@ -120,42 +119,44 @@ const CartItems: React.FC<{
               </div>
             </div>
             {show ? (
-              <div className="flex items-center gap-2">
-                <Button
-                  size="icon"
-                  variant="outline"
-                  onClick={async () => {
-                    const newQnt = await decrementQnt(cartId, quantity);
-                    setQuantity(newQnt);
-                  }}
+              <>
+                <div className="flex items-center gap-2">
+                  <Button
+                    size="icon"
+                    variant="outline"
+                    onClick={async () => {
+                      const newQnt = await decrementQnt(cartId, quantity);
+                      setQuantity(newQnt);
+                    }}
+                  >
+                    <FaMinus />
+                  </Button>
+                  <Input
+                    className="w-12 border border-gray-200 rounded-md dark:border-gray-800"
+                    type="number"
+                    value={quantity}
+                  />
+                  <Button
+                    size="icon"
+                    variant="outline"
+                    onClick={async () => {
+                      const newQnt = await incrementQnt(cartId, quantity);
+                      setQuantity(newQnt);
+                    }}
+                  >
+                    <MdAdd />
+                  </Button>
+                </div>
+                <div
+                  className="bg-red-700 w-fit py-2 px-2 m-3 rounded cursor-pointer"
+                  onClick={() => handleRemoveFromCart(cartData.id)}
                 >
-                  <FaMinus />
-                </Button>
-                <Input
-                  className="w-12 border border-gray-200 rounded-md dark:border-gray-800"
-                  type="number"
-                  value={quantity}
-                />
-                <Button
-                  size="icon"
-                  variant="outline"
-                  onClick={async () => {
-                    const newQnt = await incrementQnt(cartId, quantity);
-                    setQuantity(newQnt);
-                  }}
-                >
-                  <MdAdd />
-                </Button>
-              </div>
+                  <FaTrashAlt color="white" size={19} />
+                </div>
+              </>
             ) : (
               ""
             )}
-            <div
-              className="bg-red-700 w-fit py-2 px-2 m-3 rounded cursor-pointer"
-              onClick={() => handleRemoveFromCart(cartData.id)}
-            >
-              <FaTrashAlt color="white" size={19} />
-            </div>
           </div>
         </div>
       )}
