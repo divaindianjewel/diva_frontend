@@ -112,7 +112,7 @@ const Page = () => {
         userInfo.length > 0 &&
         total != 0
       ) {
-        addOrder(userObj, router, cartData, total, userId, userName);
+        await addOrder(userObj, router, cartData, total, userId, userName);
       }
     };
     addOrderAndOrderId();

@@ -11,7 +11,7 @@ const addOrderProduct = async (
 ) => {
   try {
     const response = await fetch(
-      `https://diva-backend-iukkr.ondigitalocean.app/api/ordered-products`,
+      `${domain}/api/ordered-products`,
       {
         headers: {
           "Content-Type": "application/json",
