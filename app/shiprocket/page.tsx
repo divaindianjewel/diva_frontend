@@ -6,6 +6,7 @@ import { domain } from "@/components/backend/apiRouth";
 import { useAuth } from "@clerk/nextjs";
 import addOrder from "@/backend/shiprocket/addOrder";
 import CreateOrderId from "@/backend/order/create-orderId";
+import { successTost } from "@/components/toast/allTost";
 
 interface CartItem {
   id: number;
@@ -112,7 +113,8 @@ const Page = () => {
         userInfo.length > 0 &&
         total != 0
       ) {
-        await addOrder(userObj, router, cartData, total, userId, userName);
+        // await addOrder(userObj, router, cartData, total, userId, userName);
+        successTost("working");
       }
     };
     addOrderAndOrderId();
