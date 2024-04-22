@@ -1,3 +1,4 @@
+import { domain } from "@/components/backend/apiRouth";
 import { useUser } from "@clerk/clerk-react";
 
 const CreateOrderId = async (
@@ -11,18 +12,28 @@ const CreateOrderId = async (
   var month = currentDate.getMonth() + 1; // Note: January is 0
   var year = currentDate.getFullYear();
 
-  const response = await fetch(`http://localhost:1337/api/orders`, {
-    method: "POST",
-    body: JSON.stringify({
-      data: {
-        user_id: user_id,
-        order_date: `${day}-${month}-${year}`,
-        total_price: price,
-        discount: discount,
-        user_name: user_name,
+  try {
+    const response = await fetch(`${domain}/api/orders`, {
+      headers: {
+        "Content-Type": "application/json",
       },
-    }),
-  });
+      method: "POST",
+      body: JSON.stringify({
+        data: {
+          user_id: user_id,
+          order_date: `${day}-${month}-${year}`,
+          total_price: price,
+          discount: discount,
+          user_name: user_name,
+        },
+      }),
+    });
+    const data = await response.json();
+    return data.data;
+  } catch (error) {
+    console.log(error);
+    return 0;
+  }
 };
 
 export default CreateOrderId;

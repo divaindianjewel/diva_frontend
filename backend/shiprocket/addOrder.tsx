@@ -3,6 +3,8 @@
 import { errorTost, successTost } from "@/components/toast/allTost";
 import { generateRandomId } from "@/app/api/Payment";
 import { useRouter } from "next/router";
+import CreateOrderId from "../order/create-orderId";
+import addOrderProduct from "../order/add-order-product";
 
 interface CartItem {
   id: number;
@@ -20,7 +22,9 @@ const addOrder = async (
   obj: any,
   router: any,
   cartData: CartItem[] | any[] | undefined,
-  total: number
+  total: number,
+  userId: any,
+  userName: string
 ) => {
   if (cartData != undefined) {
     const orderItems = cartData.map((item) => ({
@@ -85,7 +89,27 @@ const addOrder = async (
       });
 
       if (response.ok) {
-        successTost("Order shipped successfully");
+        const response = await CreateOrderId(total, 0, userId, userName);
+        const orderId = response.id;
+        console.log(orderId);
+
+        let res;
+        for (const item of cartData) {
+          try {
+            console.log(item.id);
+            console.log(item.attributes.qnt);
+
+            const res = await addOrderProduct(
+              orderId,
+              item.id,
+              item.attributes.qnt
+            );
+
+          } catch (error) {
+            console.log(error)
+          }
+        }
+        successTost("Order placed successfully");
         router.push("/");
       } else {
         errorTost("Something went wrong");

@@ -1,12 +1,11 @@
 "use client";
 import React, { useEffect, useState } from "react";
 
-import { errorTost, successTost } from "@/components/toast/allTost";
-import { generateRandomId } from "@/app/api/Payment";
 import { useRouter } from "next/navigation";
 import { domain } from "@/components/backend/apiRouth";
 import { useAuth } from "@clerk/nextjs";
 import addOrder from "@/backend/shiprocket/addOrder";
+import CreateOrderId from "@/backend/order/create-orderId";
 
 interface CartItem {
   id: number;
@@ -39,9 +38,11 @@ export interface addressProps {
 const Page = () => {
   const { userId } = useAuth();
   const [cartData, setCartData] = useState<CartItem[]>([]);
+  const [tmpCartData, setTmpCartData] = useState<any[]>([]);
   const [userInfo, setUserInfo] = useState<addressProps[]>();
   const [total, setTotal] = useState<number>(0);
   const [userObj, setUserObj] = useState<any>({});
+  const [userName, setUserName] = useState<any>();
   const router = useRouter();
 
   useEffect(() => {
@@ -70,6 +71,10 @@ const Page = () => {
           userId: userId,
         };
 
+        const fullName = obj.first_name + " " + obj.last_name;
+
+        setUserName(fullName);
+
         setUserObj(obj);
       }
     };
@@ -87,6 +92,7 @@ const Page = () => {
             (item: CartItem) => item.attributes.user_id === userId
           );
           setCartData(userCartData);
+          setTmpCartData(userCartData);
         }
       } catch (error) {
         console.error("Error fetching cart data:", error);
@@ -97,20 +103,19 @@ const Page = () => {
   }, [userId]);
 
   useEffect(() => {
-    if (
-      userInfo != undefined &&
-      cartData != undefined &&
-      cartData.length > 0 &&
-      userInfo.length > 0 &&
-      total != 0
-    ) {
-      console.log(cartData);
-      console.log(userInfo[0].attributes.city);
-      console.log(total);
-      console.log(userObj);
-      addOrder(userObj, router, cartData, total);
-    }
-  }, [cartData]); 
+    const addOrderAndOrderId = async () => {
+      if (
+        userInfo != undefined &&
+        cartData != undefined &&
+        cartData.length > 0 &&
+        userInfo.length > 0 &&
+        total != 0
+      ) {
+        addOrder(userObj, router, cartData, total, userId, userName);
+      }
+    };
+    addOrderAndOrderId();
+  }, [tmpCartData]);
   useEffect(() => {
     let tmpsubtotal = 0;
 
