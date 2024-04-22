@@ -37,7 +37,6 @@ export interface addressProps {
 }
 
 const Page = () => {
-  
   successTost("this page is working");
 
   const { userId } = useAuth();
@@ -47,7 +46,6 @@ const Page = () => {
   const [userObj, setUserObj] = useState<any>({});
   const [userName, setUserName] = useState<any>();
   const router = useRouter();
-
 
   useEffect(() => {
     const UserData = async () => {
@@ -108,15 +106,7 @@ const Page = () => {
   const dependance = 1;
   useEffect(() => {
     const addOrderAndOrderId = () => {
-      if (
-        userInfo != undefined &&
-        cartData != undefined &&
-        cartData.length > 0 &&
-        userInfo.length > 0 &&
-        total != 0
-      ) {
-        addOrder(userObj, router, cartData, total, userId, userName);
-      }
+      addOrder(userObj, router, cartData, total, userId, userName);
     };
     addOrderAndOrderId();
   }, [cartData]);
