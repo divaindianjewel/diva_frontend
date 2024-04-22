@@ -102,6 +102,7 @@ const Page = () => {
     fetchCartData();
   }, [userId]);
 
+  const dependance = 1;
   useEffect(() => {
     const addOrderAndOrderId = async () => {
       if (
@@ -115,7 +116,7 @@ const Page = () => {
       }
     };
     addOrderAndOrderId();
-  }, [cartData, router, total, userId, userInfo, userName, userObj]);
+  }, [cartData]);
   useEffect(() => {
     let tmpsubtotal = 0;
 

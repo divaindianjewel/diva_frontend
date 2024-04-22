@@ -5,6 +5,7 @@ import { generateRandomId } from "@/app/api/Payment";
 import { useRouter } from "next/router";
 import CreateOrderId from "../order/create-orderId";
 import addOrderProduct from "../order/add-order-product";
+import { deleteCartItem } from "../cart-operation";
 
 interface CartItem {
   id: number;
@@ -120,6 +121,16 @@ const addOrder = async (
           }
         }
         successTost("Order placed successfully");
+
+        for(const items of cartData) {
+          try {
+            const res = await deleteCartItem(items.id)
+            console.log(`${items.id} deleted successfully`);
+          } catch (error) {
+            console.log(error);
+          }
+        }
+
         router.push("/");
       } else {
         errorTost("Something went wrong");
