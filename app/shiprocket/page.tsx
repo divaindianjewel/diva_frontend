@@ -70,17 +70,14 @@ const Page = () => {
           phone_number: String(tmpUserData[0].attributes.phone_number),
           userId: userId,
         };
-
         const fullName = obj.first_name + " " + obj.last_name;
-
         setUserName(fullName);
-
         setUserObj(obj);
       }
     };
 
     UserData();
-  }, [userId]);
+  }, [userId, total]);
 
   useEffect(() => {
     const fetchCartData = async () => {
@@ -116,7 +113,7 @@ const Page = () => {
       }
     };
     addOrderAndOrderId();
-  }, [cartData, total, userObj]);
+  }, [cartData, total, userObj, userName]);
 
   useEffect(() => {
     let tmpsubtotal = 0;
