@@ -38,6 +38,7 @@ export interface addressProps {
 
 const Page = () => {
   const { userId } = useAuth();
+  const [userInfoLoading, setUserInfoLoading] = useState<boolean>(true);
   const [cartData, setCartData] = useState<CartItem[]>([]);
   const [userInfo, setUserInfo] = useState<addressProps[]>();
   const [total, setTotal] = useState<number>(0);
@@ -73,11 +74,12 @@ const Page = () => {
         const fullName = obj.first_name + " " + obj.last_name;
         setUserName(fullName);
         setUserObj(obj);
+        setUserInfoLoading(false);
       }
     };
 
     UserData();
-  }, [userId, total]);
+  }, [userId]);
 
   useEffect(() => {
     const fetchCartData = async () => {
@@ -100,10 +102,6 @@ const Page = () => {
 
   useEffect(() => {
     const addOrderAndOrderId = () => {
-      console.log("CartData : " + cartData.length);
-      console.log("total : " + total);
-      console.log("UserId : " + userId);
-      console.log("UserName : " + userName);
       if (userName != undefined && total != 0) {
         console.log("CartData : " + cartData.length);
         console.log("total : " + total);
@@ -113,7 +111,7 @@ const Page = () => {
       }
     };
     addOrderAndOrderId();
-  }, [cartData, total, userObj, userName]);
+  }, [cartData]);
 
   useEffect(() => {
     let tmpsubtotal = 0;
