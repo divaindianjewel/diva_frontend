@@ -104,6 +104,10 @@ const Page = () => {
   const dependance = 1;
   useEffect(() => {
     const addOrderAndOrderId = () => {
+      console.log("CartData : " + cartData.length);
+      console.log("total : " + total);
+      console.log("UserId : " + userId);
+      console.log("UserName : " + userName);
       if (userName != undefined && total != 0) {
         console.log("CartData : " + cartData.length);
         console.log("total : " + total);
