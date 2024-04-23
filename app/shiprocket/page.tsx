@@ -105,6 +105,12 @@ const Page = () => {
 
   const dependance = 1;
   useEffect(() => {
+    console.log(userObj);
+    console.log(cartData);
+    console.log(total);
+    console.log(userId);
+    console.log(userName);
+
     const addOrderAndOrderId = () => {
       addOrder(userObj, router, cartData, total, userId, userName);
     };
