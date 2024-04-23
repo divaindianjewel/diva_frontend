@@ -80,7 +80,7 @@ const Page = () => {
     };
 
     UserData();
-  }, [userId]);
+  }, [userId, cartData]);
 
   useEffect(() => {
     const fetchCartData = async () => {
@@ -99,7 +99,7 @@ const Page = () => {
     };
 
     fetchCartData();
-  }, [userId]);
+  }, [cartData]);
 
   const dependance = 1;
   useEffect(() => {
