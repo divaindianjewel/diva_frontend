@@ -103,7 +103,6 @@ const Page = () => {
 
   useEffect(() => {
     const addOrderAndOrderId = () => {
-     
       console.log("CartData : " + cartData.length);
       console.log("total : " + total);
       console.log("UserId : " + userId);
@@ -117,7 +116,7 @@ const Page = () => {
       }
     };
     addOrderAndOrderId();
-  }, [cartData, total]);
+  }, [cartData, total, userName]);
 
   useEffect(() => {
     let tmpsubtotal = 0;
