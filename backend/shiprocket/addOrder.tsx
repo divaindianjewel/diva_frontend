@@ -90,36 +90,36 @@ const addOrder = async (
       });
 
       if (response.ok) {
-        const response = await CreateOrderId(total, 0, userId, userName);
-        const orderId = response.id;
+        // const response = await CreateOrderId(total, 0, userId, userName);
+        // const orderId = response.id;
 
-        let res;
-        for (const item of cartData) {
-          try {
-            console.log(item.id);
-            console.log(item.attributes.qnt);
+        // let res;
+        // for (const item of cartData) {
+        //   try {
+        //     console.log(item.id);
+        //     console.log(item.attributes.qnt);
 
-            const price = item.attributes.product_price;
-            const productId = item.id;
-            const qnt = item.attributes.qnt;
-            const date = `${year}-${month}-${day}`;
-            const name = item.attributes.product_name;
-            const img = item.attributes.img;
+        //     const price = item.attributes.product_price;
+        //     const productId = item.id;
+        //     const qnt = item.attributes.qnt;
+        //     const date = `${year}-${month}-${day}`;
+        //     const name = item.attributes.product_name;
+        //     const img = item.attributes.img;
 
-            const res = await addOrderProduct(
-              productId,
-              orderId,
-              qnt,
-              price,
-              img,
-              date,
-              name,
-              userId
-            );
-          } catch (error) {
-            console.log(error);
-          }
-        }
+        //     const res = await addOrderProduct(
+        //       productId,
+        //       orderId,
+        //       qnt,
+        //       price,
+        //       img,
+        //       date,
+        //       name,
+        //       userId
+        //     );
+        //   } catch (error) {
+        //     console.log(error);
+        //   }
+        // }
         successTost("Order placed successfully");
 
         for (const items of cartData) {
