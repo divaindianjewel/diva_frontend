@@ -36,6 +36,8 @@ import gpay from "@/app/assets/checkout/gpay.svg";
 import addOrder from "@/backend/shiprocket/addOrder";
 import { MakePayment } from "@/app/api/Payment";
 import { NextApiRequest, NextApiResponse } from "next";
+import { Input } from "@/components/ui/input";
+import CreateOrderId from "@/backend/order/create-orderId";
 
 interface CartItem {
   id: number;
@@ -65,6 +67,14 @@ interface addressProps {
   };
 }
 
+interface discounts {
+  id: number;
+  attributes: {
+    code: string;
+    amount: number;
+  };
+}
+
 const Page = () => {
   const router = useRouter();
 
@@ -84,6 +94,31 @@ const Page = () => {
   const [selectedMethod, setSelectedMethod] = useState("online");
   const [tmpUserData, setTmpUserData] = useState<any>();
   const [dataPresent, setDataPresent] = useState<boolean>(false);
+  const [discountCodeText, setDiscountCodeText] = useState<string>("");
+  const [discountAmount, setDiscountAmount] = useState<number>();
+  const [isDiscounted, setIsDiscounted] = useState<boolean>(false);
+
+  const applyDiscount = async (code: string) => {
+    const response = await fetch(`${domain}/api/discounts`);
+
+    const userName = firstName + " " + lastName;
+
+    const data = await response.json();
+
+    const filteredData: discounts[] = data.data.filter(
+      (item: discounts) => item.attributes.code == code
+    );
+
+    if (!filteredData[0]) {
+      errorTost("Invalid Discount Code!");
+      return false;
+    } else {
+      const TmpDiscountAmount = filteredData[0].attributes.amount;
+      setDiscountAmount(TmpDiscountAmount);
+      setIsDiscounted(true);
+      successTost("This Code is Available");
+    }
+  };
 
   useEffect(() => {
     const getUserData = async () => {
@@ -170,7 +205,7 @@ const Page = () => {
         } else {
           warningTost("Selected COD");
           try {
-            router.push("/shiprocket")
+            router.push("/shiprocket");
           } catch (error) {
             console.log(error);
           }
@@ -530,40 +565,99 @@ const Page = () => {
           <CardContent></CardContent>
         </Card>
 
-        <Card className="max-w-[70rem] w-[30rem] my-5">
-          <CardHeader>
-            <CardTitle className="text-center">Total Bill</CardTitle>
-          </CardHeader>
-          <div className="w-full flex justify-end mr-10 mt-10">
-            <div className="w-[30rem] max-w-[40rem] ">
-              <CardContent className="grid gap-4">
-                <div className="flex items-center gap-4">
-                  <div>Subtotal</div>
-                  <div className="ml-auto">₹{subtotal.toFixed(2)}</div>
-                </div>
-                <div className="flex items-center gap-4">
-                  <div>GST (3%)</div>
-                  <div className="ml-auto">₹{(subtotal * 0.03).toFixed(2)}</div>
-                </div>
-                <div className="flex items-center font-medium">
-                  <div>Total</div>
-                  <div className="ml-auto">₹{total.toFixed(2)}</div>
-                </div>
-              </CardContent>
-              <CardFooter>
-                <Button
-                  className="w-full"
-                  size="lg"
-                  onClick={(e) => {
-                    handelPay(e);
-                  }}
-                >
-                  Proceed to pay
-                </Button>
-              </CardFooter>
+        <div className={`flex flex-col items-center justify-center gap-5`}>
+          <div>
+            <div className="flex w-full max-w-sm items-center space-x-2">
+              <Input
+                placeholder="Enter discount code"
+                className="w-full"
+                type="text"
+                disabled={isDiscounted}
+                onChange={(e) => {
+                  setDiscountCodeText(e.target.value);
+                }}
+                value={discountCodeText}
+              />
+              <Button
+                onClick={async () => {
+                  await applyDiscount(discountCodeText);
+                }}
+                disabled={isDiscounted}
+              >
+                Apply
+              </Button>
             </div>
+
+            {isDiscounted ? (
+              <div
+                className="cursor-pointer"
+                onClick={() => {
+                  setDiscountCodeText("");
+                  setIsDiscounted(false);
+                }}
+              >
+                <p className="text-red-800 font-bold mt-3 ml-4">
+                  {" "}
+                  remove discount Code{" "}
+                </p>
+              </div>
+            ) : (
+              " "
+            )}
           </div>
-        </Card>
+
+          <Card className="max-w-[70rem] w-[30rem] my-5">
+            <CardHeader>
+              <CardTitle className="text-center">Total Bill</CardTitle>
+            </CardHeader>
+            <div className="w-full flex justify-end mr-10 mt-10">
+              <div className="w-[30rem] max-w-[40rem] ">
+                <CardContent className="grid gap-4">
+                  <div className="flex items-center gap-4">
+                    <div>Subtotal</div>
+                    <div className="ml-auto">₹{subtotal.toFixed(2)}</div>
+                  </div>
+                  <div className="flex items-center gap-4">
+                    <div>GST (3%)</div>
+                    <div className="ml-auto">
+                      ₹{(subtotal * 0.03).toFixed(2)}
+                    </div>
+                  </div>
+                  {isDiscounted ? (
+                    <div className="flex  gap-4">
+                      <div>DISCOUNT</div>
+                      <div className="ml-auto">₹ {discountAmount}</div>
+                    </div>
+                  ) : (
+                    ""
+                  )}
+                  <div className="flex items-center font-medium">
+                    <div>Total</div>
+                    <div className="ml-auto">
+                      ₹
+                      {discountAmount
+                        ? isDiscounted
+                          ? total - discountAmount
+                          : total
+                        : total}
+                    </div>
+                  </div>
+                </CardContent>
+                <CardFooter>
+                  <Button
+                    className="w-full"
+                    size="lg"
+                    onClick={(e) => {
+                      handelPay(e);
+                    }}
+                  >
+                    Proceed to pay
+                  </Button>
+                </CardFooter>
+              </div>
+            </div>
+          </Card>
+        </div>
       </div>
     </>
   );

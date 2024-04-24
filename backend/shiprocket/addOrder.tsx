@@ -93,7 +93,6 @@ const addOrder = async (
         const response = await CreateOrderId(total, 0, userId, userName);
         const orderId = response.id;
 
-        let res;
         for (const item of cartData) {
           try {
             console.log(item.id);
