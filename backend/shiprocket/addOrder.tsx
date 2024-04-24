@@ -133,6 +133,7 @@ const addOrder = async (
 
         router.push("/orders");
       } else {
+        console.log(response.text);
         errorTost("Something went wrong");
       }
     } catch (error) {
