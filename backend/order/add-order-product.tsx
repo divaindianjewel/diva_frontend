@@ -7,8 +7,7 @@ const addOrderProduct = async (
   price: number,
   img: string,
   date: string,
-  name: string,
-  userId: string
+  name: string
 ) => {
   try {
     const response = await fetch(`${domain}/api/ordered-products`, {
@@ -24,8 +23,7 @@ const addOrderProduct = async (
           price: price,
           image: img,
           date: date,
-          name: name,
-          userId: userId,
+          name: name
         },
       }),
     });

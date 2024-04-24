@@ -1,5 +1,6 @@
 "use client";
 import { domain } from "@/components/backend/apiRouth";
+import { errorTost } from "@/components/toast/allTost";
 import { useAuth } from "@clerk/nextjs";
 import { CalendarIcon, PackageIcon } from "lucide-react";
 import Image from "next/image";
@@ -18,17 +19,51 @@ interface Product {
     image: string;
     date: string;
     name: string;
+    userid: string;
+  };
+}
+
+interface OrderId {
+  id: number;
+  attributes: {
+    user_id: string;
+    order_date: string;
+    total_price: string;
+    discount: string;
+    user_name: string;
+    ordered: boolean;
   };
 }
 
 const Pages = () => {
   const { userId } = useAuth();
+  const [orderId, setOrderId] = useState<OrderId[]>([]);
   const [orderedProducts, setOrderedProducts] = useState<Product[]>([]);
 
-  fetch("https://diva-backend-iukkr.ondigitalocean.app/api/ordered-products")
-    .then((response) => response.json())
-    .then((data) => setOrderedProducts(data.data))
-    .catch((error) => console.error("Error fetching data:", error));
+  useEffect(() => {
+    const getUserId = async () => {
+      const response = await fetch(`https://diva-backend-iukkr.ondigitalocean.app/api/orders`);
+      const data = await response.json();
+      setOrderId(data.data);
+    };
+  }, [userId]);
+
+  useEffect(() => {
+    const getUserData = async () => {
+      try {
+        const response = await fetch(`${domain}/api/ordered-products`);
+        const data = await response.json();
+        setOrderedProducts(data.data);
+      } catch (error) {
+        console.log(error);
+        errorTost("something went wrong");
+      }
+    };
+
+    getUserData();
+  }, [userId]);
+
+  console.log(orderId);
 
   return (
     <div>

@@ -113,8 +113,7 @@ const addOrder = async (
               price,
               img,
               date,
-              name,
-              userId
+              name
             );
           } catch (error) {
             console.log(error);

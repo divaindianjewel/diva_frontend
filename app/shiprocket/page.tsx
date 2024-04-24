@@ -102,11 +102,11 @@ const Page = () => {
 
   useEffect(() => {
     const addOrderAndOrderId = () => {
-      console.log("CartData : " + cartData.length);
-      console.log("total : " + total);
-      console.log("UserId : " + userId);
-      console.log("UserName : " + userName); 
-      console.log("___________________________");
+      // console.log("CartData : " + cartData.length);
+      // console.log("total : " + total);
+      // console.log("UserId : " + userId);
+      // console.log("UserName : " + userName); 
+      // console.log("___________________________");
       if (userName != undefined && total != 0) {
         console.log("CartData : " + cartData.length);
         console.log("total : " + total);
