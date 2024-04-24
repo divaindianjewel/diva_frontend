@@ -15,6 +15,7 @@ import Link from "next/link";
 
 // Icons
 import { IoMenu } from "react-icons/io5";
+import { BsFillBoxSeamFill } from "react-icons/bs";
 
 interface NavItem {
   href: string;
@@ -30,6 +31,7 @@ export default function TemporaryDrawer() {
     { href: "/", label: "SILVER JEWELLERY", icon: "" },
     { href: "/", label: "1 GRAM JEWELLERY", icon: "" },
     { href: "/", label: "FUSION JEWELLERY", icon: "" },
+    { href: "/orders", label: "My Orders", icon: <BsFillBoxSeamFill /> },
   ];
   const toggleDrawer = (newOpen: boolean) => () => {
     setOpen(newOpen);

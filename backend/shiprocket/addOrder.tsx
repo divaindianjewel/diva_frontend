@@ -92,7 +92,7 @@ const addOrder = async (
       if (response.ok) {
         const response = await CreateOrderId(total, 0, userId, userName);
         const orderId = response.id;
-      
+
         let res;
         for (const item of cartData) {
           try {
@@ -113,7 +113,8 @@ const addOrder = async (
               price,
               img,
               date,
-              name
+              name,
+              userId
             );
           } catch (error) {
             console.log(error);
@@ -121,16 +122,16 @@ const addOrder = async (
         }
         successTost("Order placed successfully");
 
-        // for(const items of cartData) {
-        //   try {
-        //     const res = await deleteCartItem(items.id)
-        //     console.log(`${items.id} deleted successfully`);
-        //   } catch (error) {
-        //     console.log(error);
-        //   }
-        // }
+        for (const items of cartData) {
+          try {
+            const res = await deleteCartItem(items.id);
+            console.log(`${items.id} deleted successfully`);
+          } catch (error) {
+            console.log(error);
+          }
+        }
 
-        // router.push("/");
+        router.push("/orders");
       } else {
         errorTost("Something went wrong");
       }

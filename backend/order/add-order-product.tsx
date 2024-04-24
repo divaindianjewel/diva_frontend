@@ -7,29 +7,28 @@ const addOrderProduct = async (
   price: number,
   img: string,
   date: string,
-  name : string
+  name: string,
+  userId: string
 ) => {
   try {
-    const response = await fetch(
-      `${domain}/api/ordered-products`,
-      {
-        headers: {
-          "Content-Type": "application/json",
+    const response = await fetch(`${domain}/api/ordered-products`, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      method: "POST",
+      body: JSON.stringify({
+        data: {
+          productId: product_id,
+          orderId: order_id,
+          qnt: qnt,
+          price: price,
+          image: img,
+          date: date,
+          name: name,
+          userId: userId,
         },
-        method: "POST",
-        body: JSON.stringify({
-          data: {
-            productId: product_id,
-            orderId: order_id,
-            qnt: qnt,
-            price: price,
-            image: img,
-            date : date,
-            name : name
-          },
-        }),
-      }
-    );
+      }),
+    });
 
     if (response) {
       console.log("Item added successfully");

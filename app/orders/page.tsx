@@ -1,4 +1,6 @@
 "use client";
+import { domain } from "@/components/backend/apiRouth";
+import { useAuth } from "@clerk/nextjs";
 import { CalendarIcon, PackageIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -20,15 +22,13 @@ interface Product {
 }
 
 const Pages = () => {
+  const { userId } = useAuth();
   const [orderedProducts, setOrderedProducts] = useState<Product[]>([]);
 
-  useEffect(() => {
-    // Fetch data from the API
-    fetch("https://diva-backend-iukkr.ondigitalocean.app/api/ordered-products")
-      .then((response) => response.json())
-      .then((data) => setOrderedProducts(data.data))
-      .catch((error) => console.error("Error fetching data:", error));
-  }, []);
+  fetch("https://diva-backend-iukkr.ondigitalocean.app/api/ordered-products")
+    .then((response) => response.json())
+    .then((data) => setOrderedProducts(data.data))
+    .catch((error) => console.error("Error fetching data:", error));
 
   return (
     <div>
