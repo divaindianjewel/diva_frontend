@@ -2,8 +2,6 @@
 
 import { errorTost, successTost } from "@/components/toast/allTost";
 import { generateRandomId } from "@/app/api/Payment";
-import { useRouter } from "next/router";
-import CreateOrderId from "../order/create-orderId";
 import addOrderProduct from "../order/add-order-product";
 import { deleteCartItem } from "../cart-operation";
 
@@ -93,8 +91,6 @@ const addOrder = async (
       if (response.ok) {
         for (const item of cartData) {
           try {
-            console.log(item.id);
-            console.log(item.attributes.qnt);
             const price = item.attributes.product_price;
             const productId = item.id;
             const qnt = item.attributes.qnt;

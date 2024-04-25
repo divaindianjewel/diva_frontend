@@ -90,28 +90,19 @@ const Page = () => {
         setUserObj(obj);
       }
     };
-
     UserData();
   }, [userId]);
 
   useEffect(() => {
     const getOrderId = async () => {
       const response = await fetch(`${domain}/api/orders`);
-
       const data = await response.json();
-
-      console.log(data.data);
-
       const TmpOrderInfo: order = data.data[data.data.length - 1];
 
       setOrderInfo(TmpOrderInfo);
       setOrderId(TmpOrderInfo.id);
       setDiscountAmount(TmpOrderInfo.attributes.discount);
-
       setTmp(true);
-      console.log(orderInfo);
-      console.log(orderId);
-      console.log(discountAmount);
     };
 
     getOrderId();
@@ -138,14 +129,6 @@ const Page = () => {
 
   useEffect(() => {
     const addOrderAndOrderId = () => {
-      // console.log("CartData : " + cartData.length);
-      // console.log("total : " + total);
-      // console.log("UserId : " + userId);
-      // console.log("UserName : " + userName);
-      // console.log("OrderId : " + orderId);
-      // console.log("discountAmount : " + discountAmount);
-      // console.log("___________________________");
-
       if (
         userName != undefined &&
         total != 0 &&
@@ -153,12 +136,6 @@ const Page = () => {
         discountAmount != undefined &&
         userId != undefined
       ) {
-        console.log("CartData : " + cartData.length);
-        console.log("total : " + total);
-        console.log("UserId : " + userId);
-        console.log("UserName : " + userName);
-        console.log("OrderId : " + orderId);
-        console.log("discountAmount : " + discountAmount);
         addOrder(
           userObj,
           router,

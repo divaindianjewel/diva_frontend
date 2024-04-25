@@ -201,6 +201,7 @@ const Page = () => {
           const total_items = cartData.length;
           if (!isDiscounted) {
             if (userId != undefined) {
+              errorTost("first create id");
               const response = await CreateOrderId(
                 total,
                 0,
@@ -211,6 +212,7 @@ const Page = () => {
             }
           } else {
             if (discountAmount != undefined && userId != undefined) {
+              errorTost("second create id");
               const response = await CreateOrderId(
                 total,
                 discountAmount,
@@ -272,6 +274,7 @@ const Page = () => {
 
           if (!isDiscounted) {
             if (userId != undefined) {
+              errorTost("third create id");
               const response = await CreateOrderId(
                 total,
                 0,
@@ -279,9 +282,12 @@ const Page = () => {
                 userName,
                 total_items
               );
+
+              console.log("This is 1");
             }
           } else {
             if (discountAmount != undefined && userId != undefined) {
+              errorTost("fourth create id");
               const response = await CreateOrderId(
                 total,
                 discountAmount,
@@ -289,6 +295,7 @@ const Page = () => {
                 userName,
                 total_items
               );
+              console.log("This is 2");
             }
           }
         } catch (error) {
@@ -305,36 +312,7 @@ const Page = () => {
           }
         } else {
           warningTost("Selected COD");
-          try {
-            const userName = firstName + " " + lastName;
-
-            const total_items = cartData.length;
-
-            if (!isDiscounted) {
-              if (userId != undefined) {
-                const response = await CreateOrderId(
-                  total,
-                  0,
-                  userId,
-                  userName,
-                  total_items
-                );
-              }
-            } else {
-              if (discountAmount != undefined && userId != undefined) {
-                const response = await CreateOrderId(
-                  total,
-                  discountAmount,
-                  userId,
-                  userName,
-                  total_items
-                );
-              }
-            }
-            router.push("/shiprocket");
-          } catch (error) {
-            console.log(error);
-          }
+          router.push("/shiprocket");
         }
       }
     }
