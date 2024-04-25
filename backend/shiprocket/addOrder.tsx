@@ -34,7 +34,7 @@ const addOrder = async (
       sku: item.attributes.Product_id.toString(),
       units: item.attributes.qnt,
       selling_price: item.attributes.product_price,
-      discount: "0",
+      discount: discountAmount,
       tax: "3",
       hsn: 441122,
     }));
@@ -95,7 +95,6 @@ const addOrder = async (
           try {
             console.log(item.id);
             console.log(item.attributes.qnt);
-
             const price = item.attributes.product_price;
             const productId = item.id;
             const qnt = item.attributes.qnt;

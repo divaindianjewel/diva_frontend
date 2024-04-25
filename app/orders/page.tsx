@@ -7,6 +7,9 @@ import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 
+// discount icons
+import { CiDiscount1 } from "react-icons/ci";
+
 interface Product {
   id: number;
   attributes: {
@@ -41,6 +44,22 @@ const Pages = () => {
   const [orderedProducts, setOrderedProducts] = useState<Product[]>([]);
 
   useEffect(() => {
+    const getUserOrders = async () => {
+      const response = await fetch(`${domain}/api/orders`);
+      const data = await response.json();
+
+      const tmpData = data.data.filter(
+        (item: OrderId) => item.attributes.user_id == userId
+      );
+      setOrderId(tmpData);
+    };
+
+    getUserOrders();
+  }, []);
+
+  console.log(orderId);
+
+  useEffect(() => {
     const getUserData = async () => {
       try {
         const response = await fetch(`${domain}/api/ordered-products`);
@@ -58,8 +77,6 @@ const Pages = () => {
 
     getUserData();
   }, [userId]);
-
-  console.log(orderId);
 
   return (
     <div>
@@ -84,6 +101,12 @@ const Pages = () => {
                     <PackageIcon className="h-6 w-6" />
                     <span className="font-semibold">
                       Order-id : #{product.attributes.orderId}
+                    </span>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <CiDiscount1 className="h-6 w-6" />
+                    <span className="font-semibold">
+                      discount : ₹{product.attributes.orderId}
                     </span>
                   </div>
                   <div className="flex items-center space-x-2">

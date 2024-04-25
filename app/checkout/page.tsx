@@ -198,19 +198,26 @@ const Page = () => {
         try {
           const userName = firstName + " " + lastName;
 
+          const total_items = cartData.length;
           if (!isDiscounted) {
-            const response = await CreateOrderId(total, 0, userId, userName);
+            const response = await CreateOrderId(
+              total,
+              0,
+              userId,
+              userName,
+              total_items
+            );
           } else {
             if (discountAmount != undefined) {
               const response = await CreateOrderId(
                 total,
                 discountAmount,
                 userId,
-                userName
+                userName,
+                total_items
               );
             }
           }
-
           successTost("Order placed successfully");
         } catch (error) {
           console.log(error);
@@ -258,19 +265,27 @@ const Page = () => {
         try {
           const userName = firstName + " " + lastName;
 
+          const total_items = cartData.length;
+
           if (!isDiscounted) {
-            const response = await CreateOrderId(total, 0, userId, userName);
+            const response = await CreateOrderId(
+              total,
+              0,
+              userId,
+              userName,
+              total_items
+            );
           } else {
             if (discountAmount != undefined) {
               const response = await CreateOrderId(
                 total,
                 discountAmount,
                 userId,
-                userName
+                userName,
+                total_items
               );
             }
           }
-
         } catch (error) {
           console.log(error);
         }

@@ -70,6 +70,7 @@ const Page = () => {
   const width = 550;
   const height = 375;
   const [loading, setLoading] = useState<boolean>(true);
+  const [cartDisable, setCartDisable] = useState<boolean>(false);
 
   const params = useParams();
 
@@ -276,8 +277,11 @@ const Page = () => {
                     <button
                       className="rounded-md text-xl font-semibold gold-color text-black py-2 flex items-center justify-center gap-3  w-[22rem]"
                       type="button"
+                      disabled={cartDisable}
                       onClick={() => {
                         if (!productAdded) {
+                          setCartDisable(true);
+                          console.log(cartDisable);
                           generateRandomNumber();
                           addToCart(
                             String(productId),
@@ -287,6 +291,9 @@ const Page = () => {
                             product?.attributes.price,
                             product?.attributes.images.data[0].attributes.url
                           );
+                          setTimeout(() => {
+                            setCartDisable(false);
+                          }, 2500);
                         } else {
                           warningTost("Product is already added");
                         }

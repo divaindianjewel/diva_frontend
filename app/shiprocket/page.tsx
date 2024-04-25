@@ -173,7 +173,7 @@ const Page = () => {
       }
     };
     addOrderAndOrderId();
-  }, [cartData, discountAmount]);
+  }, [cartData]);
 
   useEffect(() => {
     let tmpsubtotal = 0;
