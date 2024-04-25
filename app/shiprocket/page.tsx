@@ -49,7 +49,6 @@ interface order {
 
 const Page = () => {
   const { userId } = useAuth();
-  const [userInfoLoading, setUserInfoLoading] = useState<boolean>(true);
   const [cartData, setCartData] = useState<CartItem[]>([]);
   const [userInfo, setUserInfo] = useState<addressProps[]>();
   const [total, setTotal] = useState<number>(0);
@@ -58,6 +57,8 @@ const Page = () => {
   const router = useRouter();
   const [orderId, setOrderId] = useState<number>();
   const [discountAmount, setDiscountAmount] = useState<number>();
+  const [orderInfo, setOrderInfo] = useState<order>();
+  const [tmp, setTmp] = useState<boolean>(false);
 
   useEffect(() => {
     const UserData = async () => {
@@ -87,7 +88,6 @@ const Page = () => {
         const fullName = obj.first_name + " " + obj.last_name;
         setUserName(fullName);
         setUserObj(obj);
-        setUserInfoLoading(false);
       }
     };
 
@@ -100,24 +100,22 @@ const Page = () => {
 
       const data = await response.json();
 
-      setOrderId(data.data);
+      console.log(data.data);
 
-      const tmp: order[] = data.data;
+      const TmpOrderInfo: order = data.data[data.data.length - 1];
 
-      const tmp2 = tmp.filter(
-        (item: order) => item.attributes.user_id === userId
-      );
+      setOrderInfo(TmpOrderInfo);
+      setOrderId(TmpOrderInfo.id);
+      setDiscountAmount(TmpOrderInfo.attributes.discount);
 
-      const orderInfo: order = tmp2[tmp2.length - 1];
-
+      setTmp(true);
       console.log(orderInfo);
-      setOrderId(orderInfo.id);
-      const discountAmount = orderInfo.attributes.discount;
-      setDiscountAmount(discountAmount);
+      console.log(orderId);
+      console.log(discountAmount);
     };
 
     getOrderId();
-  }, [userId]);
+  }, [userId, tmp]);
 
   useEffect(() => {
     const fetchCartData = async () => {
@@ -140,13 +138,13 @@ const Page = () => {
 
   useEffect(() => {
     const addOrderAndOrderId = () => {
-      console.log("CartData : " + cartData.length);
-      console.log("total : " + total);
-      console.log("UserId : " + userId);
-      console.log("UserName : " + userName);
-      console.log("OrderId : " + orderId);
-      console.log("discountAmount : " + discountAmount);
-      console.log("___________________________");
+      // console.log("CartData : " + cartData.length);
+      // console.log("total : " + total);
+      // console.log("UserId : " + userId);
+      // console.log("UserName : " + userName);
+      // console.log("OrderId : " + orderId);
+      // console.log("discountAmount : " + discountAmount);
+      // console.log("___________________________");
 
       if (
         userName != undefined &&

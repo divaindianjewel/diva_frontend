@@ -279,8 +279,8 @@ const Page = () => {
                       type="button"
                       disabled={cartDisable}
                       onClick={() => {
+                        setCartDisable(true);
                         if (!productAdded) {
-                          setCartDisable(true);
                           console.log(cartDisable);
                           generateRandomNumber();
                           addToCart(
@@ -291,12 +291,13 @@ const Page = () => {
                             product?.attributes.price,
                             product?.attributes.images.data[0].attributes.url
                           );
-                          setTimeout(() => {
-                            setCartDisable(false);
-                          }, 2500);
                         } else {
                           warningTost("Product is already added");
                         }
+                        
+                        setTimeout(() => {
+                          setCartDisable(false);
+                        }, 3500);
                       }}
                     >
                       <FaShoppingCart /> Add To cart

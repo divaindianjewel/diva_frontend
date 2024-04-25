@@ -1,11 +1,12 @@
 import { domain } from "@/components/backend/apiRouth";
+import { errorTost } from "@/components/toast/allTost";
 import { useUser } from "@clerk/clerk-react";
 
 const CreateOrderId = async (
   price: number,
   discount: number,
-  user_id: string | null | undefined,
-  user_name: string | null | undefined,
+  user_id: string,
+  user_name: string,
   total_items: number
 ) => {
   const currentDate = new Date();
@@ -39,6 +40,7 @@ const CreateOrderId = async (
       const data = await response.json();
       return data.data;
     } catch (error) {
+      errorTost("something went wrong while creating orderId");
       console.log(error);
       return 0;
     }
