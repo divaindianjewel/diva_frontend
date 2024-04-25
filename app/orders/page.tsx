@@ -41,19 +41,15 @@ const Pages = () => {
   const [orderedProducts, setOrderedProducts] = useState<Product[]>([]);
 
   useEffect(() => {
-    const getUserId = async () => {
-      const response = await fetch(`https://diva-backend-iukkr.ondigitalocean.app/api/orders`);
-      const data = await response.json();
-      setOrderId(data.data);
-    };
-  }, [userId]);
-
-  useEffect(() => {
     const getUserData = async () => {
       try {
         const response = await fetch(`${domain}/api/ordered-products`);
         const data = await response.json();
-        setOrderedProducts(data.data);
+
+        const tmpProducts = data.data.filter(
+          (items: Product) => items.attributes.userid == userId
+        );
+        setOrderedProducts(tmpProducts);
       } catch (error) {
         console.log(error);
         errorTost("something went wrong");

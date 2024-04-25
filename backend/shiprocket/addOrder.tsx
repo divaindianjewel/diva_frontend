@@ -24,8 +24,9 @@ const addOrder = async (
   router: any,
   cartData: CartItem[] | any[] | undefined,
   total: number,
-  userId: any,
-  userName: string
+  orderId: number,
+  discountAmount: number,
+  userid: string
 ) => {
   if (cartData != undefined) {
     const orderItems = cartData.map((item) => ({
@@ -75,7 +76,7 @@ const addOrder = async (
       shipping_charges: 0,
       giftwrap_charges: 0,
       transaction_charges: 0,
-      total_discount: 0,
+      total_discount: discountAmount,
       sub_total: total,
       length: 10,
       breadth: 15,
@@ -90,9 +91,6 @@ const addOrder = async (
       });
 
       if (response.ok) {
-        const response = await CreateOrderId(total, 0, userId, userName);
-        const orderId = response.id;
-
         for (const item of cartData) {
           try {
             console.log(item.id);
@@ -112,7 +110,8 @@ const addOrder = async (
               price,
               img,
               date,
-              name
+              name,
+              userid
             );
           } catch (error) {
             console.log(error);

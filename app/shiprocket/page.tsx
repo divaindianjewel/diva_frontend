@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation";
 import { domain } from "@/components/backend/apiRouth";
 import { useAuth } from "@clerk/nextjs";
 import addOrder from "@/backend/shiprocket/addOrder";
-import CreateOrderId from "@/backend/order/create-orderId";
 import { successTost } from "@/components/toast/allTost";
 
 interface CartItem {
@@ -36,6 +35,18 @@ export interface addressProps {
   };
 }
 
+interface order {
+  id: number;
+  attributes: {
+    user_id: string;
+    order_date: string;
+    total_price: number;
+    discount: number;
+    user_name: string;
+    ordered: boolean;
+  };
+}
+
 const Page = () => {
   const { userId } = useAuth();
   const [userInfoLoading, setUserInfoLoading] = useState<boolean>(true);
@@ -45,6 +56,8 @@ const Page = () => {
   const [userObj, setUserObj] = useState<any>({});
   const [userName, setUserName] = useState<any>();
   const router = useRouter();
+  const [orderId, setOrderId] = useState<number>();
+  const [discountAmount, setDiscountAmount] = useState<number>();
 
   useEffect(() => {
     const UserData = async () => {
@@ -82,6 +95,31 @@ const Page = () => {
   }, [userId]);
 
   useEffect(() => {
+    const getOrderId = async () => {
+      const response = await fetch(`${domain}/api/orders`);
+
+      const data = await response.json();
+
+      setOrderId(data.data);
+
+      const tmp: order[] = data.data;
+
+      const tmp2 = tmp.filter(
+        (item: order) => item.attributes.user_id === userId
+      );
+
+      const orderInfo: order = tmp2[tmp2.length - 1];
+
+      console.log(orderInfo);
+      setOrderId(orderInfo.id);
+      const discountAmount = orderInfo.attributes.discount;
+      setDiscountAmount(discountAmount);
+    };
+
+    getOrderId();
+  }, [userId]);
+
+  useEffect(() => {
     const fetchCartData = async () => {
       try {
         const response = await fetch(`${domain}/api/carts?populate=*`);
@@ -102,21 +140,40 @@ const Page = () => {
 
   useEffect(() => {
     const addOrderAndOrderId = () => {
-      // console.log("CartData : " + cartData.length);
-      // console.log("total : " + total);
-      // console.log("UserId : " + userId);
-      // console.log("UserName : " + userName);
-      // console.log("___________________________");
-      if (userName != undefined && total != 0) {
+      console.log("CartData : " + cartData.length);
+      console.log("total : " + total);
+      console.log("UserId : " + userId);
+      console.log("UserName : " + userName);
+      console.log("OrderId : " + orderId);
+      console.log("discountAmount : " + discountAmount);
+      console.log("___________________________");
+
+      if (
+        userName != undefined &&
+        total != 0 &&
+        orderId != undefined &&
+        discountAmount != undefined &&
+        userId != undefined
+      ) {
         console.log("CartData : " + cartData.length);
         console.log("total : " + total);
         console.log("UserId : " + userId);
         console.log("UserName : " + userName);
-        addOrder(userObj, router, cartData, total, userId, userName);
+        console.log("OrderId : " + orderId);
+        console.log("discountAmount : " + discountAmount);
+        addOrder(
+          userObj,
+          router,
+          cartData,
+          total,
+          orderId,
+          discountAmount,
+          userId
+        );
       }
     };
     addOrderAndOrderId();
-  }, [cartData, total]);
+  }, [cartData, discountAmount]);
 
   useEffect(() => {
     let tmpsubtotal = 0;
@@ -149,18 +206,16 @@ const Page = () => {
             stroke="currentColor"
             strokeWidth="4"
           />
-          
+
           <path
             className="opacity-75"
             d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
             fill="currentColor"
           />
-
         </svg>
         <p className="mt-4 text-gray-500 dark:text-gray-400">
           please wait your order is placing
         </p>
-
       </div>
     </div>
   );

@@ -38,6 +38,8 @@ import { MakePayment } from "@/app/api/Payment";
 import { NextApiRequest, NextApiResponse } from "next";
 import { Input } from "@/components/ui/input";
 import CreateOrderId from "@/backend/order/create-orderId";
+import addOrderProduct from "@/backend/order/add-order-product";
+import { deleteCartItem } from "@/backend/cart-operation";
 
 interface CartItem {
   id: number;
@@ -100,15 +102,10 @@ const Page = () => {
 
   const applyDiscount = async (code: string) => {
     const response = await fetch(`${domain}/api/discounts`);
-
-    const userName = firstName + " " + lastName;
-
     const data = await response.json();
-
     const filteredData: discounts[] = data.data.filter(
       (item: discounts) => item.attributes.code == code
     );
-
     if (!filteredData[0]) {
       errorTost("Invalid Discount Code!");
       return false;
@@ -154,7 +151,6 @@ const Page = () => {
 
   const handelPay = async (e: any) => {
     e.preventDefault;
-
     if (
       !state ||
       !firstName ||
@@ -179,9 +175,7 @@ const Page = () => {
         phone_number: String(phoneNumber),
         user_id: userId,
       };
-
       setTmpUserData(obj);
-
       if (!dataPresent) {
         const response = await fetch(`${domain}/api/billing-addresses`, {
           method: "POST",
@@ -200,8 +194,36 @@ const Page = () => {
         } else {
           successTost("Billing address added successfully");
         }
+
+        try {
+          const userName = firstName + " " + lastName;
+
+          if (!isDiscounted) {
+            const response = await CreateOrderId(total, 0, userId, userName);
+          } else {
+            if (discountAmount != undefined) {
+              const response = await CreateOrderId(
+                total,
+                discountAmount,
+                userId,
+                userName
+              );
+            }
+          }
+
+          successTost("Order placed successfully");
+        } catch (error) {
+          console.log(error);
+        }
+
         if (selectedMethod == "online") {
-          MakePayment(router, total);
+          if (!isDiscounted) {
+            MakePayment(router, total);
+          } else {
+            if (discountAmount != undefined) {
+              MakePayment(router, total - discountAmount);
+            }
+          }
         } else {
           warningTost("Selected COD");
           try {
@@ -233,8 +255,34 @@ const Page = () => {
           successTost("Billing address added successfully");
         }
 
+        try {
+          const userName = firstName + " " + lastName;
+
+          if (!isDiscounted) {
+            const response = await CreateOrderId(total, 0, userId, userName);
+          } else {
+            if (discountAmount != undefined) {
+              const response = await CreateOrderId(
+                total,
+                discountAmount,
+                userId,
+                userName
+              );
+            }
+          }
+
+        } catch (error) {
+          console.log(error);
+        }
+
         if (selectedMethod == "online") {
-          MakePayment(router, total);
+          if (!isDiscounted) {
+            MakePayment(router, total);
+          } else {
+            if (discountAmount != undefined) {
+              MakePayment(router, total - discountAmount);
+            }
+          }
         } else {
           warningTost("Selected COD");
           try {
@@ -626,7 +674,7 @@ const Page = () => {
                   {isDiscounted ? (
                     <div className="flex  gap-4">
                       <div>DISCOUNT</div>
-                      <div className="ml-auto">₹ {discountAmount}</div>
+                      <div className="ml-auto">₹ -{discountAmount}</div>
                     </div>
                   ) : (
                     ""
