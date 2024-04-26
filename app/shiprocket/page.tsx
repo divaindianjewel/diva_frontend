@@ -129,12 +129,12 @@ const Page = () => {
 
   useEffect(() => {
     const addOrderAndOrderId = () => {
-      console.log(userObj);
-      console.log(cartData);
-      console.log(total);
-      console.log(orderId);
-      console.log(discountAmount);
-      console.log(userId);
+      console.log("userObj : " + userObj);
+      console.log("cart data : " + cartData);
+      console.log("total : " + total);
+      console.log("orderId : " + orderId);
+      console.log("discounted Amount : " + discountAmount);
+      console.log("userId : " + userId);
       if (
         userName != undefined &&
         total != 0 &&
