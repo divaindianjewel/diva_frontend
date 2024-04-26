@@ -24,7 +24,7 @@ interface Product {
   };
 }
 
-const page = () => {
+const Page = () => {
   const params = useParams();
   let orderId = 0;
   if (params) {
@@ -134,4 +134,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;
