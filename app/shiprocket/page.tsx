@@ -59,6 +59,8 @@ const Page = () => {
   const [discountAmount, setDiscountAmount] = useState<number>();
   const [orderInfo, setOrderInfo] = useState<order>();
   const [tmp, setTmp] = useState<boolean>(false);
+  const [addressLoad, setAddressLoad] = useState<boolean>(false);
+  const [cartDataLoad, setCartDataLoad] = useState<boolean>(false);
 
   useEffect(() => {
     const UserData = async () => {
@@ -88,10 +90,11 @@ const Page = () => {
         const fullName = obj.first_name + " " + obj.last_name;
         setUserName(fullName);
         setUserObj(obj);
+        setAddressLoad(true);
       }
     };
     UserData();
-  }, [userId]);
+  }, [userId, setAddressLoad]);
 
   useEffect(() => {
     const getOrderId = async () => {
@@ -118,6 +121,7 @@ const Page = () => {
             (item: CartItem) => item.attributes.user_id === userId
           );
           setCartData(userCartData);
+          setCartDataLoad(true);
         }
       } catch (error) {
         console.error("Error fetching cart data:", error);
@@ -125,7 +129,7 @@ const Page = () => {
     };
 
     fetchCartData();
-  }, [userId]);
+  }, [userId, cartDataLoad]);
 
   useEffect(() => {
     const addOrderAndOrderId = () => {
