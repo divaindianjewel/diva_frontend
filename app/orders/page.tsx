@@ -84,7 +84,7 @@ const Pages = () => {
   return (
     <div>
       <main>
-        <div className="flex gap-3 flex-wrap">
+        <div className="container my-5 flex gap-3 flex-wrap">
           {orderId.map((item: OrderId) => (
             <div
               key={item.id}
