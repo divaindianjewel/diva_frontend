@@ -93,7 +93,7 @@ const Pages = () => {
               <div className="flex justify-between items-center mb-6">
                 <h1 className="text-2xl font-bold">Order Summary</h1>
                 <div className="bg-gray-100 dark:bg-gray-800 px-3 py-1 rounded-md text-sm font-medium text-gray-500 dark:text-gray-400">
-                  Order #${item.id}
+                  Order #{item.id}
                 </div>
               </div>
               <div className="grid grid-cols-2 gap-4">
