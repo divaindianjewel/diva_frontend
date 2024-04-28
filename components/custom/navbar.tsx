@@ -47,7 +47,7 @@ const Navbar = () => {
           </Link>
         </div>
 
-        <div className="flex items-center justify-center gap-5 ">
+        <div className="flex items-center justify-center gap-5 mr-[2rem]">
           {isSignedIn ? (
             <UserButton afterSignOutUrl="/" />
           ) : (

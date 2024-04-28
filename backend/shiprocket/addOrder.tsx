@@ -92,7 +92,7 @@ const addOrder = async (
         for (const item of cartData) {
           try {
             const price = item.attributes.product_price;
-            const productId = item.id;
+            const productId = item.attributes.Product_id;
             const qnt = item.attributes.qnt;
             const date = `${year}-${month}-${day}`;
             const name = item.attributes.product_name;
