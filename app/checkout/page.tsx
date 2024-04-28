@@ -565,20 +565,15 @@ const Page = () => {
       </div>
       <Separator />
 
-      <div className="flex flex-col md:flex-row w-fit mx-auto gap-5">
-        <Card className="max-w-[70rem] w-[22rem] my-5 overflow-x-hidden ">
+      <div className="flex flex-col lg:flex-row w-fit mx-auto gap-5">
+        <Card className="max-w-[70rem] w-[22rem] md:w-[30rem] my-5 overflow-x-hidden ">
           <CardHeader>
             <CardTitle className="text-center">Payment Method</CardTitle>
           </CardHeader>
 
           <div className="w-fit">
-            <div className="plans flex flex-row px-1 w-[22rem] md:w-[20rem] lg:w-[35rem] items-center justify-center">
-              <label
-                className={`plan basic-plan w-[20rem] ${
-                  selectedMethod === "online" ? "active" : ""
-                }`}
-                htmlFor="online"
-              >
+            <div className="plans flex flex-row px-1 w-[22rem] md:w-[45rem] lg:w-[30rem] ">
+              <label className={`plan basic-plan w-[20rem] md:w-[25rem] ${selectedMethod === "online" ? "active" : ""}`}htmlFor="online">
                 <input
                   checked={selectedMethod === "online"}
                   onChange={handleMethodChange}
@@ -598,18 +593,6 @@ const Page = () => {
                         alt="visa"
                       />
                       <Image
-                        className="hidden md:block w-[25%]"
-                        src={rupe}
-                        width={50}
-                        alt="rupe"
-                      />
-                      <Image
-                        className="hidden md:block w-[25%]"
-                        src={mastercard}
-                        width={50}
-                        alt="mastercard"
-                      />
-                      <Image
                         className="w-[25%]"
                         src={phonepe}
                         width={50}
@@ -626,12 +609,7 @@ const Page = () => {
                 </div>
               </label>
 
-              <label
-                className={`plan complete-plan w-[20rem] ${
-                  selectedMethod === "cod w-[20rem]" ? "active" : "w-[20rem]"
-                }`}
-                htmlFor="cod"
-              >
+              <label className={`plan complete-plan w-[20rem] md:w-[25rem] ${selectedMethod === "cod w-[20rem]" ? "active" : "w-[20rem]"}`}htmlFor="cod">
                 <input
                   checked={selectedMethod === "cod"}
                   onChange={handleMethodChange}
@@ -696,7 +674,7 @@ const Page = () => {
             )}
           </div>
 
-          <Card className="max-w-[70rem] w-[22rem] mx-auto my-5">
+          <Card className="md:w-[30rem] w-[22rem] mx-auto my-5">
             <CardHeader>
               <CardTitle className="text-center">Total Bill</CardTitle>
             </CardHeader>
