@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Textarea } from "@/components/ui/textarea";
 import {
   Dialog,
@@ -16,6 +16,18 @@ import { DialogClose } from "@radix-ui/react-dialog";
 // clerk
 import { TiPencil } from "react-icons/ti";
 import { EditReview } from "@/components/custom/reviews/reviewBox";
+import { domain } from "@/components/backend/apiRouth";
+
+interface reviews {
+  id: number;
+  attributes: {
+    product_id: number;
+    ratting: number;
+    Description: string;
+    user_id: string;
+    user_name: string;
+  };
+}
 
 const EditReviewFormDialog: React.FC<{
   reviewId: number;
@@ -27,6 +39,7 @@ const EditReviewFormDialog: React.FC<{
   const [stars, setStars] = useState<string[]>(["", "", "", "", ""]);
   const [description, setDescription] = useState<string>("");
   const [isOpen, setIsOpen] = useState(false);
+  const [reviewData, setReviewData] = useState<reviews>();
 
   const setStar = (index: number) => {
     const newStars = stars.map((_, i) => (i < index ? "gold" : ""));
@@ -34,7 +47,19 @@ const EditReviewFormDialog: React.FC<{
     setRating(index);
   };
 
+  useEffect(() => {
+    const getReviewData = async () => {
+      const response = await fetch(`${domain}/api/reviews/${reviewId}`);
+      const data = await response.json();
+      setReviewData(data.data);
+      setStar(data.data.attributes.ratting);
+      setDescription(data.data.attributes.Description);
+    };
+    getReviewData();
+  }, [reviewId]);
+
   const submitHandler = async (e: React.FormEvent) => {
+    e.preventDefault();
     await EditReview(rating, description, reviewId)
       .then(() => {
         setIsOpen(false);
@@ -59,7 +84,6 @@ const EditReviewFormDialog: React.FC<{
           <DialogHeader>
             <DialogTitle>Review</DialogTitle>
             <DialogDescription>
-              
               <form onSubmit={submitHandler}>
                 <div className="flex items-center justify-center gap-4 mt-3">
                   {stars.map((color, index) => (

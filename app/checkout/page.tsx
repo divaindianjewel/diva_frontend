@@ -201,7 +201,6 @@ const Page = () => {
           const total_items = cartData.length;
           if (!isDiscounted) {
             if (userId != undefined) {
-              errorTost("first create id");
               const response = await CreateOrderId(
                 total,
                 0,
@@ -212,7 +211,6 @@ const Page = () => {
             }
           } else {
             if (discountAmount != undefined && userId != undefined) {
-              errorTost("second create id");
               const response = await CreateOrderId(
                 total,
                 discountAmount,
@@ -222,7 +220,6 @@ const Page = () => {
               );
             }
           }
-          successTost("Order placed successfully");
         } catch (error) {
           errorTost("something went wrong while creating orderId");
           console.log(error);
@@ -263,8 +260,6 @@ const Page = () => {
         if (!response.ok) {
           errorTost("Something went wrong");
           return;
-        } else {
-          successTost("Billing address added successfully");
         }
 
         try {
@@ -311,7 +306,6 @@ const Page = () => {
             }
           }
         } else {
-          warningTost("Selected COD");
           router.push("/shiprocket");
         }
       }

@@ -67,8 +67,8 @@ const Page = () => {
   const [product, setProduct] = useState<ProductData | null>(null);
   const { userId } = useAuth();
   const { isSignedIn } = useUser();
-  const width = 550;
-  const height = 375;
+  const width = 450;
+  const height = 275;
   const [loading, setLoading] = useState<boolean>(true);
   const [cartDisable, setCartDisable] = useState<boolean>(false);
 
@@ -145,8 +145,8 @@ const Page = () => {
       <section className="text-gray-600 body-font">
         <div className="container px-5 py-24 mx-auto">
           <div className="w-fit gap-12 mx-auto flex flex-col lg:flex-row  items-center justify-center">
-            <div id="images">
-              <div>
+            <div id="images w-[80vw] mx-auto">
+              <div className="flex items-center justify-center w-fit">
                 <Carousel
                   plugins={[
                     Autoplay({
@@ -168,9 +168,9 @@ const Page = () => {
                       </>
                     ) : (
                       product?.attributes.images.data.map((image, index) => (
-                        <CarouselItem key={index}>
+                        <CarouselItem className="w-fit" key={index}>
                           <Image
-                            className="rounded-md"
+                            className="rounded-md w-[80vw]"
                             src={`${image.attributes.url}`}
                             alt={`Image ${index + 1}`}
                             width={width}
@@ -178,19 +178,6 @@ const Page = () => {
                           />
                         </CarouselItem>
                       ))
-                    )}
-                    {loading ? (
-                      ""
-                    ) : (
-                      <CarouselItem>
-                        <div className="video-container">
-                          <iframe
-                            width={width}
-                            height={470}
-                            src={product?.attributes.youtube_link}
-                          ></iframe>
-                        </div>
-                      </CarouselItem>
                     )}
                   </CarouselContent>
                 </Carousel>
@@ -266,16 +253,16 @@ const Page = () => {
                 </>
               )}
 
-              <div className="flex flex-col gap-3 mt-3">
+              <div className="flex flex-col gap-3 mt-3 w-fit mx-auto">
                 {loading ? (
                   <>
                     <Skeleton className="h-[35px] w-[250px] rounded-xl mt-3 skeleton-bg" />
                     <Skeleton className="h-[35px] w-[250px] rounded-xl skeleton-bg" />
                   </>
                 ) : (
-                  <>
+                  <div className="w-fit flex items-center justify-center flex-col gap-3 md:flex-row lg:flex-col">
                     <button
-                      className="rounded-md text-xl font-semibold gold-color text-black py-2 flex items-center justify-center gap-3  w-[22rem]"
+                      className="rounded-md text-xl font-semibold gold-color text-black py-2 flex items-center justify-center gap-3  w-[15rem] md:w-[20rem] lg:w-[25rem]"
                       type="button"
                       disabled={cartDisable}
                       onClick={() => {
@@ -294,7 +281,7 @@ const Page = () => {
                         } else {
                           warningTost("Product is already added");
                         }
-                        
+
                         setTimeout(() => {
                           setCartDisable(false);
                         }, 3500);
@@ -303,18 +290,30 @@ const Page = () => {
                       <FaShoppingCart /> Add To cart
                     </button>
                     <button
-                      className=" rounded-md text-xl font-semibold bg-gray-400 py-2 text-black w-[22rem]"
+                      className=" rounded-md text-xl font-semibold bg-gray-400 py-2 text-black  w-[15rem] md:w-[20rem] lg:w-[25rem]"
                       type="button"
                     >
                       Buy it now
                     </button>
-                  </>
+                  </div>
                 )}
               </div>
             </div>
           </div>
         </div>
       </section>
+
+      <section className="w-fit mx-auto">
+        <div className="video-container w-fit flex items-center justify-center">
+          <iframe
+            className="w-[17rem] lg:w-[30rem] md:w-[25rem]"
+            width={width}
+            height={500}
+            src={product?.attributes.youtube_link}
+          ></iframe>
+        </div>
+      </section>
+
       <section>
         <CustomerReviews productId={productId} />
       </section>

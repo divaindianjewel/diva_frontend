@@ -7,12 +7,7 @@ import axios from "axios";
 import { IoIosStar } from "react-icons/io";
 import EditReviewFormDialog from "./review-edit-form";
 import { FaTrashCan } from "react-icons/fa6";
-
-export const generateRandomNumber = () => {
-  const randomNumber = Math.floor(Math.random() * 100) + 1;
-
-  return randomNumber;
-};
+import { useAuth } from "@clerk/nextjs";
 
 export const EditReview = async (
   rating: number,
@@ -31,16 +26,6 @@ export const EditReview = async (
   } catch (error) {
     console.error("Error adding review:", error);
     throw error;
-  }
-};
-
-export const deleteReview = async (reviewId: any) => {
-  try {
-    const response = await axios.delete(`${domain}/api/reviews/${reviewId}`);
-
-    successTost("review deleted successfully");
-  } catch (error) {
-    errorTost("Something went wrong can't delete the review");
   }
 };
 
@@ -81,6 +66,7 @@ export const addReview = async (
 };
 
 const CustomerReviews: React.FC<{ productId: number }> = ({ productId }) => {
+  const { userId } = useAuth();
   const [randomNum, setRandomNum] = useState<number>(0);
   const [reviews, setReviews] = useState<ReviewProps[]>([]);
 
@@ -132,6 +118,7 @@ const CustomerReviews: React.FC<{ productId: number }> = ({ productId }) => {
           <ReviewFormDialog
             random={generateRandomNumber}
             productId={productId}
+            randomNum={randomNum}
           />
         </div>
 
@@ -156,27 +143,27 @@ const CustomerReviews: React.FC<{ productId: number }> = ({ productId }) => {
                   </p>
                 </div>
 
-                <div className="action flex items-center justify-between gap-5 cursor-pointer br-0-5">
-                  <EditReviewFormDialog
-                    random={generateRandomNumber}
-                    reviewId={review.id}
-                  />
+                {review.attributes.user_id == userId ? (
+                  <div className="action flex items-center justify-between gap-5 cursor-pointer br-0-5">
+                    <EditReviewFormDialog
+                      random={generateRandomNumber}
+                      reviewId={review.id}
+                    />
 
-                  <div
-                    className="delete bg-red-600 p-[0.5rem] br-0-5 cursor-pointer"
-                    onClick={() => {
-                      deleteReview(review.id);
-                    }}
-                  >
-                    <FaTrashCan color="white" size={25} />
+                    <div
+                      className="delete bg-red-600 p-[0.5rem] br-0-5 cursor-pointer"
+                      onClick={() => {
+                        deleteReview(review.id);
+                      }}
+                    >
+                      <FaTrashCan color="white" size={25} />
+                    </div>
                   </div>
-
-                </div>
-
+                ) : (
+                  ""
+                )}
               </div>
-
             </div>
-
           ))}
         </div>
       </div>

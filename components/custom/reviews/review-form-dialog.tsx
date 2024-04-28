@@ -9,22 +9,36 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { successTost, errorTost } from "@/components/toast/allTost";
+import {
+  successTost,
+  errorTost,
+  warningTost,
+} from "@/components/toast/allTost";
 import { IoIosStar } from "react-icons/io";
 import { DialogClose } from "@radix-ui/react-dialog";
-import {
-  addReview,
-  generateRandomNumber,
-} from "@/components/custom/reviews/reviewBox";
+import { addReview } from "@/components/custom/reviews/reviewBox";
 
 // clerk
 import { auth, useAuth, useUser } from "@clerk/nextjs";
 import {} from "@clerk/nextjs";
+import { domain } from "@/components/backend/apiRouth";
+
+interface reviews {
+  id: number;
+  attributes: {
+    product_id: number;
+    ratting: number;
+    Description: string;
+    user_id: string;
+    user_name: string;
+  };
+}
 
 const ReviewFormDialog: React.FC<{
   productId: number;
   random: () => void;
-}> = ({ productId, random }) => {
+  randomNum: number;
+}> = ({ productId, random, randomNum }) => {
   const starSize = 30;
 
   const [rating, setRating] = useState<number>(0);
@@ -32,6 +46,7 @@ const ReviewFormDialog: React.FC<{
   const [description, setDescription] = useState<string>("");
   const [isOpen, setIsOpen] = useState(false);
   const { isLoaded, isSignedIn, user } = useUser();
+  const [reviewAdded, setReviewAdded] = useState<boolean>(true);
   const { userId, sessionId, getToken } = useAuth();
 
   const setStar = (index: number) => {
@@ -40,25 +55,52 @@ const ReviewFormDialog: React.FC<{
     setRating(index);
   };
 
+  useEffect(() => {
+    const getReviewData = async () => {
+      const response = await fetch(`${domain}/api/reviews`);
+
+      const data = await response.json();
+
+      const tmp: reviews[] = data.data.filter(
+        (item: reviews) =>
+          item.attributes.user_id == userId &&
+          item.attributes.product_id == productId
+      );
+
+      if (tmp.length > 0) {
+        setReviewAdded(false);
+      }
+    };
+
+    getReviewData();
+  }, [userId, randomNum]);
+
   const submitHandler = async (e: React.FormEvent) => {
     e.preventDefault();
     if (isSignedIn) {
       if (userId != null && userId != undefined) {
-        let userName = "User";
-        if (user != null) {
-          userName = user.firstName + " " + user.lastName;
+        if (reviewAdded) {
+          let userName = "User";
+          if (user != null) {
+            userName = user.firstName + " " + user.lastName;
+          }
+
+          await addReview(productId, rating, description, userId, userName)
+            .then(() => {
+              setIsOpen(false);
+              successTost("your review added successfully");
+            })
+            .catch((error) => {
+              console.error("Error submitting review:", error);
+            });
+
+          setRating(0);
+          setDescription("");
+
+          random();
+        } else {
+          warningTost("Your review is already added");
         }
-
-        await addReview(productId, rating, description, userId, userName)
-          .then(() => {
-            setIsOpen(false);
-            successTost("your review added successfully");
-          })
-          .catch((error) => {
-            console.error("Error submitting review:", error);
-          });
-
-        random();
       }
     } else {
       e.preventDefault();
