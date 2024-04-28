@@ -1,4 +1,5 @@
 "use client";
+
 import React, { useEffect, useState } from "react";
 import ReviewFormDialog from "./review-form-dialog";
 import { domain } from "@/components/backend/apiRouth";
@@ -69,6 +70,7 @@ const CustomerReviews: React.FC<{ productId: number }> = ({ productId }) => {
   const { userId } = useAuth();
   const [randomNum, setRandomNum] = useState<number>(0);
   const [reviews, setReviews] = useState<ReviewProps[]>([]);
+  const [userReview, setUserReview] = useState<ReviewProps>();
 
   const deleteReview = async (reviewId: any) => {
     try {
@@ -85,18 +87,24 @@ const CustomerReviews: React.FC<{ productId: number }> = ({ productId }) => {
       try {
         const response = await fetch(`${domain}/api/reviews`);
         const data = await response.json();
-        const filteredReviews = data.data.filter(
+        const filteredReviews: ReviewProps[] = data.data.filter(
           (review: ReviewProps) => review.attributes.product_id == productId
         );
+
         console.log(data);
         setReviews(filteredReviews);
+        const userReview = filteredReviews.filter(
+          (item) => item.attributes.user_id == userId
+        );
+
+        setUserReview(userReview[0]);
       } catch (error) {
         console.error("Error fetching reviews:", error);
       }
     };
 
     fetchReviews();
-  }, [productId, randomNum]);
+  }, [productId, randomNum, userId]);
 
   const generateRandomNumber = () => {
     const randomNumber = Math.floor(Math.random() * 15 + 1);
@@ -104,7 +112,7 @@ const CustomerReviews: React.FC<{ productId: number }> = ({ productId }) => {
   };
 
   return (
-    <div className="bg-white py-6 sm:py-8 lg:py-12">
+    <div className="py-6 sm:py-8 lg:py-12 max-h-[60rem] h-fit bg-white overflow-y-scroll">
       <div className="mx-auto max-w-screen-md px-4 md:px-8">
         <h2 className="mb-4 text-center text-2xl font-bold text-gray-800 md:mb-8 lg:text-3xl xl:mb-12">
           Customer Reviews
@@ -123,48 +131,82 @@ const CustomerReviews: React.FC<{ productId: number }> = ({ productId }) => {
         </div>
 
         <div className="divide-y">
-          {reviews.map((review) => (
-            <div key={review.id} className="divide-y">
+          {userReview != undefined ? (
+            <div key={userReview.id} className="divide-y">
               <div className="flex items-center justify-between">
                 <div className="flex flex-col gap-3 py-4 md:py-8">
                   <div>
                     <span className="block text-sm font-bold">
-                      {review.attributes.user_name}
+                      {userReview.attributes.user_name}
                     </span>
                   </div>
 
                   <div className="-ml-1 flex gap-0.5">
-                    {[...Array(review.attributes.ratting)].map((_, index) => (
-                      <IoIosStar key={index} color="gold" size={25} />
-                    ))}
+                    {[...Array(userReview.attributes.ratting)].map(
+                      (_, index) => (
+                        <IoIosStar key={index} color="gold" size={25} />
+                      )
+                    )}
                   </div>
                   <p className="text-gray-600">
-                    {review.attributes.Description}
+                    {userReview.attributes.Description}
                   </p>
                 </div>
 
-                {review.attributes.user_id == userId ? (
-                  <div className="action flex items-center justify-between gap-5 cursor-pointer br-0-5">
-                    <EditReviewFormDialog
-                      random={generateRandomNumber}
-                      reviewId={review.id}
-                    />
+                <div className="action flex items-center justify-between gap-5 cursor-pointer br-0-5">
 
-                    <div
-                      className="delete bg-red-600 p-[0.5rem] br-0-5 cursor-pointer"
-                      onClick={() => {
-                        deleteReview(review.id);
-                      }}
-                    >
-                      <FaTrashCan color="white" size={25} />
-                    </div>
+                  <EditReviewFormDialog
+                    random={generateRandomNumber}
+                    reviewId={userReview.id}
+                  />
+
+                  <div
+                    className="delete bg-red-600 p-[0.5rem] br-0-5 cursor-pointer"
+                     onClick={() => {
+                      deleteReview(userReview.id);
+                    }}
+                  >
+
+                    <FaTrashCan color="white" size={25} />
+
                   </div>
-                ) : (
-                  ""
-                )}
+
+                </div>
+
               </div>
+              
             </div>
-          ))}
+
+          ) : (
+            ""
+          )}
+
+          {reviews.map((review) =>
+            review.attributes.user_id == userId ? (
+              ""
+            ) : (
+              <div key={review.id} className="divide-y">
+                <div className="flex items-center justify-between">
+                  <div className="flex flex-col gap-3 py-4 md:py-8">
+                    <div>
+                      <span className="block text-sm font-bold">
+                        {review.attributes.user_name}
+                      </span>
+                    </div>
+
+                    <div className="-ml-1 flex gap-0.5">
+                      {[...Array(review.attributes.ratting)].map((_, index) => (
+                        <IoIosStar key={index} color="gold" size={25} />
+                      ))}
+                    </div>
+                    <p className="text-gray-600">
+                      {review.attributes.Description}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            )
+          )}
         </div>
       </div>
     </div>

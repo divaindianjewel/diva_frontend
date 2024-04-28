@@ -565,16 +565,16 @@ const Page = () => {
       </div>
       <Separator />
 
-      <div className="flex flex-col md:flex-row items-center justify-center gap-5">
-        <Card className="max-w-[70rem] w-[40rem] my-5">
+      <div className="flex flex-col md:flex-row w-fit mx-auto gap-5">
+        <Card className="max-w-[70rem] w-[22rem] my-5 overflow-x-hidden ">
           <CardHeader>
             <CardTitle className="text-center">Payment Method</CardTitle>
           </CardHeader>
 
-          <div className="">
-            <div className="plans flex flex-row">
+          <div className="w-fit">
+            <div className="plans flex flex-row px-1 w-[22rem] md:w-[20rem] lg:w-[35rem] items-center justify-center">
               <label
-                className={`plan basic-plan ${
+                className={`plan basic-plan w-[20rem] ${
                   selectedMethod === "online" ? "active" : ""
                 }`}
                 htmlFor="online"
@@ -587,23 +587,48 @@ const Page = () => {
                   id="online"
                 />
                 <div className="plan-content">
-                  <div className="plan-details">
+                  <div className="plan-details w-[10rem]">
                     <span>Pay online</span>
                     <p>Pay securely using card payment or by using UPI</p>
-                    <div className="flex items-center">
-                      <Image src={visa} width={50} alt="visa" />
-                      <Image src={rupe} width={50} alt="rupe" />
-                      <Image src={mastercard} width={50} alt="mastercard" />
-                      <Image src={phonepe} width={50} alt="phonepe" />
-                      <Image src={gpay} width={50} alt="gpay" />
+                    <div className="flex justify-evenly px-1 w-[20rem]">
+                      <Image
+                        className="w-[25%]"
+                        src={visa}
+                        width={50}
+                        alt="visa"
+                      />
+                      <Image
+                        className="hidden md:block w-[25%]"
+                        src={rupe}
+                        width={50}
+                        alt="rupe"
+                      />
+                      <Image
+                        className="hidden md:block w-[25%]"
+                        src={mastercard}
+                        width={50}
+                        alt="mastercard"
+                      />
+                      <Image
+                        className="w-[25%]"
+                        src={phonepe}
+                        width={50}
+                        alt="phonepe"
+                      />
+                      <Image
+                        className="w-[25%]"
+                        src={gpay}
+                        width={50}
+                        alt="gpay"
+                      />
                     </div>
                   </div>
                 </div>
               </label>
 
               <label
-                className={`plan complete-plan ${
-                  selectedMethod === "cod" ? "active" : ""
+                className={`plan complete-plan w-[20rem] ${
+                  selectedMethod === "cod w-[20rem]" ? "active" : "w-[20rem]"
                 }`}
                 htmlFor="cod"
               >
@@ -630,7 +655,7 @@ const Page = () => {
           <CardContent></CardContent>
         </Card>
 
-        <div className={`flex flex-col items-center justify-center gap-5`}>
+        <div className={`flex flex-col w-fit mx-0 md:mx-auto gap-5`}>
           <div>
             <div className="flex w-full max-w-sm items-center space-x-2">
               <Input
@@ -671,7 +696,7 @@ const Page = () => {
             )}
           </div>
 
-          <Card className="max-w-[70rem] w-[30rem] my-5">
+          <Card className="max-w-[70rem] w-[22rem] mx-auto my-5">
             <CardHeader>
               <CardTitle className="text-center">Total Bill</CardTitle>
             </CardHeader>

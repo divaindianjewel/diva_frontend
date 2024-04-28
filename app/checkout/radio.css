@@ -31,11 +31,6 @@
   opacity: 0;
 }
 
-.plans .plan {
-  width: 100%;
-  cursor: pointer;
-}
-
 .plans .plan .plan-content {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -118,12 +113,8 @@
     -webkit-box-align: start;
     -ms-flex-align: start;
     align-items: flex-start;
-    padding: 40px;
   }
 
-  .plans .plan {
-    width: 100%;
-  }
 
   .plan.complete-plan {
     margin-top: 20px;
