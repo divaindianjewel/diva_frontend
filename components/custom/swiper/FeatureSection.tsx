@@ -8,8 +8,6 @@ import {
   Carousel,
   CarouselContent,
   CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
 } from "@/components/ui/carousel";
 import { domain } from "@/components/backend/apiRouth";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -73,7 +71,7 @@ const FeatureSection = () => {
       <h2 className="text-left p-10 text-3xl font-medium">
         Best Selling Jewels
       </h2>
-      <div className="flex items-center justify-center mb-5 w-[99vw] overflow-x-scroll">
+      <div className="flex items-center justify-center mb-5 w-[99vw] overflow-x-scroll no-scrollbar">
         {loading ? (
           <div className="flex gap-8">
             {product.map((item, index) => (
@@ -97,7 +95,7 @@ const FeatureSection = () => {
             <Link href={`/products/${product.id}`} key={index}>
               <div
                 key={product.id}
-                className="flex-col w-[10rem] md:w-[14rem] items-center justify-center mb-5 shadow-xl"
+                className="flex-col w-[10rem] md:w-[20rem] items-center justify-center mb-5 shadow-xl"
               >
                 <div className="card">
                   <Carousel
@@ -113,7 +111,7 @@ const FeatureSection = () => {
                           key={image.id}
                         >
                           <Image
-                            className="rounded-md w-[9.5rem]"
+                            className="rounded-md w-[9.5rem] md:w-[18rem]"
                             src={`${image.attributes.url}`}
                             alt={image.attributes.name}
                             width={300}
@@ -124,10 +122,10 @@ const FeatureSection = () => {
                     </CarouselContent>
                   </Carousel>
                 </div>
-                <h3 className="pl-2 text- font-semibold mt-3 w-[7.5rem] md:w-[13rem] overflow-hidden whitespace-nowrap overflow-ellipsis">
+                <h3 className="pl-2 text-xl font-semibold mt-3 w-[7.5rem] md:w-[13rem] lg:w-[18rem] overflow-hidden whitespace-nowrap overflow-ellipsis">
                   {product.attributes.name}
                 </h3>
-                <div className="price flex justify-between px-5 text-xs md:text-lg mt-2">
+                <div className="price flex justify-between px-5 text-xs md:text-lg lg:text-xl mt-2">
                   <div className="first-price font-medium">
                     ₹ {product.attributes.price} /-
                   </div>
@@ -137,7 +135,10 @@ const FeatureSection = () => {
                 </div>
 
                 <Link href={`/products/${product.id}`}>
-                  <button className="myBtn product mb-6 w-full" type="button">
+                  <button
+                    className="myBtn product mb-6 w-full lg:w-[95%] lg:text-xl"
+                    type="button"
+                  >
                     View Product
                   </button>
                 </Link>
