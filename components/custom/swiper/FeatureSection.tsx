@@ -95,7 +95,7 @@ const FeatureSection = () => {
             <Link href={`/products/${product.id}`} key={index}>
               <div
                 key={product.id}
-                className="flex-col w-[10rem] md:w-[20rem] items-center justify-center mb-5 shadow-xl"
+                className="flex-col w-[10rem] md:w-[20rem] lg:w-[25rem] items-center justify-center mb-5 shadow-xl"
               >
                 <div className="card">
                   <Carousel

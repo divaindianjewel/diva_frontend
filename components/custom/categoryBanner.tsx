@@ -57,7 +57,7 @@ const CategoryBanner: React.FC<CategoryId> = ({ categoryId }) => {
     category?.attributes.bannner.data.attributes.url || bannerImage;
 
   return loading ? (
-    <Skeleton className="h-[500px] w-[1519px] skeleton-bg" />
+    <Skeleton className="h-[500px] w-full skeleton-bg" />
   ) : (
     <Image src={bannerURL} alt="Home Banner Image" width={1519} height={30} />
   );

@@ -109,8 +109,8 @@ const Page = () => {
         <CategoriesButton />
         <Separator />
 
-        <div className="container mt-8">
-          <div className="flex gap-10 flex-wrap px-5 mb-5 shadow-xl ">
+        <div className="md:container mt-8 w-[100%]">
+          <div className="flex gap-5 flex-wrap px-5 mb-5 shadow-xl items-center justify-between">
             {loading ? (
               <>
                 {product.map((item, index) => (
@@ -134,7 +134,7 @@ const Page = () => {
                 <Link href={`/products/${items.id}`} key={items.id}>
                   <div
                     key={items.id}
-                    className="card p-5 max-w-96 px-5 flex-col items-center justify-center shadow-2xl mb-8"
+                    className="card md:w-[20rem] w-[11rem] flex-col items-center justify-center shadow-2xl mb-8"
                   >
                     <Carousel
                       opts={{
@@ -145,12 +145,9 @@ const Page = () => {
                     >
                       <CarouselContent key={items.id}>
                         {items.attributes.images.data.map((imgs) => (
-                          <CarouselItem
-                            key={imgs.id}
-                            className="shadow-lg product-card"
-                          >
+                          <CarouselItem key={imgs.id}>
                             <Image
-                              className="rounded-md img"
+                              className="rounded-md img md:w-[20rem] w-[11rem]"
                               src={`${imgs.attributes.url}`}
                               alt={"img"}
                               width={width}
@@ -161,23 +158,27 @@ const Page = () => {
                       </CarouselContent>
                     </Carousel>
                     <div>
-                      <h3 className="text-2xl font-semibold mt-3">
+                      <h3 className="pl-2 text-sm md:text-lg lg:text-2xl font-semibold mt-3 w-[10rem] md:w-[18rem] lg:w-[18rem] overflow-hidden whitespace-nowrap overflow-ellipsis md:text-center">
                         {items.attributes.name}
                       </h3>
-                      <div className="price flex items-center justify-between gap-10 text-xl mt-2">
+                      <div className="price flex justify-between px-5 text-sm md:text-lg lg:text-xl mt-2">
                         <div className="first-price font-medium">
                           ₹ {items.attributes.price} /-
                         </div>
-                        <div className="second-price text-gray-height line-through">
+                        <div className="second-price text-gray-500 line-through">
                           ₹ {items.attributes.compare_price} /-
                         </div>
                       </div>
 
                       <Link
                         href={`/products/${items.id}`}
-                        className="flex items-center justify-center"
+                        className="flex items-center justify-center w-[100%]"
                       >
-                        <button className="myBtn product mb-6" type="button">
+                        <button
+                          className="myBtn w-[100%] product mb-6"
+                          type="button"
+                          style={{ width: "96%" }}
+                        >
                           View Product
                         </button>
                       </Link>
