@@ -110,7 +110,7 @@ const Page = () => {
         <Separator />
 
         <div className="md:container mt-8 w-[100%]">
-          <div className="flex gap-5 flex-wrap px-5 mb-5 shadow-xl items-center justify-between">
+          <div className="flex gap-1 flex-wrap px-5 mb-5 shadow-xl items-center justify-between">
             {loading ? (
               <>
                 {product.map((item, index) => (
@@ -163,10 +163,10 @@ const Page = () => {
                       </h3>
                       <div className="price flex justify-between px-5 text-xs md:text-lg lg:text-xl mt-2">
                         <div className="first-price font-medium">
-                          ₹ {items.attributes.price} 
+                          ₹ {items.attributes.price}
                         </div>
                         <div className="second-price text-gray-500 line-through">
-                          ₹ {items.attributes.compare_price} 
+                          ₹ {items.attributes.compare_price}
                         </div>
                       </div>
 
@@ -175,9 +175,8 @@ const Page = () => {
                         className="flex items-center justify-center w-[100%]"
                       >
                         <button
-                          className="myBtn w-[100%] product mb-6"
+                          className="myBtn product mb-6 text-sm"
                           type="button"
-                          style={{ width: "96%" }}
                         >
                           View Product
                         </button>
