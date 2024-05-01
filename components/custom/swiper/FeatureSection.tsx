@@ -104,20 +104,19 @@ const FeatureSection = () => {
               products.map((product, index) => (
                 <CarouselItem
                   key={product.id}
-                  className="lg:basis-1/4 md:basis-1/3 sm:basis-1/2 flex items-center justify-center "
+                  className="lg:basis-1/4 md:basis-1/3 basis-1/2 flex items-center justify-center "
                 >
                   <Link href={`/products/${product.id}`} key={index}>
                     <div
                       key={product.id}
-                      className="flex-col w-[20rem] items-center justify-center mb-5 shadow-xl"
+                      className="flex-col w-[10rem] md:w-[14rem] items-center justify-center mb-5 shadow-xl"
                     >
-                      <div className="card p-3">
+                      <div className="card">
                         <Carousel
                           opts={{
                             align: "start",
                             loop: true,
                           }}
-                          className="w-80"
                         >
                           <CarouselContent className="flex items-center justify-center">
                             {product.attributes.images.data.map((image) => (
@@ -126,7 +125,7 @@ const FeatureSection = () => {
                                 key={image.id}
                               >
                                 <Image
-                                  className="rounded-md"
+                                  className="rounded-md w-[15rem]"
                                   src={`${image.attributes.url}`}
                                   alt={image.attributes.name}
                                   width={300}
@@ -137,10 +136,10 @@ const FeatureSection = () => {
                           </CarouselContent>
                         </Carousel>
                       </div>
-                      <h3 className="text-xl mx-auto font-semibold mt-3 w-[15rem] text-center">
+                      <h3 className="pl-2 text-xl font-semibold mt-3 w-[8rem] md:w-[13rem] overflow-hidden whitespace-nowrap overflow-ellipsis">
                         {product.attributes.name}
                       </h3>
-                      <div className="price flex items-center justify-between px-5 text-lg mt-2">
+                      <div className="price flex justify-between px-5 text-xs md:text-lg mt-2">
                         <div className="first-price font-medium">
                           ₹ {product.attributes.price} /-
                         </div>
@@ -150,7 +149,10 @@ const FeatureSection = () => {
                       </div>
 
                       <Link href={`/products/${product.id}`}>
-                        <button className="myBtn product mb-6" type="button">
+                        <button
+                          className="myBtn product mb-6 w-full"
+                          type="button"
+                        >
                           View Product
                         </button>
                       </Link>

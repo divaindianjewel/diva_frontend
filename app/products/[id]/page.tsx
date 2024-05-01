@@ -14,7 +14,7 @@ import Autoplay from "embla-carousel-autoplay";
 import CustomerReviews from "@/components/custom/reviews/reviewBox";
 import { addToCart } from "@/backend/add-to-cart";
 import { useAuth, useUser } from "@clerk/nextjs";
-import { domain } from "@/components/backend/apiRouth";
+import { domain, updateCart } from "@/components/backend/apiRouth";
 
 import {
   BlocksRenderer,
@@ -278,6 +278,7 @@ const Page = () => {
                             product?.attributes.price,
                             product?.attributes.images.data[0].attributes.url
                           );
+                          updateCart();
                         } else {
                           warningTost("Product is already added");
                         }

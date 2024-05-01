@@ -150,13 +150,9 @@ body {
   background: #fff;
   color: #333;
   font-weight: 580;
-  font-size: 1.3rem;
   transition: all ease-in 0.1s;
 }
 
-.myBtn.product {
-  width: 80% !important;
-}
 
 .myBtn:hover {
   box-shadow: 0 0 0 4px #fff, 0 0 0 8px #333;

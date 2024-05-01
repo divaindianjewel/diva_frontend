@@ -6,7 +6,7 @@ import { MdAdd } from "react-icons/md";
 import { FaMinus } from "react-icons/fa6";
 
 import { FaTrashAlt } from "react-icons/fa";
-import { domain } from "../backend/apiRouth";
+import { domain, updateCart } from "../backend/apiRouth";
 import { decrementQnt, incrementQnt } from "@/backend/cart-operation";
 import Link from "next/link";
 import axios from "axios";
@@ -67,6 +67,7 @@ const CartItems: React.FC<{
       });
 
       const data = await response.json();
+
 
       if (response) {
         random();
@@ -149,7 +150,9 @@ const CartItems: React.FC<{
                 </div>
                 <div
                   className="bg-red-700 w-fit py-2 px-2 m-3 rounded cursor-pointer"
-                  onClick={() => handleRemoveFromCart(cartData.id)}
+                  onClick={() => {
+                     handleRemoveFromCart(cartData.id);
+                  }}
                 >
                   <FaTrashAlt color="white" size={19} />
                 </div>

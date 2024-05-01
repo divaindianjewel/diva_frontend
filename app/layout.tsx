@@ -7,6 +7,7 @@ import Navbar from "@/components/custom/navbar";
 import { Metadata } from "next";
 import TostContainer from "@/components/custom/TostContainer";
 import Navbar2 from "@/components/custom/navbar2";
+import { useState } from "react";
 
 const inter = Inter({ subsets: ["latin"] });
 

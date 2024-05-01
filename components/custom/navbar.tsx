@@ -1,10 +1,10 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 
 // clerk
-import { UserButton, useUser } from "@clerk/nextjs";
+import { UserButton, useAuth, useUser } from "@clerk/nextjs";
 
 // Logo
 import Logo from "@/app/assets/logo.png";
@@ -14,10 +14,14 @@ import Link from "next/link";
 import { FaShoppingCart } from "react-icons/fa";
 import TemporaryDrawer from "../mui/drawer";
 import { FaUser } from "react-icons/fa";
+import { domain } from "../backend/apiRouth";
+
+
 
 const Navbar = () => {
-  const [open, setOpen] = useState(false);
   const { isLoaded, isSignedIn, user } = useUser();
+  const { userId } = useAuth();
+  const [totalCart, setTotalCart] = useState<number>(0);
 
   // console.log(open);
 
@@ -27,6 +31,27 @@ const Navbar = () => {
   }
 
   const icon_size = "25";
+
+  useEffect(() => {
+    const fetchCartData = async () => {
+      try {
+        const response = await fetch(`${domain}/api/carts?populate=*`);
+        const data = await response.json();
+        if (data && data.data && data.data.length > 0) {
+          const userCartData: any[] = data.data.filter(
+            (item: any) => item.attributes.user_id === userId
+          );
+
+          const tmp = userCartData.length;
+          setTotalCart(tmp);
+        }
+      } catch (error) {
+        console.error("Error fetching cart data:", error);
+      }
+    };
+
+    fetchCartData();
+  }, [userId]);
 
   const navItems: NavItem[] = [
     { href: "/", label: "Home" },
@@ -65,7 +90,7 @@ const Navbar = () => {
             <div className="flex relative">
               <FaShoppingCart size={icon_size} className="cursor-pointer" />
               <label className="cart_counter" htmlFor="1">
-                1
+                {totalCart}
               </label>
             </div>
           </Link>
