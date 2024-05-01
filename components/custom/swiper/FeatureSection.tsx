@@ -125,7 +125,7 @@ const FeatureSection = () => {
                                 key={image.id}
                               >
                                 <Image
-                                  className="rounded-md w-[15rem]"
+                                  className="rounded-md w-[9.5rem]"
                                   src={`${image.attributes.url}`}
                                   alt={image.attributes.name}
                                   width={300}
@@ -136,7 +136,7 @@ const FeatureSection = () => {
                           </CarouselContent>
                         </Carousel>
                       </div>
-                      <h3 className="pl-2 text-xl font-semibold mt-3 w-[8rem] md:w-[13rem] overflow-hidden whitespace-nowrap overflow-ellipsis">
+                      <h3 className="pl-2 text-sm font-semibold mt-3 w-[7.5rem] md:w-[13rem] overflow-hidden whitespace-nowrap overflow-ellipsis">
                         {product.attributes.name}
                       </h3>
                       <div className="price flex justify-between px-5 text-xs md:text-lg mt-2">
