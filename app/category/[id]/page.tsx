@@ -110,7 +110,7 @@ const Page = () => {
         <Separator />
 
         <div className="md:container mt-8 w-[100%]">
-          <div className="flex gap-1 flex-wrap px-5 mb-5 shadow-xl items-center justify-between">
+          <div className="flex gap-2 flex-wrap px-5 mb-5 shadow-xl items-center">
             {loading ? (
               <>
                 {product.map((item, index) => (
@@ -134,7 +134,7 @@ const Page = () => {
                 <Link href={`/products/${items.id}`} key={items.id}>
                   <div
                     key={items.id}
-                    className="card md:w-[20rem] w-[8rem] flex-col items-center justify-center shadow-2xl mb-8"
+                    className="card md:w-[20rem] w-[9rem] flex-col items-center justify-center shadow-2xl mb-8"
                   >
                     <Carousel
                       opts={{
