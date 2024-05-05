@@ -131,32 +131,22 @@ const Page = () => {
               </>
             ) : (
               categoryProduct?.map((items) => (
-                <Link href={`/products/${items.id}`} key={items.id}>
+                <Link
+                  href={`/products/${items.id}`}
+                  key={items.id}
+                >
                   <div
                     key={items.id}
-                    className="card md:w-[20rem] w-[9rem] flex-col items-center justify-center shadow-2xl mb-8"
+                    className="card md:w-[19rem] w-[50%] flex flex-col items-center justify-center shadow-2xl mb-8"
                   >
-                    <Carousel
-                      opts={{
-                        align: "start",
-                        loop: true,
-                      }}
-                      className="w-80"
-                    >
-                      <CarouselContent key={items.id}>
-                        {items.attributes.images.data.map((imgs) => (
-                          <CarouselItem key={imgs.id}>
-                            <Image
-                              className="rounded-md img md:w-[20rem] w-[8rem]"
-                              src={`${imgs.attributes.url}`}
-                              alt={"img"}
-                              width={width}
-                              height={height}
-                            />
-                          </CarouselItem>
-                        ))}
-                      </CarouselContent>
-                    </Carousel>
+                    <Image
+                      className="rounded-md img md:w-[20rem] w-[8rem]"
+                      src={`${items.attributes.images.data[0].attributes.url}`}
+                      alt={"img"}
+                      width={width}
+                      height={height}
+                    />
+
                     <div>
                       <h3 className="pl-2 text-sm md:text-lg lg:text-2xl font-semibold mt-3 w-[7rem] md:w-[18rem] lg:w-[18rem] overflow-hidden whitespace-nowrap overflow-ellipsis md:text-center">
                         {items.attributes.name}
