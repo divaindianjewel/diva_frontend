@@ -102,7 +102,7 @@ const Categories = () => {
               categories.map((item) => (
                 <CarouselItem
                   key={item.id}
-                  className="lg:basis-1/4 md:basis-1/3 sm:basis-1/2 flex items-center justify-center "
+                  className="basis-1/4 flex items-center justify-center "
                 >
                   <Link href={`category/${item.id}`}>
                     <div className="flex items-center justify-center flex-col">
@@ -113,7 +113,7 @@ const Categories = () => {
                         height={height}
                         className={categoriesImgClass}
                       />
-                      <h2 className="text-2xl mb-10">{item.attributes.name}</h2>
+                      <h2 className="text-2xl mb-10 w-[7.5rem] md:w-[13rem] lg:w-[18rem] overflow-hidden whitespace-nowrap overflow-ellipsis">{item.attributes.name}</h2>
                     </div>
                   </Link>
                 </CarouselItem>
