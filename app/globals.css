@@ -143,16 +143,16 @@ body {
 
 .myBtn {
   padding: 0.5rem 1rem;
-  margin: 1rem auto;
-  width: fit-content;
+  margin: 1rem;
+  width: 100%;
   border: 2px solid #000;
   border-radius: 5px;
   background: #fff;
   color: #333;
   font-weight: 580;
   transition: all ease-in 0.1s;
+  
 }
-
 
 .myBtn:hover {
   box-shadow: 0 0 0 4px #fff, 0 0 0 8px #333;

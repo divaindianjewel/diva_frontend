@@ -132,7 +132,7 @@ const Page = () => {
             ) : (
               categoryProduct?.map((items) => (
                 <Link href={`/products/${items.id}`} key={items.id}>
-                  <div key={items.id} className="card md:w-[19rem] w-[50%] flex flex-col items-center justify-center shadow-2xl mb-8">
+                  <div key={items.id} className="card flex flex-col items-center justify-center shadow-2xl mb-8">
                     <Image
                       className="rounded-md img md:w-[20rem] w-[8rem]"
                       src={`${items.attributes.images.data[0].attributes.url}`}
@@ -154,10 +154,10 @@ const Page = () => {
                         </div>
                       </div>
 
-                      <Link href={`/products/${items.id}`} className="flex items-center justify-center w-[100%]"
+                      <Link href={`/products/${items.id}`} className="flex items-center justify-center"
                       >
                         <button
-                          className="myBtn product mb-6 text-sm"
+                          className="myBtn product mb-6 text-sm w-full"
                           type="button"
                         >
                           View Product

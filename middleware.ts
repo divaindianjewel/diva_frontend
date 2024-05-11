@@ -15,6 +15,8 @@ export default authMiddleware({
     "/thank",
     "/api/phonepe-payment",
     "/api/status/(.*)",
+    "/main_category",
+    "/main_category/(.*)",
     "/fail",
   ],
 });
