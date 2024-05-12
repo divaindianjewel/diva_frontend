@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
 import Button from "@mui/material/Button";
@@ -23,16 +23,40 @@ interface NavItem {
   icon: any;
 }
 
+interface fetchNavItems {
+  id: number;
+  attributes: {
+    name: string;
+  };
+}
+
 export default function TemporaryDrawer() {
   const [open, setOpen] = useState(false);
+  const [loadedItems, setLoadedItems] = useState(false);
+  const [navItems, setNavItems] = useState<fetchNavItems[]>([]);
 
-  const navItems: NavItem[] = [
+  const TmpnavItems: NavItem[] = [
     { href: "/", label: "GOLD JEWELLERY", icon: "" },
     { href: "/", label: "SILVER JEWELLERY", icon: "" },
     { href: "/", label: "1 GRAM JEWELLERY", icon: "" },
     { href: "/", label: "FUSION JEWELLERY", icon: "" },
     { href: "/orders", label: "My Orders", icon: <BsFillBoxSeamFill /> },
   ];
+
+  useEffect(() => {
+    const getItems = async () => {
+      const response = await fetch(
+        `https://diva-backend-iukkr.ondigitalocean.app/api/main-categories`
+      );
+      const data = await response.json();
+      setNavItems(data.data);
+      setLoadedItems(true);
+    };
+    getItems();
+  }, [loadedItems]);
+
+  console.log(navItems);
+
   const toggleDrawer = (newOpen: boolean) => () => {
     setOpen(newOpen);
   };
@@ -40,19 +64,30 @@ export default function TemporaryDrawer() {
   const DrawerList = (
     <Box sx={{ width: 250 }} role="presentation" onClick={toggleDrawer(false)}>
       <List>
-        {navItems.map((items, index) => (
+        {navItems.map((item, index) => (
           <ListItem key={index}>
-            <Link href={items.href}>
+            <Link href={`main_category/${item.id}`}>
+              {" "}
+              {/* Assuming each item has an 'id' property */}
               <ListItemButton>
-                <ListItemIcon>{items.icon}</ListItemIcon>
-                <ListItemText primary={items.label} />
+                <ListItemText primary={item.attributes.name} />
               </ListItemButton>
             </Link>
           </ListItem>
         ))}
       </List>
-
       <Divider />
+      <List>
+        <ListItem>
+          <Link href={`orders`}>
+            <ListItemText>
+              <div className="flex items-center justify-center gap-3">
+                <BsFillBoxSeamFill /> My orders
+              </div>
+            </ListItemText>
+          </Link>
+        </ListItem>
+      </List>
     </Box>
   );
 

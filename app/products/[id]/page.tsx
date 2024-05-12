@@ -15,7 +15,6 @@ import CustomerReviews from "@/components/custom/reviews/reviewBox";
 import { addToCart } from "@/backend/add-to-cart";
 import { useAuth, useUser } from "@clerk/nextjs";
 import { domain, updateCart } from "@/components/backend/apiRouth";
-
 import {
   BlocksRenderer,
   type BlocksContent,
@@ -23,6 +22,7 @@ import {
 import { useParams } from "next/navigation";
 import { Skeleton } from "@/components/ui/skeleton";
 import { warningTost } from "@/components/toast/allTost";
+import dynamic from "next/dynamic";
 
 interface ProductData {
   id: number;
@@ -132,9 +132,7 @@ const Page = () => {
     if (cartData.length > 0) {
       setProductAdded(true);
     }
-  }, [cartData, randomNum]); // Depend on cartData to run this effect when cartData changes
-
-  console.log(cartData);
+  }, [cartData, randomNum]);
 
   const handelDescription = (content: BlocksContent) => {
     return <BlocksRenderer content={content} />;
@@ -168,7 +166,12 @@ const Page = () => {
                       </>
                     ) : (
                       product?.attributes.images.data.map((image, index) => (
-                        <CarouselItem className="w-fit" key={index}>
+                        <CarouselItem
+                          data-lg-size="1406-1390"
+                          className="gallery-item w-fit"
+                          data-src={image.attributes.url}
+                          key={index}
+                        >
                           <Image
                             className="rounded-md w-[80vw]"
                             src={`${image.attributes.url}`}

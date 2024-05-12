@@ -5,6 +5,8 @@ const nextConfig = {
   images: {
     domains: [
       "localhost",
+      "images.unsplash.com",
+      "divatheindianjewel.com",
       "diva-backend-iukkr.ondigitalocean.app",
       "diva-images.blr1.digitaloceanspaces.com",
     ],
