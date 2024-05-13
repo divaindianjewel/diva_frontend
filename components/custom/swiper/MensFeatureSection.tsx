@@ -48,6 +48,10 @@ const FeatureSection = () => {
     "",
     "",
   ]);
+
+  const height = 450;
+  const width = 500;
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -94,56 +98,48 @@ const FeatureSection = () => {
           </div>
         ) : (
           products.map((product, index) => (
-            <Link href={`/products/${product.id}`} key={index}>
+            <Link
+              href={`/products/${product.id}`}
+              key={product.id}
+              className="w-[45%] md:w-[32%] lg:w-[23%]"
+            >
               <div
                 key={product.id}
-                className="flex-col w-[10rem] md:w-[20rem] items-center justify-center mb-5 shadow-xl"
+                className="card overflow-x-hidden flex flex-col items-center justify-center shadow-2xl mb-8"
               >
-                <div className="card">
-                  <Carousel
-                    opts={{
-                      align: "start",
-                      loop: true,
-                    }}
-                  >
-                    <CarouselContent className="flex items-center justify-center">
-                      {product.attributes.images.data.map((image) => (
-                        <CarouselItem
-                          className="shadow-lg flex items-center justify-center"
-                          key={image.id}
-                        >
-                          <Image
-                            className="rounded-md w-[9.5rem] md:w-[18rem]"
-                            src={`${image.attributes.url}`}
-                            alt={image.attributes.name}
-                            width={300}
-                            height={150}
-                          />
-                        </CarouselItem>
-                      ))}
-                    </CarouselContent>
-                  </Carousel>
-                </div>
-                <h3 className="pl-2 text-xl font-semibold mt-3 w-[7.5rem] md:w-[13rem] lg:w-[18rem] overflow-hidden whitespace-nowrap overflow-ellipsis">
-                  {product.attributes.name}
-                </h3>
-                <div className="price flex justify-between px-5 text-xs md:text-lg lg:text-xl mt-2">
-                  <div className="first-price font-medium">
-                    ₹ {product.attributes.price} /-
-                  </div>
-                  <div className="second-price text-gray-500 line-through">
-                    ₹ {product.attributes.compare_price} /-
-                  </div>
-                </div>
+                <Image
+                  className="rounded-md img md:w-[20rem] w-[8rem]"
+                  src={`${product.attributes.images.data[0].attributes.url}`}
+                  alt={"img"}
+                  width={width}
+                  height={height}
+                />
 
-                <Link href={`/products/${product.id}`}>
-                  <button
-                    className="myBtn product mb-6 w-full lg:w-[95%] lg:text-xl"
-                    type="button"
+                <div className="w-full">
+                  <h3 className="pl-2 text-sm md:text-lg lg:text-2xl font-semibold mt-3 w-[100%] md:w-[100%] lg:w-[100%] overflow-hidden whitespace-nowrap overflow-ellipsis">
+                    {product.attributes.name}
+                  </h3>
+                  <div className="price flex justify-between px-5 text-xs md:text-lg lg:text-xl mt-2">
+                    <div className="first-price font-medium">
+                      ₹ {product.attributes.price}
+                    </div>
+                    <div className="second-price text-gray-500 line-through">
+                      ₹ {product.attributes.compare_price}
+                    </div>
+                  </div>
+
+                  <Link
+                    href={`/products/${product.id}`}
+                    className="flex items-center justify-center"
                   >
-                    View Product
-                  </button>
-                </Link>
+                    <button
+                      className="myBtn py-2 product mb-6 text-xs md:text-lg lg:text-xl w-full"
+                      type="button"
+                    >
+                      View Product
+                    </button>
+                  </Link>
+                </div>
               </div>
             </Link>
           ))
