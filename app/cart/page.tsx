@@ -122,6 +122,7 @@ export default function Component() {
     </>
   ) : (
     <div>
+      <Navbar />
       <div className="flex flex-col items-center justify-center h-[50vh]">
         <div className="text-center space-y-4">
           <h2 className="text-2xl font-bold">Your cart is empty</h2>
