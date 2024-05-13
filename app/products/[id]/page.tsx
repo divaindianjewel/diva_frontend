@@ -125,8 +125,6 @@ const Page = () => {
     }
   }, [randomNum, isSignedIn, userId, productId]);
 
-  
-
   useEffect(() => {
     const fetchProduct = async () => {
       try {
