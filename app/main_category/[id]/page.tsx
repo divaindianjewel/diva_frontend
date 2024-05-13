@@ -4,7 +4,7 @@ import { useParams } from "next/navigation";
 import React from "react";
 import Navbar from "@/components/custom/navbar";
 
-const page = () => {
+const Page = () => {
   let categoryId = 0;
   const params = useParams();
   if (params) {
@@ -19,4 +19,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;
