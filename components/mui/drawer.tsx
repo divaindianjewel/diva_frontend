@@ -64,7 +64,7 @@ export default function TemporaryDrawer() {
       <List>
         {navItems.map((item, index) => (
           <ListItem key={index}>
-            <Link href={`main_category/${item.id}`}>
+            <Link href={`/main_category/${item.id}`}>
               {" "}
               {/* Assuming each item has an 'id' property */}
               <ListItemButton>
