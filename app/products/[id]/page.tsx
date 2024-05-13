@@ -24,6 +24,9 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { warningTost } from "@/components/toast/allTost";
 import dynamic from "next/dynamic";
 
+import ImageGallery from "react-image-gallery";
+import "react-image-gallery/styles/css/image-gallery.css";
+
 interface ProductData {
   id: number;
   attributes: {
@@ -56,6 +59,17 @@ interface CartItem {
   };
 }
 
+export interface ReviewProps {
+  id: number;
+  attributes: {
+    product_id: number;
+    ratting: number;
+    Description: string;
+    user_id: string;
+    user_name: string;
+  };
+}
+
 interface ApiResponse {
   data: ProductData;
 }
@@ -71,6 +85,9 @@ const Page = () => {
   const height = 275;
   const [loading, setLoading] = useState<boolean>(true);
   const [cartDisable, setCartDisable] = useState<boolean>(false);
+  const [imgData, setImgData] = useState<any[]>([]);
+  const [isLoadProduct, setIsLoadProduct] = useState<boolean>(false);
+  const [userReview, setUserReview] = useState<ReviewProps>();
 
   const params = useParams();
 
@@ -108,6 +125,8 @@ const Page = () => {
     }
   }, [randomNum, isSignedIn, userId, productId]);
 
+  
+
   useEffect(() => {
     const fetchProduct = async () => {
       try {
@@ -119,7 +138,23 @@ const Page = () => {
         }
         const data: ApiResponse = await response.json();
         setProduct(data.data);
+
+        const mappedImages = product?.attributes.images.data.map(
+          (item, index) => {
+            const url = item.attributes.url;
+            return {
+              original: url,
+              thumbnail: url,
+            };
+          }
+        );
+
+        if (mappedImages != undefined) {
+          setImgData(mappedImages);
+        }
+
         setLoading(false);
+        setIsLoadProduct(true);
       } catch (error) {
         console.error("Error fetching product:", error);
         setLoading(false);
@@ -127,7 +162,7 @@ const Page = () => {
     };
 
     fetchProduct();
-  }, [productId]);
+  }, [productId, isLoadProduct]);
   useEffect(() => {
     if (cartData.length > 0) {
       setProductAdded(true);
@@ -138,6 +173,21 @@ const Page = () => {
     return <BlocksRenderer content={content} />;
   };
 
+  const images = imgData || [
+    {
+      original: "https://picsum.photos/id/1018/1000/600/",
+      thumbnail: "https://picsum.photos/id/1018/250/150/",
+    },
+    {
+      original: "https://picsum.photos/id/1015/1000/600/",
+      thumbnail: "https://picsum.photos/id/1015/250/150/",
+    },
+    {
+      original: "https://picsum.photos/id/1019/1000/600/",
+      thumbnail: "https://picsum.photos/id/1019/250/150/",
+    },
+  ];
+
   return (
     <>
       <section className="text-gray-600 body-font">
@@ -145,45 +195,14 @@ const Page = () => {
           <div className="w-fit gap-12 mx-auto flex flex-col lg:flex-row  items-center justify-center">
             <div id="images w-[80vw] mx-auto">
               <div className="flex items-center justify-center w-fit">
-                <Carousel
-                  plugins={[
-                    Autoplay({
-                      delay: 2000,
-                    }),
-                  ]}
-                  opts={{
-                    align: "start",
-                    loop: true,
-                  }}
-                  className="lg:w-[30rem] md:w-[30rem] sm:w-[70vw]"
-                >
-                  <CarouselContent>
-                    {loading ? (
-                      <>
-                        <CarouselItem>
-                          <Skeleton className="h-[600px] w-[350px] rounded-xl skeleton-bg margin--3" />
-                        </CarouselItem>
-                      </>
-                    ) : (
-                      product?.attributes.images.data.map((image, index) => (
-                        <CarouselItem
-                          data-lg-size="1406-1390"
-                          className="gallery-item w-fit"
-                          data-src={image.attributes.url}
-                          key={index}
-                        >
-                          <Image
-                            className="rounded-md w-[80vw]"
-                            src={`${image.attributes.url}`}
-                            alt={`Image ${index + 1}`}
-                            width={width}
-                            height={height}
-                          />
-                        </CarouselItem>
-                      ))
-                    )}
-                  </CarouselContent>
-                </Carousel>
+                <div className="w-[15rem] md:w-[25rem] lg:w-[35rem]">
+                  <ImageGallery
+                    autoPlay={true}
+                    showNav={false}
+                    showPlayButton={false}
+                    items={images}
+                  />
+                </div>
               </div>
             </div>
             <div className="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0">

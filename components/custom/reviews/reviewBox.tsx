@@ -82,30 +82,6 @@ const CustomerReviews: React.FC<{ productId: number }> = ({ productId }) => {
     }
   };
 
-  useEffect(() => {
-    const fetchReviews = async () => {
-      try {
-        const response = await fetch(`${domain}/api/reviews`);
-        const data = await response.json();
-        const filteredReviews: ReviewProps[] = data.data.filter(
-          (review: ReviewProps) => review.attributes.product_id == productId
-        );
-
-        console.log(data);
-        setReviews(filteredReviews);
-        const userReview = filteredReviews.filter(
-          (item) => item.attributes.user_id == userId
-        );
-
-        setUserReview(userReview[0]);
-      } catch (error) {
-        console.error("Error fetching reviews:", error);
-      }
-    };
-
-    fetchReviews();
-  }, [productId, randomNum, userId]);
-
   const generateRandomNumber = () => {
     const randomNumber = Math.floor(Math.random() * 15 + 1);
     setRandomNum(randomNumber);
@@ -168,7 +144,6 @@ const CustomerReviews: React.FC<{ productId: number }> = ({ productId }) => {
                   >
 
                     <FaTrashCan color="white" size={25} />
-
                   </div>
 
                 </div>

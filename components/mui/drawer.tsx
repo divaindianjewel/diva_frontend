@@ -55,8 +55,6 @@ export default function TemporaryDrawer() {
     getItems();
   }, [loadedItems]);
 
-  console.log(navItems);
-
   const toggleDrawer = (newOpen: boolean) => () => {
     setOpen(newOpen);
   };
