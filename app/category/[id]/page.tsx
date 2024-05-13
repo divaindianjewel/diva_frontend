@@ -1,14 +1,9 @@
 "use client";
-import React, { useState, useEffect, ReactNode } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import CategoriesButton from "@/components/custom/categoriesButton";
 import { Separator } from "@/components/ui/separator";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-} from "@/components/ui/carousel";
 import CategoryBanner from "@/components/custom/categoryBanner";
 import { domain } from "@/components/backend/apiRouth";
 import { useParams } from "next/navigation";
@@ -111,8 +106,8 @@ const Page = () => {
         <CategoriesButton />
         <Separator />
 
-        <div className="md:container mt-8 w-[100%]">
-          <div className="flex gap-3 justify-center flex-wrap px-5 mb-5 shadow-xl items-center">
+        <div className="mt-8 w-[100%]">
+          <div className="flex gap-3 justify-center flex-wrap px-5 mb-5 w-[100%] shadow-xl items-center">
             {loading ? (
               <>
                 {product.map((item, index) => (
@@ -133,10 +128,14 @@ const Page = () => {
               </>
             ) : (
               categoryProduct?.map((items) => (
-                <Link href={`/products/${items.id}`} key={items.id}>
+                <Link
+                  href={`/products/${items.id}`}
+                  key={items.id}
+                  className="w-[45%] md:w-[32%] lg:w-[23%]"
+                >
                   <div
                     key={items.id}
-                    className="card flex flex-col items-center justify-center shadow-2xl mb-8"
+                    className="card overflow-x-hidden flex flex-col items-center justify-center shadow-2xl mb-8"
                   >
                     <Image
                       className="rounded-md img md:w-[20rem] w-[8rem]"
@@ -146,8 +145,8 @@ const Page = () => {
                       height={height}
                     />
 
-                    <div>
-                      <h3 className="pl-2 text-sm md:text-lg lg:text-2xl font-semibold mt-3 w-[7rem] md:w-[18rem] lg:w-[18rem] overflow-hidden whitespace-nowrap overflow-ellipsis md:text-center">
+                    <div className="w-full" >
+                      <h3 className="pl-2 text-sm md:text-lg lg:text-2xl font-semibold mt-3 w-[100%] md:w-[100%] lg:w-[100%] overflow-hidden whitespace-nowrap overflow-ellipsis">
                         {items.attributes.name}
                       </h3>
                       <div className="price flex justify-between px-5 text-xs md:text-lg lg:text-xl mt-2">
@@ -164,7 +163,7 @@ const Page = () => {
                         className="flex items-center justify-center"
                       >
                         <button
-                          className="myBtn product mb-6 text-sm md:text-lg lg:text-xl w-full"
+                          className="myBtn py-2 product mb-6 text-xs md:text-lg lg:text-xl w-full"
                           type="button"
                         >
                           View Product
