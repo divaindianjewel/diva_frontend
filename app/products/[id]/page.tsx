@@ -172,24 +172,11 @@ const Page = () => {
     return <BlocksRenderer content={content} />;
   };
 
-  const images = imgData || [
-    {
-      original: "https://picsum.photos/id/1018/1000/600/",
-      thumbnail: "https://picsum.photos/id/1018/250/150/",
-    },
-    {
-      original: "https://picsum.photos/id/1015/1000/600/",
-      thumbnail: "https://picsum.photos/id/1015/250/150/",
-    },
-    {
-      original: "https://picsum.photos/id/1019/1000/600/",
-      thumbnail: "https://picsum.photos/id/1019/250/150/",
-    },
-  ];
+  const images = imgData;
 
   return (
     <>
-      <Navbar />
+      <Navbar randomNum={randomNum} />
       <section className="text-gray-600 body-font">
         <div className="container px-5 py-24 mx-auto">
           <div className="w-fit gap-12 mx-auto flex flex-col lg:flex-row  items-center justify-center">

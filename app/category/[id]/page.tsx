@@ -112,7 +112,7 @@ const Page = () => {
         <Separator />
 
         <div className="md:container mt-8 w-[100%]">
-          <div className="flex gap-2 flex-wrap px-5 mb-5 shadow-xl items-center">
+          <div className="flex gap-3 justify-center flex-wrap px-5 mb-5 shadow-xl items-center">
             {loading ? (
               <>
                 {product.map((item, index) => (
@@ -134,7 +134,10 @@ const Page = () => {
             ) : (
               categoryProduct?.map((items) => (
                 <Link href={`/products/${items.id}`} key={items.id}>
-                  <div key={items.id} className="card flex flex-col items-center justify-center shadow-2xl mb-8">
+                  <div
+                    key={items.id}
+                    className="card flex flex-col items-center justify-center shadow-2xl mb-8"
+                  >
                     <Image
                       className="rounded-md img md:w-[20rem] w-[8rem]"
                       src={`${items.attributes.images.data[0].attributes.url}`}
@@ -156,10 +159,12 @@ const Page = () => {
                         </div>
                       </div>
 
-                      <Link href={`/products/${items.id}`} className="flex items-center justify-center"
+                      <Link
+                        href={`/products/${items.id}`}
+                        className="flex items-center justify-center"
                       >
                         <button
-                          className="myBtn product mb-6 text-sm w-full"
+                          className="myBtn product mb-6 text-sm md:text-lg lg:text-xl w-full"
                           type="button"
                         >
                           View Product

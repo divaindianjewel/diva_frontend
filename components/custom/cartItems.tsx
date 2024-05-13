@@ -67,8 +67,6 @@ const CartItems: React.FC<{
       });
 
       const data = await response.json();
-
-
       if (response) {
         random();
         successTost("Product Deleted Successfully");
@@ -79,6 +77,8 @@ const CartItems: React.FC<{
       errorTost(`${error}`);
     }
   };
+
+  
 
   return (
     <>

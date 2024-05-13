@@ -82,7 +82,7 @@ export default function Component() {
 
   return cartData.length > 0 ? (
     <>
-      <Navbar />
+      <Navbar randomNum={randomNum} />
       {isSignedIn ? (
         <Card>
           <CardHeader>

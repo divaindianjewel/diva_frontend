@@ -16,9 +16,7 @@ import TemporaryDrawer from "../mui/drawer";
 import { FaUser } from "react-icons/fa";
 import { domain } from "../backend/apiRouth";
 
-
-
-const Navbar = () => {
+const Navbar: React.FC<{ randomNum?: number }> = ({ randomNum }) => {
   const { isLoaded, isSignedIn, user } = useUser();
   const { userId } = useAuth();
   const [totalCart, setTotalCart] = useState<number>(0);
@@ -51,7 +49,7 @@ const Navbar = () => {
     };
 
     fetchCartData();
-  }, [userId]);
+  }, [userId, randomNum]);
 
   const navItems: NavItem[] = [
     { href: "/", label: "Home" },
