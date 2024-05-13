@@ -26,6 +26,7 @@ import dynamic from "next/dynamic";
 
 import ImageGallery from "react-image-gallery";
 import "react-image-gallery/styles/css/image-gallery.css";
+import Navbar from "@/components/custom/navbar";
 
 interface ProductData {
   id: number;
@@ -188,6 +189,7 @@ const Page = () => {
 
   return (
     <>
+      <Navbar />
       <section className="text-gray-600 body-font">
         <div className="container px-5 py-24 mx-auto">
           <div className="w-fit gap-12 mx-auto flex flex-col lg:flex-row  items-center justify-center">

@@ -1,5 +1,6 @@
 "use client";
 import { domain } from "@/components/backend/apiRouth";
+import Navbar from "@/components/custom/navbar";
 import { errorTost } from "@/components/toast/allTost";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@clerk/nextjs";
@@ -83,6 +84,7 @@ const Pages = () => {
 
   return (
     <div>
+      <Navbar />
       <main>
         <div className="container my-5 flex gap-3 flex-wrap">
           {orderId.map((item: OrderId) => (

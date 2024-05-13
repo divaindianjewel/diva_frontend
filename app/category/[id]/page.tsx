@@ -13,6 +13,7 @@ import CategoryBanner from "@/components/custom/categoryBanner";
 import { domain } from "@/components/backend/apiRouth";
 import { useParams } from "next/navigation";
 import { Skeleton } from "@mui/material";
+import Navbar from "@/components/custom/navbar";
 
 export interface Product {
   id: number;
@@ -104,6 +105,7 @@ const Page = () => {
 
   return (
     <div>
+      <Navbar />
       <div id="banner">
         <CategoryBanner categoryId={categoryId} />
         <CategoriesButton />

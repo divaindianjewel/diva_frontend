@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import React from "react";
+import Navbar from "@/components/custom/navbar";
 
 const page = () => {
   let categoryId = 0;
@@ -10,7 +11,12 @@ const page = () => {
     categoryId = Number(params.id);
   }
 
-  return <div>This is Category id : {categoryId}</div>;
+  return (
+    <>
+      <Navbar />
+      <div>This is Category id : {categoryId}</div>
+    </>
+  );
 };
 
 export default page;

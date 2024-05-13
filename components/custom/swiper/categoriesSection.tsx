@@ -111,9 +111,11 @@ const Categories = () => {
                         alt="category"
                         width={width}
                         height={height}
-                        className={categoriesImgClass}
+                        className={`${categoriesImgClass} w-[4.3rem] md:w-[10rem] lg:w-[15rem]`}
                       />
-                      <h2 className="text-2xl mb-10 w-[7.5rem] md:w-[13rem] lg:w-[18rem] overflow-hidden whitespace-nowrap overflow-ellipsis">{item.attributes.name}</h2>
+                      <h2 className="text-sm md:text-lg lg:text-xl mb-10 w-[5rem] md:w-[13rem] lg:w-[18rem] overflow-hidden whitespace-nowrap overflow-ellipsis">
+                        {item.attributes.name}
+                      </h2>
                     </div>
                   </Link>
                 </CarouselItem>

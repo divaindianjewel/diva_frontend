@@ -17,6 +17,7 @@ import Link from "next/link";
 import { Input } from "@/components/ui/input";
 import { errorTost, successTost } from "@/components/toast/allTost";
 import CreateOrderId from "@/backend/order/create-orderId";
+import Navbar from "@/components/custom/navbar";
 
 interface CartItem {
   id: number;
@@ -30,7 +31,6 @@ interface CartItem {
   };
 }
 
-
 export default function Component() {
   const [cartData, setCartData] = useState<CartItem[]>([]);
   const [subtotal, setSubtotal] = useState<number>(0);
@@ -40,13 +40,10 @@ export default function Component() {
   const [randomNum, setRandomNum] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(true);
 
-
   const generateRandomNumber = () => {
     const randomNumber = Math.floor(Math.random() * 100) + 1;
     setRandomNum(randomNumber);
   };
-
-  
 
   useEffect(() => {
     const fetchCartData = async () => {
@@ -85,6 +82,7 @@ export default function Component() {
 
   return cartData.length > 0 ? (
     <>
+      <Navbar />
       {isSignedIn ? (
         <Card>
           <CardHeader>
@@ -109,9 +107,7 @@ export default function Component() {
           <Separator />
 
           <div className="w-full flex justify-end items-end gap-5 flex-col mr-10 mt-10 py-5 px-10">
-           
-
-            <div className="w-[30rem] max-w-[40rem] ">
+            <div>
               <Link href={"/checkout"} target="_blank">
                 <Button className="w-full " size="lg">
                   Proceed to Checkout

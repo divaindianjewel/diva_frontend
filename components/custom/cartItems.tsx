@@ -86,7 +86,7 @@ const CartItems: React.FC<{
         <div className="flex items-center gap-4 flex-col justify-center md:flex-row">
           <Link
             href={`/products/${productId}`}
-            className="flex items-center gap-4"
+            className="sm:flex-row flex-col flex items-center gap-4"
           >
             <Image
               alt="Product image"
@@ -113,9 +113,9 @@ const CartItems: React.FC<{
             </div>
           </Link>
 
-          <div className="ml-auto flex items-center gap-4">
+          <div className="ml-auto flex md:flex-row flex-col items-center gap-4">
             <div className="flex items-center gap-4">
-              <div className="font-semibold">
+              <div className="font-semibold ">
                 ₹{total != undefined ? total * quantity : total}.00 /-
               </div>
             </div>

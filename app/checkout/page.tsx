@@ -40,6 +40,7 @@ import { Input } from "@/components/ui/input";
 import CreateOrderId from "@/backend/order/create-orderId";
 import addOrderProduct from "@/backend/order/add-order-product";
 import { deleteCartItem } from "@/backend/cart-operation";
+import Navbar from "@/components/custom/navbar";
 
 interface CartItem {
   id: number;
@@ -407,6 +408,7 @@ const Page = () => {
 
   return (
     <>
+      <Navbar />
       <div className="flex flex-col md:flex-row sm:items-center lg:items-start md:items-start  justify-center gap-5 ">
         <Card className="max-w-[50rem] w-fit my-7">
           <CardHeader>
@@ -573,7 +575,12 @@ const Page = () => {
 
           <div className="w-fit">
             <div className="plans flex flex-row px-1 w-[22rem] md:w-[45rem] lg:w-[30rem] ">
-              <label className={`plan basic-plan w-[20rem] md:w-[25rem] ${selectedMethod === "online" ? "active" : ""}`}htmlFor="online">
+              <label
+                className={`plan basic-plan w-[20rem] md:w-[25rem] ${
+                  selectedMethod === "online" ? "active" : ""
+                }`}
+                htmlFor="online"
+              >
                 <input
                   checked={selectedMethod === "online"}
                   onChange={handleMethodChange}
@@ -609,7 +616,12 @@ const Page = () => {
                 </div>
               </label>
 
-              <label className={`plan complete-plan w-[20rem] md:w-[25rem] ${selectedMethod === "cod w-[20rem]" ? "active" : "w-[20rem]"}`}htmlFor="cod">
+              <label
+                className={`plan complete-plan w-[20rem] md:w-[25rem] ${
+                  selectedMethod === "cod w-[20rem]" ? "active" : "w-[20rem]"
+                }`}
+                htmlFor="cod"
+              >
                 <input
                   checked={selectedMethod === "cod"}
                   onChange={handleMethodChange}
