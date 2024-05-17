@@ -61,6 +61,7 @@ const Page = () => {
   const [tmp, setTmp] = useState<boolean>(false);
   const [addressLoad, setAddressLoad] = useState<boolean>(false);
   const [cartDataLoad, setCartDataLoad] = useState<boolean>(false);
+  const [isUpdateOrder, setIsUpdateOrder] = useState<boolean>(false);
 
   useEffect(() => {
     const UserData = async () => {
@@ -112,6 +113,27 @@ const Page = () => {
   }, [userId, tmp]);
 
   useEffect(() => {
+    const updateOrderId = async () => {
+      const response = await fetch(`${domain}/api/orders/${orderId}`, {
+        method: "PUT",
+        body: JSON.stringify({
+          data: {
+            data: {
+              ordered: true,
+            },
+          },
+        }),
+      });
+
+      if (response.ok) {
+        setIsUpdateOrder(true);
+      }
+    };
+
+    updateOrderId();
+  }, [userId, orderId, isUpdateOrder]);
+
+  useEffect(() => {
     const fetchCartData = async () => {
       try {
         const response = await fetch(`${domain}/api/carts?populate=*`);
@@ -140,6 +162,7 @@ const Page = () => {
       console.log("discounted Amount : " + discountAmount);
       console.log("userId : " + userId);
       if (
+        isUpdateOrder &&
         userName != undefined &&
         total != 0 &&
         orderId != undefined &&
@@ -158,7 +181,7 @@ const Page = () => {
       }
     };
     addOrderAndOrderId();
-  }, [cartData]);
+  }, [cartData, isUpdateOrder]);
 
   useEffect(() => {
     let tmpsubtotal = 0;

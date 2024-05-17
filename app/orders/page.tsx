@@ -52,7 +52,8 @@ const Pages = () => {
       const data = await response.json();
 
       const tmpData = data.data.filter(
-        (item: OrderId) => item.attributes.user_id == userId
+        (item: OrderId) =>
+          item.attributes.user_id == userId && item.attributes.ordered == true
       );
 
       setOrderId(tmpData);
