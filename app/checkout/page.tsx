@@ -408,7 +408,9 @@ const Page = () => {
 
   return (
     <>
-      <Navbar />
+      <div className="sticky top-0 left-0 z-[100]">
+        <Navbar />
+      </div>
       <div className="flex flex-col md:flex-row sm:items-center lg:items-start md:items-start  justify-center gap-5 ">
         <Card className="max-w-[50rem] w-fit my-7">
           <CardHeader>

@@ -85,7 +85,9 @@ const Pages = () => {
 
   return (
     <div>
-      <Navbar />
+      <div className="sticky top-0 left-0 z-[100]">
+        <Navbar />
+      </div>
       <main>
         <div className="container my-5 flex gap-3 flex-wrap">
           {orderId.map((item: OrderId) => (

@@ -82,7 +82,10 @@ export default function Component() {
 
   return cartData.length > 0 ? (
     <>
-      <Navbar randomNum={randomNum} />
+      <div className="sticky top-0 left-0 z-[100]">
+        <Navbar randomNum={randomNum} />
+      </div>
+
       {isSignedIn ? (
         <Card>
           <CardHeader>
@@ -122,7 +125,9 @@ export default function Component() {
     </>
   ) : (
     <div>
-      <Navbar />
+      <div className="sticky top-0 left-0 z-[100]">
+        <Navbar />
+      </div>
       <div className="flex flex-col items-center justify-center h-[50vh]">
         <div className="text-center space-y-4">
           <h2 className="text-2xl font-bold">Your cart is empty</h2>

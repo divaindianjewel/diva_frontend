@@ -2,15 +2,6 @@
 import React, { useState, useEffect } from "react";
 import { IoIosStar } from "react-icons/io";
 import { FaShoppingCart } from "react-icons/fa";
-import Image from "next/image";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel";
-import Autoplay from "embla-carousel-autoplay";
 import CustomerReviews from "@/components/custom/reviews/reviewBox";
 import { addToCart } from "@/backend/add-to-cart";
 import { useAuth, useUser } from "@clerk/nextjs";
@@ -22,8 +13,6 @@ import {
 import { useParams } from "next/navigation";
 import { Skeleton } from "@/components/ui/skeleton";
 import { warningTost } from "@/components/toast/allTost";
-import dynamic from "next/dynamic";
-
 import ImageGallery from "react-image-gallery";
 import "react-image-gallery/styles/css/image-gallery.css";
 import Navbar from "@/components/custom/navbar";
@@ -176,7 +165,9 @@ const Page = () => {
 
   return (
     <>
-      <Navbar randomNum={randomNum} />
+      <div className="sticky top-0 left-0 z-[100]">
+        <Navbar randomNum={randomNum} />
+      </div>
       <section className="text-gray-600 body-font">
         <div className="container px-5 py-24 mx-auto">
           <div className="w-fit gap-12 mx-auto flex flex-col lg:flex-row  items-center justify-center">

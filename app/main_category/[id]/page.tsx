@@ -13,7 +13,9 @@ const Page = () => {
 
   return (
     <>
-      <Navbar />
+      <div className="sticky top-0 left-0 z-[100]">
+        <Navbar />
+      </div>
       <div>This is Category id : {categoryId}</div>
     </>
   );

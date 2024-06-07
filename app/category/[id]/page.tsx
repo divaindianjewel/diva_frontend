@@ -100,10 +100,12 @@ const Page = () => {
 
   return (
     <div>
-      <Navbar />
+      <div className="sticky top-0 left-0 z-[100]">
+        <Navbar />
+      </div>
       <div id="banner">
         <CategoryBanner categoryId={categoryId} />
-        <CategoriesButton />
+        <CategoriesButton categoryId={categoryId} />
         <Separator />
 
         <div className="mt-8 w-[100%]">
@@ -145,7 +147,7 @@ const Page = () => {
                       height={height}
                     />
 
-                    <div className="w-full" >
+                    <div className="w-full">
                       <h3 className="pl-2 text-sm md:text-lg lg:text-2xl font-semibold mt-3 w-[100%] md:w-[100%] lg:w-[100%] overflow-hidden whitespace-nowrap overflow-ellipsis">
                         {items.attributes.name}
                       </h3>

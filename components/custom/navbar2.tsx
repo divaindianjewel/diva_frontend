@@ -17,8 +17,8 @@ export default function Navbar2() {
   const isSignedIn = true;
 
   return (
-    <>
-      <nav className="flex items-center justify-between mt-1 sticky top-0 left-0 bg-white shadow-xl py-3  z-50">
+    <div className="sticky top-0 left-0 z-[100]">
+      <nav className="flex items-center justify-between mt-1 bg-white shadow-xl py-3  ">
         <div className="ml-4">
           <TemporaryDrawer />
         </div>
@@ -42,13 +42,17 @@ export default function Navbar2() {
               ) : (
                 <div className="flex items-center justify-center gap-4">
                   <Link href={"/sign-in"}>
-                    <button className={`${yellowColor} text-white text-lg font-semibold rounded-3xl px-6 py-3 border shadow-inner`}>
+                    <button
+                      className={`${yellowColor} text-white text-lg font-semibold rounded-3xl px-6 py-3 border shadow-inner`}
+                    >
                       Join now
                     </button>
                   </Link>
                   <div className="line bg-gray-400 h-[3rem] w-[1px]"></div>
                   <Link href={"/sign-up"}>
-                    <button className={`text-lg font-semibold rounded-3xl px-6 py-3 border-2 shadow-inner `}>
+                    <button
+                      className={`text-lg font-semibold rounded-3xl px-6 py-3 border-2 shadow-inner `}
+                    >
                       Sign up
                     </button>
                   </Link>
@@ -58,6 +62,6 @@ export default function Navbar2() {
           </div>
         </div>
       </nav>
-    </>
+    </div>
   );
-};
+}

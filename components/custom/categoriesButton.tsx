@@ -12,21 +12,34 @@ interface categories {
   };
 }
 
-const CategoriesButton = () => {
+const CategoriesButton: React.FC<{ categoryId: number }> = ({ categoryId }) => {
   const [categoriesName, setCategoriesName] = useState<categories[] | null>(
     null
   );
+  const [ActiveCategoriesName, setActiveCategoriesName] = useState<
+    categories | null
+  >(null);
 
   const [loading, setLoading] = useState<boolean>(true);
 
-  // Fetch data on component mount
   useEffect(() => {
     const fetchCategoriesName = async () => {
       try {
         const response = await fetch(`${domain}/api/categories?populate=*`);
         const data = await response.json();
+        const tmpData: categories[] = data.data;
+        const activeCategories = tmpData?.filter(
+          (item) => item.id == categoryId
+        );
 
-        setCategoriesName(data.data);
+        const tmpActive = activeCategories[0];
+        setActiveCategoriesName(tmpActive);
+
+        const categoriesBtn: categories[] = tmpData.filter(
+          (item) => item.id != categoryId
+        );
+
+        setCategoriesName(categoriesBtn);
         setLoading(false);
       } catch (err) {
         console.log(`the error is : ${err}`);
@@ -47,10 +60,15 @@ const CategoriesButton = () => {
     </div>
   ) : (
     <div className="no-scrollbar flex items-center justify-start gap-5 mx-5 max-w-[95vw] w-[93vw]  relative overflow-x-scroll">
+      <Link className="myBtn active p-2 drop-shadow-bg-gray-900 my-2" href={``}>
+        <p className="max-content-width">
+          {ActiveCategoriesName?.attributes.name}
+        </p>
+      </Link>
       {categoriesName?.map((items) => (
         <Link
           key={items.id}
-          className="myBtn py-2 px-1 drop-shadow-bg-gray-900 my-2"
+          className="myBtn p-2 drop-shadow-bg-gray-900 my-2"
           href={`/category/${items.id}`}
         >
           <p className="max-content-width">{items.attributes.name}</p>

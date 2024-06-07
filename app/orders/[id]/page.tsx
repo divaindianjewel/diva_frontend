@@ -9,6 +9,7 @@ import Image from "next/image";
 
 import { CiDiscount1 } from "react-icons/ci";
 import { CalendarIcon, PackageIcon } from "lucide-react";
+import Navbar from "@/components/custom/navbar";
 
 interface Product {
   id: number;
@@ -54,6 +55,9 @@ const Page = () => {
 
   return (
     <div>
+      <div className="sticky top-0 left-0 z-[100]">
+        <Navbar />
+      </div>
       <main className="flex-1 grid grid-rows-[auto_1fr] gap-4 p-4 md:grid-rows-[auto_1fr] md:gap-8 md:p-6">
         <div className="space-y-2">
           <h1 className="font-semibold text-2xl lg:text-3xl">

@@ -4,7 +4,9 @@ import React from "react";
 const page = () => {
   return (
     <>
-      <Navbar />
+      <div className="sticky top-0 left-0 z-[100]">
+        <Navbar />
+      </div>
       <div className="container py-8">
         <h1 className="text-center text-3xl capitalize py-6 font-semibold underline">
           Diva do Shipping by shiprocket
