@@ -32,6 +32,11 @@ export interface Product {
         };
       }[];
     };
+    category: {
+      data: {
+        id: number;
+      };
+    };
   };
 }
 
@@ -57,7 +62,6 @@ const FeatureSection = () => {
       try {
         const response = await fetch(`${domain}/api/products?populate=*`);
         const data = await response.json();
-        // Filter products where feature is true and gender is male
         const filteredProducts = data.data.filter(
           (product: { attributes: { feature: any; gender: string } }) =>
             product.attributes.feature && product.attributes.gender === "male"

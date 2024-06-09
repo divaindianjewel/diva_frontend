@@ -9,6 +9,7 @@ import FadingBanner from "@/components/custom/Fade";
 export default async function Home() {
   return (
     <main className="text-center">
+      <FadingBanner />
       <div className="sticky top-0 left-0 z-[100]">
         <Navbar />
       </div>

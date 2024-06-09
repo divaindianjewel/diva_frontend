@@ -29,7 +29,10 @@
     "embla-carousel-autoplay": "^8.0.0-rc22",
     "embla-carousel-react": "^8.0.0-rc22",
     "firebase": "^10.12.2",
+    "framer-motion": "^11.2.10",
     "html-react-parser": "^5.1.9",
+    "input-otp": "^1.2.4",
+    "js-cookie": "^3.0.5",
     "lightgallery": "^2.7.2",
     "lucide-react": "^0.323.0",
     "markdown-to-jsx": "^7.4.5",
@@ -63,6 +66,7 @@
   "devDependencies": {
     "@types/crypto-js": "^4.2.2",
     "@types/jest": "^29.5.12",
+    "@types/js-cookie": "^3.0.6",
     "@types/node": "^20",
     "@types/react-image-gallery": "^1.2.4",
     "@types/sha256": "^0.2.2",

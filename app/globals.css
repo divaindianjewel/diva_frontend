@@ -150,7 +150,6 @@ body {
   color: #333;
   font-weight: 580;
   transition: all ease-in 0.1s;
-  
 }
 
 .myBtn:hover {
@@ -193,4 +192,15 @@ body {
 
 .no-scrollbar::-webkit-scrollbar {
   display: none;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
 }

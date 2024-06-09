@@ -3,12 +3,9 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import NextTopLoader from "nextjs-toploader";
 import Footer from "@/components/custom/footer";
-import Navbar from "@/components/custom/navbar";
 import { Metadata } from "next";
 import TostContainer from "@/components/custom/TostContainer";
-import Navbar2 from "@/components/custom/navbar2";
-import { useState } from "react";
-import FadingBanner from "@/components/custom/Fade";
+;
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -28,7 +25,6 @@ export default function RootLayout({
         <body className={inter.className}>
           <NextTopLoader color="#F8D247" />
           <TostContainer />
-          <FadingBanner />
           {children}
           <Footer />
         </body>

@@ -18,6 +18,7 @@ export default authMiddleware({
     "/main_category",
     "/main_category/(.*)",
     "/fail",
+    "/auth"
   ],
 });
 

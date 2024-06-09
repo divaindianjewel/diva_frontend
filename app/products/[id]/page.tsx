@@ -16,6 +16,7 @@ import { warningTost } from "@/components/toast/allTost";
 import ImageGallery from "react-image-gallery";
 import "react-image-gallery/styles/css/image-gallery.css";
 import Navbar from "@/components/custom/navbar";
+import SuggestionSwiper from "@/components/custom/swiper/SuggestionSwiper";
 
 interface ProductData {
   id: number;
@@ -33,6 +34,11 @@ interface ProductData {
           url: string;
         };
       }[];
+    };
+    category: {
+      data: {
+        id: number;
+      };
     };
   };
 }
@@ -66,6 +72,7 @@ interface ApiResponse {
 
 const Page = () => {
   const [randomNum, setRandomNum] = useState<number>(0);
+  const [categoryId, setCategoryId] = useState<number | undefined>(0);
   const [productAdded, setProductAdded] = useState<boolean>(false);
   const [cartData, setCartData] = useState<CartItem[]>([]);
   const [product, setProduct] = useState<ProductData | null>(null);
@@ -124,8 +131,15 @@ const Page = () => {
         if (!response.ok) {
           throw new Error("Failed to fetch product");
         }
+
         const data: ApiResponse = await response.json();
         setProduct(data.data);
+
+        const categoryId = product?.attributes.category.data.id;
+        
+        if (product?.attributes.category.data.id != undefined) {
+          setCategoryId(product?.attributes.category.data.id);
+          }
 
         const mappedImages = product?.attributes.images.data.map(
           (item, index) => {
@@ -317,6 +331,14 @@ const Page = () => {
 
       <section>
         <CustomerReviews productId={productId} />
+      </section>
+
+      <section>
+        {categoryId ? (
+          <SuggestionSwiper categoryId={categoryId} />
+        ) : (
+          ""
+        )}
       </section>
     </>
   );

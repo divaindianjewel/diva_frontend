@@ -15,6 +15,9 @@ import { FaShoppingCart, FaSearch } from "react-icons/fa";
 import TemporaryDrawer from "../mui/drawer";
 import { FaUser } from "react-icons/fa";
 import { domain } from "../backend/apiRouth";
+import FadingBanner from "./Fade";
+import LoginDialog from "./LoginDialog";
+import SearchBar from "./SearchBar";
 
 const Navbar: React.FC<{ randomNum?: number }> = ({ randomNum }) => {
   const { isLoaded, isSignedIn, user } = useUser();
@@ -60,13 +63,16 @@ const Navbar: React.FC<{ randomNum?: number }> = ({ randomNum }) => {
       );
       setSuggestions(filteredSuggestions);
     } else {
-      const noSuggestion = ['No Product Found'];
+      const noSuggestion = ["No Product Found"];
       setSuggestions(noSuggestion);
     }
   };
 
   const handleClickOutside = (event: MouseEvent) => {
-    if (searchBoxRef.current && !searchBoxRef.current.contains(event.target as Node)) {
+    if (
+      searchBoxRef.current &&
+      !searchBoxRef.current.contains(event.target as Node)
+    ) {
       setIsSearchActive(false);
     }
   };
@@ -108,85 +114,10 @@ const Navbar: React.FC<{ randomNum?: number }> = ({ randomNum }) => {
           </div>
 
           {/* Search Bar */}
-          <div className="flex-grow flex items-center justify-center mx-5 relative" ref={searchBoxRef}>
-            <input
-              type="text"
-              className="w-full h-10 px-5 rounded-full text-black"
-              placeholder="Search..."
-              value={searchTerm}
-              onFocus={() => setIsSearchActive(true)}
-              onChange={handleSearchChange}
-            />
-
-            {(suggestions.length > 0 || searchTerm.length === 0) && isSearchActive && (
-              <div className="absolute top-12 bg-white text-black rounded-md shadow-lg w-full p-4 z-30">
-                {searchTerm.length === 0 ? (
-                  <>
-                    <h3 className="text-start font-bold mb-2">Categories</h3>
-                    <ul>
-                      {categories.map((category, index) => (
-                        <li
-                          key={index}
-                          className="text-start px-4 py-2 hover:bg-gray-200 cursor-pointer"
-                          onClick={() => {
-                            setSearchTerm(category);
-                            setSuggestions([]);
-                            setIsSearchActive(false); // Hide suggestions on selection
-                          }}
-                        >
-                          {category}
-                        </li>
-                      ))}
-                    </ul>
-                    <h3 className="text-start font-bold mt-4 mb-2">Best Sellers</h3>
-                    <ul>
-                      {bestSellers.map((product, index) => (
-                        <li
-                          key={index}
-                          className="text-start px-4 py-2 hover:bg-gray-200 cursor-pointer"
-                          onClick={() => {
-                            setSearchTerm(product);
-                            setSuggestions([]);
-                            setIsSearchActive(false); // Hide suggestions on selection
-                          }}
-                        >
-                          {product}
-                        </li>
-                      ))}
-                    </ul>
-                  </>
-                ) : (
-                  suggestions.map((suggestion, index) => (
-                    <div
-                      key={index}
-                      className="text-start px-4 py-2 hover:bg-gray-200 cursor-pointer"
-                      onClick={() => {
-                        setSearchTerm(suggestion);
-                        setSuggestions([]);
-                        setIsSearchActive(false); 
-                      }}
-                    >
-                      {suggestion}
-                    </div>
-                  ))
-                )}
-              </div>
-            )}
-          </div>
+          <SearchBar />
 
           <div className="flex items-center justify-center gap-5 mr-[2rem]">
-            {isSignedIn ? (
-              <UserButton afterSignOutUrl="/" />
-            ) : (
-              <ul className="flex items-center justify-evenly lg:text-xl md:text-xl">
-                <Link
-                  className="hover:underline lg:text-xl md:text-lg sm:text-sm px-5"
-                  href="/sign-up"
-                >
-                  <FaUser size={25} />
-                </Link>
-              </ul>
-            )}
+            <LoginDialog size={25} />
 
             <Link href={"/cart"}>
               <div className="flex relative">
@@ -200,10 +131,7 @@ const Navbar: React.FC<{ randomNum?: number }> = ({ randomNum }) => {
         </div>
       </nav>
 
-
-      <div className={isSearchActive ? "hidden" : "block"}>
-
-      </div>
+      <div className={isSearchActive ? "hidden" : "block"}></div>
 
       {isSearchActive && (
         <div className="fixed inset-0 bg-black bg-opacity-50 z-10"></div>
