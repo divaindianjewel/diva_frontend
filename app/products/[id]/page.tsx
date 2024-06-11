@@ -17,6 +17,7 @@ import ImageGallery from "react-image-gallery";
 import "react-image-gallery/styles/css/image-gallery.css";
 import Navbar from "@/components/custom/navbar";
 import SuggestionSwiper from "@/components/custom/swiper/SuggestionSwiper";
+import FadingBanner from "@/components/custom/Fade";
 
 interface ProductData {
   id: number;
@@ -136,10 +137,10 @@ const Page = () => {
         setProduct(data.data);
 
         const categoryId = product?.attributes.category.data.id;
-        
+
         if (product?.attributes.category.data.id != undefined) {
           setCategoryId(product?.attributes.category.data.id);
-          }
+        }
 
         const mappedImages = product?.attributes.images.data.map(
           (item, index) => {
@@ -179,6 +180,7 @@ const Page = () => {
 
   return (
     <>
+      <FadingBanner />
       <div className="sticky top-0 left-0 z-[100]">
         <Navbar randomNum={randomNum} />
       </div>
@@ -334,11 +336,7 @@ const Page = () => {
       </section>
 
       <section>
-        {categoryId ? (
-          <SuggestionSwiper categoryId={categoryId} />
-        ) : (
-          ""
-        )}
+        {categoryId ? <SuggestionSwiper categoryId={categoryId} /> : ""}
       </section>
     </>
   );

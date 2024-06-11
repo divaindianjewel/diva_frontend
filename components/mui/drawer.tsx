@@ -8,14 +8,16 @@ import List from "@mui/material/List";
 import Divider from "@mui/material/Divider";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
-import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import Link from "next/link";
+import Cookies from "js-cookie";
+
 // react icons
 
 // Icons
 import { IoMenu } from "react-icons/io5";
 import { BsFillBoxSeamFill } from "react-icons/bs";
+import { IoLogOutSharp } from "react-icons/io5";
 
 interface NavItem {
   href: string;
@@ -31,6 +33,7 @@ interface fetchNavItems {
 }
 
 export default function TemporaryDrawer() {
+
   const [open, setOpen] = useState(false);
   const [loadedItems, setLoadedItems] = useState(false);
   const [navItems, setNavItems] = useState<fetchNavItems[]>([]);
@@ -82,6 +85,21 @@ export default function TemporaryDrawer() {
               </div>
             </ListItemText>
           </Link>
+        </ListItem>
+        <ListItem>
+          <div
+            className="cursor-pointer"
+            onClick={() => {
+              Cookies.remove("DIVAIJ-USER");
+              location.reload();
+            }}
+          >
+            <ListItemText>
+              <div className="flex items-center justify-center gap-3">
+                <IoLogOutSharp /> Logout
+              </div>
+            </ListItemText>
+          </div>
         </ListItem>
       </List>
     </Box>

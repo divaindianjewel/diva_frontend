@@ -2385,6 +2385,13 @@
   resolved "https://registry.npmjs.org/@types/range-parser/-/range-parser-1.2.7.tgz"
   integrity sha512-hKormJbkJqzQGhziax5PItDUTMAM9uE2XXQmM37dyd4hVM+5aVl7oVxMVUiVQn2oCQFN/LKCZdvSM0pFRqbSmQ==
 
+"@types/react-autocomplete@^1.8.10":
+  version "1.8.10"
+  resolved "https://registry.npmjs.org/@types/react-autocomplete/-/react-autocomplete-1.8.10.tgz"
+  integrity sha512-3pL4pHLKIKuwDArUfCg8y697tsRSNyowofZGpV8vYKoGc5Jws0jrnzqTgdUHcZew0g0UxcFO1zeXD7LG0WSggg==
+  dependencies:
+    "@types/react" "*"
+
 "@types/react-image-gallery@^1.2.4":
   version "1.2.4"
   resolved "https://registry.npmjs.org/@types/react-image-gallery/-/react-image-gallery-1.2.4.tgz"
@@ -3078,6 +3085,14 @@ clsx@2.0.0:
   resolved "https://registry.npmjs.org/clsx/-/clsx-2.0.0.tgz"
   integrity sha512-rQ1+kcj+ttHG0MKVGBUXwayCCF1oh39BF5COIpRzuCEv8Mwjv0XucrI2ExNTOn9IlLifGClWQcU9BrZORvtw6Q==
 
+cmdk@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.npmjs.org/cmdk/-/cmdk-1.0.0.tgz"
+  integrity sha512-gDzVf0a09TvoJ5jnuPvygTB77+XdOSwEmJ88L6XPFPlv7T3RxbP9jgenfylrAMD0+Le1aO0nVjQUzl2g+vjz5Q==
+  dependencies:
+    "@radix-ui/react-dialog" "1.0.5"
+    "@radix-ui/react-primitive" "1.0.3"
+
 co@^4.6.0:
   version "4.6.0"
   resolved "https://registry.npmjs.org/co/-/co-4.6.0.tgz"
@@ -3371,6 +3386,11 @@ dom-helpers@^5.0.1:
   dependencies:
     "@babel/runtime" "^7.8.7"
     csstype "^3.0.2"
+
+dom-scroll-into-view@1.0.1:
+  version "1.0.1"
+  resolved "https://registry.npmjs.org/dom-scroll-into-view/-/dom-scroll-into-view-1.0.1.tgz"
+  integrity sha512-1Dmy6uH1vRcm2+Lvggyrlc04cMh+mr+VA+qcgs085hAEZp+v+6NT/xhRjfc6vRc7965sCSDdQcw063VkG+eNmQ==
 
 dom-serializer@^2.0.0:
   version "2.0.0"
@@ -6058,7 +6078,7 @@ prompts@^2.0.1:
     kleur "^3.0.3"
     sisteransi "^1.0.5"
 
-prop-types@^15.6.2, prop-types@^15.7.2, prop-types@^15.8.1:
+prop-types@^15.5.10, prop-types@^15.6.2, prop-types@^15.7.2, prop-types@^15.8.1:
   version "15.8.1"
   resolved "https://registry.npmjs.org/prop-types/-/prop-types-15.8.1.tgz"
   integrity sha512-oj87CgZICdulUohogVAR7AjlC0327U4el4L6eAvOqCeudMDVU0NThNaV+b9Df4dXgSP1gXMTnPdhfe/2qDH5cg==
@@ -6172,6 +6192,14 @@ radix-ui@^1.0.1:
     "@radix-ui/react-toolbar" latest
     "@radix-ui/react-tooltip" latest
     "@radix-ui/react-visually-hidden" latest
+
+react-autocomplete@^1.8.1:
+  version "1.8.1"
+  resolved "https://registry.npmjs.org/react-autocomplete/-/react-autocomplete-1.8.1.tgz"
+  integrity sha512-YQGVN5POdcI3G89wUVWnJhk9rLF6JeB6Ik6xnNpfvSMG4tJkksBzqOE4mkFNGqEz+2AaQw13xNmVXresg9E3zg==
+  dependencies:
+    dom-scroll-into-view "1.0.1"
+    prop-types "^15.5.10"
 
 react-dom@^18:
   version "18.2.0"

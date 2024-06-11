@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import React from "react";
 import Navbar from "@/components/custom/navbar";
+import FadingBanner from "@/components/custom/Fade";
 
 const Page = () => {
   let categoryId = 0;
@@ -13,6 +14,7 @@ const Page = () => {
 
   return (
     <>
+      <FadingBanner />
       <div className="sticky top-0 left-0 z-[100]">
         <Navbar />
       </div>

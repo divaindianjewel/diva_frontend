@@ -1,18 +1,17 @@
 "use client";
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import { warningTost } from "../toast/allTost";
+import { errorTost, warningTost } from "../toast/allTost";
 import { Button } from "../ui/button";
 import { auth } from "@/firebase/config";
 import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
 import Cookies from "js-cookie";
-
+import { useRouter } from "next/router";
 
 const Login: React.FC = () => {
-
   const [phoneNumber, setPhoneNumber] = useState<string>("");
   const [otp, setOtp] = useState<string>("");
-  const [step, setStep] = useState<number>(1); 
+  const [step, setStep] = useState<number>(1);
   const [realPhoneNum, setRealPhoneNum] = useState<string | undefined>();
   const [user, setUser] = useState<any>(null);
 
@@ -50,17 +49,14 @@ const Login: React.FC = () => {
     try {
       const data = await user.confirm(otp);
       const localId = data._tokenResponse.localId;
-      Cookies.set("DIVAIJ-USER", localId, { expires: 7 }); 
+      Cookies.set("DIVAIJ-USER", localId, { expires: 7 });
 
-      if(Cookies.get("DIVAIJ-USER") == localId) {
-        alert("Already Login")
-      } else {
-        alert("login first time")
-      }
-
+      console.log(Cookies.get("DIVAIJ-USER"));
+      location.reload();
       alert("Login successfully");
     } catch (error) {
       alert("OTP is wrong");
+      errorTost("Something went wrong");
       console.log(error);
     }
   };
@@ -99,7 +95,7 @@ const Login: React.FC = () => {
               placeholder="Enter Your Phone Number"
             />
           </div>
-          <div id="recaptcha" className="mb-3" ></div>
+          <div id="recaptcha" className="mb-3"></div>
           <Button onClick={() => sendOtp()} className="w-full">
             Send OTP
           </Button>

@@ -17,8 +17,10 @@ export default authMiddleware({
     "/api/status/(.*)",
     "/main_category",
     "/main_category/(.*)",
+    "/search/(.*)",
     "/fail",
-    "/auth"
+    "/auth",
+    "/test"
   ],
 });
 

@@ -9,6 +9,7 @@ import { domain } from "@/components/backend/apiRouth";
 import { useParams } from "next/navigation";
 import { Skeleton } from "@mui/material";
 import Navbar from "@/components/custom/navbar";
+import FadingBanner from "@/components/custom/Fade";
 
 export interface Product {
   id: number;
@@ -100,6 +101,7 @@ const Page = () => {
 
   return (
     <div>
+      <FadingBanner />
       <div className="sticky top-0 left-0 z-[100]">
         <Navbar />
       </div>

@@ -18,6 +18,7 @@ import { Input } from "@/components/ui/input";
 import { errorTost, successTost } from "@/components/toast/allTost";
 import CreateOrderId from "@/backend/order/create-orderId";
 import Navbar from "@/components/custom/navbar";
+import FadingBanner from "@/components/custom/Fade";
 
 interface CartItem {
   id: number;
@@ -82,6 +83,7 @@ export default function Component() {
 
   return cartData.length > 0 ? (
     <>
+      <FadingBanner />
       <div className="sticky top-0 left-0 z-[100]">
         <Navbar randomNum={randomNum} />
       </div>

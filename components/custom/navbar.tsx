@@ -9,18 +9,16 @@ import { UserButton, useAuth, useUser } from "@clerk/nextjs";
 // Logo
 import Logo from "@/app/assets/logo.png";
 import Link from "next/link";
+import Cookies from "js-cookie";
 
 // react icons
-import { FaShoppingCart, FaSearch } from "react-icons/fa";
+import { FaShoppingCart } from "react-icons/fa";
 import TemporaryDrawer from "../mui/drawer";
-import { FaUser } from "react-icons/fa";
 import { domain } from "../backend/apiRouth";
-import FadingBanner from "./Fade";
 import LoginDialog from "./LoginDialog";
-import SearchBar from "./SearchBar";
+import SearchDialog from "./SearchDialog";
 
 const Navbar: React.FC<{ randomNum?: number }> = ({ randomNum }) => {
-  const { isLoaded, isSignedIn, user } = useUser();
   const { userId } = useAuth();
   const [totalCart, setTotalCart] = useState<number>(0);
   const [searchTerm, setSearchTerm] = useState<string>("");
@@ -113,11 +111,14 @@ const Navbar: React.FC<{ randomNum?: number }> = ({ randomNum }) => {
             </Link>
           </div>
 
-          {/* Search Bar */}
-          <SearchBar />
-
           <div className="flex items-center justify-center gap-5 mr-[2rem]">
-            <LoginDialog size={25} />
+            <SearchDialog />
+
+            {Cookies.get("DIVAIJ-USER")?.length == undefined ? (
+              <LoginDialog size={25} />
+            ) : (
+              " "
+            )}
 
             <Link href={"/cart"}>
               <div className="flex relative">
