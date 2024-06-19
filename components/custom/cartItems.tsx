@@ -41,13 +41,9 @@ const CartItems: React.FC<{
         ? JSON.parse(existingCart)
         : [];
 
-      console.log("Existing cart items:", cartItems);
-
       const updatedCartItems = cartItems.filter(
         (item) => item.id !== productId
       );
-
-      console.log("Updated cart items:", updatedCartItems);
 
       Cookies.set("DIVAcart", JSON.stringify(updatedCartItems), {
         expires: 365,
@@ -60,7 +56,6 @@ const CartItems: React.FC<{
       random();
       successTost("Product Deleted Successfully");
     } else {
-      console.error("Product ID is undefined");
     }
   };
 
@@ -78,7 +73,13 @@ const CartItems: React.FC<{
         return item;
       });
 
-      Cookies.set("DIVAcart", JSON.stringify(updatedCartItems));
+      Cookies.set("DIVAcart", JSON.stringify(updatedCartItems), {
+        expires: 365,
+        secure: window.location.protocol === "https:",
+        sameSite: "Lax",
+        path: "/",
+        domain: window.location.hostname,
+      });
 
       let tmp = quantity;
       tmp--;
@@ -103,7 +104,13 @@ const CartItems: React.FC<{
 
     let tmp = quantity;
     tmp++;
-    Cookies.set("DIVAcart", JSON.stringify(updatedCartItems));
+    Cookies.set("DIVAcart", JSON.stringify(updatedCartItems), {
+      expires: 365,
+      secure: window.location.protocol === "https:",
+      sameSite: "Lax",
+      path: "/",
+      domain: window.location.hostname,
+    });
     setQuantity(tmp);
   };
 
