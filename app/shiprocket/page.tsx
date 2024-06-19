@@ -68,7 +68,6 @@ interface divaAddressProps {
 }
 
 const Page = () => {
-  const { userId } = useAuth();
   const [userLocalId, setUserLocalId] = useState<string>("");
   const [orderId, setOrderId] = useState<number>();
   const [cartData, setCartData] = useState<CartItem[]>([]);
@@ -150,10 +149,11 @@ const Page = () => {
       }
     };
     updateOrderId();
-  }, [userId, orderId, isUpdateOrder]);
+  }, [orderId, isUpdateOrder]);
 
   useEffect(() => {
     const addOrderedProduct = async () => {
+      setLoading(true);
       console.log(cookiesCartData.length);
       cookiesCartData.map(async (item) => {
         let response = await fetch(`${domain}/api/ordered-products`, {
@@ -178,9 +178,11 @@ const Page = () => {
           console.log("success...!!!");
         }
       });
+
+      setLoading(false);
     };
     addOrderedProduct();
-  }, [cookiesCartData]);
+  }, [loading]);
 
   // useEffect(() => {
   //   let tmpsubtotal = 0;
