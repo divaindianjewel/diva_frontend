@@ -119,13 +119,18 @@ const Page = () => {
       ? JSON.parse(existingCart)
       : [];
 
-    console.log("i click add to cart");
     if (cartItem != undefined) {
+      console.log("i click add to cart 1");
       const isProductInCart = cartItems.some((item) => item.id === cartItem.id);
       if (isProductInCart) {
+        console.log("i click add to cart 2");
         warningTost("Product is already added to the cart");
       } else {
+        console.log("i click add to cart 3");
+
         if (userLocalId) {
+          console.log("i click add to cart 4");
+
           generateRandomNumber();
           addToCart(
             String(productId),
@@ -144,6 +149,8 @@ const Page = () => {
             domain: window.location.hostname,
           });
           successTost("Product added to cart");
+        } else {
+          console.log("i click add to cart 4");
         }
       }
     } else {
