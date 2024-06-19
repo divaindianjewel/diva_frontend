@@ -116,16 +116,15 @@ const Page = () => {
 
     const existingCart = Cookies.get("DIVAcart");
     const cartItems: cartItemProps[] = existingCart
-    ? JSON.parse(existingCart)
-    : [];
-    
-    alert("i click add to cart")
+      ? JSON.parse(existingCart)
+      : [];
+
+    alert("i click add to cart");
     if (cartItem != undefined) {
       const isProductInCart = cartItems.some((item) => item.id === cartItem.id);
       if (isProductInCart) {
         warningTost("Product is already added to the cart");
       } else {
-        successTost("Product added to cart");
         if (userLocalId) {
           generateRandomNumber();
           addToCart(
@@ -138,6 +137,7 @@ const Page = () => {
           updateCart();
           cartItems.push(cartItem);
           Cookies.set("DIVAcart", JSON.stringify(cartItems), { expires: 365 });
+          successTost("Product added to cart");
         }
       }
     }
@@ -145,7 +145,6 @@ const Page = () => {
     setTimeout(() => {
       setCartDisable(false);
     }, 3500);
-
   };
 
   useEffect(() => {
