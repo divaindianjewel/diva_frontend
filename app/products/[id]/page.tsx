@@ -119,7 +119,7 @@ const Page = () => {
       ? JSON.parse(existingCart)
       : [];
 
-    alert("i click add to cart");
+    console.log("i click add to cart");
     if (cartItem != undefined) {
       const isProductInCart = cartItems.some((item) => item.id === cartItem.id);
       if (isProductInCart) {
@@ -138,8 +138,10 @@ const Page = () => {
           cartItems.push(cartItem);
           Cookies.set("DIVAcart", JSON.stringify(cartItems), {
             expires: 365,
-            secure: true,
-            sameSite: "Strict",
+            secure: window.location.protocol === "https:", // Ensure this is set only if your site uses HTTPS
+            sameSite: "Lax", 
+            path: "/", 
+            domain: window.location.hostname, 
           });
           successTost("Product added to cart");
         }
