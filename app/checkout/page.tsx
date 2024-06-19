@@ -102,7 +102,7 @@ const Page = () => {
   const [cartData, setCartData] = useState<CartItem[]>([]);
   const [subtotal, setSubtotal] = useState<number>(0);
   const [total, setTotal] = useState<number>(0);
-  const { userId } = useAuth();
+  // const { userId } = useAuth();
   const [state, setState] = useState("Andhra Pradesh");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -147,7 +147,7 @@ const Page = () => {
 
       console.log(data.data);
       const tmpUserData = data.data?.filter(
-        (items: addressProps) => items.attributes.user_id == userId
+        (items: addressProps) => items.attributes.user_id == userLocalId
       );
 
       console.log(tmpUserData);
@@ -167,7 +167,7 @@ const Page = () => {
     };
 
     getUserData();
-  }, [userId]);
+  }, [userLocalId]);
 
   // GET USER ADDRESS
   useEffect(() => {
@@ -183,7 +183,7 @@ const Page = () => {
       setPinCode(newData.pinCode);
       setPhoneNumber(newData.phone_number);
     }
-  }, []);
+  }, [userLocalId]);
 
   const handelPay = async (e: any) => {
     e.preventDefault;
@@ -209,7 +209,7 @@ const Page = () => {
         country: "India",
         email: email,
         phone_number: String(phoneNumber),
-        user_id: userId,
+        user_id: userLocalId,
       };
       setTmpUserData(obj);
 
@@ -435,7 +435,7 @@ const Page = () => {
             }
           }
         } else {
-          // router.push("/shiprocket");
+          router.push("/shiprocket");
         }
       }
     }
@@ -455,7 +455,7 @@ const Page = () => {
         const data = await response.json();
         if (data && data.data && data.data.length > 0) {
           const userCartData = data.data.filter(
-            (item: CartItem) => item.attributes.user_id === userId
+            (item: CartItem) => item.attributes.user_id == userLocalId
           );
           setCartData(userCartData);
         }
@@ -465,7 +465,7 @@ const Page = () => {
     };
 
     fetchCartData();
-  }, [userId]);
+  }, [userLocalId]);
 
   // fetching cart Data from the Cookies
   useEffect(() => {

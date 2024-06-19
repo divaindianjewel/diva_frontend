@@ -55,15 +55,29 @@ interface cartItemProps {
   qnt: number;
 }
 
+interface divaAddressProps {
+  id: number;
+  state: string;
+  first_name: string;
+  last_name: string;
+  phone_number: string;
+  email: string;
+  city: string;
+  pinCode: string;
+  address: string;
+}
+
 const Page = () => {
   const { userId } = useAuth();
+  const [userLocalId, setUserLocalId] = useState<string>("");
+  const [orderId, setOrderId] = useState<number>();
   const [cartData, setCartData] = useState<CartItem[]>([]);
   const [userInfo, setUserInfo] = useState<addressProps[]>();
   const [total, setTotal] = useState<number>(0);
   const [userObj, setUserObj] = useState<any>({});
   const [userName, setUserName] = useState<any>();
   const router = useRouter();
-  const [orderId, setOrderId] = useState<number>();
+  // const [orderId, setOrderId] = useState<number>();
   const [discountAmount, setDiscountAmount] = useState<number>();
   const [orderInfo, setOrderInfo] = useState<order>();
   const [tmp, setTmp] = useState<boolean>(false);
@@ -73,67 +87,51 @@ const Page = () => {
   const [cookiesCartData, setCookiesCartData] = useState<cartItemProps[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
 
+  // USER ADDRESS VARIABLES
+  const [state, setState] = useState("Andhra Pradesh");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [email, setEmail] = useState("");
+  const [city, setCity] = useState("");
+  const [pinCode, setPinCode] = useState("");
+  const [address, setAddress] = useState("");
+
   // fetching cart Data from the Cookies
   useEffect(() => {
-    const cookieCartData = Cookies.get("DIVAcart");
-    const cartData: cartItemProps[] = cookieCartData
-      ? JSON.parse(cookieCartData)
-      : [];
+    const data = Cookies.get("DIVAcart");
+    const cartData: cartItemProps[] = data ? JSON.parse(data) : [];
 
     console.log(cartData);
     setCookiesCartData(cartData);
     setLoading(false);
   }, [loading]);
 
+  // GET USER ADDRESS
   useEffect(() => {
-    const UserData = async () => {
-      const userResponse = await fetch(`${domain}/api/billing-addresses`, {
-        method: "GET",
-      });
-      const data = await userResponse.json();
+    const userData = Cookies.get("DIVAUserAddress");
 
-      const tmpUserData = data.data?.filter(
-        (items: addressProps) => items.attributes.user_id == userId
-      );
+    if (userData != undefined) {
+      const newData: divaAddressProps = JSON.parse(userData);
+      setFirstName(newData.first_name);
+      setLastName(newData.last_name);
+      setAddress(newData.address);
+      setEmail(newData.email);
+      setCity(newData.city);
+      setPinCode(newData.pinCode);
+      setPhoneNumber(newData.phone_number);
+    }
+  }, [userLocalId]);
 
-      setUserInfo(tmpUserData);
-      if (tmpUserData.length > 0) {
-        const obj = {
-          first_name: tmpUserData[0].attributes.first_name,
-          last_name: tmpUserData[0].attributes.last_name,
-          address: tmpUserData[0].attributes.address,
-          city: tmpUserData[0].attributes.city,
-          pincode: String(tmpUserData[0].attributes.pincode),
-          state: tmpUserData[0].attributes.state,
-          country: "India",
-          email: tmpUserData[0].attributes.email,
-          phone_number: String(tmpUserData[0].attributes.phone_number),
-          userId: userId,
-        };
-        const fullName = obj.first_name + " " + obj.last_name;
-        setUserName(fullName);
-        setUserObj(obj);
-        setAddressLoad(true);
-      }
-    };
-    UserData();
-  }, [userId, setAddressLoad]);
-
+  // GET ORDER-ID
   useEffect(() => {
-    const getOrderId = async () => {
-      const response = await fetch(`${domain}/api/orders`);
-      const data = await response.json();
-      const TmpOrderInfo: order = data.data[data.data.length - 1];
+    setLoading(true);
+    const tmpOrderId = Cookies.get("DivaOrderId");
+    setOrderId(Number(tmpOrderId));
+    setLoading(false);
+  }, [loading]);
 
-      setOrderInfo(TmpOrderInfo);
-      setOrderId(TmpOrderInfo.id);
-      setDiscountAmount(TmpOrderInfo.attributes.discount);
-      setTmp(true);
-    };
-
-    getOrderId();
-  }, [userId, tmp]);
-
+  // UPDATING THE ORDER ID TO TRUE
   useEffect(() => {
     const updateOrderId = async () => {
       const response = await fetch(`${domain}/api/orders/${orderId}`, {
@@ -151,74 +149,52 @@ const Page = () => {
         setIsUpdateOrder(true);
       }
     };
-
     updateOrderId();
   }, [userId, orderId, isUpdateOrder]);
 
   useEffect(() => {
-    const fetchCartData = async () => {
-      try {
-        const response = await fetch(`${domain}/api/carts?populate=*`);
-        const data = await response.json();
-        if (data && data.data && data.data.length > 0) {
-          const userCartData = data.data.filter(
-            (item: CartItem) => item.attributes.user_id === userId
-          );
-          setCartData(userCartData);
-          setCartDataLoad(true);
+    const addOrderedProduct = async () => {
+      console.log(cookiesCartData.length);
+      cookiesCartData.map(async (item) => {
+        let response = await fetch(`${domain}/api/ordered-products`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            data: {
+              orderId: 54,
+              productId: item.id,
+              qnt: item.qnt,
+              price: item.price,
+              image: item.img,
+              name: item.name,
+              userid: "23",
+            },
+          }),
+        });
+
+        if (response.ok) {
+          console.log("success...!!!");
         }
-      } catch (error) {
-        console.error("Error fetching cart data:", error);
-      }
+      });
     };
+    addOrderedProduct();
+  }, [cookiesCartData]);
 
-    fetchCartData();
-  }, [userId, cartDataLoad]);
+  // useEffect(() => {
+  //   let tmpsubtotal = 0;
 
-  useEffect(() => {
-    const addOrderAndOrderId = () => {
-      console.log("userObj : " + userObj);
-      console.log("cart data : " + cartData);
-      console.log("total : " + total);
-      console.log("orderId : " + orderId);
-      console.log("discounted Amount : " + discountAmount);
-      console.log("userId : " + userId);
-      if (
-        isUpdateOrder &&
-        userName != undefined &&
-        total != 0 &&
-        orderId != undefined &&
-        discountAmount != undefined &&
-        userId != undefined
-      ) {
-        addOrder(
-          userObj,
-          router,
-          cartData,
-          total,
-          orderId,
-          discountAmount,
-          userId
-        );
-      }
-    };
+  //   cartData.map(
+  //     (item) =>
+  //       (tmpsubtotal =
+  //         tmpsubtotal + item.attributes.product_price * item.attributes.qnt)
+  //   );
+  //   const gst = tmpsubtotal * 0.03;
 
-    addOrderAndOrderId();
-  }, [cartData, isUpdateOrder]);
-
-  useEffect(() => {
-    let tmpsubtotal = 0;
-
-    cartData.map(
-      (item) =>
-        (tmpsubtotal =
-          tmpsubtotal + item.attributes.product_price * item.attributes.qnt)
-    );
-    const gst = tmpsubtotal * 0.03;
-
-    const totalPrice = tmpsubtotal + gst;
-    setTotal(totalPrice);
-  }, [cartData]);
+  //   const totalPrice = tmpsubtotal + gst;
+  //   setTotal(totalPrice);
+  // }, [cartData]);
 
   return (
     <div>
