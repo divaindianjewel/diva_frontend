@@ -1,14 +1,7 @@
 "use client";
-
 import React, { useEffect, useState } from "react";
 import { Separator } from "@/components/ui/separator";
-import {
-  CardTitle,
-  CardHeader,
-  CardContent,
-  CardFooter,
-  Card,
-} from "@/components/ui/card";
+import { CardTitle, CardHeader, CardContent, Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import CartItems from "@/components/custom/cartItems";
 import { useAuth, useUser } from "@clerk/nextjs";
@@ -19,6 +12,9 @@ import { errorTost, successTost } from "@/components/toast/allTost";
 import CreateOrderId from "@/backend/order/create-orderId";
 import Navbar from "@/components/custom/navbar";
 import FadingBanner from "@/components/custom/Fade";
+
+// importing Cookies
+import Cookies from "js-cookie";
 
 interface CartItem {
   id: number;
@@ -32,11 +28,21 @@ interface CartItem {
   };
 }
 
+export interface cartItemProps {
+  id: number | undefined;
+  name: string | undefined;
+  img: string | undefined;
+  price: number | undefined;
+  qnt: number | undefined;
+}
+
 export default function Component() {
+
+  const [loading2, setLoading2] = useState<boolean>(true);
+  const [cartData2, setCartData2] = useState<cartItemProps[]>([]);
   const [cartData, setCartData] = useState<CartItem[]>([]);
   const [subtotal, setSubtotal] = useState<number>(0);
   const [total, setTotal] = useState<number>(0);
-  const { userId } = useAuth();
   const { isSignedIn, user } = useUser();
   const [randomNum, setRandomNum] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(true);
@@ -47,24 +53,11 @@ export default function Component() {
   };
 
   useEffect(() => {
-    const fetchCartData = async () => {
-      try {
-        const response = await fetch(`${domain}/api/carts?populate=*`);
-        const data = await response.json();
-        if (data && data.data && data.data.length > 0) {
-          const userCartData = data.data.filter(
-            (item: CartItem) => item.attributes.user_id === userId
-          );
-          setCartData(userCartData);
-          setLoading(false);
-        }
-      } catch (error) {
-        console.error("Error fetching cart data:", error);
-      }
-    };
-
-    fetchCartData();
-  }, [userId, isSignedIn, randomNum]);
+    const cartString = Cookies.get("DIVAcart");
+    const cartData: cartItemProps[] = cartString ? JSON.parse(cartString) : [];
+    setCartData2(cartData);
+    setLoading2(false);
+  }, [loading2, randomNum]);
 
   useEffect(() => {
     let tmpsubtotal = 0;
@@ -81,8 +74,9 @@ export default function Component() {
     setTotal(totalPrice);
   }, [cartData]);
 
-  return cartData.length > 0 ? (
+  return cartData2.length > 0 ? (
     <>
+
       <FadingBanner />
       <div className="sticky top-0 left-0 z-[100]">
         <Navbar randomNum={randomNum} />
@@ -95,17 +89,25 @@ export default function Component() {
           </CardHeader>
           <CardContent>
             <div className="grid gap-6">
-              {cartData.map((item) => (
-                <CartItems
-                  key={item.id}
-                  productId={item.attributes.Product_id}
-                  cartId={item.id}
-                  qnt={item.attributes.qnt}
-                  image={item.attributes.img}
-                  show={true}
-                  random={generateRandomNumber}
-                />
-              ))}
+              {cartData2 !== undefined
+                ? cartData2.map((item) =>
+                    item.price ? (
+                      <CartItems
+                        key={item.id}
+                        productName={item.name}
+                        productId={item.id}
+                        price={item.price}
+                        cartId={item.id}
+                        qnt={item.qnt}
+                        image={item.img}
+                        show={true}
+                        random={generateRandomNumber}
+                      />
+                    ) : (
+                      ""
+                    )
+                  )
+                : ""}
             </div>
           </CardContent>
 

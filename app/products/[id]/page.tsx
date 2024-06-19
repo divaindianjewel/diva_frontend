@@ -12,12 +12,15 @@ import {
 } from "@strapi/blocks-react-renderer";
 import { useParams } from "next/navigation";
 import { Skeleton } from "@/components/ui/skeleton";
-import { warningTost } from "@/components/toast/allTost";
+import { warningTost, successTost } from "@/components/toast/allTost";
 import ImageGallery from "react-image-gallery";
 import "react-image-gallery/styles/css/image-gallery.css";
 import Navbar from "@/components/custom/navbar";
 import SuggestionSwiper from "@/components/custom/swiper/SuggestionSwiper";
 import FadingBanner from "@/components/custom/Fade";
+
+// importing the cookies
+import Cookies from "js-cookie";
 
 interface ProductData {
   id: number;
@@ -67,38 +70,86 @@ export interface ReviewProps {
   };
 }
 
+export interface cartItemProps {
+  id: number | undefined;
+  img: string | undefined;
+  name: string | undefined;
+  price: number | undefined;
+  qnt: number | undefined;
+}
+
 interface ApiResponse {
   data: ProductData;
 }
 
 const Page = () => {
+  const [cartItem, setCartItem] = useState<cartItemProps | undefined>();
+  const [userLocalId, setUserLocalId] = useState<string | undefined>("");
+  const [product, setProduct] = useState<ProductData | null>(null);
   const [randomNum, setRandomNum] = useState<number>(0);
   const [categoryId, setCategoryId] = useState<number | undefined>(0);
   const [productAdded, setProductAdded] = useState<boolean>(false);
   const [cartData, setCartData] = useState<CartItem[]>([]);
-  const [product, setProduct] = useState<ProductData | null>(null);
   const { userId } = useAuth();
   const { isSignedIn } = useUser();
   const width = 450;
-  const height = 275;
   const [loading, setLoading] = useState<boolean>(true);
   const [cartDisable, setCartDisable] = useState<boolean>(false);
   const [imgData, setImgData] = useState<any[]>([]);
   const [isLoadProduct, setIsLoadProduct] = useState<boolean>(false);
   const [userReview, setUserReview] = useState<ReviewProps>();
 
-  const params = useParams();
-
   const generateRandomNumber = () => {
     const randomNumber = Math.floor(Math.random() * 100) + 1;
     setRandomNum(randomNumber);
   };
 
+  const params = useParams();
   let productId = 0;
 
   if (params) {
     productId = Number(params.id);
   }
+
+  const handleAddToCart = () => {
+    setCartDisable(true);
+
+    const existingCart = Cookies.get("DIVAcart");
+    const cartItems: cartItemProps[] = existingCart
+      ? JSON.parse(existingCart)
+      : [];
+
+    if (cartItem != undefined) {
+      const isProductInCart = cartItems.some((item) => item.id === cartItem.id);
+      if (isProductInCart) {
+        warningTost("Product is already added to the cart");
+      } else {
+        successTost("Product added to cart");
+        if (userLocalId) {
+          generateRandomNumber();
+          addToCart(
+            String(productId),
+            userLocalId,
+            product?.attributes.name,
+            product?.attributes.price,
+            product?.attributes.images.data[0].attributes.url
+          );
+          updateCart();
+          cartItems.push(cartItem);
+          Cookies.set("DIVAcart", JSON.stringify(cartItems), { expires: 365 });
+        }
+      }
+    }
+
+    setTimeout(() => {
+      setCartDisable(false);
+    }, 3500);
+  };
+
+  useEffect(() => {
+    const id = Cookies.get("DIVAIJ-USER");
+    setUserLocalId(id);
+  }, [userLocalId]);
 
   useEffect(() => {
     const fetchCartData = async () => {
@@ -142,19 +193,27 @@ const Page = () => {
           setCategoryId(product?.attributes.category.data.id);
         }
 
-        const mappedImages = product?.attributes.images.data.map(
-          (item, index) => {
-            const url = item.attributes.url;
-            return {
-              original: url,
-              thumbnail: url,
-            };
-          }
-        );
+        const mappedImages = product?.attributes.images.data.map((item) => {
+          const url = item.attributes.url;
+          return {
+            original: url,
+            thumbnail: url,
+          };
+        });
 
         if (mappedImages != undefined) {
           setImgData(mappedImages);
         }
+
+        const cartProduct: cartItemProps = {
+          id: product?.id,
+          img: product?.attributes.images.data[0].attributes.url,
+          name: product?.attributes.name,
+          price: product?.attributes.price,
+          qnt: 1,
+        };
+
+        setCartItem(cartProduct);
 
         setLoading(false);
         setIsLoadProduct(true);
@@ -165,7 +224,8 @@ const Page = () => {
     };
 
     fetchProduct();
-  }, [productId, isLoadProduct]);
+  }, [productId, isLoadProduct, product]);
+
   useEffect(() => {
     if (cartData.length > 0) {
       setProductAdded(true);
@@ -281,36 +341,9 @@ const Page = () => {
                       className="rounded-md text-xl font-semibold gold-color text-black py-2 flex items-center justify-center gap-3  w-[15rem] md:w-[20rem] lg:w-[25rem]"
                       type="button"
                       disabled={cartDisable}
-                      onClick={() => {
-                        setCartDisable(true);
-                        if (!productAdded) {
-                          console.log(cartDisable);
-                          generateRandomNumber();
-                          addToCart(
-                            String(productId),
-                            userId,
-                            isSignedIn,
-                            product?.attributes.name,
-                            product?.attributes.price,
-                            product?.attributes.images.data[0].attributes.url
-                          );
-                          updateCart();
-                        } else {
-                          warningTost("Product is already added");
-                        }
-
-                        setTimeout(() => {
-                          setCartDisable(false);
-                        }, 3500);
-                      }}
+                      onClick={handleAddToCart}
                     >
                       <FaShoppingCart /> Add To cart
-                    </button>
-                    <button
-                      className=" rounded-md text-xl font-semibold bg-gray-400 py-2 text-black  w-[15rem] md:w-[20rem] lg:w-[25rem]"
-                      type="button"
-                    >
-                      Buy it now
                     </button>
                   </div>
                 )}

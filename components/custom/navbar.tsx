@@ -4,7 +4,7 @@ import React, { useEffect, useState, useRef } from "react";
 import Image from "next/image";
 
 // clerk
-import { UserButton, useAuth, useUser } from "@clerk/nextjs";
+import { useAuth } from "@clerk/nextjs";
 
 // Logo
 import Logo from "@/app/assets/logo.png";
@@ -21,7 +21,6 @@ import SearchDialog from "./SearchDialog";
 const Navbar: React.FC<{ randomNum?: number }> = ({ randomNum }) => {
   const { userId } = useAuth();
   const [totalCart, setTotalCart] = useState<number>(0);
-  const [searchTerm, setSearchTerm] = useState<string>("");
   const [suggestions, setSuggestions] = useState<string[]>([]);
   const [isSearchActive, setIsSearchActive] = useState<boolean>(false);
   const searchBoxRef = useRef<HTMLDivElement>(null);
@@ -49,22 +48,6 @@ const Navbar: React.FC<{ randomNum?: number }> = ({ randomNum }) => {
     fetchCartData();
   }, [userId, randomNum]);
 
-  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const searchTerm = e.target.value;
-    setSearchTerm(searchTerm);
-
-    const allSuggestions = ["Product 1", "Product 2", "Product 3", "Product 4"];
-
-    if (searchTerm.length > 0) {
-      const filteredSuggestions = allSuggestions.filter((suggestion) =>
-        suggestion.toLowerCase().includes(searchTerm.toLowerCase())
-      );
-      setSuggestions(filteredSuggestions);
-    } else {
-      const noSuggestion = ["No Product Found"];
-      setSuggestions(noSuggestion);
-    }
-  };
 
   const handleClickOutside = (event: MouseEvent) => {
     if (

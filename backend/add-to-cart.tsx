@@ -22,16 +22,10 @@ interface CartItem {
 export const addToCart = async (
   productId: string | undefined,
   userId: any,
-  isSignIn: any,
   product_name: string | undefined,
   product_price: number | undefined,
   img: any
 ) => {
-  if (!isSignIn) {
-    warningTost("Please Login First");
-    return;
-  }
-
   try {
     const response = await fetch(`${domain}/api/carts`, {
       method: "POST",

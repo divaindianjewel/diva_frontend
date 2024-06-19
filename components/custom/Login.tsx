@@ -6,7 +6,7 @@ import { Button } from "../ui/button";
 import { auth } from "@/firebase/config";
 import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
 import Cookies from "js-cookie";
-import { useRouter } from "next/router";
+import { domain } from "../backend/apiRouth";
 
 const Login: React.FC = () => {
   const [phoneNumber, setPhoneNumber] = useState<string>("");
@@ -49,11 +49,36 @@ const Login: React.FC = () => {
     try {
       const data = await user.confirm(otp);
       const localId = data._tokenResponse.localId;
-      Cookies.set("DIVAIJ-USER", localId, { expires: 7 });
-
+      Cookies.set("DIVAIJ-USER", localId, { expires: 365 });
       console.log(Cookies.get("DIVAIJ-USER"));
-      location.reload();
-      alert("Login successfully");
+
+      const response = await fetch(
+        `${domain}/api/user-ids?filters[$and][0][number][$eq]=${phoneNumber}`
+      );
+
+      const userData = await response.json();
+
+      if (userData.data) {
+        const addResponse = await fetch(`${domain}/api/user-ids`, {
+          method: "POST",
+          body: JSON.stringify({
+            data: {
+              number: Number(phoneNumber),
+              localId: localId,
+            },
+          }),
+        });
+
+        if (addResponse.ok) {
+          alert("Login successfully");
+          location.reload();
+        } else {
+          alert("something went wrong");
+        }
+      } else {
+        alert("Login successfully");
+        location.reload();
+      }
     } catch (error) {
       alert("OTP is wrong");
       errorTost("Something went wrong");

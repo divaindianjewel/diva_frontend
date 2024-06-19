@@ -29,18 +29,17 @@ import {
 } from "@/components/toast/allTost";
 import cash from "@/app/assets/checkout/cash-on-delivery.png";
 import visa from "@/app/assets/checkout/visa.svg";
-import rupe from "@/app/assets/checkout/rupe.svg";
-import mastercard from "@/app/assets/checkout/mastercard.svg";
 import phonepe from "@/app/assets/checkout/phonpe.svg";
 import gpay from "@/app/assets/checkout/gpay.svg";
 import addOrder from "@/backend/shiprocket/addOrder";
 import { MakePayment } from "@/app/api/Payment";
-import { NextApiRequest, NextApiResponse } from "next";
 import { Input } from "@/components/ui/input";
 import CreateOrderId from "@/backend/order/create-orderId";
 import addOrderProduct from "@/backend/order/add-order-product";
 import { deleteCartItem } from "@/backend/cart-operation";
 import Navbar from "@/components/custom/navbar";
+
+import Cookies from "js-cookie";
 
 interface CartItem {
   id: number;
@@ -78,9 +77,32 @@ interface discounts {
   };
 }
 
+export interface cartItemProps {
+  id: number;
+  name: string;
+  img: string;
+  price: number;
+  qnt: number;
+}
+
+interface divaAddressProps {
+  id: number;
+  state: string;
+  first_name: string;
+  last_name: string;
+  phone_number: string;
+  email: string;
+  city: string;
+  pinCode: string;
+  address: string;
+}
+
 const Page = () => {
   const router = useRouter();
 
+  const [userLocalId, setUserLocalId] = useState<string>("");
+  const [cookiesCartData, setCookiesCartData] = useState<cartItemProps[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
   const [addressId, setAddressId] = useState();
   const [cartData, setCartData] = useState<CartItem[]>([]);
   const [subtotal, setSubtotal] = useState<number>(0);
@@ -101,6 +123,7 @@ const Page = () => {
   const [discountAmount, setDiscountAmount] = useState<number>();
   const [isDiscounted, setIsDiscounted] = useState<boolean>(false);
 
+  // FUNCTION FOR APPLYING DISCOUNT
   const applyDiscount = async (code: string) => {
     const response = await fetch(`${domain}/api/discounts`);
     const data = await response.json();
@@ -118,6 +141,7 @@ const Page = () => {
     }
   };
 
+  // getting Billing Addresses
   useEffect(() => {
     const getUserData = async () => {
       const userResponse = await fetch(`${domain}/api/billing-addresses`, {
@@ -150,6 +174,23 @@ const Page = () => {
     getUserData();
   }, [userId]);
 
+  // GET USER ADDRESS
+
+  useEffect(() => {
+    const userData = Cookies.get("DIVAUserAddress");
+
+    if (userData != undefined) {
+      const newData: divaAddressProps = JSON.parse(userData);
+      setFirstName(newData.first_name);
+      setLastName(newData.last_name);
+      setAddress(newData.address);
+      setEmail(newData.email);
+      setCity(newData.city);
+      setPinCode(newData.pinCode);
+      setPhoneNumber(newData.phone_number);
+    }
+  }, []);
+
   const handelPay = async (e: any) => {
     e.preventDefault;
     if (
@@ -177,76 +218,13 @@ const Page = () => {
         user_id: userId,
       };
       setTmpUserData(obj);
-      if (!dataPresent) {
-        const response = await fetch(`${domain}/api/billing-addresses`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            data: {
-              ...obj,
-            },
-          }),
-        });
-        if (!response.ok) {
-          errorTost("Something went wrong");
-          return;
-        } else {
-          successTost("Billing address added successfully");
-        }
 
-        try {
-          const userName = firstName + " " + lastName;
+      Cookies.set("DIVAUserAddress", JSON.stringify(obj), { expires: 365 });
 
-          const total_items = cartData.length;
-          if (!isDiscounted) {
-            if (userId != undefined) {
-              const response = await CreateOrderId(
-                total,
-                0,
-                userId,
-                userName,
-                total_items
-              );
-            }
-          } else {
-            if (discountAmount != undefined && userId != undefined) {
-              const response = await CreateOrderId(
-                total,
-                discountAmount,
-                userId,
-                userName,
-                total_items
-              );
-            }
-          }
-        } catch (error) {
-          errorTost("something went wrong while creating orderId");
-          console.log(error);
-        }
-
-        if (selectedMethod == "online") {
-          if (!isDiscounted) {
-            MakePayment(router, total);
-          } else {
-            if (discountAmount != undefined) {
-              MakePayment(router, total - discountAmount);
-            }
-          }
-        } else {
-          warningTost("Selected COD");
-          try {
-            router.push("/shiprocket");
-          } catch (error) {
-            console.log(error);
-          }
-        }
-      } else {
-        const response = await fetch(
-          `${domain}/api/billing-addresses/${addressId}`,
-          {
-            method: "PUT",
+      if (userLocalId) {
+        if (!dataPresent) {
+          const response = await fetch(`${domain}/api/billing-addresses`, {
+            method: "POST",
             headers: {
               "Content-Type": "application/json",
             },
@@ -255,59 +233,126 @@ const Page = () => {
                 ...obj,
               },
             }),
+          });
+          if (!response.ok) {
+            errorTost("Something went wrong");
+            return;
+          } else {
+            successTost("Billing address added successfully");
           }
-        );
 
-        if (!response.ok) {
-          errorTost("Something went wrong");
-          return;
-        }
+          try {
+            const userName = firstName + " " + lastName;
+            const total_items = cartData.length;
+            if (!isDiscounted) {
+              if (userId != undefined) {
+                const response = await CreateOrderId(
+                  total,
+                  0,
+                  userId,
+                  userName,
+                  total_items
+                );
+              }
+            } else {
+              if (discountAmount != undefined && userId != undefined) {
+                const response = await CreateOrderId(
+                  total,
+                  discountAmount,
+                  userId,
+                  userName,
+                  total_items
+                );
+              }
+            }
+          } catch (error) {
+            errorTost("something went wrong while creating orderId");
+            console.log(error);
+          }
 
-        try {
-          const userName = firstName + " " + lastName;
-
-          const total_items = cartData.length;
-
-          if (!isDiscounted) {
-            if (userId != undefined) {
-              errorTost("third create id");
-              const response = await CreateOrderId(
-                total,
-                0,
-                userId,
-                userName,
-                total_items
-              );
-
-              console.log("This is 1");
+          if (selectedMethod == "online") {
+            if (!isDiscounted) {
+              MakePayment(router, total);
+            } else {
+              if (discountAmount != undefined) {
+                MakePayment(router, total - discountAmount);
+              }
             }
           } else {
-            if (discountAmount != undefined && userId != undefined) {
-              errorTost("fourth create id");
-              const response = await CreateOrderId(
-                total,
-                discountAmount,
-                userId,
-                userName,
-                total_items
-              );
-              console.log("This is 2");
-            }
-          }
-        } catch (error) {
-          console.log(error);
-        }
-
-        if (selectedMethod == "online") {
-          if (!isDiscounted) {
-            MakePayment(router, total);
-          } else {
-            if (discountAmount != undefined) {
-              MakePayment(router, total - discountAmount);
+            warningTost("Selected COD");
+            try {
+              router.push("/shiprocket");
+            } catch (error) {
+              console.log(error);
             }
           }
         } else {
-          router.push("/shiprocket");
+          const response = await fetch(
+            `${domain}/api/billing-addresses/${addressId}`,
+            {
+              method: "PUT",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                data: {
+                  ...obj,
+                },
+              }),
+            }
+          );
+
+          if (!response.ok) {
+            errorTost("Something went wrong");
+            return;
+          }
+
+          try {
+            const userName = firstName + " " + lastName;
+
+            const total_items = cartData.length;
+
+            if (!isDiscounted) {
+              if (userId != undefined) {
+                errorTost("third create id");
+                const response = await CreateOrderId(
+                  total,
+                  0,
+                  userId,
+                  userName,
+                  total_items
+                );
+
+                console.log("This is 1");
+              }
+            } else {
+              if (discountAmount != undefined && userId != undefined) {
+                errorTost("fourth create id");
+                const response = await CreateOrderId(
+                  total,
+                  discountAmount,
+                  userId,
+                  userName,
+                  total_items
+                );
+                console.log("This is 2");
+              }
+            }
+          } catch (error) {
+            console.log(error);
+          }
+
+          if (selectedMethod == "online") {
+            if (!isDiscounted) {
+              MakePayment(router, total);
+            } else {
+              if (discountAmount != undefined) {
+                MakePayment(router, total - discountAmount);
+              }
+            }
+          } else {
+            router.push("/shiprocket");
+          }
         }
       }
     }
@@ -319,6 +364,7 @@ const Page = () => {
     console.log(selectedValue);
   };
 
+  // fetching cart Data
   useEffect(() => {
     const fetchCartData = async () => {
       try {
@@ -338,26 +384,44 @@ const Page = () => {
     fetchCartData();
   }, [userId]);
 
+  // fetching cart Data from the Cookies
+  useEffect(() => {
+    const cookieCartData = Cookies.get("DIVAcart");
+    const cartData: cartItemProps[] = cookieCartData
+      ? JSON.parse(cookieCartData)
+      : [];
+
+    console.log(cartData);
+    setCookiesCartData(cartData);
+    setLoading(false);
+  }, [loading]);
+
+  // fetching total price
   useEffect(() => {
     let tmpsubtotal = 0;
-
-    cartData.map(
-      (item) =>
-        (tmpsubtotal =
-          tmpsubtotal + item.attributes.product_price * item.attributes.qnt)
+    cookiesCartData.map(
+      (item) => (tmpsubtotal = tmpsubtotal + item.price * item.qnt)
     );
     setSubtotal(tmpsubtotal);
-
     const gst = tmpsubtotal * 0.03;
-
     const totalPrice = tmpsubtotal + gst;
     setTotal(totalPrice);
-  }, [cartData]);
+  }, [cartData, cookiesCartData]);
 
+  // GETTING USER ID
+  useEffect(() => {
+    setLoading(true);
+    const userLocalId1 = Cookies.get("DIVAIJ-USER");
+    if (userLocalId1 != undefined) {
+      setUserLocalId(userLocalId1);
+      setLoading(false);
+    }
+  }, [loading, userLocalId]);
+
+  // handle state change functions
   const handleStateChange = (event: React.ChangeEvent<{ value: unknown }>) => {
     const newState = event.target.value as string;
     setState(newState);
-    console.log(newState);
   };
 
   const handleFirstNameChange = (
@@ -365,13 +429,11 @@ const Page = () => {
   ) => {
     const newFirstName = event.target.value;
     setFirstName(newFirstName);
-    console.log(newFirstName);
   };
 
   const handleLastNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newLastName = event.target.value;
     setLastName(newLastName);
-    console.log(newLastName);
   };
 
   const handlePhoneNumberChange = (
@@ -379,32 +441,58 @@ const Page = () => {
   ) => {
     const newPhoneNumber = event.target.value;
     setPhoneNumber(newPhoneNumber);
-    console.log(newPhoneNumber);
   };
 
   const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newEmail = event.target.value;
     setEmail(newEmail);
-    console.log(newEmail);
   };
 
   const handleCityChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newCity = event.target.value;
     setCity(newCity);
-    console.log(newCity);
   };
 
   const handlePinCodeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newPinCode = event.target.value;
     setPinCode(newPinCode);
-    console.log(newPinCode);
   };
 
   const handleAddressChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newAddress = event.target.value;
     setAddress(newAddress);
-    console.log(newAddress);
   };
+
+  const states = [
+    "Andhra Pradesh",
+    "Arunachal Pradesh",
+    "Assam",
+    "Bihar",
+    "Chhattisgarh",
+    "Goa",
+    "Gujarat",
+    "Haryana",
+    "Himachal Pradesh",
+    "Jharkhand",
+    "Karnataka",
+    "Kerala",
+    "Madhya Pradesh",
+    "Maharashtra",
+    "Manipur",
+    "Meghalaya",
+    "Mizoram",
+    "Nagaland",
+    "Odisha",
+    "Punjab",
+    "Rajasthan",
+    "Sikkim",
+    "Tamil Nadu",
+    "Telangana",
+    "Tripura",
+    "Uttar Pradesh",
+    "Uttarakhand",
+    "West bengal",
+  ];
 
   return (
     <>
@@ -430,34 +518,9 @@ const Page = () => {
                   fullWidth
                   onChange={handleStateChange}
                 >
-                  <option value="Andhra Pradesh">Andhra Pradesh</option>
-                  <option value="Arunachal Pradesh">Arunachal Pradesh</option>
-                  <option value="Assam">Assam</option>
-                  <option value="Bihar">Bihar</option>
-                  <option value="Chhattisgarh">Chhattisgarh</option>
-                  <option value="Goa">Goa</option>
-                  <option value="Gujarat">Gujarat</option>
-                  <option value="Haryana">Haryana</option>
-                  <option value="Himachal Pradesh">Himachal Pradesh</option>
-                  <option value="Jharkhand">Jharkhand</option>
-                  <option value="Karnataka">Karnataka</option>
-                  <option value="Kerala">Kerala</option>
-                  <option value="Madhya Pradesh">Madhya Pradesh</option>
-                  <option value="Maharashtra">Maharashtra</option>
-                  <option value="Manipur">Manipur</option>
-                  <option value="Meghalaya">Meghalaya</option>
-                  <option value="Mizoram">Mizoram</option>
-                  <option value="Nagaland">Nagaland</option>
-                  <option value="Odisha">Odisha</option>
-                  <option value="Punjab">Punjab</option>
-                  <option value="Rajasthan">Rajasthan</option>
-                  <option value="Sikkim">Sikkim</option>
-                  <option value="Tamil Nadu">Tamil Nadu</option>
-                  <option value="Telangana">Telangana</option>
-                  <option value="Tripura">Tripura</option>
-                  <option value="Uttar Pradesh">Uttar Pradesh</option>
-                  <option value="Uttarakhand">Uttarakhand</option>
-                  <option value="West Bengal">West Bengal</option>
+                  {states.map((item) => (
+                    <option value={item}>{item}</option>
+                  ))}
                 </NativeSelect>
               </div>
 
@@ -552,21 +615,24 @@ const Page = () => {
           </CardHeader>
           <CardContent>
             <div className="grid gap-6">
-              {cartData.map((item) => (
+              {cookiesCartData.map((item) => (
                 <CartItems
                   key={item.id}
                   random={() => {}}
-                  productId={item.attributes.Product_id}
+                  productId={item.id}
                   cartId={item.id}
-                  qnt={item.attributes.qnt}
+                  qnt={item.qnt}
                   show={false}
-                  image={item.attributes.img}
+                  image={item.img}
+                  productName={item.name}
+                  price={item.price}
                 />
               ))}
             </div>
           </CardContent>
         </Card>
       </div>
+
       <Separator />
 
       <div className="flex flex-col lg:flex-row w-fit mx-auto gap-5">
