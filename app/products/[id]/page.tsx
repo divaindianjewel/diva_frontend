@@ -136,7 +136,11 @@ const Page = () => {
           );
           updateCart();
           cartItems.push(cartItem);
-          Cookies.set("DIVAcart", JSON.stringify(cartItems), { expires: 365 });
+          Cookies.set("DIVAcart", JSON.stringify(cartItems), {
+            expires: 365,
+            secure: true,
+            sameSite: "Strict",
+          });
           successTost("Product added to cart");
         }
       }
