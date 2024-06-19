@@ -40,25 +40,25 @@ const CartItems: React.FC<{
       const cartItems: cartItemProps[] = existingCart
         ? JSON.parse(existingCart)
         : [];
-
-      console.log("------------------cart Items--------------------");
-      console.log(cartItems);
-
-      const updatedCartItems = cartItems.filter(
-        (item) => (item.id !== productId, console.log(` Loop : ${item.id}`))
-      );
-
-      console.log(`out of loop : ${productId}`);
-      console.log("------------------updated Cart Items--------------------");
-      console.log(updatedCartItems);
-
+  
+      console.log("Existing cart items:", cartItems);
+  
+      const updatedCartItems = cartItems.filter((item) => item.id !== productId);
+  
+      console.log("Updated cart items:", updatedCartItems);
+  
       Cookies.set("DIVAcart", JSON.stringify(updatedCartItems), {
         expires: 365,
+        secure: true,
       });
+  
       random();
       successTost("Product Deleted Successfully");
+    } else {
+      console.error("Product ID is undefined");
     }
   };
+  
 
   const decrementQnt = (productId: number | undefined) => {
     if (quantity > 1) {
