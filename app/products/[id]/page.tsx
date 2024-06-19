@@ -116,9 +116,10 @@ const Page = () => {
 
     const existingCart = Cookies.get("DIVAcart");
     const cartItems: cartItemProps[] = existingCart
-      ? JSON.parse(existingCart)
-      : [];
-
+    ? JSON.parse(existingCart)
+    : [];
+    
+    alert("i click add to cart")
     if (cartItem != undefined) {
       const isProductInCart = cartItems.some((item) => item.id === cartItem.id);
       if (isProductInCart) {
