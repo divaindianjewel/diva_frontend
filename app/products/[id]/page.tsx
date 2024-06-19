@@ -12,7 +12,11 @@ import {
 } from "@strapi/blocks-react-renderer";
 import { useParams } from "next/navigation";
 import { Skeleton } from "@/components/ui/skeleton";
-import { warningTost, successTost, errorTost } from "@/components/toast/allTost";
+import {
+  warningTost,
+  successTost,
+  errorTost,
+} from "@/components/toast/allTost";
 import ImageGallery from "react-image-gallery";
 import "react-image-gallery/styles/css/image-gallery.css";
 import Navbar from "@/components/custom/navbar";
@@ -149,8 +153,15 @@ const Page = () => {
           });
           successTost("Product added to cart");
         } else {
-          errorTost("something went wrong");
-          console.log("i click add to cart 5");
+          cartItems.push(cartItem);
+          Cookies.set("DIVAcart", JSON.stringify(cartItems), {
+            expires: 365,
+            secure: window.location.protocol === "https:", // Ensure this is set only if your site uses HTTPS
+            sameSite: "Lax",
+            path: "/",
+            domain: window.location.hostname,
+          });
+          successTost("Product added to cart");
         }
       }
     } else {
