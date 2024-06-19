@@ -40,25 +40,29 @@ const CartItems: React.FC<{
       const cartItems: cartItemProps[] = existingCart
         ? JSON.parse(existingCart)
         : [];
-  
+
       console.log("Existing cart items:", cartItems);
-  
-      const updatedCartItems = cartItems.filter((item) => item.id !== productId);
-  
+
+      const updatedCartItems = cartItems.filter(
+        (item) => item.id !== productId
+      );
+
       console.log("Updated cart items:", updatedCartItems);
-  
+
       Cookies.set("DIVAcart", JSON.stringify(updatedCartItems), {
         expires: 365,
-        secure: true,
+        secure: window.location.protocol === "https:",
+        sameSite: "Lax",
+        path: "/",
+        domain: window.location.hostname,
       });
-  
+
       random();
       successTost("Product Deleted Successfully");
     } else {
       console.error("Product ID is undefined");
     }
   };
-  
 
   const decrementQnt = (productId: number | undefined) => {
     if (quantity > 1) {
