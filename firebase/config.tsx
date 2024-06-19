@@ -8,7 +8,7 @@ import { getAuth } from "firebase/auth";
 // Your web app's Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyAH7y1n5SGP0os5Iu2F3vAQGX1mJK409wU",
-  authDomain: "otp-test-4f683.firebaseapp.com",
+  authDomain: "divatheindianjewel.com/",
   projectId: "otp-test-4f683",
   storageBucket: "otp-test-4f683.appspot.com",
   messagingSenderId: "168179710210",
@@ -16,4 +16,4 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-export const auth = getAuth(app);
+export const auth = getAuth(app); 

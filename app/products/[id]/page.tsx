@@ -14,8 +14,7 @@ import { useParams } from "next/navigation";
 import { Skeleton } from "@/components/ui/skeleton";
 import {
   warningTost,
-  successTost,
-  errorTost,
+  successTost
 } from "@/components/toast/allTost";
 import ImageGallery from "react-image-gallery";
 import "react-image-gallery/styles/css/image-gallery.css";
@@ -146,7 +145,7 @@ const Page = () => {
           cartItems.push(cartItem);
           Cookies.set("DIVAcart", JSON.stringify(cartItems), {
             expires: 365,
-            secure: window.location.protocol === "https:", // Ensure this is set only if your site uses HTTPS
+            secure: window.location.protocol === "https:", 
             sameSite: "Lax",
             path: "/",
             domain: window.location.hostname,
@@ -156,7 +155,7 @@ const Page = () => {
           cartItems.push(cartItem);
           Cookies.set("DIVAcart", JSON.stringify(cartItems), {
             expires: 365,
-            secure: window.location.protocol === "https:", // Ensure this is set only if your site uses HTTPS
+            secure: window.location.protocol === "https:",
             sameSite: "Lax",
             path: "/",
             domain: window.location.hostname,

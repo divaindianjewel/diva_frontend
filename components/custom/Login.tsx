@@ -118,7 +118,7 @@ const Login: React.FC = () => {
                 handlePhoneNumberChange(e);
               }}
               placeholder="Enter Your Phone Number"
-            />
+            />      
           </div>
           <div id="recaptcha" className="mb-3"></div>
           <Button onClick={() => sendOtp()} className="w-full">
