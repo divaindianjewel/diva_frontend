@@ -144,6 +144,7 @@ const Page = () => {
     setTimeout(() => {
       setCartDisable(false);
     }, 3500);
+
   };
 
   useEffect(() => {
