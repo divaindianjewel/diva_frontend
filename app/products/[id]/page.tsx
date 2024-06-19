@@ -139,13 +139,15 @@ const Page = () => {
           Cookies.set("DIVAcart", JSON.stringify(cartItems), {
             expires: 365,
             secure: window.location.protocol === "https:", // Ensure this is set only if your site uses HTTPS
-            sameSite: "Lax", 
-            path: "/", 
-            domain: window.location.hostname, 
+            sameSite: "Lax",
+            path: "/",
+            domain: window.location.hostname,
           });
           successTost("Product added to cart");
         }
       }
+    } else {
+      console.log("cart Item is undefined");
     }
 
     setTimeout(() => {
