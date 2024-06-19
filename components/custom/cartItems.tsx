@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import React, { useState } from "react";
 import Image from "next/image";
@@ -33,7 +33,7 @@ const CartItems: React.FC<{
   random: () => void;
 }> = ({ productId, cartId, qnt, show, image, random, productName, price }) => {
   const [quantity, setQuantity] = useState<any>(qnt);
- 
+
   const handleDeleteCart = (productId: number | undefined) => {
     if (productId !== undefined) {
       const existingCart = Cookies.get("DIVAcart");
@@ -41,8 +41,10 @@ const CartItems: React.FC<{
         ? JSON.parse(existingCart)
         : [];
       const updatedCartItems = cartItems.filter(
-        (item) => item.id !== productId
+        (item) => (item.id !== productId, console.log(item.id))
       );
+
+      console.log(productId);
 
       Cookies.set("DIVAcart", JSON.stringify(updatedCartItems), {
         expires: 365,

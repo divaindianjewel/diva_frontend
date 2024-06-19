@@ -16,7 +16,6 @@ import TextField from "@mui/material/TextField";
 import CartItems from "@/components/custom/cartItems";
 import { domain } from "@/components/backend/apiRouth";
 import { useAuth } from "@clerk/nextjs";
-
 import FormControl from "@mui/material/FormControl";
 import Image from "next/image";
 
@@ -31,12 +30,10 @@ import cash from "@/app/assets/checkout/cash-on-delivery.png";
 import visa from "@/app/assets/checkout/visa.svg";
 import phonepe from "@/app/assets/checkout/phonpe.svg";
 import gpay from "@/app/assets/checkout/gpay.svg";
-import addOrder from "@/backend/shiprocket/addOrder";
 import { MakePayment } from "@/app/api/Payment";
 import { Input } from "@/components/ui/input";
 import CreateOrderId from "@/backend/order/create-orderId";
 import Navbar from "@/components/custom/navbar";
-
 import Cookies from "js-cookie";
 
 interface CartItem {

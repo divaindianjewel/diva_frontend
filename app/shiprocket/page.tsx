@@ -1,11 +1,11 @@
 "use client";
 import React, { useEffect, useState } from "react";
-
 import { useRouter } from "next/navigation";
 import { domain } from "@/components/backend/apiRouth";
 import { useAuth } from "@clerk/nextjs";
 import addOrder from "@/backend/shiprocket/addOrder";
 import { successTost } from "@/components/toast/allTost";
+import Cookies from "js-cookie";
 
 interface CartItem {
   id: number;
@@ -47,6 +47,14 @@ interface order {
   };
 }
 
+interface cartItemProps {
+  id: number;
+  name: string;
+  img: string;
+  price: number;
+  qnt: number;
+}
+
 const Page = () => {
   const { userId } = useAuth();
   const [cartData, setCartData] = useState<CartItem[]>([]);
@@ -62,6 +70,20 @@ const Page = () => {
   const [addressLoad, setAddressLoad] = useState<boolean>(false);
   const [cartDataLoad, setCartDataLoad] = useState<boolean>(false);
   const [isUpdateOrder, setIsUpdateOrder] = useState<boolean>(false);
+  const [cookiesCartData, setCookiesCartData] = useState<cartItemProps[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+
+  // fetching cart Data from the Cookies
+  useEffect(() => {
+    const cookieCartData = Cookies.get("DIVAcart");
+    const cartData: cartItemProps[] = cookieCartData
+      ? JSON.parse(cookieCartData)
+      : [];
+
+    console.log(cartData);
+    setCookiesCartData(cartData);
+    setLoading(false);
+  }, [loading]);
 
   useEffect(() => {
     const UserData = async () => {
@@ -182,7 +204,6 @@ const Page = () => {
     };
 
     addOrderAndOrderId();
-
   }, [cartData, isUpdateOrder]);
 
   useEffect(() => {
@@ -201,7 +222,6 @@ const Page = () => {
 
   return (
     <div>
-
       <div className="flex flex-col items-center justify-center h-screen">
         <svg
           className="animate-spin h-8 w-8 text-gray-600"
@@ -228,7 +248,6 @@ const Page = () => {
           please wait your order is placing
         </p>
       </div>
-
     </div>
   );
 };
