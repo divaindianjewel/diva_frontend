@@ -118,7 +118,6 @@ const Page = () => {
   const [discountAmount, setDiscountAmount] = useState<number>();
   const [isDiscounted, setIsDiscounted] = useState<boolean>(false);
 
-
   // FUNCTION FOR APPLYING DISCOUNT
   const applyDiscount = async (code: string) => {
     const response = await fetch(`${domain}/api/discounts`);
@@ -216,10 +215,124 @@ const Page = () => {
 
       Cookies.set("DIVAUserAddress", JSON.stringify(obj), { expires: 365 });
 
-      if (userLocalId) {
-        if (!dataPresent) {
-          const response = await fetch(`${domain}/api/billing-addresses`, {
-            method: "POST",
+      if (!dataPresent) {
+        const response = await fetch(`${domain}/api/billing-addresses`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            data: {
+              ...obj,
+            },
+          }),
+        });
+        if (!response.ok) {
+          errorTost("Something went wrong");
+          return;
+        } else {
+          successTost("Billing address added successfully");
+        }
+
+        try {
+          const userName = firstName + " " + lastName;
+          const total_items = cookiesCartData.length;
+          if (!isDiscounted) {
+            if (userLocalId != undefined) {
+              const response = await CreateOrderId(
+                total,
+                0,
+                userLocalId,
+                userName,
+                total_items
+              );
+
+              Cookies.set("DivaOrderId", response.id, {
+                expires: 365,
+                secure: window.location.protocol === "https:",
+                sameSite: "Lax",
+                path: "/",
+                domain: window.location.hostname,
+              });
+            } else {
+              const response = await CreateOrderId(
+                total,
+                0,
+                "null",
+                userName,
+                total_items
+              );
+              Cookies.set("DivaOrderId", response.id, {
+                expires: 365,
+                secure: window.location.protocol === "https:",
+                sameSite: "Lax",
+                path: "/",
+                domain: window.location.hostname,
+              });
+            }
+
+            console.log(response);
+          } else {
+            if (discountAmount != undefined) {
+              if (userLocalId != undefined) {
+                const response = await CreateOrderId(
+                  total,
+                  discountAmount,
+                  userLocalId,
+                  userName,
+                  total_items
+                );
+                Cookies.set("DivaOrderId", response.id, {
+                  expires: 365,
+                  secure: window.location.protocol === "https:",
+                  sameSite: "Lax",
+                  path: "/",
+                  domain: window.location.hostname,
+                });
+              } else {
+                const response = await CreateOrderId(
+                  total,
+                  discountAmount,
+                  "null",
+                  userName,
+                  total_items
+                );
+                Cookies.set("DivaOrderId", response.id, {
+                  expires: 365,
+                  secure: window.location.protocol === "https:",
+                  sameSite: "Lax",
+                  path: "/",
+                  domain: window.location.hostname,
+                });
+              }
+            }
+          }
+        } catch (error) {
+          errorTost("something went wrong while creating orderId");
+          console.log(error);
+        }
+
+        if (selectedMethod == "online") {
+          if (!isDiscounted) {
+            MakePayment(router, total);
+          } else {
+            if (discountAmount != undefined) {
+              MakePayment(router, total - discountAmount);
+            }
+          }
+        } else {
+          warningTost("Selected COD");
+          try {
+            router.push("/shiprocket");
+          } catch (error) {
+            console.log(error);
+          }
+        }
+      } else {
+        const response = await fetch(
+          `${domain}/api/billing-addresses/${addressId}`,
+          {
+            method: "PUT",
             headers: {
               "Content-Type": "application/json",
             },
@@ -228,126 +341,101 @@ const Page = () => {
                 ...obj,
               },
             }),
-          });
-          if (!response.ok) {
-            errorTost("Something went wrong");
-            return;
+          }
+        );
+
+        if (!response.ok) {
+          errorTost("Something went wrong");
+          return;
+        }
+
+        try {
+          const userName = firstName + " " + lastName;
+          const total_items = cookiesCartData.length;
+
+          if (!isDiscounted) {
+            if (userLocalId != undefined) {
+              errorTost("third create id");
+              const response = await CreateOrderId(
+                total,
+                0,
+                "null",
+                userName,
+                total_items
+              );
+              console.log(response);
+              Cookies.set("DivaOrderId", response.id, {
+                expires: 365,
+                secure: window.location.protocol === "https:",
+                sameSite: "Lax",
+                path: "/",
+                domain: window.location.hostname,
+              });
+            } else {
+              errorTost("third create id");
+              const response = await CreateOrderId(
+                total,
+                0,
+                userLocalId,
+                userName,
+                total_items
+              );
+              console.log(response);
+              Cookies.set("DivaOrderId", response.id, {
+                expires: 365,
+                secure: window.location.protocol === "https:",
+                sameSite: "Lax",
+                path: "/",
+                domain: window.location.hostname,
+              });
+            }
           } else {
-            successTost("Billing address added successfully");
-          }
-
-          try {
-            const userName = firstName + " " + lastName;
-            const total_items = cartData.length;
-            if (!isDiscounted) {
-              if (userId != undefined) {
-                const response = await CreateOrderId(
-                  total,
-                  0,
-                  userId,
-                  userName,
-                  total_items
-                );
-              }
-            } else {
-              if (discountAmount != undefined && userId != undefined) {
-                const response = await CreateOrderId(
-                  total,
-                  discountAmount,
-                  userId,
-                  userName,
-                  total_items
-                );
-              }
-            }
-          } catch (error) {
-            errorTost("something went wrong while creating orderId");
-            console.log(error);
-          }
-
-          if (selectedMethod == "online") {
-            if (!isDiscounted) {
-              MakePayment(router, total);
-            } else {
-              if (discountAmount != undefined) {
-                MakePayment(router, total - discountAmount);
-              }
-            }
-          } else {
-            warningTost("Selected COD");
-            try {
-              router.push("/shiprocket");
-            } catch (error) {
-              console.log(error);
-            }
-          }
-        } else {
-          const response = await fetch(
-            `${domain}/api/billing-addresses/${addressId}`,
-            {
-              method: "PUT",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({
-                data: {
-                  ...obj,
-                },
-              }),
-            }
-          );
-
-          if (!response.ok) {
-            errorTost("Something went wrong");
-            return;
-          }
-
-          try {
-            const userName = firstName + " " + lastName;
-            const total_items = cartData.length;
-
-            if (!isDiscounted) {
-              if (userId != undefined) {
-                errorTost("third create id");
-                const response = await CreateOrderId(
-                  total,
-                  0,
-                  userId,
-                  userName,
-                  total_items
-                );
-
-                console.log("This is 1");
-              }
-
-            } else {
-              if (discountAmount != undefined && userId != undefined) {
+            if (discountAmount != undefined) {
+              if (userLocalId != undefined) {
                 errorTost("fourth create id");
                 const response = await CreateOrderId(
                   total,
                   discountAmount,
-                  userId,
+                  userLocalId,
                   userName,
                   total_items
                 );
                 console.log("This is 2");
+                Cookies.set("DivaOrderId", response.id);
+              } else {
+                errorTost("fourth create id");
+                const response = await CreateOrderId(
+                  total,
+                  discountAmount,
+                  "null",
+                  userName,
+                  total_items
+                );
+                console.log("This is 2");
+                Cookies.set("DivaOrderId", response.id, {
+                  expires: 365,
+                  secure: window.location.protocol === "https:",
+                  sameSite: "Lax",
+                  path: "/",
+                  domain: window.location.hostname,
+                });
               }
             }
-          } catch (error) {
-            console.log(error);
           }
+        } catch (error) {
+          console.log(error);
+        }
 
-          if (selectedMethod == "online") {
-            if (!isDiscounted) {
-              MakePayment(router, total);
-            } else {
-              if (discountAmount != undefined) {
-                MakePayment(router, total - discountAmount);
-              }
-            }
+        if (selectedMethod == "online") {
+          if (!isDiscounted) {
+            MakePayment(router, total);
           } else {
-            router.push("/shiprocket");
+            if (discountAmount != undefined) {
+              MakePayment(router, total - discountAmount);
+            }
           }
+        } else {
+          // router.push("/shiprocket");
         }
       }
     }
@@ -514,7 +602,9 @@ const Page = () => {
                   onChange={handleStateChange}
                 >
                   {states.map((item, index) => (
-                    <option key={index} value={item}>{item}</option>
+                    <option key={index} value={item}>
+                      {item}
+                    </option>
                   ))}
                 </NativeSelect>
               </div>
@@ -540,7 +630,6 @@ const Page = () => {
                   onChange={handleLastNameChange}
                   value={lastName}
                 />
-
               </div>
 
               <div
@@ -567,7 +656,9 @@ const Page = () => {
                 />
               </div>
 
-              <div id="info" className="flex gap-5  justify-between my-3 flex-col md:flex-row w-[18rem]"
+              <div
+                id="info"
+                className="flex gap-5  justify-between my-3 flex-col md:flex-row w-[18rem]"
               >
                 <TextField
                   id="standard-basic"
