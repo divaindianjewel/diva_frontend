@@ -40,11 +40,12 @@ const CartItems: React.FC<{
       const cartItems: cartItemProps[] = existingCart
         ? JSON.parse(existingCart)
         : [];
+
       const updatedCartItems = cartItems.filter(
-        (item) => (item.id !== productId, console.log(item.id))
+        (item) => (item.id !== productId, console.log(` Loop : ${item.id}`))
       );
 
-      console.log(productId);
+      console.log(`out of loop : ${productId}`);
 
       Cookies.set("DIVAcart", JSON.stringify(updatedCartItems), {
         expires: 365,
