@@ -518,8 +518,8 @@ const Page = () => {
                   fullWidth
                   onChange={handleStateChange}
                 >
-                  {states.map((item) => (
-                    <option value={item}>{item}</option>
+                  {states.map((item, index) => (
+                    <option key={index} value={item}>{item}</option>
                   ))}
                 </NativeSelect>
               </div>

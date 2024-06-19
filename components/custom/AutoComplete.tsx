@@ -87,7 +87,7 @@ export function AutoComplete() {
             <Loader />
           ) : (
             allProducts.map((item: Product, index) => (
-              <Link href={`/search/${item.attributes.name}`}>
+              <Link key={index} href={`/search/${item.attributes.name}`}>
                 <CommandItem>
                   <span>{item.attributes.name}</span>
                 </CommandItem>
