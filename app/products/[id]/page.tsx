@@ -12,7 +12,7 @@ import {
 } from "@strapi/blocks-react-renderer";
 import { useParams } from "next/navigation";
 import { Skeleton } from "@/components/ui/skeleton";
-import { warningTost, successTost } from "@/components/toast/allTost";
+import { warningTost, successTost, errorTost } from "@/components/toast/allTost";
 import ImageGallery from "react-image-gallery";
 import "react-image-gallery/styles/css/image-gallery.css";
 import Navbar from "@/components/custom/navbar";
@@ -130,7 +130,6 @@ const Page = () => {
 
         if (userLocalId) {
           console.log("i click add to cart 4");
-
           generateRandomNumber();
           addToCart(
             String(productId),
@@ -150,7 +149,8 @@ const Page = () => {
           });
           successTost("Product added to cart");
         } else {
-          console.log("i click add to cart 4");
+          errorTost("something went wrong");
+          console.log("i click add to cart 5");
         }
       }
     } else {
