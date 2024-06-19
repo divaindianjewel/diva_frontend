@@ -35,8 +35,6 @@ import addOrder from "@/backend/shiprocket/addOrder";
 import { MakePayment } from "@/app/api/Payment";
 import { Input } from "@/components/ui/input";
 import CreateOrderId from "@/backend/order/create-orderId";
-import addOrderProduct from "@/backend/order/add-order-product";
-import { deleteCartItem } from "@/backend/cart-operation";
 import Navbar from "@/components/custom/navbar";
 
 import Cookies from "js-cookie";
@@ -123,6 +121,7 @@ const Page = () => {
   const [discountAmount, setDiscountAmount] = useState<number>();
   const [isDiscounted, setIsDiscounted] = useState<boolean>(false);
 
+
   // FUNCTION FOR APPLYING DISCOUNT
   const applyDiscount = async (code: string) => {
     const response = await fetch(`${domain}/api/discounts`);
@@ -175,7 +174,6 @@ const Page = () => {
   }, [userId]);
 
   // GET USER ADDRESS
-
   useEffect(() => {
     const userData = Cookies.get("DIVAUserAddress");
 
@@ -309,7 +307,6 @@ const Page = () => {
 
           try {
             const userName = firstName + " " + lastName;
-
             const total_items = cartData.length;
 
             if (!isDiscounted) {
@@ -325,6 +322,7 @@ const Page = () => {
 
                 console.log("This is 1");
               }
+
             } else {
               if (discountAmount != undefined && userId != undefined) {
                 errorTost("fourth create id");
@@ -545,6 +543,7 @@ const Page = () => {
                   onChange={handleLastNameChange}
                   value={lastName}
                 />
+
               </div>
 
               <div
@@ -571,9 +570,7 @@ const Page = () => {
                 />
               </div>
 
-              <div
-                id="info"
-                className="flex gap-5  justify-between my-3 flex-col md:flex-row w-[18rem]"
+              <div id="info" className="flex gap-5  justify-between my-3 flex-col md:flex-row w-[18rem]"
               >
                 <TextField
                   id="standard-basic"

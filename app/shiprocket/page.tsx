@@ -180,7 +180,9 @@ const Page = () => {
         );
       }
     };
+
     addOrderAndOrderId();
+
   }, [cartData, isUpdateOrder]);
 
   useEffect(() => {
@@ -199,6 +201,7 @@ const Page = () => {
 
   return (
     <div>
+
       <div className="flex flex-col items-center justify-center h-screen">
         <svg
           className="animate-spin h-8 w-8 text-gray-600"
@@ -225,6 +228,7 @@ const Page = () => {
           please wait your order is placing
         </p>
       </div>
+
     </div>
   );
 };
