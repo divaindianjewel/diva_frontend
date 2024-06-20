@@ -180,7 +180,13 @@ const Page = () => {
       };
       setTmpUserData(obj);
 
-      Cookies.set("DIVAUserAddress", JSON.stringify(obj), { expires: 365 });
+      Cookies.set("DIVAUserAddress", JSON.stringify(obj), {
+        expires: 365,
+        secure: window.location.protocol === "https:",
+        sameSite: "Lax",
+        path: "/",
+        domain: window.location.hostname,
+      });
 
       if (!dataPresent) {
         const response = await fetch(`${domain}/api/billing-addresses`, {
@@ -220,7 +226,6 @@ const Page = () => {
             path: "/",
             domain: window.location.hostname,
           });
-
         } catch (error) {
           errorTost("something went wrong while creating orderId");
           console.log(error);
@@ -262,6 +267,7 @@ const Page = () => {
           errorTost("Something went wrong");
           return;
         }
+
         try {
           const userName = firstName + " " + lastName;
           const total_items = cookiesCartData.length;

@@ -4,13 +4,9 @@ import Navbar from "@/components/custom/navbar";
 import { errorTost } from "@/components/toast/allTost";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@clerk/nextjs";
-import { CalendarIcon, PackageIcon } from "lucide-react";
-import Image from "next/image";
+import Cookies from "js-cookie";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
-
-// discount icons
-import { CiDiscount1 } from "react-icons/ci";
 
 interface Product {
   id: number;
@@ -42,46 +38,34 @@ interface OrderId {
 }
 
 const Pages = () => {
-  const { userId } = useAuth();
   const [orderId, setOrderId] = useState<OrderId[]>([]);
-  const [orderedProducts, setOrderedProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [orderIds, setOrderIds] = useState<string[]>([]);
 
   useEffect(() => {
     const getUserOrders = async () => {
-      const response = await fetch(`${domain}/api/orders`);
-      const data = await response.json();
+      orderIds.map(async (item) => {
+        let response = await fetch(`${domain}/api/orders/${item}`);
+        let data = await response.json();
 
-      const tmpData = data.data.filter(
-        (item: OrderId) =>
-          item.attributes.user_id == userId && item.attributes.ordered == true
-      );
+        let tmp = [...orderId];
 
-      setOrderId(tmpData);
+        tmp.push(data.data);
+        setOrderId(tmp);
+      });
     };
-
     getUserOrders();
-  }, [userId]);
-
-  console.log(orderId);
+  }, [loading]);
 
   useEffect(() => {
-    const getUserData = async () => {
-      try {
-        const response = await fetch(`${domain}/api/ordered-products`);
-        const data = await response.json();
+    const ids = Cookies.get("divaOrders");
+    const data: string[] = ids ? JSON.parse(ids) : [];
+    const filterData = data.filter((item) => item != "0");
 
-        const tmpProducts = data.data.filter(
-          (items: Product) => items.attributes.userid == userId
-        );
-        setOrderedProducts(tmpProducts);
-      } catch (error) {
-        console.log(error);
-        errorTost("something went wrong");
-      }
-    };
-
-    getUserData();
-  }, [userId]);
+    console.log(filterData);
+    setOrderIds(filterData);
+    setLoading(false);
+  }, [loading]);
 
   return (
     <div>
@@ -107,7 +91,7 @@ const Pages = () => {
                     Discount
                   </p>
                   <p className="text-base font-medium">
-                    -₹{item.attributes.discount}
+                    ₹{item.attributes.discount}
                   </p>
                 </div>
                 <div>

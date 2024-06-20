@@ -134,27 +134,41 @@ const Page = () => {
     setLoading(false);
   }, [loading]);
 
-  useEffect(() => {
-    // const updateOrderId = async () => {
-    //   const response = await fetch(`${domain}/api/orders/${orderId}`, {
-    //     method: "PUT",
-    //     body: JSON.stringify({
-    //       data: {
-    //         data: {
-    //           ordered: true,
-    //         },
-    //       },
-    //     }),
-    //   });
+  const addOrderCookies = (addOrderCookies: string) => {
+    let orderArr = Cookies.get("divaOrders");
 
-    //   if (response.ok) {
-    //     setIsUpdateOrder(true);
-    //   }
-    // };
+    let data: string[] = orderArr ? JSON.parse(orderArr) : [];
+
+    data.push(addOrderCookies);
+
+    Cookies.set("divaOrders", JSON.stringify(data), {
+      expires: 365 * 3,
+      secure: window.location.protocol === "https:",
+      sameSite: "Lax",
+      path: "/",
+      domain: window.location.hostname,
+    });
+  };
+
+  useEffect(() => {
+    const updateOrderId = async () => {
+      const response = await fetch(`${domain}/api/orders/${orderId}`, {
+        method: "PUT",
+        body: JSON.stringify({
+          data: {
+            data: {
+              ordered: true,
+            },
+          },
+        }),
+      });
+      if (response.ok) {
+        setIsUpdateOrder(true);
+      }
+    };
 
     const addOrderedProduct = async () => {
       cookiesCartData.map(async (item) => {
-
         let response = await fetch(`${domain}/api/ordered-products`, {
           method: "POST",
           headers: {
@@ -178,6 +192,7 @@ const Page = () => {
           console.log("success...!!!");
         }
       });
+
       await addOrder(
         userObj,
         router,
@@ -187,8 +202,10 @@ const Page = () => {
         Number(discount)
       );
 
-      Cookies.remove("DivaOrderId")
-      Cookies.remove("DIVAcart")
+      addOrderCookies(String(orderId));
+
+      Cookies.remove("DivaOrderId");
+      Cookies.remove("DIVAcart");
 
       setOrderLoading(false);
     };
