@@ -24,14 +24,14 @@ const addOrder = async (
   total: number,
   orderId: number,
   discountAmount: number,
-  userid: string
 ) => {
   if (cartData != undefined) {
+    console.log(cartData);
     const orderItems = cartData.map((item) => ({
-      name: item.attributes.product_name,
-      sku: item.attributes.Product_id.toString(),
-      units: item.attributes.qnt,
-      selling_price: item.attributes.product_price,
+      name: item.name,
+      sku: item.id.toString(),
+      units: item.qnt,
+      selling_price: item.price,
       discount: discountAmount,
       tax: "3",
       hsn: 441122,
@@ -43,11 +43,11 @@ const addOrder = async (
     var year = currentDate.getFullYear();
 
     const payload = {
-      order_id: `OR-${generateRandomId(10)}`,
+      order_id: `OR-${orderId}`,
       order_date: `${year}-${month}-${day}`,
       pickup_location: "Primary",
       channel_id: "4854844",
-      comment: "Reseller: M/s Goku",
+      comment: "Reseller: M/s Varma",
       billing_customer_name: obj.first_name,
       billing_last_name: obj.last_name,
       billing_address: obj.address,
@@ -64,11 +64,11 @@ const addOrder = async (
       shipping_address: obj.address,
       shipping_address_2: obj.address,
       shipping_city: obj.city,
-      shipping_pincode: String(obj.pincode),
+      shipping_pincode: obj.pincode,
       shipping_country: "india",
       shipping_state: obj.state,
       shipping_email: obj.email,
-      shipping_phone: String(obj.phone_number),
+      shipping_phone: obj.phone_number,
       order_items: orderItems,
       payment_method: "Online",
       shipping_charges: 0,
@@ -89,40 +89,7 @@ const addOrder = async (
       });
 
       if (response.ok) {
-        for (const item of cartData) {
-          try {
-            const price = item.attributes.product_price;
-            const productId = item.attributes.Product_id;
-            const qnt = item.attributes.qnt;
-            const date = `${year}-${month}-${day}`;
-            const name = item.attributes.product_name;
-            const img = item.attributes.img;
-
-            const res = await addOrderProduct(
-              productId,
-              orderId,
-              qnt,
-              price,
-              img,
-              date,
-              name,
-              userid
-            );
-          } catch (error) {
-            console.log(error);
-          }
-        }
         successTost("Order placed successfully");
-
-        for (const items of cartData) {
-          try {
-            const res = await deleteCartItem(items.id);
-            console.log(`${items.id} deleted successfully`);
-          } catch (error) {
-            console.log(error);
-          }
-        }
-
         router.push("/orders");
       } else {
         console.log(response.text);
@@ -130,7 +97,7 @@ const addOrder = async (
       }
     } catch (error) {
       console.error("Error creating order:", error);
-      errorTost("Something went wrong");
+      errorTost("Something went wrong while Ordering");
     }
   }
 };

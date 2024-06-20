@@ -5,7 +5,7 @@ import {
   successTost,
   warningTost,
 } from "@/components/toast/allTost";
-import { useEffect, useState } from "react";
+
 
 interface CartItem {
   id: number;

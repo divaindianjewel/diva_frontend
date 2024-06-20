@@ -115,7 +115,7 @@ const Page = () => {
   const [tmpUserData, setTmpUserData] = useState<any>();
   const [dataPresent, setDataPresent] = useState<boolean>(false);
   const [discountCodeText, setDiscountCodeText] = useState<string>("");
-  const [discountAmount, setDiscountAmount] = useState<number>();
+  const [discountAmount, setDiscountAmount] = useState<number>(0);
   const [isDiscounted, setIsDiscounted] = useState<boolean>(false);
 
   // FUNCTION FOR APPLYING DISCOUNT
@@ -135,39 +135,6 @@ const Page = () => {
       successTost("This Code is Available");
     }
   };
-
-  // getting Billing Addresses
-  useEffect(() => {
-    const getUserData = async () => {
-      const userResponse = await fetch(`${domain}/api/billing-addresses`, {
-        method: "GET",
-      });
-
-      const data = await userResponse.json();
-
-      console.log(data.data);
-      const tmpUserData = data.data?.filter(
-        (items: addressProps) => items.attributes.user_id == userLocalId
-      );
-
-      console.log(tmpUserData);
-      console.log(tmpUserData.length);
-      if (tmpUserData.length > 0) {
-        setDataPresent(true);
-        setAddressId(tmpUserData[0].id);
-        setFirstName(tmpUserData[0].attributes.first_name);
-        setLastName(tmpUserData[0].attributes.last_name);
-        setPhoneNumber(tmpUserData[0].attributes.phone_number);
-        setEmail(tmpUserData[0].attributes.email);
-        setCity(tmpUserData[0].attributes.city);
-        setPinCode(tmpUserData[0].attributes.pincode);
-        setAddress(tmpUserData[0].attributes.address);
-        setState(tmpUserData[0].attributes.state);
-      }
-    };
-
-    getUserData();
-  }, [userLocalId]);
 
   // GET USER ADDRESS
   useEffect(() => {
@@ -237,76 +204,23 @@ const Page = () => {
         try {
           const userName = firstName + " " + lastName;
           const total_items = cookiesCartData.length;
-          if (!isDiscounted) {
-            if (userLocalId != undefined) {
-              const response = await CreateOrderId(
-                total,
-                0,
-                userLocalId,
-                userName,
-                total_items
-              );
 
-              Cookies.set("DivaOrderId", response.id, {
-                expires: 365,
-                secure: window.location.protocol === "https:",
-                sameSite: "Lax",
-                path: "/",
-                domain: window.location.hostname,
-              });
-            } else {
-              const response = await CreateOrderId(
-                total,
-                0,
-                "null",
-                userName,
-                total_items
-              );
-              Cookies.set("DivaOrderId", response.id, {
-                expires: 365,
-                secure: window.location.protocol === "https:",
-                sameSite: "Lax",
-                path: "/",
-                domain: window.location.hostname,
-              });
-            }
+          const response = await CreateOrderId(
+            total,
+            discountAmount,
+            userLocalId,
+            userName,
+            total_items
+          );
 
-            console.log(response);
-          } else {
-            if (discountAmount != undefined) {
-              if (userLocalId != undefined) {
-                const response = await CreateOrderId(
-                  total,
-                  discountAmount,
-                  userLocalId,
-                  userName,
-                  total_items
-                );
-                Cookies.set("DivaOrderId", response.id, {
-                  expires: 365,
-                  secure: window.location.protocol === "https:",
-                  sameSite: "Lax",
-                  path: "/",
-                  domain: window.location.hostname,
-                });
-              } else {
-                const response = await CreateOrderId(
-                  total,
-                  discountAmount,
-                  "null",
-                  userName,
-                  total_items
-                );
-                Cookies.set("DivaOrderId", response.id, {
-                  expires: 365,
-                  secure: window.location.protocol === "https:",
-                  sameSite: "Lax",
-                  path: "/",
-                  domain: window.location.hostname,
-                });
-              }
-            }
-          }
+          Cookies.set("DivaOrderId", response.id, {
+            expires: 365,
+            secure: window.location.protocol === "https:",
+            sameSite: "Lax",
+            path: "/",
+            domain: window.location.hostname,
+          });
+
         } catch (error) {
           errorTost("something went wrong while creating orderId");
           console.log(error);
@@ -348,80 +262,25 @@ const Page = () => {
           errorTost("Something went wrong");
           return;
         }
-
         try {
           const userName = firstName + " " + lastName;
           const total_items = cookiesCartData.length;
-
-          if (!isDiscounted) {
-            if (userLocalId != undefined) {
-              errorTost("third create id");
-              const response = await CreateOrderId(
-                total,
-                0,
-                "null",
-                userName,
-                total_items
-              );
-              console.log(response);
-              Cookies.set("DivaOrderId", response.id, {
-                expires: 365,
-                secure: window.location.protocol === "https:",
-                sameSite: "Lax",
-                path: "/",
-                domain: window.location.hostname,
-              });
-            } else {
-              errorTost("third create id");
-              const response = await CreateOrderId(
-                total,
-                0,
-                userLocalId,
-                userName,
-                total_items
-              );
-              console.log(response);
-              Cookies.set("DivaOrderId", response.id, {
-                expires: 365,
-                secure: window.location.protocol === "https:",
-                sameSite: "Lax",
-                path: "/",
-                domain: window.location.hostname,
-              });
-            }
-          } else {
-            if (discountAmount != undefined) {
-              if (userLocalId != undefined) {
-                errorTost("fourth create id");
-                const response = await CreateOrderId(
-                  total,
-                  discountAmount,
-                  userLocalId,
-                  userName,
-                  total_items
-                );
-                console.log("This is 2");
-                Cookies.set("DivaOrderId", response.id);
-              } else {
-                errorTost("fourth create id");
-                const response = await CreateOrderId(
-                  total,
-                  discountAmount,
-                  "null",
-                  userName,
-                  total_items
-                );
-                console.log("This is 2");
-                Cookies.set("DivaOrderId", response.id, {
-                  expires: 365,
-                  secure: window.location.protocol === "https:",
-                  sameSite: "Lax",
-                  path: "/",
-                  domain: window.location.hostname,
-                });
-              }
-            }
-          }
+          errorTost("third create id");
+          const response = await CreateOrderId(
+            total,
+            discountAmount,
+            userLocalId,
+            userName,
+            total_items
+          );
+          console.log(response);
+          Cookies.set("DivaOrderId", response.id, {
+            expires: 365,
+            secure: window.location.protocol === "https:",
+            sameSite: "Lax",
+            path: "/",
+            domain: window.location.hostname,
+          });
         } catch (error) {
           console.log(error);
         }

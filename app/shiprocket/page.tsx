@@ -68,16 +68,13 @@ interface divaAddressProps {
 }
 
 const Page = () => {
-  const [userLocalId, setUserLocalId] = useState<string>("");
-  const [orderId, setOrderId] = useState<number>();
-  const [cartData, setCartData] = useState<CartItem[]>([]);
-  const [userInfo, setUserInfo] = useState<addressProps[]>();
-  const [total, setTotal] = useState<number>(0);
+  const [userLocalId, setUserLocalId] = useState<string>("null");
+  const [orderId, setOrderId] = useState<number>(0);
   const [userObj, setUserObj] = useState<any>({});
-  const [userName, setUserName] = useState<any>();
+  const [discount, setDiscount] = useState<string>("0");
+  const [total, setTotal] = useState<number>(0);
   const router = useRouter();
-  // const [orderId, setOrderId] = useState<number>();
-  const [discountAmount, setDiscountAmount] = useState<number>();
+
   const [orderInfo, setOrderInfo] = useState<order>();
   const [tmp, setTmp] = useState<boolean>(false);
   const [addressLoad, setAddressLoad] = useState<boolean>(false);
@@ -85,26 +82,31 @@ const Page = () => {
   const [isUpdateOrder, setIsUpdateOrder] = useState<boolean>(false);
   const [cookiesCartData, setCookiesCartData] = useState<cartItemProps[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
-
-  // USER ADDRESS VARIABLES
-  const [state, setState] = useState("Andhra Pradesh");
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
-  const [email, setEmail] = useState("");
-  const [city, setCity] = useState("");
-  const [pinCode, setPinCode] = useState("");
-  const [address, setAddress] = useState("");
+  const [orderLoading, setOrderLoading] = useState<boolean>(true);
 
   // fetching cart Data from the Cookies
   useEffect(() => {
     const data = Cookies.get("DIVAcart");
     const cartData: cartItemProps[] = data ? JSON.parse(data) : [];
-
-    console.log(cartData);
     setCookiesCartData(cartData);
     setLoading(false);
   }, [loading]);
+
+  // GET TOTAL AND DISCOUNTED AMOUNT
+  useEffect(() => {
+    const getDiscountedAmount = async () => {
+      const res = await fetch(`${domain}/api/orders/${orderId}`);
+      const data = await res.json();
+      if (data.data !== null) {
+        console.log(data.data.attributes.discount);
+        console.log(data.data.attributes.total_price);
+        setTotal(data.data.attributes.total_price);
+        setDiscount(data.data.attributes.discount);
+      }
+    };
+
+    getDiscountedAmount();
+  }, [orderId]);
 
   // GET USER ADDRESS
   useEffect(() => {
@@ -112,15 +114,17 @@ const Page = () => {
 
     if (userData != undefined) {
       const newData: divaAddressProps = JSON.parse(userData);
-      setFirstName(newData.first_name);
-      setLastName(newData.last_name);
-      setAddress(newData.address);
-      setEmail(newData.email);
-      setCity(newData.city);
-      setPinCode(newData.pinCode);
-      setPhoneNumber(newData.phone_number);
+      console.log(newData);
+      setUserObj(newData);
     }
   }, [userLocalId]);
+
+  // GET USER ID
+  useEffect(() => {
+    const tmpUserId = Cookies.get("DIVAIJ-USER");
+
+    setUserLocalId(String(tmpUserId));
+  }, []);
 
   // GET ORDER-ID
   useEffect(() => {
@@ -130,46 +134,42 @@ const Page = () => {
     setLoading(false);
   }, [loading]);
 
-  // UPDATING THE ORDER ID TO TRUE
   useEffect(() => {
-    const updateOrderId = async () => {
-      const response = await fetch(`${domain}/api/orders/${orderId}`, {
-        method: "PUT",
-        body: JSON.stringify({
-          data: {
-            data: {
-              ordered: true,
-            },
-          },
-        }),
-      });
+    // const updateOrderId = async () => {
+    //   const response = await fetch(`${domain}/api/orders/${orderId}`, {
+    //     method: "PUT",
+    //     body: JSON.stringify({
+    //       data: {
+    //         data: {
+    //           ordered: true,
+    //         },
+    //       },
+    //     }),
+    //   });
 
-      if (response.ok) {
-        setIsUpdateOrder(true);
-      }
-    };
-    updateOrderId();
-  }, [orderId, isUpdateOrder]);
+    //   if (response.ok) {
+    //     setIsUpdateOrder(true);
+    //   }
+    // };
 
-  useEffect(() => {
     const addOrderedProduct = async () => {
-      setLoading(true);
-      console.log(cookiesCartData.length);
       cookiesCartData.map(async (item) => {
+
         let response = await fetch(`${domain}/api/ordered-products`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
+
           body: JSON.stringify({
             data: {
-              orderId: 54,
+              orderId: orderId,
               productId: item.id,
               qnt: item.qnt,
               price: item.price,
               image: item.img,
               name: item.name,
-              userid: "23",
+              userid: userLocalId,
             },
           }),
         });
@@ -178,25 +178,23 @@ const Page = () => {
           console.log("success...!!!");
         }
       });
+      await addOrder(
+        userObj,
+        router,
+        cookiesCartData,
+        total,
+        orderId,
+        Number(discount)
+      );
 
-      setLoading(false);
+      Cookies.remove("DivaOrderId")
+      Cookies.remove("DIVAcart")
+
+      setOrderLoading(false);
     };
+
     addOrderedProduct();
-  }, [loading]);
-
-  // useEffect(() => {
-  //   let tmpsubtotal = 0;
-
-  //   cartData.map(
-  //     (item) =>
-  //       (tmpsubtotal =
-  //         tmpsubtotal + item.attributes.product_price * item.attributes.qnt)
-  //   );
-  //   const gst = tmpsubtotal * 0.03;
-
-  //   const totalPrice = tmpsubtotal + gst;
-  //   setTotal(totalPrice);
-  // }, [cartData]);
+  }, [orderLoading]);
 
   return (
     <div>
