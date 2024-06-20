@@ -7,7 +7,11 @@ const CreateOrderId = async (
   discount: number,
   user_id: string,
   user_name: string,
-  total_items: number
+  total_items: number,
+  address: string,
+  city: string,
+  state: string,
+  payment_method: string
 ) => {
   const currentDate = new Date();
   var day = currentDate.getDate();
@@ -34,6 +38,10 @@ const CreateOrderId = async (
             discount: discount,
             user_name: user_name,
             total_product: total_items,
+            address: address,
+            city: city,
+            state: state,
+            payment_method: payment_method,
           },
         }),
       });

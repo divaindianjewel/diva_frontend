@@ -1,6 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { Textarea } from "@/components/ui/textarea";
+
 import {
   Dialog,
   DialogContent,
@@ -9,7 +10,8 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { successTost, errorTost } from "@/components/toast/allTost";
+
+import { successTost } from "@/components/toast/allTost";
 import { IoIosStar } from "react-icons/io";
 import { DialogClose } from "@radix-ui/react-dialog";
 

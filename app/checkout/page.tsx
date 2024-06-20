@@ -88,7 +88,7 @@ interface divaAddressProps {
   phone_number: string;
   email: string;
   city: string;
-  pinCode: string;
+  pincode: string;
   address: string;
 }
 
@@ -147,8 +147,11 @@ const Page = () => {
       setAddress(newData.address);
       setEmail(newData.email);
       setCity(newData.city);
-      setPinCode(newData.pinCode);
+      setPinCode(newData.pincode);
       setPhoneNumber(newData.phone_number);
+      setDataPresent(true);
+    } else {
+      setDataPresent(false);
     }
   }, [userLocalId]);
 
@@ -200,6 +203,17 @@ const Page = () => {
             },
           }),
         });
+
+        const data = await response.json();
+
+        Cookies.set("BillingId", data.data.id, {
+          expires: 365,
+          secure: window.location.protocol === "https:",
+          sameSite: "Lax",
+          path: "/",
+          domain: window.location.hostname,
+        });
+
         if (!response.ok) {
           errorTost("Something went wrong");
           return;
@@ -210,15 +224,19 @@ const Page = () => {
         try {
           const userName = firstName + " " + lastName;
           const total_items = cookiesCartData.length;
+          const tmpCity = city + " - " + pinCode;
 
           const response = await CreateOrderId(
             total,
             discountAmount,
             userLocalId,
             userName,
-            total_items
+            total_items,
+            address,
+            tmpCity,
+            state,
+            selectedMethod
           );
-
           Cookies.set("DivaOrderId", response.id, {
             expires: 365,
             secure: window.location.protocol === "https:",
@@ -271,13 +289,18 @@ const Page = () => {
         try {
           const userName = firstName + " " + lastName;
           const total_items = cookiesCartData.length;
+          const tmpCity = city + " - " + pinCode;
           errorTost("third create id");
           const response = await CreateOrderId(
             total,
             discountAmount,
             userLocalId,
             userName,
-            total_items
+            total_items,
+            address,
+            tmpCity,
+            state,
+            selectedMethod
           );
           console.log(response);
           Cookies.set("DivaOrderId", response.id, {

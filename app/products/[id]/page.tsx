@@ -100,7 +100,7 @@ const Page = () => {
   const [cartDisable, setCartDisable] = useState<boolean>(false);
   const [imgData, setImgData] = useState<any[]>([]);
   const [isLoadProduct, setIsLoadProduct] = useState<boolean>(false);
-  const [userReview, setUserReview] = useState<ReviewProps>();
+  // const [userReview, setUserReview] = useState<ReviewProps>();
 
   const generateRandomNumber = () => {
     const randomNumber = Math.floor(Math.random() * 100) + 1;
@@ -198,6 +198,7 @@ const Page = () => {
     if (isSignedIn) {
       fetchCartData();
     }
+
   }, [randomNum, isSignedIn, userId, productId]);
 
   useEffect(() => {

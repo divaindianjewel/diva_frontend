@@ -118,11 +118,15 @@ const CustomerReviews: React.FC<{ productId: number }> = ({ productId }) => {
                   </div>
 
                   <div className="-ml-1 flex gap-0.5">
+
+
                     {[...Array(userReview.attributes.ratting)].map(
                       (_, index) => (
                         <IoIosStar key={index} color="gold" size={25} />
                       )
                     )}
+
+
                   </div>
                   <p className="text-gray-600">
                     {userReview.attributes.Description}
