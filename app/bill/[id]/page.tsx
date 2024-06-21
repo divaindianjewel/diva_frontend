@@ -143,8 +143,6 @@ const Page = () => {
 
   return (
     <div className="bg-background text-foreground p-8 sm:p-12 rounded-lg shadow-lg max-w-3xl mx-auto">
-      
-
       <div className="grid grid-cols-2 gap-6 text-sm" id="bill">
         <div>
           <h2 className="text-2xl font-bold mb-4">Billing Address</h2>

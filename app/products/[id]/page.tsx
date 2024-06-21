@@ -12,10 +12,7 @@ import {
 } from "@strapi/blocks-react-renderer";
 import { useParams } from "next/navigation";
 import { Skeleton } from "@/components/ui/skeleton";
-import {
-  warningTost,
-  successTost
-} from "@/components/toast/allTost";
+import { warningTost, successTost } from "@/components/toast/allTost";
 import ImageGallery from "react-image-gallery";
 import "react-image-gallery/styles/css/image-gallery.css";
 import Navbar from "@/components/custom/navbar";
@@ -24,6 +21,11 @@ import FadingBanner from "@/components/custom/Fade";
 
 // importing the cookies
 import Cookies from "js-cookie";
+
+// importing icons
+import returnIcon from "@/app/assets/icons/exchange.png";
+import warranty from "@/app/assets/icons/warranty.png";
+import Image from "next/image";
 
 interface ProductData {
   id: number;
@@ -145,7 +147,7 @@ const Page = () => {
           cartItems.push(cartItem);
           Cookies.set("DIVAcart", JSON.stringify(cartItems), {
             expires: 365,
-            secure: window.location.protocol === "https:", 
+            secure: window.location.protocol === "https:",
             sameSite: "Lax",
             path: "/",
             domain: window.location.hostname,
@@ -198,7 +200,6 @@ const Page = () => {
     if (isSignedIn) {
       fetchCartData();
     }
-
   }, [randomNum, isSignedIn, userId, productId]);
 
   useEffect(() => {
@@ -265,6 +266,9 @@ const Page = () => {
 
   const images = imgData;
 
+  const IconHeight = 50;
+  const IconWidth = 50;
+
   return (
     <>
       <FadingBanner />
@@ -320,6 +324,31 @@ const Page = () => {
                 </div>
               </h1>
               <div className="mb-4 my-3">
+                <div className="flex item-center justify-start flex-col my-5 gap-3">
+                  <div className="flex gap-5 items-center justify-start">
+                    <Image
+                      src={returnIcon}
+                      alt="return icons"
+                      width={IconWidth}
+                      height={IconHeight}
+                    />
+                    <p className="text-base font-semibold capitalize">
+                      15 days return policy
+                    </p>
+                  </div>
+                  <div className="flex gap-5 items-center justify-start">
+                    <Image
+                      src={warranty}
+                      alt="return icons"
+                      width={IconWidth}
+                      height={IconHeight}
+                    />
+                    <p className="text-base font-semibold capitalize">
+                      6 months warranty
+                    </p>
+                  </div>
+                </div>
+
                 {loading ? (
                   <>
                     <Skeleton className="h-[15px] w-[340px] rounded-xl skeleton-bg" />
