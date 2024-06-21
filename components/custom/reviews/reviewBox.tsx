@@ -114,7 +114,6 @@ const CustomerReviews: React.FC<{ productId: number }> = ({ productId }) => {
         const filterData = reviews.filter(
           (item) => item.attributes.user_id === userLocalId
         );
-
         setUserReview(filterData[0]);
         console.log(userReview);
         setLoading(false);
