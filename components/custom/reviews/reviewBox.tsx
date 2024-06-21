@@ -9,6 +9,8 @@ import { IoIosStar } from "react-icons/io";
 import EditReviewFormDialog from "./review-edit-form";
 import { FaTrashCan } from "react-icons/fa6";
 import { useAuth } from "@clerk/nextjs";
+import { useParams } from "next/navigation";
+import Cookies from "js-cookie";
 
 export const EditReview = async (
   rating: number,
@@ -37,7 +39,6 @@ export interface ReviewProps {
     ratting: number;
     Description: string;
     user_id: string;
-    user_name: string;
   };
 }
 
@@ -71,6 +72,17 @@ const CustomerReviews: React.FC<{ productId: number }> = ({ productId }) => {
   const [randomNum, setRandomNum] = useState<number>(0);
   const [reviews, setReviews] = useState<ReviewProps[]>([]);
   const [userReview, setUserReview] = useState<ReviewProps>();
+  const [loading, setLoading] = useState<boolean>(true);
+  const [userLocalId, setUserLocalId] = useState<string>("");
+
+  useEffect(() => {
+    const cookie = Cookies.get("DIVAIJ-USER");
+
+    const data = cookie ? cookie : "null";
+    setUserLocalId(data);
+
+    setLoading(false);
+  }, [loading]);
 
   const deleteReview = async (reviewId: any) => {
     try {
@@ -86,6 +98,34 @@ const CustomerReviews: React.FC<{ productId: number }> = ({ productId }) => {
     const randomNumber = Math.floor(Math.random() * 15 + 1);
     setRandomNum(randomNumber);
   };
+
+  useEffect(() => {
+    const fetchReviews = async () => {
+      try {
+        const res = await fetch(
+          `${domain}/api/reviews?filters[$and][0][product_id][$eq]=${productId}`
+        );
+
+        const data = await res.json();
+
+        console.log(data.data);
+
+        setReviews(data.data);
+        const filterData = reviews.filter(
+          (item) => item.attributes.user_id === userLocalId
+        );
+
+        setUserReview(filterData[0]);
+        console.log(userReview);
+        setLoading(false);
+      } catch (err) {
+        console.log(err);
+        setLoading(false);
+      }
+    };
+
+    fetchReviews();
+  }, [loading, productId, userReview, userLocalId]);
 
   return (
     <div className="py-6 sm:py-8 lg:py-12 max-h-[60rem] h-fit bg-white overflow-y-scroll">
@@ -111,22 +151,12 @@ const CustomerReviews: React.FC<{ productId: number }> = ({ productId }) => {
             <div key={userReview.id} className="divide-y">
               <div className="flex items-center justify-between">
                 <div className="flex flex-col gap-3 py-4 md:py-8">
-                  <div>
-                    <span className="block text-sm font-bold">
-                      {userReview.attributes.user_name}
-                    </span>
-                  </div>
-
                   <div className="-ml-1 flex gap-0.5">
-
-
                     {[...Array(userReview.attributes.ratting)].map(
                       (_, index) => (
                         <IoIosStar key={index} color="gold" size={25} />
                       )
                     )}
-
-
                   </div>
                   <p className="text-gray-600">
                     {userReview.attributes.Description}
@@ -134,7 +164,6 @@ const CustomerReviews: React.FC<{ productId: number }> = ({ productId }) => {
                 </div>
 
                 <div className="action flex items-center justify-between gap-5 cursor-pointer br-0-5">
-
                   <EditReviewFormDialog
                     random={generateRandomNumber}
                     reviewId={userReview.id}
@@ -142,20 +171,15 @@ const CustomerReviews: React.FC<{ productId: number }> = ({ productId }) => {
 
                   <div
                     className="delete bg-red-600 p-[0.5rem] br-0-5 cursor-pointer"
-                     onClick={() => {
+                    onClick={() => {
                       deleteReview(userReview.id);
                     }}
                   >
-
                     <FaTrashCan color="white" size={25} />
                   </div>
-
                 </div>
-
               </div>
-              
             </div>
-
           ) : (
             ""
           )}
@@ -167,12 +191,6 @@ const CustomerReviews: React.FC<{ productId: number }> = ({ productId }) => {
               <div key={review.id} className="divide-y">
                 <div className="flex items-center justify-between">
                   <div className="flex flex-col gap-3 py-4 md:py-8">
-                    <div>
-                      <span className="block text-sm font-bold">
-                        {review.attributes.user_name}
-                      </span>
-                    </div>
-
                     <div className="-ml-1 flex gap-0.5">
                       {[...Array(review.attributes.ratting)].map((_, index) => (
                         <IoIosStar key={index} color="gold" size={25} />

@@ -22,6 +22,7 @@ import { addReview } from "@/components/custom/reviews/reviewBox";
 import { auth, useAuth, useUser } from "@clerk/nextjs";
 import {} from "@clerk/nextjs";
 import { domain } from "@/components/backend/apiRouth";
+import Cookies from "js-cookie";
 
 interface reviews {
   id: number;
@@ -48,6 +49,8 @@ const ReviewFormDialog: React.FC<{
   const { isLoaded, isSignedIn, user } = useUser();
   const [reviewAdded, setReviewAdded] = useState<boolean>(true);
   const { userId, sessionId, getToken } = useAuth();
+  const [userLocalId, setUserLocalId] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(true);
 
   const setStar = (index: number) => {
     const newStars = stars.map((_, i) => (i < index ? "gold" : ""));
@@ -56,51 +59,53 @@ const ReviewFormDialog: React.FC<{
   };
 
   useEffect(() => {
+    const cookie = Cookies.get("DIVAIJ-USER");
+
+    const data = cookie ? cookie : "null";
+    setUserLocalId(data);
+
+    setLoading(false);
+  }, [loading]);
+
+  useEffect(() => {
     const getReviewData = async () => {
-      const response = await fetch(`${domain}/api/reviews`);
+      const response = await fetch(
+        `${domain}/api/reviews?filters[$and][0][user_id][$eq]=${userLocalId}`
+      );
 
       const data = await response.json();
 
-      const tmp: reviews[] = data.data.filter(
-        (item: reviews) =>
-          item.attributes.user_id == userId &&
-          item.attributes.product_id == productId
-      );
-
-      if (tmp.length > 0) {
+      if (data.data.length != 0) {
         setReviewAdded(false);
-      }
+      } 
     };
 
     getReviewData();
-  }, [userId, randomNum]);
+  }, [userId, randomNum, userLocalId]);
 
   const submitHandler = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (isSignedIn) {
-      if (userId != null && userId != undefined) {
-        if (reviewAdded) {
-          let userName = "User";
-          if (user != null) {
-            userName = user.firstName + " " + user.lastName;
-          }
-
-          await addReview(productId, rating, description, userId, userName)
-            .then(() => {
-              setIsOpen(false);
-              successTost("your review added successfully");
-            })
-            .catch((error) => {
-              console.error("Error submitting review:", error);
-            });
-
-          setRating(0);
-          setDescription("");
-
-          random();
-        } else {
-          warningTost("Your review is already added");
+    if (userLocalId !== "null") {
+      if (reviewAdded) {
+        let userName = "User";
+        if (user != null) {
+          userName = user.firstName + " " + user.lastName;
         }
+        await addReview(productId, rating, description, userLocalId, userName)
+          .then(() => {
+            setIsOpen(false);
+            successTost("your review added successfully");
+          })
+          .catch((error) => {
+            console.error("Error submitting review:", error);
+          });
+
+        setRating(0);
+        setDescription("");
+
+        random();
+      } else {
+        warningTost("Your review is already added");
       }
     } else {
       e.preventDefault();
