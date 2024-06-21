@@ -1,4 +1,4 @@
-export default function Component() {
+const Bill = () => {
   return (
     <div className="bg-background text-foreground p-8 sm:p-12 rounded-lg shadow-lg max-w-3xl mx-auto">
       <div className="grid grid-cols-2 gap-6">
@@ -79,4 +79,6 @@ export default function Component() {
       </div>
     </div>
   );
-}
+};
+
+export default Bill;

@@ -1,10 +1,13 @@
 "use client";
 import { domain } from "@/components/backend/apiRouth";
+import Bill from "@/components/custom/Bill";
 import Navbar from "@/components/custom/navbar";
 import { Button } from "@/components/ui/button";
 import Cookies from "js-cookie";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
+import html2canvas from "html2canvas";
+import jsPDF from "jspdf";
 
 interface Product {
   id: number;
@@ -39,6 +42,40 @@ const Pages = () => {
   const [orderId, setOrderId] = useState<OrderId[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [orderIds, setOrderIds] = useState<string[]>([]);
+  const [loader, setLoader] = useState<boolean>(true);
+
+  const downloadPDF = () => {
+    const capture: any = document.querySelector("#bill");
+
+    if (capture) {
+      setLoader(true);
+
+      setTimeout(() => {
+        html2canvas(capture, { useCORS: true, scale: 2 })
+          .then((canvas) => {
+            const imgData = canvas.toDataURL("image/png");
+            const doc = new jsPDF("p", "mm", "a4");
+            const componentWidth = doc.internal.pageSize.getWidth();
+            const componentHeight = doc.internal.pageSize.getHeight();
+
+            // Scaling down the image to fit the page size
+            const aspectRatio = canvas.width / canvas.height;
+            const pdfWidth = componentWidth;
+            const pdfHeight = componentWidth / aspectRatio;
+
+            doc.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
+            setLoader(false);
+            doc.save("receipt.pdf");
+          })
+          .catch((error) => {
+            console.error("Error capturing canvas: ", error);
+            setLoader(false);
+          });
+      }, 500); // 500ms delay
+    } else {
+      console.error("Element not found");
+    }
+  };
 
   useEffect(() => {
     const getUserOrders = async () => {
@@ -64,6 +101,7 @@ const Pages = () => {
     setOrderIds(filterData);
     setLoading(false);
   }, [loading]);
+
 
   return (
     <div>
@@ -128,6 +166,11 @@ const Pages = () => {
                 <div>
                   <Link href={`orders/${item.id}`}>
                     <Button>View All Products</Button>
+                  </Link>
+                </div>
+                <div>
+                  <Link href={`bill/${item.id}`}>
+                    <Button>Download recept</Button>
                   </Link>
                 </div>
               </div>
