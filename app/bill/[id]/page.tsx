@@ -1,5 +1,5 @@
 "use client";
-import { domain } from "@/components/backend/apiRouth";
+import { domain } from "../../../components/backend/apiRouth";
 import React, { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 

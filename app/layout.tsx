@@ -5,7 +5,7 @@ import NextTopLoader from "nextjs-toploader";
 import Footer from "@/components/custom/footer";
 import { Metadata } from "next";
 import TostContainer from "@/components/custom/TostContainer";
-;
+
 
 const inter = Inter({ subsets: ["latin"] });
 
