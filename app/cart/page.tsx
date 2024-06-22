@@ -11,8 +11,9 @@ import { Button } from "../../components/ui/button";
 import CartItems from "../../components/custom/cartItems";
 import { useAuth, useUser } from "@clerk/nextjs";
 import Link from "next/link";
-import Navbar from "@/components/custom/navbar";
-import FadingBanner from "@/components/custom/Fade";
+
+import Navbar from "../../components/custom/navbar";
+import FadingBanner from "../../components/custom/Fade";
 
 // importing Cookies
 import Cookies from "js-cookie";

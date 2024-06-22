@@ -2,8 +2,8 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import CategoriesButton from "@/components/custom/categoriesButton";
-import { Separator } from "@/components/ui/separator";
+import CategoriesButton from "../../../components/custom/categoriesButton";
+import { Separator } from "../../../components/ui/separator";
 import CategoryBanner from "@/components/custom/categoryBanner";
 import { domain } from "@/components/backend/apiRouth";
 import { useParams } from "next/navigation";
