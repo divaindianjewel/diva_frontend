@@ -1,4 +1,4 @@
-import Navbar from "@/components/custom/navbar";
+import Navbar from "../../components/custom/navbar";
 import React from "react";
 
 const page = () => {

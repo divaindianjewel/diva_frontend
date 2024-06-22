@@ -2,22 +2,22 @@
 import React, { useState, useEffect } from "react";
 import { IoIosStar } from "react-icons/io";
 import { FaShoppingCart } from "react-icons/fa";
-import CustomerReviews from "@/components/custom/reviews/reviewBox";
-import { addToCart } from "@/backend/add-to-cart";
+import CustomerReviews from "../../../components/custom/reviews/reviewBox";
+import { addToCart } from "../../../backend/add-to-cart";
 import { useAuth, useUser } from "@clerk/nextjs";
-import { domain, updateCart } from "@/components/backend/apiRouth";
+import { domain, updateCart } from "../../../components/backend/apiRouth";
 import {
   BlocksRenderer,
   type BlocksContent,
 } from "@strapi/blocks-react-renderer";
 import { useParams } from "next/navigation";
-import { Skeleton } from "@/components/ui/skeleton";
-import { warningTost, successTost } from "@/components/toast/allTost";
+import { Skeleton } from "../../../components/ui/skeleton";
+import { warningTost, successTost } from "../../../components/toast/allTost";
 import ImageGallery from "react-image-gallery";
 import "react-image-gallery/styles/css/image-gallery.css";
-import Navbar from "@/components/custom/navbar";
-import SuggestionSwiper from "@/components/custom/swiper/SuggestionSwiper";
-import FadingBanner from "@/components/custom/Fade";
+import Navbar from "../../../components/custom/navbar";
+import SuggestionSwiper from "../../../components/custom/swiper/SuggestionSwiper";
+import FadingBanner from "../../../components/custom/Fade";
 
 // importing the cookies
 import Cookies from "js-cookie";

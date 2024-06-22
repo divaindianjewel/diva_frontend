@@ -2,9 +2,10 @@
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import React from "react";
-import Navbar from "@/components/custom/navbar";
-import FadingBanner from "@/components/custom/Fade";
-import { domain } from "@/components/backend/apiRouth";
+// import Navbar from "../components/custom/navbar";
+import Navbar from "../../../components/custom/navbar";
+import FadingBanner from "../../../components/custom/Fade";
+import { domain } from "../../../components/backend/apiRouth";
 import Link from "next/link";
 import Image from "next/image";
 

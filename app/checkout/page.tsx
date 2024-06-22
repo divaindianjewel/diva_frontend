@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { Button } from "@/components/ui/button";
+import { Button } from "../../components/ui/button";
 import { useRouter } from "next/navigation";
 import {
   CardTitle,
@@ -8,14 +8,13 @@ import {
   CardContent,
   CardFooter,
   Card,
-} from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
+} from "../../components/ui/card";
+import { Separator } from "../../components/ui/separator";
 import InputLabel from "@mui/material/InputLabel";
 import NativeSelect from "@mui/material/NativeSelect";
 import TextField from "@mui/material/TextField";
-import CartItems from "@/components/custom/cartItems";
+import CartItems from "../../components/custom/cartItems";
 import { domain } from "@/components/backend/apiRouth";
-import { useAuth } from "@clerk/nextjs";
 import FormControl from "@mui/material/FormControl";
 import Image from "next/image";
 

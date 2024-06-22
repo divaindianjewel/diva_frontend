@@ -1,7 +1,7 @@
 "use client";
 
-import { domain } from "@/components/backend/apiRouth";
-import { errorTost } from "@/components/toast/allTost";
+import { domain } from "../../../components/backend/apiRouth";
+import { errorTost } from "../../../components/toast/allTost";
 import { useParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
@@ -9,7 +9,7 @@ import Image from "next/image";
 
 import { CiDiscount1 } from "react-icons/ci";
 import { CalendarIcon, PackageIcon } from "lucide-react";
-import Navbar from "@/components/custom/navbar";
+import Navbar from "../../../components/custom/navbar";
 
 interface Product {
   id: number;

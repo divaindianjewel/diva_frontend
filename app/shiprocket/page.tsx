@@ -1,10 +1,8 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { domain } from "@/components/backend/apiRouth";
-import { useAuth } from "@clerk/nextjs";
-import addOrder from "@/backend/shiprocket/addOrder";
-import { successTost } from "@/components/toast/allTost";
+import { domain } from "../../components/backend/apiRouth";
+import addOrder from "../../backend/shiprocket/addOrder";
 import Cookies from "js-cookie";
 
 interface CartItem {

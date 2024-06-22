@@ -1,8 +1,7 @@
 "use client";
-import { domain } from "@/components/backend/apiRouth";
-import Bill from "@/components/custom/Bill";
-import Navbar from "@/components/custom/navbar";
-import { Button } from "@/components/ui/button";
+import { domain } from "../../components/backend/apiRouth";
+import Navbar from "../../components/custom/navbar";
+import { Button } from "../../components/ui/button";
 import Cookies from "js-cookie";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
