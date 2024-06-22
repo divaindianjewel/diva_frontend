@@ -1,14 +1,7 @@
 "use client";
 import { domain } from "@/components/backend/apiRouth";
-import { Button } from "@/components/ui/button";
-import Cookies from "js-cookie";
 import React, { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
-
-// canvas and pdf packages
-import html2canvas from "html2canvas";
-import jsPDF from "jspdf";
-import { errorTost } from "@/components/toast/allTost";
 
 interface OrderInfo {
   id: number;
@@ -60,55 +53,6 @@ const Page = () => {
 
   //   Product Array
   const [orderedProducts, setOrderedProducts] = useState<Product[]>([]);
-  const downloadPDF = () => {
-    const capture: any = document.querySelector("#bill");
-
-    if (capture) {
-      setLoader(true);
-      setTimeout(() => {
-        html2canvas(capture, { useCORS: true, scale: 2 })
-          .then((canvas) => {
-            const imgData = canvas.toDataURL("image/png");
-            const doc = new jsPDF("p", "mm", "a4");
-            const pdfWidth = doc.internal.pageSize.getWidth();
-            const pdfHeight = doc.internal.pageSize.getHeight();
-            const imgProps = doc.getImageProperties(imgData);
-            const imgRatio = imgProps.width / imgProps.height;
-
-            let imgWidth = pdfWidth;
-            let imgHeight = pdfWidth / imgRatio;
-
-            if (imgHeight > pdfHeight) {
-              imgHeight = pdfHeight;
-              imgWidth = pdfHeight * imgRatio;
-            }
-
-            const pageHeight = pdfHeight;
-            let remainingHeight = imgHeight;
-            let position = 0;
-
-            while (remainingHeight > 0) {
-              doc.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
-              remainingHeight -= pageHeight;
-              position -= pdfHeight;
-
-              if (remainingHeight > 0) {
-                doc.addPage();
-              }
-            }
-
-            setLoader(false);
-            doc.save("receipt.pdf");
-          })
-          .catch((error) => {
-            console.error("Error capturing canvas: ", error);
-            setLoader(false);
-          });
-      }, 500); // 500ms delay
-    } else {
-      console.error("Element not found");
-    }
-  };
 
   //   Function for getting the product Array
   useEffect(() => {
@@ -122,7 +66,6 @@ const Page = () => {
         setLoading(false);
       } catch (error) {
         console.log(error);
-        errorTost("something went wrong");
         setLoading(false);
       }
     };

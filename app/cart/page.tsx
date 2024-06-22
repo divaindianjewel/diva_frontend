@@ -5,11 +5,7 @@ import { CardTitle, CardHeader, CardContent, Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import CartItems from "@/components/custom/cartItems";
 import { useAuth, useUser } from "@clerk/nextjs";
-import { domain } from "@/components/backend/apiRouth";
 import Link from "next/link";
-import { Input } from "@/components/ui/input";
-import { errorTost, successTost } from "@/components/toast/allTost";
-import CreateOrderId from "@/backend/order/create-orderId";
 import Navbar from "@/components/custom/navbar";
 import FadingBanner from "@/components/custom/Fade";
 
