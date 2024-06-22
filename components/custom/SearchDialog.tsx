@@ -6,9 +6,9 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog";
+} from "components/ui/dialog";
 
-import { AutoComplete } from "@/components/custom/AutoComplete";
+import { AutoComplete } from "components/custom/AutoComplete";
 import { BiSearchAlt2 } from "react-icons/bi";
 
 const SearchDialog = () => {

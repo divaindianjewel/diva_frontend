@@ -1,4 +1,4 @@
-import { domain } from "@/components/backend/apiRouth";
+import { domain } from "../components/backend/apiRouth";
 import axios from "axios";
 
 export const incrementQnt = async (cart_id: number, qnt: number) => {

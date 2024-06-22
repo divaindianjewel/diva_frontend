@@ -1,6 +1,5 @@
-import { domain } from "@/components/backend/apiRouth";
-import { errorTost } from "@/components/toast/allTost";
-import { useUser } from "@clerk/clerk-react";
+import { domain } from "../../components/backend/apiRouth";
+import { errorTost } from "../../components/toast/allTost";
 
 const CreateOrderId = async (
   price: number,

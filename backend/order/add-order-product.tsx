@@ -1,4 +1,4 @@
-import { domain } from "@/components/backend/apiRouth";
+import { domain } from "../../components/backend/apiRouth";
 
 const addOrderProduct = async (
   product_id: number,

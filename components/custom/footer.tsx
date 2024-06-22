@@ -3,10 +3,10 @@ import Link from "next/link";
 import Image from "next/image";
 
 // images
-import Logo from "@/app/assets/logo.png";
-import insta from "@/app/assets/social icons/insta.png";
-import fb from "@/app/assets/social icons/fb.png";
-import yt from "@/app/assets/social icons/yt.png";
+import Logo from "../app/assets/logo.png";
+import insta from "../app/assets/social icons/insta.png";
+import fb from "../app/assets/social icons/fb.png";
+import yt from "../app/assets/social icons/yt.png";
 
 const Footer = () => {
   const iconsHeight = 40;

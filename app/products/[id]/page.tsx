@@ -23,8 +23,8 @@ import FadingBanner from "../../../components/custom/Fade";
 import Cookies from "js-cookie";
 
 // importing icons
-import returnIcon from "@/app/assets/icons/exchange.png";
-import warranty from "@/app/assets/icons/warranty.png";
+import returnIcon from "../../app/assets/icons/exchange.png";
+import warranty from "../../app/assets/icons/warranty.png";
 import Image from "next/image";
 
 interface ProductData {

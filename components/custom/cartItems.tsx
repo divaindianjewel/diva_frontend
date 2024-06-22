@@ -3,8 +3,8 @@
 import React, { useState } from "react";
 import Image from "next/image";
 
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { Button } from "../../components/ui/button";
+import { Input } from "../../components/ui/input";
 import { MdAdd } from "react-icons/md";
 
 import { FaMinus } from "react-icons/fa6";

@@ -3,7 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 
 // image
-import Logo from "@/app/assets/logo.png";
+import Logo from "../app/assets/logo.png";
 import TemporaryDrawer from "../mui/drawer";
 
 // clerk

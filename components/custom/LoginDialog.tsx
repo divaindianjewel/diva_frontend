@@ -1,5 +1,5 @@
 import { FaUser } from "react-icons/fa";
-import Login from "@/components/custom/Login";
+import Login from "../../components/custom/Login";
 import {
   Dialog,
   DialogContent,

@@ -1,6 +1,6 @@
 "use client"
 
-import { domain } from "@/components/backend/apiRouth";
+import { domain } from "../components/backend/apiRouth";
 import axios from "axios";
 import { useState } from "react";
 

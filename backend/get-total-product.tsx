@@ -1,7 +1,7 @@
 "use client";
 
-import { Product } from "@/app/category/[id]/page";
-import { domain } from "@/components/backend/apiRouth";
+import { Product } from "../app/category/[id]/page";
+import { domain } from "../components/backend/apiRouth";
 import React, { useState, useEffect } from "react";
 
 export const getAllProduct = () => {

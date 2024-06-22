@@ -1,5 +1,5 @@
 "use client";
-import { domain } from "@/components/backend/apiRouth";
+import { domain } from "../components/backend/apiRouth";
 import { useAuth } from "@clerk/nextjs";
 import React, { useEffect, useState } from "react";
 

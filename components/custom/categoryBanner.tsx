@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { domain } from "../backend/apiRouth";
 
-import bannerImage from "@/app/assets/banners/banner-2.jpg";
-import { Skeleton } from "@/components/ui/skeleton";
+import bannerImage from "../app/assets/banners/banner-2.jpg";
+import { Skeleton } from "components/ui/skeleton";
 
 interface Category {
   id: number;

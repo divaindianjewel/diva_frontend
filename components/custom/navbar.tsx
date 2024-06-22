@@ -7,7 +7,7 @@ import Image from "next/image";
 import { useAuth } from "@clerk/nextjs";
 
 // Logo
-import Logo from "@/app/assets/logo.png";
+import Logo from "../app/assets/logo.png";
 import Link from "next/link";
 import Cookies from "js-cookie";
 

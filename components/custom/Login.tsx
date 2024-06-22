@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { errorTost, warningTost } from "../toast/allTost";
 import { Button } from "../ui/button";
-import { auth } from "@/firebase/config";
+import { auth } from "../../firebase/config";
 import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
 import Cookies from "js-cookie";
 import { domain } from "../backend/apiRouth";

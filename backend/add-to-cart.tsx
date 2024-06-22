@@ -1,10 +1,10 @@
 "use client";
-import { domain } from "@/components/backend/apiRouth";
+import { domain } from "../components/backend/apiRouth";
 import {
   errorTost,
   successTost,
   warningTost,
-} from "@/components/toast/allTost";
+} from "../components/toast/allTost";
 
 
 interface CartItem {

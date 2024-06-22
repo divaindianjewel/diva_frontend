@@ -1,13 +1,13 @@
 "use client";
 import React, { useState } from "react";
 import "./radio.css";
-import cash from "@/app/assets/checkout/cash-on-delivery.png";
+import cash from "../app/assets/checkout/cash-on-delivery.png";
 import Image from "next/image";
-import visa from "@/app/assets/checkout/visa.svg";
-import rupe from "@/app/assets/checkout/rupe.svg";
-import mastercard from "@/app/assets/checkout/mastercard.svg";
-import phonepe from "@/app/assets/checkout/phonpe.svg";
-import gpay from "@/app/assets/checkout/gpay.svg";
+import visa from "../app/assets/checkout/visa.svg";
+import rupe from "../app/assets/checkout/rupe.svg";
+import mastercard from "../app/assets/checkout/mastercard.svg";
+import phonepe from "../app/assets/checkout/phonpe.svg";
+import gpay from "../app/assets/checkout/gpay.svg";
 
 function PaymentMethod() {
   const [selectedMethod, setSelectedMethod] = useState("online");

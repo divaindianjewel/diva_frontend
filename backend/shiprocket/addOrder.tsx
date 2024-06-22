@@ -1,9 +1,6 @@
 // Your component file
 
-import { errorTost, successTost } from "@/components/toast/allTost";
-import { generateRandomId } from "@/app/api/Payment";
-import addOrderProduct from "../order/add-order-product";
-import { deleteCartItem } from "../cart-operation";
+import { errorTost, successTost } from "../../components/toast/allTost";
 
 interface CartItem {
   id: number;
