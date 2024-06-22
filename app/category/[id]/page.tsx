@@ -8,7 +8,7 @@ import CategoryBanner from "../../../components/custom/categoryBanner";
 import { domain } from "../../../components/backend/apiRouth";
 import { useParams } from "next/navigation";
 import { Skeleton } from "@mui/material";
-import Navbar from "@/components/custom/navbar";
+import Navbar from "../../../components/custom/navbar";
 import FadingBanner from "../../../components/custom/Fade";
 
 export interface Product {

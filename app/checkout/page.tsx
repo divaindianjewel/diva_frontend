@@ -14,7 +14,7 @@ import InputLabel from "@mui/material/InputLabel";
 import NativeSelect from "@mui/material/NativeSelect";
 import TextField from "@mui/material/TextField";
 import CartItems from "../../components/custom/cartItems";
-import { domain } from "@/components/backend/apiRouth";
+import { domain } from "../../components/backend/apiRouth";
 import FormControl from "@mui/material/FormControl";
 import Image from "next/image";
 
