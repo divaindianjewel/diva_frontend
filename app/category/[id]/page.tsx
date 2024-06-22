@@ -10,6 +10,7 @@ import { useParams } from "next/navigation";
 import { Skeleton } from "@mui/material";
 import Navbar from "@/components/custom/navbar";
 import FadingBanner from "@/components/custom/Fade";
+import FilterBox from "@/components/custom/Filter";
 
 export interface Product {
   id: number;
@@ -109,6 +110,10 @@ const Page = () => {
         <CategoryBanner categoryId={categoryId} />
         <CategoriesButton categoryId={categoryId} />
         <Separator />
+
+        {/* <div className="container mt-8">
+          <FilterBox />
+        </div> */}
 
         <div className="mt-8 w-[100%]">
           <div className="flex gap-3 justify-center flex-wrap px-5 mb-5 w-[100%] shadow-xl items-center">
