@@ -24,15 +24,15 @@ import {
   errorTost,
   successTost,
   warningTost,
-} from "@/components/toast/allTost";
-import cash from "@/app/assets/checkout/cash-on-delivery.png";
-import visa from "@/app/assets/checkout/visa.svg";
-import phonepe from "@/app/assets/checkout/phonpe.svg";
-import gpay from "@/app/assets/checkout/gpay.svg";
-import { MakePayment } from "@/app/api/Payment";
-import { Input } from "@/components/ui/input";
-import CreateOrderId from "@/backend/order/create-orderId";
-import Navbar from "@/components/custom/navbar";
+} from "../../components/toast/allTost";
+import cash from "../../app/assets/checkout/cash-on-delivery.png";
+import visa from "../../app/assets/checkout/visa.svg";
+import phonepe from "../../app/assets/checkout/phonpe.svg";
+import gpay from "../../app/assets/checkout/gpay.svg";
+import { MakePayment } from "../../app/api/Payment";
+import { Input } from "../../components/ui/input";
+import CreateOrderId from "../../backend/order/create-orderId";
+import Navbar from "../../components/custom/navbar";
 import Cookies from "js-cookie";
 
 interface CartItem {
