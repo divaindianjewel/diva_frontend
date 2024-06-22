@@ -1,9 +1,14 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { Separator } from "@/components/ui/separator";
-import { CardTitle, CardHeader, CardContent, Card } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import CartItems from "@/components/custom/cartItems";
+import { Separator } from "../../components/ui/separator";
+import {
+  CardTitle,
+  CardHeader,
+  CardContent,
+  Card,
+} from "../../components/ui/card";
+import { Button } from "../../components/ui/button";
+import CartItems from "../../components/custom/cartItems";
 import { useAuth, useUser } from "@clerk/nextjs";
 import Link from "next/link";
 import Navbar from "@/components/custom/navbar";
@@ -33,7 +38,6 @@ export interface cartItemProps {
 }
 
 export default function Component() {
-
   const [loading2, setLoading2] = useState<boolean>(true);
   const [cartData2, setCartData2] = useState<cartItemProps[]>([]);
   const [cartData, setCartData] = useState<CartItem[]>([]);
@@ -72,7 +76,6 @@ export default function Component() {
 
   return cartData2.length > 0 ? (
     <>
-
       <FadingBanner />
       <div className="sticky top-0 left-0 z-[100]">
         <Navbar randomNum={randomNum} />
