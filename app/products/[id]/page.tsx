@@ -7,12 +7,7 @@ import CustomerReviews from "../../../components/custom/reviews/reviewBox";
 import { addToCart } from "../../../backend/add-to-cart";
 import { useAuth, useUser } from "@clerk/nextjs";
 import { domain, updateCart } from "../../../components/backend/apiRouth";
-
-import {
-  BlocksRenderer,
-  type BlocksContent,
-} from "@strapi/blocks-react-renderer";
-
+import { BlocksRenderer, type BlocksContent} from "@strapi/blocks-react-renderer";
 import { useParams } from "next/navigation";
 import { Skeleton } from "../../../components/ui/skeleton";
 import { warningTost, successTost } from "../../../components/toast/allTost";
@@ -21,13 +16,11 @@ import "react-image-gallery/styles/css/image-gallery.css";
 import Navbar from "../../../components/custom/navbar";
 import SuggestionSwiper from "../../../components/custom/swiper/SuggestionSwiper";
 import FadingBanner from "../../../components/custom/Fade";
-
 // importing the cookies
 import Cookies from "js-cookie";
-
 // importing icons
-import returnIcon from "../../app/assets/icons/exchange.png";
-import warranty from "../../app/assets/icons/warranty.png";
+// import returnIcon from "../../app/assets/icons/exchange.png";
+// import warranty from "../../app/assets/icons/warranty.png";
 import Image from "next/image";
 
 interface ProductData {
@@ -91,6 +84,7 @@ interface ApiResponse {
 }
 
 const Page = () => {
+
   const [cartItem, setCartItem] = useState<cartItemProps | undefined>();
   const [userLocalId, setUserLocalId] = useState<string | undefined>("");
   const [product, setProduct] = useState<ProductData | null>(null);
@@ -105,19 +99,22 @@ const Page = () => {
   const [cartDisable, setCartDisable] = useState<boolean>(false);
   const [imgData, setImgData] = useState<any[]>([]);
   const [isLoadProduct, setIsLoadProduct] = useState<boolean>(false);
-  // const [userReview, setUserReview] = useState<ReviewProps>();
+
 
   const generateRandomNumber = () => {
     const randomNumber = Math.floor(Math.random() * 100) + 1;
     setRandomNum(randomNumber);
   };
 
+
   const params = useParams();
   let productId = 0;
+
 
   if (params) {
     productId = Number(params.id);
   }
+
 
   const handleAddToCart = () => {
     setCartDisable(true);
@@ -177,10 +174,12 @@ const Page = () => {
     }, 3500);
   };
 
+
   useEffect(() => {
     const id = Cookies.get("DIVAIJ-USER");
     setUserLocalId(id);
   }, [userLocalId]);
+
 
   useEffect(() => {
     const fetchCartData = async () => {
@@ -204,6 +203,7 @@ const Page = () => {
       fetchCartData();
     }
   }, [randomNum, isSignedIn, userId, productId]);
+
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -257,18 +257,19 @@ const Page = () => {
     fetchProduct();
   }, [productId, isLoadProduct, product]);
 
+
   useEffect(() => {
     if (cartData.length > 0) {
       setProductAdded(true);
     }
   }, [cartData, randomNum]);
 
+
   const handelDescription = (content: BlocksContent) => {
     return <BlocksRenderer content={content} />;
   };
 
   const images = imgData;
-
   const IconHeight = 50;
   const IconWidth = 50;
 
@@ -332,23 +333,23 @@ const Page = () => {
               <div className="mb-4 my-3">
                 <div className="flex item-center justify-start flex-col my-5 gap-3">
                   <div className="flex gap-5 items-center justify-start">
-                    <Image
+                    {/* <Image
                       src={returnIcon}
                       alt="return icons"
                       width={IconWidth}
                       height={IconHeight}
-                    />
+                    /> */}
                     <p className="text-base font-semibold capitalize">
                       15 days return policy
                     </p>
                   </div>
                   <div className="flex gap-5 items-center justify-start">
-                    <Image
+                    {/* <Image
                       src={warranty}
                       alt="return icons"
                       width={IconWidth}
                       height={IconHeight}
-                    />
+                    /> */}
                     <p className="text-base font-semibold capitalize">
                       6 months warranty
                     </p>
@@ -433,6 +434,7 @@ const Page = () => {
       <section>
         {categoryId ? <SuggestionSwiper categoryId={categoryId} /> : ""}
       </section>
+
     </>
   );
 };
