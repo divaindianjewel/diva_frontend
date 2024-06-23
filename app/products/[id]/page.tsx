@@ -1,4 +1,5 @@
 "use client";
+
 import React, { useState, useEffect } from "react";
 import { IoIosStar } from "react-icons/io";
 import { FaShoppingCart } from "react-icons/fa";
@@ -6,10 +7,12 @@ import CustomerReviews from "../../../components/custom/reviews/reviewBox";
 import { addToCart } from "../../../backend/add-to-cart";
 import { useAuth, useUser } from "@clerk/nextjs";
 import { domain, updateCart } from "../../../components/backend/apiRouth";
+
 import {
   BlocksRenderer,
   type BlocksContent,
 } from "@strapi/blocks-react-renderer";
+
 import { useParams } from "next/navigation";
 import { Skeleton } from "../../../components/ui/skeleton";
 import { warningTost, successTost } from "../../../components/toast/allTost";
@@ -23,8 +26,8 @@ import FadingBanner from "../../../components/custom/Fade";
 import Cookies from "js-cookie";
 
 // importing icons
-// import returnIcon from "../../app/assets/icons/exchange.png";
-// import warranty from "../../app/assets/icons/warranty.png";
+import returnIcon from "../../app/assets/icons/exchange.png";
+import warranty from "../../app/assets/icons/warranty.png";
 import Image from "next/image";
 
 interface ProductData {
@@ -271,10 +274,13 @@ const Page = () => {
 
   return (
     <>
+
       <FadingBanner />
+
       <div className="sticky top-0 left-0 z-[100]">
         <Navbar randomNum={randomNum} />
       </div>
+
       <section className="text-gray-600 body-font">
         <div className="container px-5 py-24 mx-auto">
           <div className="w-fit gap-12 mx-auto flex flex-col lg:flex-row  items-center justify-center">
@@ -326,23 +332,23 @@ const Page = () => {
               <div className="mb-4 my-3">
                 <div className="flex item-center justify-start flex-col my-5 gap-3">
                   <div className="flex gap-5 items-center justify-start">
-                    {/* <Image
+                    <Image
                       src={returnIcon}
                       alt="return icons"
                       width={IconWidth}
                       height={IconHeight}
-                    /> */}
+                    />
                     <p className="text-base font-semibold capitalize">
                       15 days return policy
                     </p>
                   </div>
                   <div className="flex gap-5 items-center justify-start">
-                    {/* <Image
+                    <Image
                       src={warranty}
                       alt="return icons"
                       width={IconWidth}
                       height={IconHeight}
-                    /> */}
+                    />
                     <p className="text-base font-semibold capitalize">
                       6 months warranty
                     </p>

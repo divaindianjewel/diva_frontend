@@ -1,27 +1,40 @@
 {
   "compilerOptions": {
-    "lib": ["dom", "dom.iterable", "esnext"],
-    "allowJs": true,
-    "baseUrl": ".",
-    "skipLibCheck": true,
-    "strict": true,
-    "noEmit": true,
-    "esModuleInterop": true,
-    "module": "esnext",
-    "moduleResolution": "node",
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "jsx": "preserve",
-    "incremental": true,
+    "target": "esnext", // Modern JavaScript features
+    "lib": ["dom", "dom.iterable", "esnext"], // Required libraries
+    "allowJs": true, // Allows JavaScript files to be compiled
+    "baseUrl": ".", // Base directory for resolving paths
+    "skipLibCheck": true, // Skips type checking of declaration files
+    "strict": true, // Enables all strict type-checking options
+    "noEmit": true, // No output files
+    "esModuleInterop": true, // Ensures compatibility with CommonJS and ES modules
+    "module": "esnext", // Specifies module code generation
+    "moduleResolution": "node", // Resolves modules using Node.js style
+    "resolveJsonModule": true, // Allows importing JSON files
+    "isolatedModules": true, // Ensures each file can be safely transpiled without depending on other files
+    "jsx": "preserve", // JSX is preserved in the output
+    "incremental": true, // Enables incremental compilation
     "plugins": [
       {
-        "name": "next"
+        "name": "next" // Next.js specific plugin
       }
     ],
     "paths": {
-      "@/*": ["./*"]
+      "@/*": ["./*"] // Aliases for paths
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "./types/shiprocket-api.d.ts", "backend/shiprocket/create-order.jsx"],
-  "exclude": ["node_modules", "types"]
+  "include": [
+    "next-env.d.ts", // Includes Next.js environment definitions
+    "**/*.ts", // Includes all TypeScript files
+    "**/*.tsx", // Includes all TSX files (React components)
+    ".next/types/**/*.ts", // Includes generated types from Next.js
+    "./types/**/*.d.ts", // Includes all custom type definitions
+    "backend/**/*.ts", // Includes all backend TypeScript files
+    "backend/**/*.tsx", // Includes all backend TSX files
+    "backend/**/*.js", // Includes all backend JavaScript files
+    "backend/**/*.jsx" // Includes all backend JSX files
+  ],
+  "exclude": [
+    "node_modules" // Excludes node_modules directory
+  ]
 }

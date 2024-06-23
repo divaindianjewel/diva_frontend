@@ -1,6 +1,5 @@
 "use client";
-
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import ReviewFormDialog from "./review-form-dialog";
 import { domain } from "@/components/backend/apiRouth";
 import { errorTost, successTost } from "@/components/toast/allTost";
@@ -9,7 +8,6 @@ import { IoIosStar } from "react-icons/io";
 import EditReviewFormDialog from "./review-edit-form";
 import { FaTrashCan } from "react-icons/fa6";
 import { useAuth } from "@clerk/nextjs";
-import { useParams } from "next/navigation";
 import Cookies from "js-cookie";
 
 export const EditReview = async (
@@ -27,7 +25,7 @@ export const EditReview = async (
     console.log("Review Edited successfully:", response.data);
     return response.data;
   } catch (error) {
-    console.error("Error adding review:", error);
+    console.error("Error editing review:", error);
     throw error;
   }
 };
@@ -75,22 +73,46 @@ const CustomerReviews: React.FC<{ productId: number }> = ({ productId }) => {
   const [loading, setLoading] = useState<boolean>(true);
   const [userLocalId, setUserLocalId] = useState<string>("");
 
-  useEffect(() => {
-    const cookie = Cookies.get("DIVAIJ-USER");
-
-    const data = cookie ? cookie : "null";
-    setUserLocalId(data);
-
-    setLoading(false);
-  }, [loading]);
-
-  const deleteReview = async (reviewId: any) => {
+  const fetchReviews = useCallback(async () => {
     try {
-      const response = await axios.delete(`${domain}/api/reviews/${reviewId}`);
+      const res = await fetch(
+        `${domain}/api/reviews?filters[$and][0][product_id][$eq]=${productId}`
+      );
+
+      const data = await res.json();
+
+      console.log(data.data);
+
+      setReviews(data.data);
+      const filterData = data.data.filter(
+        (item: ReviewProps) => item.attributes.user_id === userLocalId
+      );
+      setUserReview(filterData[0]);
+      setLoading(false);
+    } catch (err) {
+      console.error(err);
+      setLoading(false);
+    }
+  }, [productId, userLocalId]);
+
+  useEffect(() => {
+    const cookie = Cookies.get("DIVAIJ-USER") || "null";
+    setUserLocalId(cookie);
+    setLoading(true);
+  }, []);
+
+  useEffect(() => {
+    if (loading) fetchReviews();
+  }, [loading, fetchReviews]);
+
+  const deleteReview = async (reviewId: number) => {
+    try {
+      await axios.delete(`${domain}/api/reviews/${reviewId}`);
       generateRandomNumber();
-      successTost("review deleted successfully");
+      successTost("Review deleted successfully");
+      setLoading(true);
     } catch (error) {
-      errorTost("Something went wrong can't delete the review");
+      errorTost("Something went wrong, can't delete the review");
     }
   };
 
@@ -98,33 +120,6 @@ const CustomerReviews: React.FC<{ productId: number }> = ({ productId }) => {
     const randomNumber = Math.floor(Math.random() * 15 + 1);
     setRandomNum(randomNumber);
   };
-
-  useEffect(() => {
-    const fetchReviews = async () => {
-      try {
-        const res = await fetch(
-          `${domain}/api/reviews?filters[$and][0][product_id][$eq]=${productId}`
-        );
-
-        const data = await res.json();
-
-        console.log(data.data);
-
-        setReviews(data.data);
-        const filterData = reviews.filter(
-          (item) => item.attributes.user_id === userLocalId
-        );
-        setUserReview(filterData[0]);
-        console.log(userReview);
-        setLoading(false);
-      } catch (err) {
-        console.log(err);
-        setLoading(false);
-      }
-    };
-
-    fetchReviews();
-  }, [loading, productId, userReview, userLocalId]);
 
   return (
     <div className="py-6 sm:py-8 lg:py-12 max-h-[60rem] h-fit bg-white overflow-y-scroll">
@@ -146,7 +141,7 @@ const CustomerReviews: React.FC<{ productId: number }> = ({ productId }) => {
         </div>
 
         <div className="divide-y">
-          {userReview != undefined ? (
+          {userReview && (
             <div key={userReview.id} className="divide-y">
               <div className="flex items-center justify-between">
                 <div className="flex flex-col gap-3 py-4 md:py-8">
@@ -179,21 +174,20 @@ const CustomerReviews: React.FC<{ productId: number }> = ({ productId }) => {
                 </div>
               </div>
             </div>
-          ) : (
-            ""
           )}
 
-          {reviews.map((review) =>
-            review.attributes.user_id == userId ? (
-              ""
-            ) : (
+          {reviews
+            .filter((review) => review.attributes.user_id !== userLocalId)
+            .map((review) => (
               <div key={review.id} className="divide-y">
                 <div className="flex items-center justify-between">
                   <div className="flex flex-col gap-3 py-4 md:py-8">
                     <div className="-ml-1 flex gap-0.5">
-                      {[...Array(review.attributes.ratting)].map((_, index) => (
-                        <IoIosStar key={index} color="gold" size={25} />
-                      ))}
+                      {[...Array(review.attributes.ratting)].map(
+                        (_, index) => (
+                          <IoIosStar key={index} color="gold" size={25} />
+                        )
+                      )}
                     </div>
                     <p className="text-gray-600">
                       {review.attributes.Description}
@@ -201,8 +195,7 @@ const CustomerReviews: React.FC<{ productId: number }> = ({ productId }) => {
                   </div>
                 </div>
               </div>
-            )
-          )}
+            ))}
         </div>
       </div>
     </div>
