@@ -56,6 +56,7 @@ const HomeBanner = () => {
         const data = await response.json();
         setBanner(data.data);
         setLoading(false);
+        console.log(data.data);
       } catch (error) {
         console.error("Error fetching images:", error);
       }
@@ -78,7 +79,7 @@ const HomeBanner = () => {
           <SwiperSlide key={index}>
             <Link href={`/category/${banner.attributes.category.data.id}`}>
               <Image
-                src={`${banner.attributes.banner.data.attributes.url}`}
+                src={`https://diva-images.blr1.digitaloceanspaces.com/4c7ffa2a3089c833182d160b38dcd0c3.jpg`}
                 alt={`Image ${index}`}
                 width={3000}
                 height={700}

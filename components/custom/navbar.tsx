@@ -7,7 +7,7 @@ import Image from "next/image";
 import { useAuth } from "@clerk/nextjs";
 
 // Logo
-import Logo from "../app/assets/logo.png";
+import Logo from "@/app/assets/logo.png";
 import Link from "next/link";
 import Cookies from "js-cookie";
 
@@ -47,7 +47,6 @@ const Navbar: React.FC<{ randomNum?: number }> = ({ randomNum }) => {
 
     fetchCartData();
   }, [userId, randomNum]);
-
 
   const handleClickOutside = (event: MouseEvent) => {
     if (
