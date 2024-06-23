@@ -6,7 +6,7 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTrigger,
-} from "@/components/ui/dialog";
+} from "../../components/ui/dialog";
 import React from "react";
 
 const LoginDialog: React.FC<{ size?: number }> = ({ size = 20 }) => {
