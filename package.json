@@ -64,8 +64,10 @@
     "remark-react": "^9.0.1",
     "sha256": "^0.2.0",
     "sharp": "^0.33.2",
+    "shart": "^0.0.4",
     "shiprocket-api": "^1.0.0",
     "swiper": "^11.0.6",
+    "swr": "^2.2.5",
     "tailwind-merge": "^2.2.1",
     "tailwindcss-animate": "^1.0.7",
     "zod": "^3.22.4"
