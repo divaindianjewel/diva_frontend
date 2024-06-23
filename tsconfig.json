@@ -1,40 +1,38 @@
 {
   "compilerOptions": {
-    "target": "esnext", // Modern JavaScript features
-    "lib": ["dom", "dom.iterable", "esnext"], // Required libraries
-    "allowJs": true, // Allows JavaScript files to be compiled
-    "baseUrl": ".", // Base directory for resolving paths
-    "skipLibCheck": true, // Skips type checking of declaration files
-    "strict": true, // Enables all strict type-checking options
-    "noEmit": true, // No output files
-    "esModuleInterop": true, // Ensures compatibility with CommonJS and ES modules
-    "module": "esnext", // Specifies module code generation
-    "moduleResolution": "node", // Resolves modules using Node.js style
-    "resolveJsonModule": true, // Allows importing JSON files
-    "isolatedModules": true, // Ensures each file can be safely transpiled without depending on other files
-    "jsx": "preserve", // JSX is preserved in the output
-    "incremental": true, // Enables incremental compilation
+    "target": "esnext",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
+    "baseUrl": ".",
+    "skipLibCheck": true,
+    "strict": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "incremental": true,
     "plugins": [
       {
-        "name": "next" // Next.js specific plugin
+        "name": "next"
       }
     ],
     "paths": {
-      "@/*": ["./*"] // Aliases for paths
+      "@/*": ["./*"]
     }
   },
   "include": [
-    "next-env.d.ts", // Includes Next.js environment definitions
-    "**/*.ts", // Includes all TypeScript files
-    "**/*.tsx", // Includes all TSX files (React components)
-    ".next/types/**/*.ts", // Includes generated types from Next.js
-    "./types/**/*.d.ts", // Includes all custom type definitions
-    "backend/**/*.ts", // Includes all backend TypeScript files
-    "backend/**/*.tsx", // Includes all backend TSX files
-    "backend/**/*.js", // Includes all backend JavaScript files
-    "backend/**/*.jsx" // Includes all backend JSX files
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    "./types/**/*.d.ts",
+    "backend/**/*.ts",
+    "backend/**/*.tsx",
+    "backend/**/*.js",
+    "backend/**/*.jsx"
   ],
-  "exclude": [
-    "node_modules" // Excludes node_modules directory
-  ]
+  "exclude": ["node_modules"]
 }
