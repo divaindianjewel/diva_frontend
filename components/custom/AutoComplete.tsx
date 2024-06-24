@@ -1,4 +1,4 @@
-  "use client";
+"use client";
 import React, { useEffect, useState } from "react";
 import {
   Command,
@@ -8,8 +8,7 @@ import {
   CommandItem,
   CommandList,
   CommandSeparator,
-  CommandShortcut,
-} from "@/components/ui/command";
+} from "../ui/command";
 
 import { Product } from "./swiper/WomensFeatureSection";
 import { domain } from "../backend/apiRouth";
