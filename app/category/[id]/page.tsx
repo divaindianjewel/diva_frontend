@@ -48,17 +48,7 @@ const Page = () => {
 
   const [allProducts, setAllProducts] = useState<Product[]>([]);
   const [categoryProduct, setCategoryProduct] = useState<Product[]>();
-  const [loading, setLoading] = useState<boolean>(true);
-  const [product, setProduct] = useState<string[]>([
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-  ]);
+  const [productLoaded, setProductLoaded] = useState<boolean>(true);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -74,23 +64,25 @@ const Page = () => {
       }
 
       const productsArray = Object.values(fetchedProducts);
-      setAllProducts(productsArray);
 
       const tmp = productsArray.flat();
 
-      const categoryProduct = tmp.filter(
+      setAllProducts(tmp);
+
+      const categoryProduct1 = tmp.filter(
         (i: Product) => i.attributes.category.data.id == categoryId
       );
 
+      console.log(categoryProduct1);
+      setCategoryProduct(categoryProduct1);
       console.log(categoryProduct);
-      setCategoryProduct(categoryProduct);
-      setLoading(false);
+      setProductLoaded(false);
     };
 
     fetchData();
-  }, [categoryId, loading]);
+  }, [categoryId, productLoaded]);
 
-  // console.log(categoryProduct);
+  console.log(allProducts);
 
   const fetchProducts = async (page: number) => {
     const response = await fetch(
@@ -119,9 +111,9 @@ const Page = () => {
 
         <div className="mt-8 w-[100%]">
           <div className="flex gap-3 justify-center flex-wrap px-5 mb-5 w-[100%] shadow-xl items-center">
-            {loading ? (
+            {productLoaded ? (
               <>
-                {product.map((item, index) => (
+                {categoryProduct?.map((item, index) => (
                   <div
                     key={index}
                     className="flex flex-col space-y-3 card p-5 max-w-96 px-5 shadow-2xl mb-8 flex-wrap"
@@ -138,7 +130,7 @@ const Page = () => {
                 ))}
               </>
             ) : (
-              categoryProduct?.map((items) => (
+              allProducts?.map((items) => (
                 <Link
                   href={`/products/${items.id}`}
                   key={items.id}
