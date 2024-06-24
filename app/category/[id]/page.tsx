@@ -151,7 +151,6 @@ const Page = () => {
                       width={width}
                       height={height}
                     />
-
                     <div className="w-full">
                       <h3 className="pl-2 text-sm md:text-lg lg:text-2xl font-semibold mt-3 w-[100%] md:w-[100%] lg:w-[100%] overflow-hidden whitespace-nowrap overflow-ellipsis">
                         {items.attributes.name}
