@@ -1,6 +1,5 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { Textarea } from "@/components/ui/textarea";
 
 import {
   Dialog,
@@ -9,16 +8,16 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog";
+} from "../../ui/dialog";
 
-import { successTost } from "@/components/toast/allTost";
+import { successTost } from "../../toast/allTost";
 import { IoIosStar } from "react-icons/io";
-import { DialogClose } from "@radix-ui/react-dialog";
 
 // clerk
 import { TiPencil } from "react-icons/ti";
-import { EditReview } from "@/components/custom/reviews/reviewBox";
-import { domain } from "@/components/backend/apiRouth";
+import { EditReview } from "./reviewBox";
+import { domain } from "../../backend/apiRouth";
+import { Textarea } from "../../ui/textarea";
 
 interface reviews {
   id: number;
@@ -117,12 +116,12 @@ const EditReviewFormDialog: React.FC<{
                 </div>
               </form>
             </DialogDescription>
-            {isOpen && (
+            {/* {isOpen && (
               <DialogClose
                 onClick={() => setIsOpen(false)}
                 aria-label="Close dialog"
               />
-            )}{" "}
+            )}{" "} */}
           </DialogHeader>
         </DialogContent>
       </Dialog>
