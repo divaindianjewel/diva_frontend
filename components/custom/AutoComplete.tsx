@@ -15,10 +15,32 @@ import { domain } from "../backend/apiRouth";
 import Link from "next/link";
 import Loader from "./Loader";
 
+interface categories {
+  id: number;
+  attributes: {
+    name: string;
+  };
+}
+
 export function AutoComplete() {
   const [loading, setLoading] = useState<boolean>(true);
-  const [productName, setProductName] = useState<string[]>([""]);
   const [allProducts, setAllProducts] = useState<Product[]>([]);
+  const [categories, setCategories] = useState<categories[]>([]);
+  const [categoriesLoaded, setCategoriesLoaded] = useState<boolean>(true);
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      const res = await fetch(
+        `${domain}/api/categories?filters[$and][0][Show_in_search_bar][$eq]=true`
+      );
+
+      const data = await res.json();
+
+      setCategories(data.data);
+
+      setCategoriesLoaded(false);
+    };
+  }, [categoriesLoaded]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -35,7 +57,6 @@ export function AutoComplete() {
 
       const productsArray = Object.values(fetchedProducts);
 
-      // Use a Set to track unique product names
       const uniqueProducts = [];
       const productNames = new Set();
 
@@ -67,18 +88,13 @@ export function AutoComplete() {
       <CommandList>
         <CommandEmpty>No results found.</CommandEmpty>
         <CommandGroup heading="Categories">
-          <CommandItem>
-            <span>1 Gram Gold Mangalsutra</span>
-          </CommandItem>
-          <CommandItem>
-            <span>Fusion Kada And Bracelet</span>
-          </CommandItem>
-          <CommandItem>
-            <span>Sterling Silver Belt Bracelet </span>
-          </CommandItem>
-          <CommandItem>
-            <span> Sterling Silver Bracelet for women's </span>
-          </CommandItem>
+          {categories.map((item, index) => (
+            <Link key={index} href={`/category/${item.id}`}>
+              <CommandItem>
+                <span>{item.attributes.name}</span>
+              </CommandItem>
+            </Link>
+          ))}
         </CommandGroup>
         <CommandSeparator />
         <CommandGroup heading="Products">
