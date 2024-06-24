@@ -4,6 +4,7 @@
     "react/no-unescaped-entities": "off",
     "@next/next/no-page-custom-font": "off",
     "no-unused-vars" : "off",
-    "no-console" : 0
+    "no-console" : 0,
+     "react-hooks/exhaustive-deps": "warn"
   }
 }
