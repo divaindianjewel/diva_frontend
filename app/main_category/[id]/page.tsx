@@ -74,8 +74,8 @@ const Page = () => {
       </div>
       <div>
 
-        {category.map((item) => (
-          <Link href={`category/${item.id}`}>
+        {category.map((item, index) => (
+          <Link href={`category/${item.id}`} key={index} >
             <div className="flex items-center justify-center flex-col">
               <Image
                 src={`${item.attributes.home_pic.data.attributes.url}`}
