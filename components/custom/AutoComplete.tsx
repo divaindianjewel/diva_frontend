@@ -33,16 +33,10 @@ export function AutoComplete() {
       const res = await fetch(
         `${domain}/api/categories?filters[$and][0][Show_in_search_bar][$eq]=true`
       );
-
       const data = await res.json();
-
       setCategories(data.data);
-
-      console.log(data.data);
-
       setCategoriesLoaded(false);
     };
-
     fetchCategories();
   }, [categoriesLoaded]);
 
@@ -93,11 +87,11 @@ export function AutoComplete() {
         <CommandEmpty>No results found.</CommandEmpty>
         <CommandGroup heading="Categories">
           {categories.map((item, index) => (
-            <CommandItem>
-              <Link key={index} href={`/category/${item.id}`}>
+            <Link key={index} href={`/category/${item.id}`}>
+              <CommandItem>
                 <span>{item.attributes.name}</span>
-              </Link>
-            </CommandItem>
+              </CommandItem>
+            </Link>
           ))}
         </CommandGroup>
         <CommandSeparator />
