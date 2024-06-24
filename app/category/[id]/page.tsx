@@ -82,12 +82,15 @@ const Page = () => {
         (i: Product) => i.attributes.category.data.id == categoryId
       );
 
+      console.log(categoryProduct);
       setCategoryProduct(categoryProduct);
       setLoading(false);
     };
 
     fetchData();
-  }, [categoryId]);
+  }, [categoryId, loading]);
+
+  // console.log(categoryProduct);
 
   const fetchProducts = async (page: number) => {
     const response = await fetch(

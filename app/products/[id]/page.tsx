@@ -19,8 +19,8 @@ import FadingBanner from "../../../components/custom/Fade";
 // importing the cookies
 import Cookies from "js-cookie";
 // importing icons
-// import returnIcon from "../../app/assets/icons/exchange.png";
-// import warranty from "../../app/assets/icons/warranty.png";
+import returnIcon from "@/app/assets/icons/exchange.png";
+import warranty from "@/app/assets/icons/warranty.png";
 import Image from "next/image";
 
 interface ProductData {
@@ -333,23 +333,23 @@ const Page = () => {
               <div className="mb-4 my-3">
                 <div className="flex item-center justify-start flex-col my-5 gap-3">
                   <div className="flex gap-5 items-center justify-start">
-                    {/* <Image
+                    <Image
                       src={returnIcon}
                       alt="return icons"
                       width={IconWidth}
                       height={IconHeight}
-                    /> */}
+                    />
                     <p className="text-base font-semibold capitalize">
                       15 days return policy
                     </p>
                   </div>
                   <div className="flex gap-5 items-center justify-start">
-                    {/* <Image
+                    <Image
                       src={warranty}
                       alt="return icons"
                       width={IconWidth}
                       height={IconHeight}
-                    /> */}
+                    />
                     <p className="text-base font-semibold capitalize">
                       6 months warranty
                     </p>
