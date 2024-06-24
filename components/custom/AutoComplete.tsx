@@ -38,8 +38,12 @@ export function AutoComplete() {
 
       setCategories(data.data);
 
+      console.log(data.data);
+
       setCategoriesLoaded(false);
     };
+
+    fetchCategories();
   }, [categoriesLoaded]);
 
   useEffect(() => {
@@ -89,11 +93,11 @@ export function AutoComplete() {
         <CommandEmpty>No results found.</CommandEmpty>
         <CommandGroup heading="Categories">
           {categories.map((item, index) => (
-            <Link key={index} href={`/category/${item.id}`}>
-              <CommandItem>
+            <CommandItem>
+              <Link key={index} href={`/category/${item.id}`}>
                 <span>{item.attributes.name}</span>
-              </CommandItem>
-            </Link>
+              </Link>
+            </CommandItem>
           ))}
         </CommandGroup>
         <CommandSeparator />
