@@ -69,20 +69,24 @@ const Page = () => {
 
       setAllProducts(tmp);
 
+      console.log(allProducts);
+
       const categoryProduct1 = tmp.filter(
         (i: Product) => i.attributes.category.data.id == categoryId
       );
 
       console.log(categoryProduct1);
+      categoryProduct1.map((item: Product) =>
+        console.log(item.attributes.category.data.id)
+      );
       setCategoryProduct(categoryProduct1);
-      console.log(categoryProduct);
       setProductLoaded(false);
     };
 
     fetchData();
   }, [categoryId, productLoaded]);
 
-  console.log(allProducts);
+  // console.log(allProducts);
 
   const fetchProducts = async (page: number) => {
     const response = await fetch(
@@ -130,7 +134,7 @@ const Page = () => {
                 ))}
               </>
             ) : (
-              allProducts?.map((items) => (
+              categoryProduct?.map((items) => (
                 <Link
                   href={`/products/${items.id}`}
                   key={items.id}

@@ -79,7 +79,7 @@ const HomeBanner = () => {
           <SwiperSlide key={index}>
             <Link href={`/category/${banner.attributes.category.data.id}`}>
               <Image
-                src={`https://diva-images.blr1.digitaloceanspaces.com/4c7ffa2a3089c833182d160b38dcd0c3.jpg`}
+                src={`${banner.attributes.banner.data.attributes.url}`}
                 alt={`Image ${index}`}
                 width={3000}
                 height={700}
