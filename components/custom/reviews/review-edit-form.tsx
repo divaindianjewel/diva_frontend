@@ -1,6 +1,5 @@
 "use client";
 import React, { useEffect, useState } from "react";
-
 import {
   Dialog,
   DialogContent,
@@ -13,7 +12,6 @@ import {
 import { successTost } from "../../toast/allTost";
 import { IoIosStar } from "react-icons/io";
 
-// clerk
 import { TiPencil } from "react-icons/ti";
 import { EditReview } from "./reviewBox";
 import { domain } from "../../backend/apiRouth";
