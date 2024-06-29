@@ -7,7 +7,10 @@ import CustomerReviews from "../../../components/custom/reviews/reviewBox";
 import { addToCart } from "../../../backend/add-to-cart";
 import { useAuth, useUser } from "@clerk/nextjs";
 import { domain, updateCart } from "../../../components/backend/apiRouth";
-import { BlocksRenderer, type BlocksContent} from "@strapi/blocks-react-renderer";
+import {
+  BlocksRenderer,
+  type BlocksContent,
+} from "@strapi/blocks-react-renderer";
 import { useParams } from "next/navigation";
 import { Skeleton } from "../../../components/ui/skeleton";
 import { warningTost, successTost } from "../../../components/toast/allTost";
@@ -84,7 +87,6 @@ interface ApiResponse {
 }
 
 const Page = () => {
-
   const [cartItem, setCartItem] = useState<cartItemProps | undefined>();
   const [userLocalId, setUserLocalId] = useState<string | undefined>("");
   const [product, setProduct] = useState<ProductData | null>(null);
@@ -100,21 +102,17 @@ const Page = () => {
   const [imgData, setImgData] = useState<any[]>([]);
   const [isLoadProduct, setIsLoadProduct] = useState<boolean>(false);
 
-
   const generateRandomNumber = () => {
     const randomNumber = Math.floor(Math.random() * 100) + 1;
     setRandomNum(randomNumber);
   };
 
-
   const params = useParams();
   let productId = 0;
-
 
   if (params) {
     productId = Number(params.id);
   }
-
 
   const handleAddToCart = () => {
     setCartDisable(true);
@@ -125,16 +123,11 @@ const Page = () => {
       : [];
 
     if (cartItem != undefined) {
-      console.log("i click add to cart 1");
       const isProductInCart = cartItems.some((item) => item.id === cartItem.id);
       if (isProductInCart) {
-        console.log("i click add to cart 2");
         warningTost("Product is already added to the cart");
       } else {
-        console.log("i click add to cart 3");
-
         if (userLocalId) {
-          console.log("i click add to cart 4");
           generateRandomNumber();
           addToCart(
             String(productId),
@@ -143,7 +136,6 @@ const Page = () => {
             product?.attributes.price,
             product?.attributes.images.data[0].attributes.url
           );
-          updateCart();
           cartItems.push(cartItem);
           Cookies.set("DIVAcart", JSON.stringify(cartItems), {
             expires: 365,
@@ -164,6 +156,10 @@ const Page = () => {
           });
           successTost("Product added to cart");
         }
+
+        const randomNumber = Math.floor(Math.random() * 100) + 1;
+        setRandomNum(randomNumber);
+
       }
     } else {
       console.log("cart Item is undefined");
@@ -174,12 +170,10 @@ const Page = () => {
     }, 3500);
   };
 
-
   useEffect(() => {
     const id = Cookies.get("DIVAIJ-USER");
     setUserLocalId(id);
   }, [userLocalId]);
-
 
   useEffect(() => {
     const fetchCartData = async () => {
@@ -203,7 +197,6 @@ const Page = () => {
       fetchCartData();
     }
   }, [randomNum, isSignedIn, userId, productId]);
-
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -257,13 +250,11 @@ const Page = () => {
     fetchProduct();
   }, [productId, isLoadProduct, product]);
 
-
   useEffect(() => {
     if (cartData.length > 0) {
       setProductAdded(true);
     }
   }, [cartData, randomNum]);
-
 
   const handelDescription = (content: BlocksContent) => {
     return <BlocksRenderer content={content} />;
@@ -275,7 +266,6 @@ const Page = () => {
 
   return (
     <>
-
       <FadingBanner />
 
       <div className="sticky top-0 left-0 z-[100]">
@@ -434,7 +424,6 @@ const Page = () => {
       <section>
         {categoryId ? <SuggestionSwiper categoryId={categoryId} /> : ""}
       </section>
-
     </>
   );
 };

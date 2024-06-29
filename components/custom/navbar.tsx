@@ -17,36 +17,24 @@ import TemporaryDrawer from "../mui/drawer";
 import { domain } from "../backend/apiRouth";
 import LoginDialog from "./LoginDialog";
 import SearchDialog from "./SearchDialog";
+import { cartItemProps } from "@/app/cart/page";
 
 const Navbar: React.FC<{ randomNum?: number }> = ({ randomNum }) => {
-  const { userId } = useAuth();
   const [totalCart, setTotalCart] = useState<number>(0);
-  const [suggestions, setSuggestions] = useState<string[]>([]);
   const [isSearchActive, setIsSearchActive] = useState<boolean>(false);
   const searchBoxRef = useRef<HTMLDivElement>(null);
 
   const icon_size = "25";
 
   useEffect(() => {
-    const fetchCartData = async () => {
-      try {
-        const response = await fetch(`${domain}/api/carts?populate=*`);
-        const data = await response.json();
-        if (data && data.data && data.data.length > 0) {
-          const userCartData: any[] = data.data.filter(
-            (item: any) => item.attributes.user_id === userId
-          );
+    const existingCart = Cookies.get("DIVAcart");
+    const cartItems: cartItemProps[] = existingCart
+      ? JSON.parse(existingCart)
+      : [];
 
-          const tmp = userCartData.length;
-          setTotalCart(tmp);
-        }
-      } catch (error) {
-        console.error("Error fetching cart data:", error);
-      }
-    };
-
-    fetchCartData();
-  }, [userId, randomNum]);
+    const tmp = cartItems.length;
+    setTotalCart(tmp);
+  }, [randomNum]);
 
   const handleClickOutside = (event: MouseEvent) => {
     if (

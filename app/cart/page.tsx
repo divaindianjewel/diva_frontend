@@ -82,50 +82,46 @@ export default function Component() {
         <Navbar randomNum={randomNum} />
       </div>
 
-      {isSignedIn ? (
-        <Card>
-          <CardHeader>
-            <CardTitle>My Cart</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="grid gap-6">
-              {cartData2 !== undefined
-                ? cartData2.map((item) =>
-                    item.price ? (
-                      <CartItems
-                        key={item.id}
-                        productName={item.name}
-                        productId={item.id}
-                        price={item.price}
-                        cartId={item.id}
-                        qnt={item.qnt}
-                        image={item.img}
-                        show={true}
-                        random={generateRandomNumber}
-                      />
-                    ) : (
-                      ""
-                    )
+      <Card>
+        <CardHeader>
+          <CardTitle>My Cart</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="grid gap-6">
+            {cartData2 !== undefined
+              ? cartData2.map((item) =>
+                  item.price ? (
+                    <CartItems
+                      key={item.id}
+                      productName={item.name}
+                      productId={item.id}
+                      price={item.price}
+                      cartId={item.id}
+                      qnt={item.qnt}
+                      image={item.img}
+                      show={true}
+                      random={generateRandomNumber}
+                    />
+                  ) : (
+                    ""
                   )
-                : ""}
-            </div>
-          </CardContent>
-
-          <Separator />
-
-          <div className="w-full flex justify-end items-end gap-5 flex-col mr-10 mt-10 py-5 px-10">
-            <div>
-              <Link href={"/checkout"} target="_blank">
-                <Button className="w-full " size="lg">
-                  Proceed to Checkout
-                </Button>
-              </Link>
-            </div>
+                )
+              : ""}
           </div>
-        </Card>
-      ) : (
-        <div>Please Login first</div>
-      )}
+        </CardContent>
+
+        <Separator />
+
+        <div className="w-full flex justify-end items-end gap-5 flex-col mr-10 mt-10 py-5 px-10">
+          <div>
+            <Link href={"/checkout"} target="_blank">
+              <Button className="w-full " size="lg">
+                Proceed to Checkout
+              </Button>
+            </Link>
+          </div>
+        </div>
+      </Card>
     </>
   ) : (
     <div>
