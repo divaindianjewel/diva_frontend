@@ -33,7 +33,6 @@ interface fetchNavItems {
 }
 
 export default function TemporaryDrawer() {
-
   const [open, setOpen] = useState(false);
   const [loadedItems, setLoadedItems] = useState(false);
   const [navItems, setNavItems] = useState<fetchNavItems[]>([]);
@@ -86,21 +85,26 @@ export default function TemporaryDrawer() {
             </ListItemText>
           </Link>
         </ListItem>
-        <ListItem>
-          <div
-            className="cursor-pointer"
-            onClick={() => {
-              Cookies.remove("DIVAIJ-USER");
-              location.reload();
-            }}
-          >
-            <ListItemText>
-              <div className="flex items-center justify-center gap-3">
-                <IoLogOutSharp /> Logout
-              </div>
-            </ListItemText>
-          </div>
-        </ListItem>
+
+        {Cookies.get("DIVAIJ-USER")?.length != undefined ? (
+          <ListItem>
+            <div
+              className="cursor-pointer"
+              onClick={() => {
+                Cookies.remove("DIVAIJ-USER");
+                location.reload();
+              }}
+            >
+              <ListItemText>
+                <div className="flex items-center justify-center gap-3">
+                  <IoLogOutSharp /> Logout
+                </div>
+              </ListItemText>
+            </div>
+          </ListItem>
+        ) : (
+          ""
+        )}
       </List>
     </Box>
   );
