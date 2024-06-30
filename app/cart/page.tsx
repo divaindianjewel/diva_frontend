@@ -9,7 +9,6 @@ import {
 } from "../../components/ui/card";
 import { Button } from "../../components/ui/button";
 import CartItems from "../../components/custom/cartItems";
-import { useAuth, useUser } from "@clerk/nextjs";
 import Link from "next/link";
 
 import Navbar from "../../components/custom/navbar";
@@ -44,7 +43,6 @@ export default function Component() {
   const [cartData, setCartData] = useState<CartItem[]>([]);
   const [subtotal, setSubtotal] = useState<number>(0);
   const [total, setTotal] = useState<number>(0);
-  const { isSignedIn, user } = useUser();
   const [randomNum, setRandomNum] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(true);
 

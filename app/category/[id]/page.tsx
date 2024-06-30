@@ -169,7 +169,7 @@ const Page = () => {
                         className="flex items-center justify-center"
                       >
                         <button
-                          className="myBtn py-2 product mb-6 text-xs md:text-lg lg:text-xl w-full"
+                          className="myBtn py-2 product mb-6 text-xs md:text-lg lg:text-xl w-full mx-3 mt-2"
                           type="button"
                         >
                           View Product
