@@ -66,6 +66,7 @@ export const addReview = async (
 };
 
 const CustomerReviews: React.FC<{ productId: number }> = ({ productId }) => {
+  
   const { userId } = useAuth();
   const [randomNum, setRandomNum] = useState<number>(0);
   const [reviews, setReviews] = useState<ReviewProps[]>([]);
@@ -74,6 +75,7 @@ const CustomerReviews: React.FC<{ productId: number }> = ({ productId }) => {
   const [userLocalId, setUserLocalId] = useState<string>("");
 
   const fetchReviews = useCallback(async () => {
+
     try {
       const res = await fetch(
         `${domain}/api/reviews?filters[$and][0][product_id][$eq]=${productId}`
@@ -84,15 +86,20 @@ const CustomerReviews: React.FC<{ productId: number }> = ({ productId }) => {
       console.log(data.data);
 
       setReviews(data.data);
+
       const filterData = data.data.filter(
         (item: ReviewProps) => item.attributes.user_id === userLocalId
       );
+
+      console.log(filterData);
+      
       setUserReview(filterData[0]);
       setLoading(false);
     } catch (err) {
       console.error(err);
       setLoading(false);
     }
+
   }, [productId, userLocalId]);
 
   useEffect(() => {
@@ -183,11 +190,9 @@ const CustomerReviews: React.FC<{ productId: number }> = ({ productId }) => {
                 <div className="flex items-center justify-between">
                   <div className="flex flex-col gap-3 py-4 md:py-8">
                     <div className="-ml-1 flex gap-0.5">
-                      {[...Array(review.attributes.ratting)].map(
-                        (_, index) => (
-                          <IoIosStar key={index} color="gold" size={25} />
-                        )
-                      )}
+                      {[...Array(review.attributes.ratting)].map((_, index) => (
+                        <IoIosStar key={index} color="gold" size={25} />
+                      ))}
                     </div>
                     <p className="text-gray-600">
                       {review.attributes.Description}
