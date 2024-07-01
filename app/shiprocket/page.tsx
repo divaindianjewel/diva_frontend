@@ -67,7 +67,7 @@ interface divaAddressProps {
 
 const Page = () => {
   const [userLocalId, setUserLocalId] = useState<string>("null");
-  const [orderId, setOrderId] = useState<number>(511);
+  const [orderId, setOrderId] = useState<number>(0);
   const [userObj, setUserObj] = useState<any>({});
   const [discount, setDiscount] = useState<string>("0");
   const [total, setTotal] = useState<number>(0);
@@ -138,7 +138,6 @@ const Page = () => {
       const data = await res.json();
 
       console.log(orderId);
-      console.log("--------------------------------------");
       console.log(data.data.attributes.payment_method);
       setPaymentMethod(data.data.attributes.payment_method);
 
