@@ -15,6 +15,8 @@ const Login: React.FC = () => {
   const [realPhoneNum, setRealPhoneNum] = useState<string | undefined>();
   const [user, setUser] = useState<any>(null);
 
+  const [isBtn, setIsBtn] = useState<boolean>(false);
+
   const handlePhoneNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPhoneNumber(e.target.value);
   };
@@ -27,6 +29,7 @@ const Login: React.FC = () => {
     if (phoneNumber.length != 10 && realPhoneNum != undefined) {
       warningTost("Please Enter a valid phone Number");
     } else {
+      setIsBtn(true);
       try {
         const recaptcha = new RecaptchaVerifier(auth, "recaptcha", {});
         if (realPhoneNum != undefined) {
@@ -118,10 +121,10 @@ const Login: React.FC = () => {
                 handlePhoneNumberChange(e);
               }}
               placeholder="Enter Your Phone Number"
-            />      
+            />
           </div>
           <div id="recaptcha" className="mb-3"></div>
-          <Button onClick={() => sendOtp()} className="w-full">
+          <Button onClick={() => sendOtp()} disabled={isBtn} className="w-full">
             Send OTP
           </Button>
         </motion.div>

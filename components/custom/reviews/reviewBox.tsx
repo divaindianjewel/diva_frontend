@@ -66,51 +66,47 @@ export const addReview = async (
 };
 
 const CustomerReviews: React.FC<{ productId: number }> = ({ productId }) => {
-  
-  const { userId } = useAuth();
   const [randomNum, setRandomNum] = useState<number>(0);
   const [reviews, setReviews] = useState<ReviewProps[]>([]);
   const [userReview, setUserReview] = useState<ReviewProps>();
   const [loading, setLoading] = useState<boolean>(true);
   const [userLocalId, setUserLocalId] = useState<string>("");
 
-  const fetchReviews = useCallback(async () => {
+  useEffect(() => {
+    const fetchReviewData = async () => {
+      try {
+        const res = await fetch(
+          `${domain}/api/reviews?filters[$and][0][product_id][$eq]=${productId}`
+        );
 
-    try {
-      const res = await fetch(
-        `${domain}/api/reviews?filters[$and][0][product_id][$eq]=${productId}`
-      );
+        const data = await res.json();
 
-      const data = await res.json();
+        console.log(data.data);
 
-      console.log(data.data);
+        setReviews(data.data);
 
-      setReviews(data.data);
+        const filterData = data.data.filter(
+          (item: ReviewProps) => item.attributes.user_id === userLocalId
+        );
 
-      const filterData = data.data.filter(
-        (item: ReviewProps) => item.attributes.user_id === userLocalId
-      );
+        console.log(filterData);
 
-      console.log(filterData);
-      
-      setUserReview(filterData[0]);
-      setLoading(false);
-    } catch (err) {
-      console.error(err);
-      setLoading(false);
-    }
+        setUserReview(filterData[0]);
+        setLoading(false);
+      } catch (err) {
+        console.error(err);
+        setLoading(false);
+      }
+    };
 
-  }, [productId, userLocalId]);
+    fetchReviewData();
+  }, [productId, userLocalId, randomNum]);
 
   useEffect(() => {
     const cookie = Cookies.get("DIVAIJ-USER") || "null";
     setUserLocalId(cookie);
     setLoading(true);
   }, []);
-
-  useEffect(() => {
-    if (loading) fetchReviews();
-  }, [loading, fetchReviews]);
 
   const deleteReview = async (reviewId: number) => {
     try {

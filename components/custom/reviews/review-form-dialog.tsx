@@ -70,19 +70,20 @@ const ReviewFormDialog: React.FC<{
   useEffect(() => {
     const getReviewData = async () => {
       const response = await fetch(
-        `${domain}/api/reviews?filters[$and][0][user_id][$eq]=${userLocalId}`
+        `${domain}/api/reviews?filters[$and][0][user_id][$eq]=${userLocalId}&filters[$and][1][product_id][$eq]=${productId}`
       );
 
       const data = await response.json();
 
       if (data.data.length != 0) {
         setReviewAdded(false);
-      } 
+      }
     };
 
     getReviewData();
   }, [userId, randomNum, userLocalId]);
 
+  
   const submitHandler = async (e: React.FormEvent) => {
     e.preventDefault();
     if (userLocalId !== "null") {
