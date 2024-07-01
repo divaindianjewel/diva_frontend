@@ -46,9 +46,7 @@ const ReviewFormDialog: React.FC<{
   const [stars, setStars] = useState<string[]>(["", "", "", "", ""]);
   const [description, setDescription] = useState<string>("");
   const [isOpen, setIsOpen] = useState(false);
-  const { isLoaded, isSignedIn, user } = useUser();
   const [reviewAdded, setReviewAdded] = useState<boolean>(true);
-  const { userId, sessionId, getToken } = useAuth();
   const [userLocalId, setUserLocalId] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(true);
 
@@ -81,7 +79,7 @@ const ReviewFormDialog: React.FC<{
     };
 
     getReviewData();
-  }, [userId, randomNum, userLocalId]);
+  }, [randomNum, userLocalId]);
 
   
   const submitHandler = async (e: React.FormEvent) => {
@@ -89,10 +87,7 @@ const ReviewFormDialog: React.FC<{
     if (userLocalId !== "null") {
       if (reviewAdded) {
         let userName = "User";
-        if (user != null) {
-          userName = user.firstName + " " + user.lastName;
-        }
-        await addReview(productId, rating, description, userLocalId, userName)
+        await addReview(productId, rating, description, userLocalId)
           .then(() => {
             setIsOpen(false);
             successTost("your review added successfully");

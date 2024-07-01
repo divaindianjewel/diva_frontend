@@ -76,7 +76,7 @@ const FeatureSection = () => {
     fetchData();
   }, []);
 
-  return (
+  return product.length > 0 ? (
     <div className="bg-white my-10 w-full shadow-2xl">
       <h2 className="text-left p-10 text-3xl font-medium">
         Best Selling Jewels For mens
@@ -142,6 +142,8 @@ const FeatureSection = () => {
         </div>
       </div>
     </div>
+  ) : (
+    ""
   );
 };
 

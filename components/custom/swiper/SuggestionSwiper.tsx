@@ -116,7 +116,7 @@ const SuggestionSwiper: React.FC<{ categoryId: number }> = ({ categoryId }) => {
                           className="flex items-center justify-center"
                         >
                           <button
-                            className="myBtn py-2 product mb-6 text-xs md:text-lg lg:text-xl w-full"
+                            className="myBtn py-2 product mb-6 text-xs md:text-lg lg:text-xl w-full mx-2 mt-2"
                             type="button"
                           >
                             View Product

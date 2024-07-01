@@ -94,8 +94,6 @@ const Page = () => {
   const [categoryId, setCategoryId] = useState<number | undefined>(0);
   const [productAdded, setProductAdded] = useState<boolean>(false);
   const [cartData, setCartData] = useState<CartItem[]>([]);
-  const { userId } = useAuth();
-  const { isSignedIn } = useUser();
   const width = 450;
   const [loading, setLoading] = useState<boolean>(true);
   const [cartDisable, setCartDisable] = useState<boolean>(false);
@@ -159,7 +157,6 @@ const Page = () => {
 
         const randomNumber = Math.floor(Math.random() * 100) + 1;
         setRandomNum(randomNumber);
-
       }
     } else {
       console.log("cart Item is undefined");
@@ -175,28 +172,6 @@ const Page = () => {
     setUserLocalId(id);
   }, [userLocalId]);
 
-  useEffect(() => {
-    const fetchCartData = async () => {
-      try {
-        const response = await fetch(`${domain}/api/carts?populate=*`);
-        const data = await response.json();
-        if (data && data.data && data.data.length > 0) {
-          const userCartData = data.data.filter(
-            (item: CartItem) =>
-              item.attributes.user_id === userId &&
-              item.attributes.Product_id == productId
-          );
-          setCartData(userCartData);
-        }
-      } catch (error) {
-        console.error("Error fetching cart data:", error);
-      }
-    };
-
-    if (isSignedIn) {
-      fetchCartData();
-    }
-  }, [randomNum, isSignedIn, userId, productId]);
 
   useEffect(() => {
     const fetchProduct = async () => {

@@ -21,6 +21,7 @@ const addOrder = async (
   total: number,
   orderId: number,
   discountAmount: number,
+  orderMethod: string
 ) => {
   if (cartData != undefined) {
     console.log(cartData);

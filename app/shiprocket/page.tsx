@@ -67,16 +67,14 @@ interface divaAddressProps {
 
 const Page = () => {
   const [userLocalId, setUserLocalId] = useState<string>("null");
-  const [orderId, setOrderId] = useState<number>(0);
+  const [orderId, setOrderId] = useState<number>(511);
   const [userObj, setUserObj] = useState<any>({});
   const [discount, setDiscount] = useState<string>("0");
   const [total, setTotal] = useState<number>(0);
+  const [paymentMethod, setPaymentMethod] = useState<string>("");
+  const [paymentLoading, setPaymentLoading] = useState<boolean>(true);
   const router = useRouter();
 
-  const [orderInfo, setOrderInfo] = useState<order>();
-  const [tmp, setTmp] = useState<boolean>(false);
-  const [addressLoad, setAddressLoad] = useState<boolean>(false);
-  const [cartDataLoad, setCartDataLoad] = useState<boolean>(false);
   const [isUpdateOrder, setIsUpdateOrder] = useState<boolean>(false);
   const [cookiesCartData, setCookiesCartData] = useState<cartItemProps[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
@@ -131,6 +129,24 @@ const Page = () => {
     setOrderId(Number(tmpOrderId));
     setLoading(false);
   }, [loading]);
+
+  // GETTING THE PAYMENT METHOD
+  useEffect(() => {
+    const getPaymentMethod = async () => {
+      const res = await fetch(`${domain}/api/orders/${orderId}`);
+
+      const data = await res.json();
+
+      console.log(orderId);
+      console.log("--------------------------------------");
+      console.log(data.data.attributes.payment_method);
+      setPaymentMethod(data.data.attributes.payment_method);
+
+      setPaymentLoading(false);
+    };
+
+    getPaymentMethod();
+  }, [orderId, paymentLoading, loading]);
 
   const addOrderCookies = (addOrderCookies: string) => {
     let orderArr = Cookies.get("divaOrders");
@@ -197,7 +213,8 @@ const Page = () => {
         cookiesCartData,
         total,
         orderId,
-        Number(discount)
+        Number(discount),
+        paymentMethod
       );
 
       addOrderCookies(String(orderId));
@@ -209,6 +226,7 @@ const Page = () => {
     };
 
     addOrderedProduct();
+    updateOrderId();
   }, [orderLoading]);
 
   return (

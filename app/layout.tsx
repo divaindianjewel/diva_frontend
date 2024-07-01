@@ -1,4 +1,3 @@
-import { ClerkProvider } from "@clerk/nextjs";
 import "./globals.css";
 import NextTopLoader from "nextjs-toploader";
 import Footer from "@/components/custom/footer";
@@ -16,15 +15,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <ClerkProvider>
-      <html lang="en">
-        <body>
-          <NextTopLoader color="#F8D247" />
-          <TostContainer />
-          {children}
-          <Footer />
-        </body>
-      </html>
-    </ClerkProvider>
+    <html lang="en">
+      <body>
+        <NextTopLoader color="#F8D247" />
+        <TostContainer />
+        {children}
+        <Footer />
+      </body>
+    </html>
   );
 }

@@ -44,8 +44,7 @@ export const addReview = async (
   productId: number,
   rating: number,
   description: string,
-  userId: string,
-  userName: string
+  userId: string
 ) => {
   try {
     const response = await axios.post(`${domain}/api/reviews`, {
@@ -53,8 +52,7 @@ export const addReview = async (
         product_id: productId,
         ratting: rating,
         Description: description,
-        user_id: userId,
-        user_name: userName,
+        user_id: userId
       },
     });
     console.log("Review added successfully:", response.data);

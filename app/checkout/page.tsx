@@ -97,7 +97,7 @@ const Page = () => {
   const [userLocalId, setUserLocalId] = useState<string>("");
   const [cookiesCartData, setCookiesCartData] = useState<cartItemProps[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
-  const [addressId, setAddressId] = useState();
+  const [addressId, setAddressId] = useState<string>("");
   const [cartData, setCartData] = useState<CartItem[]>([]);
   const [subtotal, setSubtotal] = useState<number>(0);
   const [total, setTotal] = useState<number>(0);
@@ -135,6 +135,12 @@ const Page = () => {
     }
   };
 
+  // GETTING Address Id
+  useEffect(() => {
+    const BillingId = Cookies.get("BillingId");
+    setAddressId(String(BillingId));
+  }, []);
+
   // GET USER ADDRESS
   useEffect(() => {
     const userData = Cookies.get("DIVAUserAddress");
@@ -147,6 +153,7 @@ const Page = () => {
       setEmail(newData.email);
       setCity(newData.city);
       setPinCode(newData.pincode);
+      setState(newData.state);
       setPhoneNumber(newData.phone_number);
       setDataPresent(true);
     } else {
@@ -154,6 +161,7 @@ const Page = () => {
     }
   }, [userLocalId]);
 
+  
   const handelPay = async (e: any) => {
     e.preventDefault;
     if (
@@ -309,6 +317,8 @@ const Page = () => {
             path: "/",
             domain: window.location.hostname,
           });
+
+          
         } catch (error) {
           console.log(error);
         }
