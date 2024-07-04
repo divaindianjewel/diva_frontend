@@ -60,13 +60,12 @@ const FeatureSection = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(`${domain}/api/products?populate=*`);
-        const data = await response.json();
-        const filteredProducts = data.data.filter(
-          (product: { attributes: { feature: any; gender: string } }) =>
-            product.attributes.feature && product.attributes.gender === "male"
+        const response = await fetch(
+          `${domain}/api/products?populate=*&filters[$and][0][gender][$eq]=male&filters[$and][1][feature][$eq]=true`
         );
-        setProducts(filteredProducts);
+        const data = await response.json();
+
+        setProducts(data.data);
         setLoading(false);
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -76,7 +75,7 @@ const FeatureSection = () => {
     fetchData();
   }, []);
 
-  return product.length == 0 ? (
+  return products.length > 0 ? (
     <div className="bg-white my-10 w-full shadow-2xl">
       <h2 className="text-left p-10 text-3xl font-medium">
         Best Selling Jewels For mens
@@ -85,7 +84,7 @@ const FeatureSection = () => {
         <div className="flex items-center justify-start mb-5 w-full overflow-x-auto no-scrollbar scroll-smooth px-10">
           {loading ? (
             <div className="flex gap-8">
-              {product.map((item, index) => (
+              {products.map((item, index) => (
                 <div
                   key={index}
                   className="flex-shrink-0 flex flex-col space-y-3 card p-5 w-64 shadow-2xl mb-8"

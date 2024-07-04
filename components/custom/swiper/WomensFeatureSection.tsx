@@ -62,6 +62,7 @@ const FeatureSection = () => {
           (product: { attributes: { feature: any; gender: string } }) =>
             product.attributes.feature && product.attributes.gender === "female"
         );
+        
         setProducts(filteredProducts);
         setLoading(false);
       } catch (error) {
