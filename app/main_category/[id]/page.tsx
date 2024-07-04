@@ -9,7 +9,6 @@ import { domain } from "../../../components/backend/apiRouth";
 import Link from "next/link";
 import Image from "next/image";
 
-
 interface categories {
   id: number;
   attributes: {
@@ -36,7 +35,6 @@ interface categories {
 }
 
 const Page = () => {
-
   let categoryId = 0;
 
   const params = useParams();
@@ -72,10 +70,9 @@ const Page = () => {
       <div className="sticky top-0 left-0 z-[100]">
         <Navbar />
       </div>
-      <div>
-
+      <div className="flex items-center justify-center gap-10">
         {category.map((item, index) => (
-          <Link href={`/category/${item.id}`} key={index} >
+          <Link href={`/category/${item.id}`} key={index}>
             <div className="flex items-center justify-center flex-col">
               <Image
                 src={`${item.attributes.home_pic.data.attributes.url}`}
@@ -90,9 +87,7 @@ const Page = () => {
             </div>
           </Link>
         ))}
-
       </div>
-
     </>
   );
 };
