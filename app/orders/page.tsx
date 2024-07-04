@@ -169,7 +169,7 @@ const Pages = () => {
                 </div>
                 <div>
                   <Link href={`bill/${item.id}`}>
-                    <Button>Download recept</Button>
+                    <Button>View recept</Button>
                   </Link>
                 </div>
               </div>

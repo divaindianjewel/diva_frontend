@@ -116,6 +116,7 @@ const Page = () => {
   const [discountCodeText, setDiscountCodeText] = useState<string>("");
   const [discountAmount, setDiscountAmount] = useState<number>(0);
   const [isDiscounted, setIsDiscounted] = useState<boolean>(false);
+  const [billingLoading, setBillingLoading] = useState<boolean>(true);
 
   // FUNCTION FOR APPLYING DISCOUNT
   const applyDiscount = async (code: string) => {
@@ -139,7 +140,8 @@ const Page = () => {
   useEffect(() => {
     const BillingId = Cookies.get("BillingId");
     setAddressId(String(BillingId));
-  }, []);
+    setBillingLoading(false);
+  }, [billingLoading]);
 
   // GET USER ADDRESS
   useEffect(() => {
@@ -161,7 +163,6 @@ const Page = () => {
     }
   }, [userLocalId]);
 
-  
   const handelPay = async (e: any) => {
     e.preventDefault;
     if (
@@ -244,6 +245,7 @@ const Page = () => {
             state,
             selectedMethod
           );
+
           Cookies.set("DivaOrderId", response.id, {
             expires: 365,
             secure: window.location.protocol === "https:",
@@ -310,13 +312,16 @@ const Page = () => {
             selectedMethod
           );
           console.log(response);
-          Cookies.set("DivaOrderId", response.id, {
+          Cookies.set("DivaOrderId", String(response.id), {
             expires: 365,
             secure: window.location.protocol === "https:",
             sameSite: "Lax",
             path: "/",
             domain: window.location.hostname,
-          });          
+          });
+
+          const tmp = Cookies.get("DivaOrderID");
+          console.log(tmp);
         } catch (error) {
           console.log(error);
         }
