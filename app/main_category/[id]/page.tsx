@@ -35,9 +35,11 @@ interface categories {
 }
 
 const Page = () => {
+
   let categoryId = 0;
 
   const params = useParams();
+
   if (params) {
     categoryId = Number(params.id);
   }
@@ -46,10 +48,13 @@ const Page = () => {
   const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
+
     const getCategory = async () => {
+
       const res = await fetch(
         `${domain}/api/categories?populate=*&filters[$and][0][main_category][id][$eq]=${categoryId}`
       );
+
       const data = await res.json();
       setCategory(data.data);
 
@@ -57,6 +62,7 @@ const Page = () => {
     };
 
     getCategory();
+
   }, [loading, categoryId]);
 
   const categoriesImgClass = "rounded-full border-2 border-yellow-600 my-5";

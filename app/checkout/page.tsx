@@ -316,9 +316,7 @@ const Page = () => {
             sameSite: "Lax",
             path: "/",
             domain: window.location.hostname,
-          });
-
-          
+          });          
         } catch (error) {
           console.log(error);
         }

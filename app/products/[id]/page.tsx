@@ -25,6 +25,7 @@ import Cookies from "js-cookie";
 import returnIcon from "@/app/assets/icons/exchange.png";
 import warranty from "@/app/assets/icons/warranty.png";
 import Image from "next/image";
+import Link from "next/link";
 
 interface ProductData {
   id: number;
@@ -172,7 +173,6 @@ const Page = () => {
     setUserLocalId(id);
   }, [userLocalId]);
 
-
   useEffect(() => {
     const fetchProduct = async () => {
       try {
@@ -297,28 +297,32 @@ const Page = () => {
               </h1>
               <div className="mb-4 my-3">
                 <div className="flex item-center justify-start flex-col my-5 gap-3">
-                  <div className="flex gap-5 items-center justify-start">
-                    <Image
-                      src={returnIcon}
-                      alt="return icons"
-                      width={IconWidth}
-                      height={IconHeight}
-                    />
-                    <p className="text-base font-semibold capitalize">
-                      15 days return policy
-                    </p>
-                  </div>
-                  <div className="flex gap-5 items-center justify-start">
-                    <Image
-                      src={warranty}
-                      alt="return icons"
-                      width={IconWidth}
-                      height={IconHeight}
-                    />
-                    <p className="text-base font-semibold capitalize">
-                      6 months warranty
-                    </p>
-                  </div>
+                  <Link href={`/return`}>
+                    <div className="flex gap-5 items-center justify-start">
+                      <Image
+                        src={returnIcon}
+                        alt="return icons"
+                        width={IconWidth}
+                        height={IconHeight}
+                      />
+                      <p className="text-base font-semibold capitalize">
+                        15 days return policy
+                      </p>
+                    </div>
+                  </Link>
+                  <Link href={'/return'}>
+                    <div className="flex gap-5 items-center justify-start">
+                      <Image
+                        src={warranty}
+                        alt="return icons"
+                        width={IconWidth}
+                        height={IconHeight}
+                      />
+                      <p className="text-base font-semibold capitalize">
+                        6 months warranty
+                      </p>
+                    </div>
+                  </Link>
                 </div>
 
                 {loading ? (
