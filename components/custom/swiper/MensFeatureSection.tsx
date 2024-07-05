@@ -54,9 +54,6 @@ const FeatureSection = () => {
     "",
   ]);
 
-  const height = 450;
-  const width = 500;
-
   useEffect(() => {
     const fetchData = async () => {
       try {

@@ -35,7 +35,6 @@ interface categories {
 }
 
 const Page = () => {
-
   let categoryId = 0;
 
   const params = useParams();
@@ -48,9 +47,7 @@ const Page = () => {
   const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
-
     const getCategory = async () => {
-
       const res = await fetch(
         `${domain}/api/categories?populate=*&filters[$and][0][main_category][id][$eq]=${categoryId}`
       );
@@ -62,7 +59,6 @@ const Page = () => {
     };
 
     getCategory();
-
   }, [loading, categoryId]);
 
   const categoriesImgClass = "rounded-full border-2 border-yellow-600 my-5";
@@ -76,7 +72,7 @@ const Page = () => {
       <div className="sticky top-0 left-0 z-[100]">
         <Navbar />
       </div>
-      <div className="flex items-center justify-center gap-10">
+      <div className="flex items-center justify-center gap-10 flex-wrap">
         {category.map((item, index) => (
           <Link href={`/category/${item.id}`} key={index}>
             <div className="flex items-center justify-center flex-col">
