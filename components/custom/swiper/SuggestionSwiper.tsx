@@ -4,13 +4,6 @@ import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { Product } from "./MensFeatureSection";
 import { domain } from "@/components/backend/apiRouth";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel";
 
 const SuggestionSwiper: React.FC<{ categoryId: number }> = ({ categoryId }) => {
   const [loading, setLoading] = useState<boolean>(true);
@@ -73,64 +66,65 @@ const SuggestionSwiper: React.FC<{ categoryId: number }> = ({ categoryId }) => {
           Similar Product Like This
         </h2>
 
-        <div>
-          <Carousel>
-            <CarouselContent>
-              {products.map((product, index) => (
-                <CarouselItem
-                  key={index}
-                  className="basis-1/3 md:basis-1/4 lg:basis-1/5"
-                >
-                  <Link
-                    href={`/products/${product.id}`}
-                    key={product.id}
-                    className="w-[45%] md:w-[32%] lg:w-[23%]"
+        <div className="relative w-full">
+          <div className="flex items-center justify-start mb-5 w-full overflow-x-auto no-scrollbar scroll-smooth px-10">
+            {loading ? (
+              <div className="flex gap-8">
+                {product.map((item, index) => (
+                  <div
+                    key={index}
+                    className="flex-shrink-0 flex flex-col space-y-3 card p-5 w-64 shadow-2xl mb-8"
                   >
-                    <div
-                      key={product.id}
-                      className="card overflow-x-hidden flex flex-col items-center justify-center shadow-2xl mb-8"
-                    >
-                      <Image
-                        className="rounded-md img md:w-[20rem] w-[8rem]"
-                        src={`${product.attributes.images.data[0].attributes.url}`}
-                        alt={"img"}
-                        width={width}
-                        height={height}
-                      />
-
-                      <div className="w-full">
-                        <h3 className="pl-2 text-sm md:text-lg lg:text-2xl font-semibold mt-3 w-[100%] md:w-[100%] lg:w-[100%] overflow-hidden whitespace-nowrap overflow-ellipsis">
-                          {product.attributes.name}
-                        </h3>
-                        <div className="price flex justify-between px-5 text-xs md:text-lg lg:text-xl mt-2">
-                          <div className="first-price font-medium">
-                            ₹ {product.attributes.price}
-                          </div>
-                          <div className="second-price text-gray-500 line-through">
-                            ₹ {product.attributes.compare_price}
-                          </div>
-                        </div>
-
-                        <Link
-                          href={`/products/${product.id}`}
-                          className="flex items-center justify-center"
-                        >
-                          <button
-                            className="myBtn py-2 product mb-6 text-xs md:text-lg lg:text-xl w-full mx-2 mt-2"
-                            type="button"
-                          >
-                            View Product
-                          </button>
-                        </Link>
-                      </div>
+                    <div>
+                      <Skeleton className="h-[250px] w-[250px] rounded-xl skeleton-bg" />
                     </div>
-                  </Link>
-                </CarouselItem>
-              ))}
-            </CarouselContent>
-            <CarouselPrevious />
-            <CarouselNext />
-          </Carousel>
+                    <div className="mt-2rem items-start">
+                      <Skeleton className="h-4 w-[200px] skeleton-bg mb-3" />
+                      <Skeleton className="h-4 w-[180px] skeleton-bg " />
+                      <Skeleton className="h-7 w-[200px] skeleton-bg m-auto mt-4" />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              products.map((product) => (
+                <Link
+                  href={`/products/${product.id}`}
+                  key={product.id}
+                  className="flex-shrink-0 w-64 mx-2"
+                >
+                  <div className="card overflow-hidden flex flex-col items-center justify-center shadow-2xl mb-8">
+                    <Image
+                      className="rounded-md img w-full h-64 object-cover"
+                      src={`${product.attributes.images.data[0].attributes.url}`}
+                      alt={"img"}
+                      width={256}
+                      height={256}
+                    />
+                    <div className="w-full px-[1rem]">
+                      <h3 className="text-lg font-semibold mt-3 truncate">
+                        {product.attributes.name}
+                      </h3>
+                      <div className="price flex justify-between text-sm mt-2">
+                        <div className="first-price text-lg font-medium">
+                          ₹ {product.attributes.price}
+                        </div>
+                        <div className="second-price text-gray-500 line-through text-lg">
+                          ₹ {product.attributes.compare_price}
+                        </div>
+                      </div>
+                      <button
+                        className="myBtn py-2 product mt-4 text-base w-full"
+                        type="button"
+                      >
+                        View Product
+                      </button>
+                    </div>
+                  </div>
+                </Link>
+              ))
+            )}
+          </div>
         </div>
       </div>
     </div>

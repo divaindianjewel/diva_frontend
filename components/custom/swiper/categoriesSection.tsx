@@ -102,7 +102,7 @@ const Categories = () => {
               categories.map((item) => (
                 <CarouselItem
                   key={item.id}
-                  className="basis-1/4 flex items-center justify-center "
+                  className="basis-1/2 md:basis-1/4 lg:basis-1/5 flex items-center justify-center "
                 >
                   <Link href={`category/${item.id}`}>
                     <div className="flex items-center justify-center flex-col">
@@ -111,9 +111,9 @@ const Categories = () => {
                         alt="category"
                         width={width}
                         height={height}
-                        className={`${categoriesImgClass} w-[4.3rem] md:w-[10rem] lg:w-[15rem]`}
+                        className={`${categoriesImgClass} w-[9rem] md:w-[10rem] lg:w-[15rem]`}
                       />
-                      <h2 className="text-sm md:text-lg lg:text-xl mb-10 w-[5rem] md:w-[13rem] lg:w-[18rem] overflow-hidden whitespace-nowrap overflow-ellipsis">
+                      <h2 className="text-sm md:text-lg lg:text-xl mb-10 w-[8rem] md:w-[13rem] lg:w-[18rem] overflow-hidden whitespace-nowrap overflow-ellipsis">
                         {item.attributes.name}
                       </h2>
                     </div>

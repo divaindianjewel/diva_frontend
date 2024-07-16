@@ -56,7 +56,6 @@ const HomeBanner = () => {
         const data = await response.json();
         setBanner(data.data);
         setLoading(false);
-        console.log(data.data);
       } catch (error) {
         console.error("Error fetching images:", error);
       }

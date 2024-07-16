@@ -58,7 +58,7 @@ const Page = () => {
       setLoading(false);
     };
 
-    getCategory();
+      getCategory();
   }, [loading, categoryId]);
 
   const categoriesImgClass = "rounded-full border-2 border-yellow-600 my-5";

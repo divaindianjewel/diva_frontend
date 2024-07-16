@@ -7,10 +7,12 @@ import CustomerReviews from "../../../components/custom/reviews/reviewBox";
 import { addToCart } from "../../../backend/add-to-cart";
 import { useAuth, useUser } from "@clerk/nextjs";
 import { domain, updateCart } from "../../../components/backend/apiRouth";
+
 import {
   BlocksRenderer,
   type BlocksContent,
 } from "@strapi/blocks-react-renderer";
+
 import { useParams } from "next/navigation";
 import { Skeleton } from "../../../components/ui/skeleton";
 import { warningTost, successTost } from "../../../components/toast/allTost";
@@ -87,6 +89,17 @@ interface ApiResponse {
   data: ProductData;
 }
 
+interface ReviewAttributes {
+  id: number;
+  attributes: {
+    product_id: number;
+    ratting: number;
+    Description: string;
+    user_id: string;
+    createdAt: string;
+    updatedAt: string;
+  };
+}
 const Page = () => {
   const [cartItem, setCartItem] = useState<cartItemProps | undefined>();
   const [userLocalId, setUserLocalId] = useState<string | undefined>("");
@@ -100,6 +113,8 @@ const Page = () => {
   const [cartDisable, setCartDisable] = useState<boolean>(false);
   const [imgData, setImgData] = useState<any[]>([]);
   const [isLoadProduct, setIsLoadProduct] = useState<boolean>(false);
+  const [totalReviews, setTotalReviews] = useState<number>(0);
+  const [avgReviews, setAvgReviews] = useState<number>(0);
 
   const generateRandomNumber = () => {
     const randomNumber = Math.floor(Math.random() * 100) + 1;
@@ -113,6 +128,7 @@ const Page = () => {
     productId = Number(params.id);
   }
 
+  //  FUNCTION TO ADD THE PRODUCT TO THE CART
   const handleAddToCart = () => {
     setCartDisable(true);
 
@@ -128,6 +144,7 @@ const Page = () => {
       } else {
         if (userLocalId) {
           generateRandomNumber();
+
           addToCart(
             String(productId),
             userLocalId,
@@ -135,6 +152,7 @@ const Page = () => {
             product?.attributes.price,
             product?.attributes.images.data[0].attributes.url
           );
+
           cartItems.push(cartItem);
           Cookies.set("DIVAcart", JSON.stringify(cartItems), {
             expires: 365,
@@ -143,7 +161,6 @@ const Page = () => {
             path: "/",
             domain: window.location.hostname,
           });
-          successTost("Product added to cart");
         } else {
           cartItems.push(cartItem);
           Cookies.set("DIVAcart", JSON.stringify(cartItems), {
@@ -153,9 +170,9 @@ const Page = () => {
             path: "/",
             domain: window.location.hostname,
           });
-          successTost("Product added to cart");
         }
 
+        successTost("Product added to cart");
         const randomNumber = Math.floor(Math.random() * 100) + 1;
         setRandomNum(randomNumber);
       }
@@ -168,11 +185,13 @@ const Page = () => {
     }, 3500);
   };
 
+  // GET THE USER-ID
   useEffect(() => {
     const id = Cookies.get("DIVAIJ-USER");
     setUserLocalId(id);
   }, [userLocalId]);
 
+  // GET THE PRODUCT DATA
   useEffect(() => {
     const fetchProduct = async () => {
       try {
@@ -231,6 +250,35 @@ const Page = () => {
     }
   }, [cartData, randomNum]);
 
+  // GET THE REVIEW DATA
+  useEffect(() => {
+    const fetchReview = async () => {
+      try {
+        const res = await fetch(
+          `${domain}/api/reviews?filters[$and][0][product_id][$eq]=${productId}`
+        );
+        const data = await res.json();
+        const reviews: ReviewAttributes[] = data.data;
+        setTotalReviews(reviews.length);
+
+        if (reviews.length > 0) {
+          const sumRatings = reviews.reduce(
+            (sum, review) => sum + review.attributes.ratting,
+            0
+          );
+          const averageRating = sumRatings / reviews.length;
+          setAvgReviews(averageRating);
+        } else {
+          setAvgReviews(0);
+        }
+      } catch (error) {
+        console.error("Error fetching reviews:", error);
+      }
+    };
+
+    fetchReview();
+  }, [productId, domain, randomNum]);
+
   const handelDescription = (content: BlocksContent) => {
     return <BlocksRenderer content={content} />;
   };
@@ -285,11 +333,11 @@ const Page = () => {
                   ) : (
                     <>
                       <div className="ratting mt-2 flex items-center px-3 py-1 bg-yellow-100 w-fit text-lg">
-                        <span className=" mr-1">5</span>{" "}
+                        <span className=" mr-1">{avgReviews}</span>{" "}
                         <IoIosStar size={20} color="gold" className="" />
                       </div>
                       <span className="text-lg text-gray-500">
-                        (30 reviews)
+                        ({totalReviews} reviews)
                       </span>
                     </>
                   )}
@@ -310,7 +358,7 @@ const Page = () => {
                       </p>
                     </div>
                   </Link>
-                  <Link href={'/return'}>
+                  <Link href={"/return"}>
                     <div className="flex gap-5 items-center justify-start">
                       <Image
                         src={warranty}
@@ -365,12 +413,11 @@ const Page = () => {
                 {loading ? (
                   <>
                     <Skeleton className="h-[35px] w-[250px] rounded-xl mt-3 skeleton-bg" />
-                    <Skeleton className="h-[35px] w-[250px] rounded-xl skeleton-bg" />
                   </>
                 ) : (
-                  <div className="w-fit flex items-center justify-center flex-col gap-3 md:flex-row lg:flex-col">
+                  <div className="hidden md:flex w-fit items-center justify-center flex-col gap-3 md:flex-row lg:flex-col">
                     <button
-                      className="rounded-md text-xl font-semibold gold-color text-black py-2 flex items-center justify-center gap-3  w-[15rem] md:w-[20rem] lg:w-[25rem]"
+                      className="rounded-md text-xl font-semibold text-white bg-[#212020] py-2 flex items-center justify-center gap-3  w-[15rem] md:w-[20rem] lg:w-[25rem]"
                       type="button"
                       disabled={cartDisable}
                       onClick={handleAddToCart}
@@ -385,20 +432,44 @@ const Page = () => {
         </div>
       </section>
 
-      <section className="w-fit mx-auto">
-        <div className="video-container w-fit flex items-center justify-center">
-          <iframe
-            className="w-[17rem] lg:w-[30rem] md:w-[25rem]"
-            width={width}
-            height={500}
-            src={product?.attributes.youtube_link}
-          ></iframe>
-        </div>
-      </section>
+      {product?.attributes.youtube_link ? (
+        <section className="w-fit mx-auto">
+          <div className="video-container w-fit flex items-center justify-center">
+            <iframe
+              className="w-[17rem] lg:w-[30rem] md:w-[25rem]"
+              width={width}
+              height={500}
+              src={product?.attributes.youtube_link}
+            ></iframe>
+          </div>
+        </section>
+      ) : (
+        ""
+      )}
 
       <section>
         <CustomerReviews productId={productId} />
       </section>
+
+      <div className="md:hidden sticky bottom-[10px] flex flex-col gap-3 mt-3 w-full mx-auto">
+        {loading ? (
+          <>
+            <Skeleton className="h-[35px] w-[250px] rounded-xl mt-3 skeleton-bg" />
+            <Skeleton className="h-[35px] w-[250px] rounded-xl skeleton-bg" />
+          </>
+        ) : (
+          <div className="w-full flex items-center justify-center flex-col gap-3 md:flex-row lg:flex-col">
+            <button
+              className="w-[90%] rounded-md text-xl font-semibold text-white bg-[#212020] py-2 flex items-center justify-center  gap-3 md:w-[20rem] lg:w-[25rem]"
+              type="button"
+              disabled={cartDisable}
+              onClick={handleAddToCart}
+            >
+              <FaShoppingCart /> Add To cart
+            </button>
+          </div>
+        )}
+      </div>
 
       <section>
         {categoryId ? <SuggestionSwiper categoryId={categoryId} /> : ""}

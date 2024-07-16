@@ -1,18 +1,14 @@
-// Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
-
-// Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyAH7y1n5SGP0os5Iu2F3vAQGX1mJK409wU",
-  authDomain: "divatheindianjewel.com/",
-  projectId: "otp-test-4f683",
-  storageBucket: "otp-test-4f683.appspot.com",
-  messagingSenderId: "168179710210",
-  appId: "1:168179710210:web:8b5744f854c9a4d8ed2a1b",
+  apiKey: "AIzaSyDfzX_GJ3J9PDofrn4Fqtp0-8evSIOEnhM",
+  authDomain: "diva-the-indian-jewel.firebaseapp.com",
+  projectId: "diva-the-indian-jewel",
+  storageBucket: "diva-the-indian-jewel.appspot.com",
+  messagingSenderId: "394239193589",
+  appId: "1:394239193589:web:0a946abbc42463dcecf0bc",
+  measurementId: "G-2ZK5NNMXTB",
 };
 
 const app = initializeApp(firebaseConfig);

@@ -65,46 +65,6 @@ const Footer = () => {
             </div>
             {/* social - end */}
           </div>
-          {/* nav - start */}
-          <div>
-            <div className="mb-4 font-bold uppercase tracking-widest text-gray-100">
-              Products
-            </div>
-            <nav className="flex flex-col gap-4">
-              <div>
-                <a
-                  href="#"
-                  className="text-gray-400 transition duration-100 hover:text-indigo-500 active:text-indigo-600"
-                >
-                  product-1
-                </a>
-              </div>
-              <div>
-                <a
-                  href="#"
-                  className="text-gray-400 transition duration-100 hover:text-indigo-500 active:text-indigo-600"
-                >
-                  product-2
-                </a>
-              </div>
-              <div>
-                <a
-                  href="#"
-                  className="text-gray-400 transition duration-100 hover:text-indigo-500 active:text-indigo-600"
-                >
-                  product-3
-                </a>
-              </div>
-              <div>
-                <a
-                  href="#"
-                  className="text-gray-400 transition duration-100 hover:text-indigo-500 active:text-indigo-600"
-                >
-                  product-4
-                </a>
-              </div>
-            </nav>
-          </div>
 
           <div>
             <div className="mb-4 font-bold uppercase tracking-widest text-gray-100">

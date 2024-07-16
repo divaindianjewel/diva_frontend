@@ -4,161 +4,123 @@ import { motion } from "framer-motion";
 import { errorTost, warningTost } from "../toast/allTost";
 import { Button } from "../ui/button";
 import { auth } from "../../firebase/config";
-import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  updateProfile,
+} from "firebase/auth";
 import Cookies from "js-cookie";
 import { domain } from "../backend/apiRouth";
 
 const Login: React.FC = () => {
-  const [phoneNumber, setPhoneNumber] = useState<string>("");
-  const [otp, setOtp] = useState<string>("");
-  const [step, setStep] = useState<number>(1);
-  const [realPhoneNum, setRealPhoneNum] = useState<string | undefined>();
-  const [user, setUser] = useState<any>(null);
+  const [fullName, setFullName] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [isRegister, setIsRegister] = useState<boolean>(false);
 
-  const [isBtn, setIsBtn] = useState<boolean>(false);
-
-  const handlePhoneNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setPhoneNumber(e.target.value);
+  const handleFullNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFullName(e.target.value);
+    console.log(fullName);
   };
 
-  const handleOtpChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setOtp(e.target.value);
+  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setEmail(e.target.value);
+    console.log(email);
   };
 
-  const sendOtp = async () => {
-    if (phoneNumber.length != 10 && realPhoneNum != undefined) {
-      warningTost("Please Enter a valid phone Number");
-    } else {
-      setIsBtn(true);
-      try {
-        const recaptcha = new RecaptchaVerifier(auth, "recaptcha", {});
-        if (realPhoneNum != undefined) {
-          const confirmation = await signInWithPhoneNumber(
-            auth,
-            realPhoneNum,
-            recaptcha
-          );
-          setUser(confirmation);
-        }
-      } catch (error) {
-        alert("something went wrong");
-        console.log(error);
-      }
-      setStep(2);
-    }
+  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setPassword(e.target.value);
+    console.log(password);
   };
 
-  const verifyOtp = async () => {
+  const handleLogin = async () => {
     try {
-      const data = await user.confirm(otp);
-      const localId = data._tokenResponse.localId;
-      Cookies.set("DIVAIJ-USER", localId, { expires: 365 });
-      console.log(Cookies.get("DIVAIJ-USER"));
-
-      const response = await fetch(
-        `${domain}/api/user-ids?filters[$and][0][number][$eq]=${phoneNumber}`
+      console.log(email);
+      console.log(password);
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
       );
-
-      const userData = await response.json();
-
-      if (userData.data) {
-        const addResponse = await fetch(`${domain}/api/user-ids`, {
-          method: "POST",
-          body: JSON.stringify({
-            data: {
-              number: Number(phoneNumber),
-              localId: localId,
-            },
-          }),
-        });
-
-        if (addResponse.ok) {
-          alert("Login successfully");
-          location.reload();
-        } else {
-          alert("something went wrong");
-        }
-      } else {
-        alert("Login successfully");
-        location.reload();
-      }
+      const user = userCredential.user;
+      Cookies.set("DIVAIJ-USER", user.uid, { expires: 365 });
+      alert("Login successfully");
+      location.reload();
     } catch (error) {
-      alert("OTP is wrong");
-      errorTost("Something went wrong");
+      alert("Login failed");
       console.log(error);
     }
   };
 
-  const changePhoneNumber = () => {
-    setStep(1);
-    setOtp("");
+  const handleRegister = async () => {
+    try {
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      const user = userCredential.user;
+      await updateProfile(user, { displayName: fullName });
+      Cookies.set("DIVAIJ-USER", user.uid, { expires: 365 });
+      alert("Registration successfully");
+      location.reload();
+    } catch (error) {
+      alert("Registration failed");
+      console.log(error);
+    }
   };
 
   return (
     <div className="flex flex-col items-center justify-center h-fit">
-      {step === 1 ? (
-        <motion.div
-          key="phoneInput"
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -50 }}
-          transition={{ duration: 0.5 }}
-          className="bg-white p-8 rounded-lg"
-        >
-          <h2 className="text-2xl mb-6 text-black font-semibold">
-            Login with Phone Number
-          </h2>
-          <div className="flex items-center mb-4">
-            <span className="p-2 bg-gray-200 border border-r-0 rounded-l-md text-black">
-              +91
-            </span>
-            <input
-              type="number"
-              className="p-2 border rounded-r-md flex-1"
-              value={phoneNumber}
-              onChange={(e: any) => {
-                setRealPhoneNum("+91" + e.target.value);
-                handlePhoneNumberChange(e);
-              }}
-              placeholder="Enter Your Phone Number"
-            />
-          </div>
-          <div id="recaptcha" className="mb-3"></div>
-          <Button onClick={() => sendOtp()} disabled={isBtn} className="w-full">
-            Send OTP
-          </Button>
-        </motion.div>
-      ) : (
-        <motion.div
-          key="otpInput"
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -50 }}
-          transition={{ duration: 0.5 }}
-          className="bg-white p-8"
-        >
-          <h2 className="text-2xl mb-6 text-black">Enter OTP</h2>
-          <p className="mb-4">OTP sent to +91 {phoneNumber}</p>
+      <motion.div
+        key="authInput"
+        initial={{ opacity: 0, y: 50 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: -50 }}
+        transition={{ duration: 0.5 }}
+        className="bg-white p-8 rounded-lg w-80" // Adjusted width
+      >
+        <h2 className="text-2xl mb-6 text-black font-semibold">
+          {isRegister ? "Register Now" : "Login Now"}
+        </h2>
+        {isRegister && (
           <input
-            type="number"
-            className="p-2 border rounded-r-md flex-1"
-            value={otp}
-            onChange={handleOtpChange}
-            placeholder="Enter OTP"
+            type="text"
+            className="p-2 border rounded-md w-full mb-4"
+            value={fullName}
+            onChange={handleFullNameChange}
+            placeholder="Enter Full Name"
           />
-          <div className="flex flex-col items-start w-full justify-start gap-4 mt-3">
-            <Button onClick={verifyOtp} className="w-full">
-              Verify OTP
-            </Button>
-            <button
-              onClick={changePhoneNumber}
-              className="text-blue-500 underline"
-            >
-              Change Phone Number
-            </button>
-          </div>
-        </motion.div>
-      )}
+        )}
+        <input
+          type="email"
+          className="p-2 border rounded-md w-full mb-4"
+          value={email}
+          onChange={handleEmailChange}
+          placeholder="Enter Email"
+        />
+        <input
+          type="password"
+          className="p-2 border rounded-md w-full mb-4"
+          value={password}
+          onChange={handlePasswordChange}
+          placeholder="Enter Password"
+        />
+        <Button
+          onClick={isRegister ? handleRegister : handleLogin}
+          className="w-full"
+        >
+          {isRegister ? "Register" : "Login"}
+        </Button>
+        <button
+          onClick={() => setIsRegister(!isRegister)}
+          className="text-blue-500 underline mt-4"
+        >
+          {isRegister
+            ? "Already have an account? Login"
+            : "Don't have an account? Register"}
+        </button>
+      </motion.div>
     </div>
   );
 };
