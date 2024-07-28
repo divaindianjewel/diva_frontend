@@ -4,13 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 import React, { useState, useEffect } from "react";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel";
+
 import { domain } from "@/components/backend/apiRouth";
 import { Skeleton } from "@/components/ui/skeleton";
 

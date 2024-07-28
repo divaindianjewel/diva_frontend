@@ -112,7 +112,7 @@ export default function Component() {
 
         <div className="w-full flex justify-end items-end gap-5 flex-col mr-10 mt-10 py-5 px-10">
           <div>
-            <Link href={"/checkout"} target="_blank">
+            <Link href={"/billing"} target="_blank">
               <Button className="w-full " size="lg">
                 Proceed to Checkout
               </Button>

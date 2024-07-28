@@ -1,4 +1,5 @@
 "use client";
+
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -84,6 +85,7 @@ const HomeBanner = () => {
                 height={700}
               />
             </Link>
+
           </SwiperSlide>
         ))}
       </Swiper>

@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { Button } from "../../components/ui/button";
 import { useRouter } from "next/navigation";
+
 import {
   CardTitle,
   CardHeader,
@@ -101,7 +102,6 @@ const Page = () => {
   const [cartData, setCartData] = useState<CartItem[]>([]);
   const [subtotal, setSubtotal] = useState<number>(0);
   const [total, setTotal] = useState<number>(0);
-  // const { userId } = useAuth();
   const [state, setState] = useState("Andhra Pradesh");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -162,6 +162,7 @@ const Page = () => {
       setDataPresent(false);
     }
   }, [userLocalId]);
+
 
   const handelPay = async (e: any) => {
     e.preventDefault;
@@ -482,152 +483,15 @@ const Page = () => {
       <div className="sticky top-0 left-0 z-[100]">
         <Navbar />
       </div>
-      <div className="flex flex-col md:flex-row sm:items-center lg:items-start md:items-start  justify-center gap-5 ">
-        <Card className="max-w-[50rem] w-fit my-7">
-          <CardHeader>
-            <CardTitle>Billing Address</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <FormControl fullWidth>
-              <div id="state" className="my-3 w-[18rem]">
-                <InputLabel variant="standard" htmlFor="uncontrolled-native">
-                  Select State
-                </InputLabel>
-                <NativeSelect
-                  defaultValue={30}
-                  inputProps={{
-                    name: "Select Country",
-                  }}
-                  fullWidth
-                  onChange={handleStateChange}
-                >
-                  {states.map((item, index) => (
-                    <option key={index} value={item}>
-                      {item}
-                    </option>
-                  ))}
-                </NativeSelect>
-              </div>
 
-              <div
-                id="name"
-                className="flex flex-col md:flex-row gap-5 justify-between my-3 w-[18rem]"
-              >
-                <TextField
-                  id="standard-basic"
-                  label="First name"
-                  variant="outlined"
-                  fullWidth
-                  onChange={handleFirstNameChange}
-                  value={firstName}
-                />
-
-                <TextField
-                  id="standard-basic"
-                  label="Last name"
-                  variant="outlined"
-                  fullWidth
-                  onChange={handleLastNameChange}
-                  value={lastName}
-                />
-              </div>
-
-              <div
-                id="phone"
-                className="my-3 flex gap-5 flex-col md:flex-row w-[18rem]"
-              >
-                <TextField
-                  id="standard-basic"
-                  label="Phone Number"
-                  variant="outlined"
-                  type="number"
-                  fullWidth
-                  onChange={handlePhoneNumberChange}
-                  value={phoneNumber}
-                />
-                <TextField
-                  id="standard-basic"
-                  label="Enter Email"
-                  variant="outlined"
-                  type="email"
-                  fullWidth
-                  onChange={handleEmailChange}
-                  value={email}
-                />
-              </div>
-
-              <div
-                id="info"
-                className="flex gap-5  justify-between my-3 flex-col md:flex-row w-[18rem]"
-              >
-                <TextField
-                  id="standard-basic"
-                  label="City"
-                  variant="outlined"
-                  fullWidth
-                  onChange={handleCityChange}
-                  value={city}
-                />
-
-                <TextField
-                  id="City"
-                  label="pin-code"
-                  variant="outlined"
-                  fullWidth
-                  onChange={handlePinCodeChange}
-                  value={pinCode}
-                />
-              </div>
-
-              <div id="address" className="my-3 w-[18rem]">
-                <TextField
-                  id="standard-basic"
-                  label="Address"
-                  variant="outlined"
-                  fullWidth
-                  onChange={handleAddressChange}
-                  value={address}
-                />
-              </div>
-            </FormControl>
-          </CardContent>
-          <Separator />
-        </Card>
-
-        <Card className="max-w-[50rem] my-7 max-h-[30rem] w-fit overflow-y-scroll">
-          <CardHeader>
-            <CardTitle>My Cart</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="grid gap-6">
-              {cookiesCartData.map((item) => (
-                <CartItems
-                  key={item.id}
-                  random={() => {}}
-                  productId={item.id}
-                  cartId={item.id}
-                  qnt={item.qnt}
-                  show={false}
-                  image={item.img}
-                  productName={item.name}
-                  price={item.price}
-                />
-              ))}
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-
-      <Separator />
-
-      <div className="flex flex-col lg:flex-row w-fit mx-auto gap-5">
-        <Card className="max-w-[70rem] w-[22rem] md:w-[30rem] my-5 overflow-x-hidden ">
+      <div className="flex flex-col w-fit mx-auto gap-5">
+        <Card className="my-5">
           <CardHeader>
             <CardTitle className="text-center">Payment Method</CardTitle>
           </CardHeader>
 
           <div className="w-fit">
-            <div className="plans flex flex-row px-1 w-[22rem] md:w-[45rem] lg:w-[30rem] ">
+            <div className="plans flex flex-row px-1">
               <label
                 className={`plan basic-plan w-[20rem] md:w-[25rem] ${
                   selectedMethod === "online" ? "active" : ""
@@ -695,15 +559,15 @@ const Page = () => {
             </div>
           </div>
 
-          <CardContent></CardContent>
+
         </Card>
 
         <div className={`flex flex-col w-fit mx-0 md:mx-auto gap-5`}>
           <div>
-            <div className="flex w-full max-w-sm items-center space-x-2">
+            <div className="flex w-full items-center space-x-2">
               <Input
                 placeholder="Enter discount code"
-                className="w-full"
+                className="w-[70%]"
                 type="text"
                 disabled={isDiscounted}
                 onChange={(e) => {
@@ -716,6 +580,7 @@ const Page = () => {
                   await applyDiscount(discountCodeText);
                 }}
                 disabled={isDiscounted}
+                className="w-[30%]"
               >
                 Apply
               </Button>
