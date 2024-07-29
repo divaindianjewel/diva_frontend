@@ -97,7 +97,6 @@ const Page = () => {
   };
 
   const handleBilling = async (e: any) => {
-    // Ensure these variables are defined and accessible
     let tmpUserId = userId != null ? userId : null;
 
     const bodyData = {
@@ -137,6 +136,22 @@ const Page = () => {
       }
 
       if (res.ok) {
+        const data = await res.json();
+
+        console.log("Response data:", data); // Debugging log
+        const id = data.data.id;
+
+        console.log("Setting cookie with id:", id); // Debugging log
+        Cookies.set("BillingId", id, {
+          expires: 365,
+          secure: window.location.protocol === "https:",
+          sameSite: "Lax",
+          path: "/",
+          domain: window.location.hostname,
+        });
+
+        console.log("Cookie set successfully"); // Debugging log
+
         router.push("/checkout");
       } else {
         const errorData = await res.json();
@@ -201,10 +216,9 @@ const Page = () => {
       setEmail(info.attributes.email);
       setLoading(false);
     };
-    
+
     getData();
   }, [loading]);
-
 
   // GETTING THE USER DATA
   useEffect(() => {
@@ -350,8 +364,6 @@ const Page = () => {
           <Separator />
         </Card>
       </div>
-
-
     </>
   );
 };

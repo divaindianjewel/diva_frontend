@@ -136,6 +136,7 @@ const Page = () => {
     }
   };
 
+  
   // GETTING Address Id
   useEffect(() => {
     const BillingId = Cookies.get("BillingId");
@@ -311,7 +312,6 @@ const Page = () => {
             state,
             selectedMethod
           );
-          console.log(response);
           Cookies.set("DivaOrderId", String(response.id), {
             expires: 365,
             secure: window.location.protocol === "https:",
@@ -321,7 +321,6 @@ const Page = () => {
           });
 
           const tmp = Cookies.get("DivaOrderID");
-          console.log(tmp);
         } catch (error) {
           console.log(error);
         }
@@ -344,7 +343,6 @@ const Page = () => {
   const handleMethodChange = (event: any) => {
     const selectedValue = event.target.id;
     setSelectedMethod(selectedValue);
-    console.log(selectedValue);
   };
 
   // fetching cart Data
@@ -374,7 +372,6 @@ const Page = () => {
       ? JSON.parse(cookieCartData)
       : [];
 
-    console.log(cartData);
     setCookiesCartData(cartData);
     setLoading(false);
   }, [loading]);
