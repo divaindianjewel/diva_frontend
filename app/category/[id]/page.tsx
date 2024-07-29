@@ -86,8 +86,6 @@ const Page = () => {
     fetchData();
   }, [categoryId, productLoaded]);
 
-  // console.log(allProducts);
-
   const fetchProducts = async (page: number) => {
     const response = await fetch(
       `${domain}/api/products?populate=*&pagination[pageSize]=100&pagination[page]=${page}`

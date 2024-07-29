@@ -114,7 +114,7 @@ export default function Component() {
           <div>
             <Link href={"/billing"} target="_blank">
               <Button className="w-full " size="lg">
-                Proceed to Checkout
+                Proceed to Billing
               </Button>
             </Link>
           </div>

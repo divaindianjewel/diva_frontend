@@ -163,7 +163,6 @@ const Page = () => {
     }
   }, [userLocalId]);
 
-
   const handelPay = async (e: any) => {
     e.preventDefault;
     if (
@@ -484,7 +483,7 @@ const Page = () => {
         <Navbar />
       </div>
 
-      <div className="flex flex-col w-fit mx-auto gap-5">
+      <div className="flex items-center justify-center px-3 flex-col w-fit mx-auto gap-5">
         <Card className="my-5">
           <CardHeader>
             <CardTitle className="text-center">Payment Method</CardTitle>
@@ -558,8 +557,6 @@ const Page = () => {
               </label>
             </div>
           </div>
-
-
         </Card>
 
         <div className={`flex flex-col w-fit mx-0 md:mx-auto gap-5`}>

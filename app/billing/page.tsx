@@ -33,7 +33,7 @@ interface userAddress {
   };
 }
 
-const page = () => {
+const Page = () => {
   const router = useRouter();
 
   const [state, setState] = useState("");
@@ -205,6 +205,7 @@ const page = () => {
     getData();
   }, [loading]);
 
+
   // GETTING THE USER DATA
   useEffect(() => {
     const data = Cookies.get("DIVAIJ-USER");
@@ -349,8 +350,10 @@ const page = () => {
           <Separator />
         </Card>
       </div>
+
+
     </>
   );
 };
 
-export default page;
+export default Page;
