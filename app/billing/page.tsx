@@ -138,10 +138,8 @@ const Page = () => {
       if (res.ok) {
         const data = await res.json();
 
-        console.log("Response data:", data); // Debugging log
         const id = data.data.id;
 
-        console.log("Setting cookie with id:", id); // Debugging log
         Cookies.set("BillingId", id, {
           expires: 365,
           secure: window.location.protocol === "https:",
@@ -149,8 +147,6 @@ const Page = () => {
           path: "/",
           domain: window.location.hostname,
         });
-
-        console.log("Cookie set successfully"); // Debugging log
 
         router.push("/checkout");
       } else {
