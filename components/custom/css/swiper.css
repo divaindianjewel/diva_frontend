@@ -1,0 +1,13 @@
+/* Custom Swiper Pagination Styles */
+.custom-swiper .swiper-pagination-bullet {
+  background-color: #6b6b6b; /* Change this to your desired color */
+  width: 18px; /* Default width */
+  height: 18px; /* Default height */
+}
+
+.custom-swiper .swiper-pagination-bullet-active {
+  background-color: #7d7d7d; /* Change this to your desired active color */
+  width: 40px; /* Desired width for the active bullet */
+  height: 10px; /* Keep the height consistent */
+  border-radius: 4px; /* Optional: Make the active bullet rounded */
+}

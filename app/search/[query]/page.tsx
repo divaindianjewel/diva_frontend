@@ -8,7 +8,6 @@ import { Product } from "../../../components/custom/swiper/WomensFeatureSection"
 import Navbar from "../../../components/custom/navbar";
 import Link from "next/link";
 import Image from "next/image";
-import { Skeleton } from "../../../components/ui/skeleton";
 
 const Page = () => {
   const [query, setQuery] = useState<string>("");

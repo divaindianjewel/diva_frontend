@@ -1,0 +1,37 @@
+.title {
+  font-size: 2em;
+  font-weight: bold;
+  margin-bottom: 0;
+}
+
+.subtitle {
+  font-size: 1.2em;
+  color: #8b4513;
+  font-style: italic;
+  margin-top: 0;
+  margin-bottom: 20px;
+}
+
+.price-category {
+  display: inline-block;
+  margin: 10px;
+  text-align: center;
+}
+
+.price-category img {
+  border-radius: 50%;
+  width: 150px;
+  height: 150px;
+}
+
+.price-text {
+  font-size: 1.2em;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+.price-amount {
+  color: #a52a2a;
+  font-size: 1.5em;
+  margin-top: 5px;
+}

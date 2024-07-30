@@ -7,23 +7,29 @@ import { Swiper, SwiperSlide } from "swiper/react";
 // Import Swiper styles
 import "swiper/css";
 import "swiper/css/pagination";
+import "../css/swiper.css";
 
 // import required modules
-import { Pagination } from "swiper/modules";
+import {
+  Autoplay,
+  EffectCoverflow,
+  Navigation,
+  Pagination,
+} from "swiper/modules";
 import { domain } from "@/components/backend/apiRouth";
 import Link from "next/link";
 import { Skeleton } from "@/components/ui/skeleton";
 
-const swiperProps = {
-  loop: true,
-  effect: "fade",
-  grabCursor: true,
-  autoplay: {
-    delay: 4000,
-  },
-};
+// const swiperProps = {
+//   loop: true,
+//   effect: "fade",
+//   grabCursor: true,
+//   autoplay: {
+//     delay: 4000,
+//   },
+// };
 
-interface bannerProps {
+interface BannerProps {
   id: number;
   attributes: {
     banner: {
@@ -40,11 +46,12 @@ interface bannerProps {
         id: number;
       };
     };
+    priority: number;
   };
 }
 
 const HomeBanner = () => {
-  const [banner, setBanner] = useState<bannerProps[]>([]);
+  const [banner, setBanner] = useState<BannerProps[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
@@ -55,7 +62,11 @@ const HomeBanner = () => {
           throw new Error("Failed to fetch images");
         }
         const data = await response.json();
-        setBanner(data.data);
+        const sortedBanners = data.data.sort(
+          (a: BannerProps, b: BannerProps) =>
+            b.attributes.priority - a.attributes.priority
+        );
+        setBanner(sortedBanners);
         setLoading(false);
       } catch (error) {
         console.error("Error fetching images:", error);
@@ -70,10 +81,24 @@ const HomeBanner = () => {
   ) : (
     <>
       <Swiper
-        {...swiperProps}
-        pagination={{ dynamicBullets: true }}
-        modules={[Pagination]}
-        className="mySwiper"
+        effect="coverflow"
+        coverflowEffect={{
+          rotate: 0,
+          stretch: 0,
+          depth: 100,
+          modifier: 2.5,
+        }}
+        loop={true}
+        autoplay={{
+          delay: 2000,
+          disableOnInteraction: false,
+        }}
+        modules={[EffectCoverflow, Pagination, Navigation, Autoplay]}
+        pagination={{
+          dynamicBullets: true,
+          clickable: true,
+        }}
+        className="mySwiper custom-swiper "
       >
         {banner.map((banner, index) => (
           <SwiperSlide key={index}>
@@ -85,7 +110,6 @@ const HomeBanner = () => {
                 height={700}
               />
             </Link>
-
           </SwiperSlide>
         ))}
       </Swiper>
