@@ -31,7 +31,7 @@ const RakhiPackaging = () => {
                 </h2>
 
                 <div className="poppins-semibold my-4 text-start">
-                  <h3 className="capitalize text-lg font-semibold my-2">
+                  <h3 className="capitalize text-lg roboto-medium font-semibold my-2">
                     What will you get in our rakhi special box
                   </h3>
                   <ol className="flex flex-col gap-3 mx-3">
@@ -40,7 +40,7 @@ const RakhiPackaging = () => {
                   </ol>
                 </div>
 
-                <p className="poppins-medium text-base text-start">
+                <p className="poppins-medium text-base roboto-medium text-start">
                   To Celebrate the unbreakable bond with our brothers this
                   Raksha Bandhan! <br />
                   If your away from home and want to Celebrate Raksha Bandhan
