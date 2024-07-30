@@ -6,6 +6,8 @@ import Categories from "@/components/custom/swiper/categoriesSection";
 import Navbar from "@/components/custom/navbar";
 import FadingBanner from "@/components/custom/Fade";
 import ShopByPrice from "@/components/eventComponents/ShopByPrice";
+import RakhiPackaging from "@/components/eventComponents/RakhiPackaging";
+
 
 export default async function Home() {
   return (
@@ -16,6 +18,9 @@ export default async function Home() {
       </div>
       <HomeBanner />
       <ShopByPrice />
+
+      <RakhiPackaging />
+
       <FeaturesSection />
       <Categories />
       <MensFeatureSection />
