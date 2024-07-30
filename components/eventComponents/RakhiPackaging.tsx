@@ -1,5 +1,6 @@
 import React from "react";
 import "./css/font.css";
+import Link from "next/link";
 
 const RakhiPackaging = () => {
   return (
@@ -53,12 +54,14 @@ const RakhiPackaging = () => {
                   </p>
                 </p>
 
-                <button
-                  className="myBtn py-2 product mt-4 text-base font-semibold"
-                  type="button"
-                >
-                  Shop Now
-                </button>
+                <Link href={"/category/16"}>
+                  <button
+                    className="myBtn py-2 product mt-4 text-base font-semibold"
+                    type="button"
+                  >
+                    Shop Now
+                  </button>
+                </Link>
               </div>
             </div>
           </div>
