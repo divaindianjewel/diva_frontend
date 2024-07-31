@@ -3,7 +3,8 @@ import NextTopLoader from "nextjs-toploader";
 import Footer from "@/components/custom/footer";
 import { Metadata } from "next";
 import TostContainer from "@/components/custom/TostContainer";
-import Head from 'next/head';
+import Head from "next/head";
+import Script from "next/script";
 
 export const metadata: Metadata = {
   title: "Diva The Indian Jewel",
@@ -18,25 +19,24 @@ export default function RootLayout({
   return (
     <html lang="en">
       <Head>
-        {/* Facebook Pixel Code */}
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              !function(f,b,e,v,n,t,s)
-              {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-              n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-              if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-              n.queue=[];t=b.createElement(e);t.async=!0;
-              t.src=v;s=b.getElementsByTagName(e)[0];
-              s.parentNode.insertBefore(t,s)}(window, document,'script',
-              'https://connect.facebook.net/en_US/fbevents.js');
-              fbq('init', '515889234192942');
-              fbq('track', 'PageView');
-            `,
-          }}
-        />
+        <Script strategy="afterInteractive" id="fb-pixel">
+          {`
+            !function(f,b,e,v,n,t,s)
+            {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+            n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+            if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+            n.queue=[];t=b.createElement(e);t.async=!0;
+            t.src=v;s=b.getElementsByTagName(e)[0];
+            s.parentNode.insertBefore(t,s)}(window, document,'script',
+            'https://connect.facebook.net/en_US/fbevents.js');
+            fbq('init', '515889234192942');
+            fbq('track', 'PageView');
+          `}
+        </Script>
       </Head>
       <body>
+        {/* Facebook Pixel Code */}
+
         <NextTopLoader color="#F8D247" />
         <TostContainer />
         {children}
