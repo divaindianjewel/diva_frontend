@@ -5,7 +5,7 @@ import { Metadata } from "next";
 import TostContainer from "@/components/custom/TostContainer";
 import Head from "next/head";
 import Script from "next/script";
-import Image from 'next/image';
+import Image from "next/image";
 
 export const metadata: Metadata = {
   title: "Diva The Indian Jewel",
@@ -20,7 +20,6 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        {/* Move the Script component outside of Head */}
         <Script id="meta-pixel" strategy="afterInteractive">
           {`
             !function(f,b,e,v,n,t,s)
@@ -35,8 +34,17 @@ export default function RootLayout({
             fbq('track', 'PageView');
           `}
         </Script>
+
+        <Script id="google-tag-manager" strategy="afterInteractive">
+          {`
+           (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-W6ZMSJGM');
+          `}
+        </Script>
         <noscript>
-          {/* Replace img with Image component */}
           <Image
             height={1}
             width={1}
@@ -45,6 +53,14 @@ export default function RootLayout({
             src="https://www.facebook.com/tr?id=1093686505680831&ev=PageView&noscript=1"
           />
         </noscript>
+        <noscript>
+          <iframe
+            src="https://www.googletagmanager.com/ns.html?id=GTM-W6ZMSJGM"
+            height="0"
+            width="0"
+          ></iframe>
+        </noscript>
+
         <NextTopLoader color="#F8D247" />
         <TostContainer />
         {children}
