@@ -5,6 +5,7 @@ import { Metadata } from "next";
 import TostContainer from "@/components/custom/TostContainer";
 import Head from "next/head";
 import Script from "next/script";
+import Image from 'next/image';
 
 export const metadata: Metadata = {
   title: "Diva The Indian Jewel",
@@ -18,8 +19,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <Head>
-        {/* Meta Pixel Code */}
+      <body>
+        {/* Move the Script component outside of Head */}
         <Script id="meta-pixel" strategy="afterInteractive">
           {`
             !function(f,b,e,v,n,t,s)
@@ -34,14 +35,16 @@ export default function RootLayout({
             fbq('track', 'PageView');
           `}
         </Script>
-        {/* This <noscript> tag is important for tracking users without JavaScript */}
         <noscript>
-          <img height="1" width="1" style={{ display: "none" }} 
-               src="https://www.facebook.com/tr?id=1093686505680831&ev=PageView&noscript=1" 
+          {/* Replace img with Image component */}
+          <Image
+            height={1}
+            width={1}
+            alt="" // Empty alt for decorative image
+            style={{ display: "none" }}
+            src="https://www.facebook.com/tr?id=1093686505680831&ev=PageView&noscript=1"
           />
         </noscript>
-      </Head>
-      <body>
         <NextTopLoader color="#F8D247" />
         <TostContainer />
         {children}
