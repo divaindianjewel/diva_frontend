@@ -19,7 +19,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <Head>
-        <Script strategy="afterInteractive" id="fb-pixel">
+        {/* Meta Pixel Code */}
+        <Script id="meta-pixel" strategy="afterInteractive">
           {`
             !function(f,b,e,v,n,t,s)
             {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
@@ -29,14 +30,18 @@ export default function RootLayout({
             t.src=v;s=b.getElementsByTagName(e)[0];
             s.parentNode.insertBefore(t,s)}(window, document,'script',
             'https://connect.facebook.net/en_US/fbevents.js');
-            fbq('init', '515889234192942');
+            fbq('init', '1093686505680831');
             fbq('track', 'PageView');
           `}
         </Script>
+        {/* This <noscript> tag is important for tracking users without JavaScript */}
+        <noscript>
+          <img height="1" width="1" style={{ display: "none" }} 
+               src="https://www.facebook.com/tr?id=1093686505680831&ev=PageView&noscript=1" 
+          />
+        </noscript>
       </Head>
       <body>
-        {/* Facebook Pixel Code */}
-
         <NextTopLoader color="#F8D247" />
         <TostContainer />
         {children}
