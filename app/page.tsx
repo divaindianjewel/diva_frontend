@@ -18,9 +18,6 @@ export default async function Home() {
       </div>
       <HomeBanner />
       <ShopByPrice />
-
-      <RakhiPackaging />
-
       <FeaturesSection />
       <Categories />
       <MensFeatureSection />
