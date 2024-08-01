@@ -483,11 +483,11 @@ const Page = () => {
             <Link
               className="rounded-md text-xl font-semibold text-white bg-[#212020] py-2 flex items-center justify-center gap-3  w-[15rem] md:w-[20rem] lg:w-[25rem]"
               type="button"
-              href={`whatsapp://send?phone=8888282229&text="Hello"`}
+              href={`whatsapp://send?phone=+918888282229&text="Hello"`}
             >
               <FaWhatsapp /> Contact Us Now
             </Link>
-            
+
           </div>
         )}
       </div>
