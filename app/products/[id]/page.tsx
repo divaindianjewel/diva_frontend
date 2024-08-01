@@ -41,6 +41,7 @@ interface ProductData {
     compare_price: number;
     description: BlocksContent;
     youtube_link: string;
+    stock: number;
     images: {
       data: {
         id: number;
@@ -420,22 +421,24 @@ const Page = () => {
                   </>
                 ) : (
                   <div className="hidden md:flex w-fit items-center justify-center flex-col gap-3 md:flex-row lg:flex-col">
-                    {/* <button
-                      className="rounded-md text-xl font-semibold text-white bg-[#212020] py-2 flex items-center justify-center gap-3  w-[15rem] md:w-[20rem] lg:w-[25rem]"
-                      type="button"
-                      disabled={cartDisable}
-                      onClick={handleAddToCart}
-                    >
-                      <FaShoppingCart /> Add To cart
-                    </button> */}
-
-                    <Link
-                      className="rounded-md text-xl font-semibold text-white bg-[#212020] py-2 flex items-center justify-center gap-3  w-[15rem] md:w-[20rem] lg:w-[25rem]"
-                      type="button"
-                      href={`whatsapp://send?phone=8888282229&text="Hello"`}
-                    >
-                      <FaWhatsapp /> Contact Us Now
-                    </Link>
+                    {product?.attributes.stock != 0 ? (
+                      <button
+                        className="w-[90%] rounded-md text-xl font-semibold text-white bg-[#212020] py-2 flex items-center justify-center  gap-3 md:w-[20rem] lg:w-[25rem]"
+                        type="button"
+                        disabled={cartDisable}
+                        onClick={handleAddToCart}
+                      >
+                        <FaShoppingCart /> Add To cart
+                      </button>
+                    ) : (
+                      <Link
+                        className="rounded-md text-xl font-semibold text-white bg-[#212020] py-2 flex items-center justify-center gap-3  w-[15rem] md:w-[20rem] lg:w-[25rem]"
+                        type="button"
+                        href={`whatsapp://send?phone=+918888282229&text=Hey There i want \n${window.location.href}`}
+                      >
+                        <FaWhatsapp /> Contact Us Now
+                      </Link>
+                    )}
                   </div>
                 )}
               </div>
@@ -471,23 +474,26 @@ const Page = () => {
           </>
         ) : (
           <div className="w-full flex items-center justify-center flex-col gap-3 md:flex-row lg:flex-col">
-            {/* <button
-              className="w-[90%] rounded-md text-xl font-semibold text-white bg-[#212020] py-2 flex items-center justify-center  gap-3 md:w-[20rem] lg:w-[25rem]"
-              type="button"
-              disabled={cartDisable}
-              onClick={handleAddToCart}
-            >
-              <FaShoppingCart /> Add To cart
-            </button> */}
+            {/* */}
 
-            <Link
-              className="rounded-md text-xl font-semibold text-white bg-[#212020] py-2 flex items-center justify-center gap-3  w-[15rem] md:w-[20rem] lg:w-[25rem]"
-              type="button"
-              href={`whatsapp://send?phone=+918888282229&text="Hello"`}
-            >
-              <FaWhatsapp /> Contact Us Now
-            </Link>
-
+            {product?.attributes.stock == 0 ? (
+              <button
+                className="w-[90%] rounded-md text-xl font-semibold text-white bg-[#212020] py-2 flex items-center justify-center  gap-3 md:w-[20rem] lg:w-[25rem]"
+                type="button"
+                disabled={cartDisable}
+                onClick={handleAddToCart}
+              >
+                <FaShoppingCart /> Add To cart
+              </button>
+            ) : (
+              <Link
+                className="rounded-md text-xl font-semibold text-white bg-[#212020] py-2 flex items-center justify-center gap-3  w-[15rem] md:w-[20rem] lg:w-[25rem]"
+                type="button"
+                href={`whatsapp://send?phone=+918888282229&text=Hey There i want \n${window.location.href}`}
+              >
+                <FaWhatsapp /> Contact Us Now
+              </Link>
+            )}
           </div>
         )}
       </div>
