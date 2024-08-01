@@ -20,15 +20,6 @@ import { domain } from "@/components/backend/apiRouth";
 import Link from "next/link";
 import { Skeleton } from "@/components/ui/skeleton";
 
-// const swiperProps = {
-//   loop: true,
-//   effect: "fade",
-//   grabCursor: true,
-//   autoplay: {
-//     delay: 4000,
-//   },
-// };
-
 interface BannerProps {
   id: number;
   attributes: {
@@ -98,10 +89,12 @@ const HomeBanner = () => {
           dynamicBullets: true,
           clickable: true,
         }}
-        className="mySwiper custom-swiper "
+        className="mySwiper custom-swiper"
       >
         {banner.map((banner, index) => (
+
           <SwiperSlide key={index}>
+
             <Link href={`/category/${banner.attributes.category.data.id}`}>
               <Image
                 src={`${banner.attributes.banner.data.attributes.url}`}
@@ -110,6 +103,7 @@ const HomeBanner = () => {
                 height={700}
               />
             </Link>
+
           </SwiperSlide>
         ))}
       </Swiper>

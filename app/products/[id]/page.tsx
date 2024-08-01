@@ -3,6 +3,8 @@
 import React, { useState, useEffect } from "react";
 import { IoIosStar } from "react-icons/io";
 import { FaShoppingCart } from "react-icons/fa";
+import { FaWhatsapp } from "react-icons/fa";
+
 import CustomerReviews from "../../../components/custom/reviews/reviewBox";
 import { addToCart } from "../../../backend/add-to-cart";
 import { useAuth, useUser } from "@clerk/nextjs";
@@ -21,8 +23,10 @@ import "react-image-gallery/styles/css/image-gallery.css";
 import Navbar from "../../../components/custom/navbar";
 import SuggestionSwiper from "../../../components/custom/swiper/SuggestionSwiper";
 import FadingBanner from "../../../components/custom/Fade";
+
 // importing the cookies
 import Cookies from "js-cookie";
+
 // importing icons
 import returnIcon from "@/app/assets/icons/exchange.png";
 import warranty from "@/app/assets/icons/warranty.png";
@@ -416,14 +420,22 @@ const Page = () => {
                   </>
                 ) : (
                   <div className="hidden md:flex w-fit items-center justify-center flex-col gap-3 md:flex-row lg:flex-col">
-                    <button
+                    {/* <button
                       className="rounded-md text-xl font-semibold text-white bg-[#212020] py-2 flex items-center justify-center gap-3  w-[15rem] md:w-[20rem] lg:w-[25rem]"
                       type="button"
                       disabled={cartDisable}
                       onClick={handleAddToCart}
                     >
                       <FaShoppingCart /> Add To cart
-                    </button>
+                    </button> */}
+
+                    <Link
+                      className="rounded-md text-xl font-semibold text-white bg-[#212020] py-2 flex items-center justify-center gap-3  w-[15rem] md:w-[20rem] lg:w-[25rem]"
+                      type="button"
+                      href={`whatsapp://send?phone=8888282229&text="Hello"`}
+                    >
+                      <FaWhatsapp /> Contact Us Now
+                    </Link>
                   </div>
                 )}
               </div>
@@ -459,6 +471,15 @@ const Page = () => {
           </>
         ) : (
           <div className="w-full flex items-center justify-center flex-col gap-3 md:flex-row lg:flex-col">
+            <button
+              className="w-[90%] rounded-md text-xl font-semibold text-white bg-[#212020] py-2 flex items-center justify-center  gap-3 md:w-[20rem] lg:w-[25rem]"
+              type="button"
+              disabled={cartDisable}
+              onClick={handleAddToCart}
+            >
+              <FaShoppingCart /> Add To cart
+            </button>
+
             <button
               className="w-[90%] rounded-md text-xl font-semibold text-white bg-[#212020] py-2 flex items-center justify-center  gap-3 md:w-[20rem] lg:w-[25rem]"
               type="button"
