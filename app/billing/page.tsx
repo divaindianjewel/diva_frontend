@@ -88,6 +88,7 @@ const Page = () => {
 
   const handlePinCodeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newPinCode = event.target.value;
+    console.log(newPinCode);
     setPinCode(newPinCode);
   };
 
@@ -105,7 +106,7 @@ const Page = () => {
         last_name: lastName,
         address: address,
         city: city,
-        pinCode: pinCode,
+        pincode: pinCode,
         state: state,
         country: "India",
         email: email,
@@ -141,7 +142,15 @@ const Page = () => {
         const id = data.data.id;
 
         Cookies.set("BillingId", id, {
-          expires: 365,
+          expires: 365 * 3,
+          secure: window.location.protocol === "https:",
+          sameSite: "Lax",
+          path: "/",
+          domain: window.location.hostname,
+        });
+
+        Cookies.set("DIVAUserAddress", JSON.stringify(bodyData.data), {
+          expires: 365 * 3,
           secure: window.location.protocol === "https:",
           sameSite: "Lax",
           path: "/",
@@ -201,6 +210,8 @@ const Page = () => {
 
       const data = await res.json();
       const info: userAddress = data.data;
+
+      console.log(info);
 
       setFirstName(info.attributes.first_name);
       setLastName(info.attributes.last_name);

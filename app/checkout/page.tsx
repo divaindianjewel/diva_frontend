@@ -136,7 +136,6 @@ const Page = () => {
     }
   };
 
-  
   // GETTING Address Id
   useEffect(() => {
     const BillingId = Cookies.get("BillingId");
@@ -150,6 +149,7 @@ const Page = () => {
 
     if (userData != undefined) {
       const newData: divaAddressProps = JSON.parse(userData);
+      console.log(newData);
       setFirstName(newData.first_name);
       setLastName(newData.last_name);
       setAddress(newData.address);
@@ -397,82 +397,6 @@ const Page = () => {
       setLoading(false);
     }
   }, [loading, userLocalId]);
-
-  // handle state change functions
-  const handleStateChange = (event: React.ChangeEvent<{ value: unknown }>) => {
-    const newState = event.target.value as string;
-    setState(newState);
-  };
-
-  const handleFirstNameChange = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    const newFirstName = event.target.value;
-    setFirstName(newFirstName);
-  };
-
-  const handleLastNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const newLastName = event.target.value;
-    setLastName(newLastName);
-  };
-
-  const handlePhoneNumberChange = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    const newPhoneNumber = event.target.value;
-    setPhoneNumber(newPhoneNumber);
-  };
-
-  const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const newEmail = event.target.value;
-    setEmail(newEmail);
-  };
-
-  const handleCityChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const newCity = event.target.value;
-    setCity(newCity);
-  };
-
-  const handlePinCodeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const newPinCode = event.target.value;
-    setPinCode(newPinCode);
-  };
-
-  const handleAddressChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const newAddress = event.target.value;
-    setAddress(newAddress);
-  };
-
-  const states = [
-    "Andhra Pradesh",
-    "Arunachal Pradesh",
-    "Assam",
-    "Bihar",
-    "Chhattisgarh",
-    "Goa",
-    "Gujarat",
-    "Haryana",
-    "Himachal Pradesh",
-    "Jharkhand",
-    "Karnataka",
-    "Kerala",
-    "Madhya Pradesh",
-    "Maharashtra",
-    "Manipur",
-    "Meghalaya",
-    "Mizoram",
-    "Nagaland",
-    "Odisha",
-    "Punjab",
-    "Rajasthan",
-    "Sikkim",
-    "Tamil Nadu",
-    "Telangana",
-    "Tripura",
-    "Uttar Pradesh",
-    "Uttarakhand",
-    "West bengal",
-  ];
 
   return (
     <>
