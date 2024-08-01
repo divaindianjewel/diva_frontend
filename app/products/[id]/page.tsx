@@ -471,23 +471,23 @@ const Page = () => {
           </>
         ) : (
           <div className="w-full flex items-center justify-center flex-col gap-3 md:flex-row lg:flex-col">
-            <button
+            {/* <button
               className="w-[90%] rounded-md text-xl font-semibold text-white bg-[#212020] py-2 flex items-center justify-center  gap-3 md:w-[20rem] lg:w-[25rem]"
               type="button"
               disabled={cartDisable}
               onClick={handleAddToCart}
             >
               <FaShoppingCart /> Add To cart
-            </button>
+            </button> */}
 
-            <button
-              className="w-[90%] rounded-md text-xl font-semibold text-white bg-[#212020] py-2 flex items-center justify-center  gap-3 md:w-[20rem] lg:w-[25rem]"
+            <Link
+              className="rounded-md text-xl font-semibold text-white bg-[#212020] py-2 flex items-center justify-center gap-3  w-[15rem] md:w-[20rem] lg:w-[25rem]"
               type="button"
-              disabled={cartDisable}
-              onClick={handleAddToCart}
+              href={`whatsapp://send?phone=8888282229&text="Hello"`}
             >
-              <FaShoppingCart /> Add To cart
-            </button>
+              <FaWhatsapp /> Contact Us Now
+            </Link>
+            
           </div>
         )}
       </div>
