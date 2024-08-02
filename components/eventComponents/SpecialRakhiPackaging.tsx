@@ -8,6 +8,9 @@ import { Button } from "@/components/ui/button";
 export default function RakhiPackaging() {
   return (
     <section className="w-full py-12 md:py-24 lg:py-32">
+      <h2 className="text-left p-10 text-3xl font-medium">
+        Diva's Special Rakhi Packaging
+      </h2>
       <div className="container grid gap-8 px-4 md:px-6 lg:grid-cols-2 lg:gap-12">
         <div className="grid gap-6 rounded-lg border bg-background p-6 shadow-sm">
           <div className="space-y-2">
