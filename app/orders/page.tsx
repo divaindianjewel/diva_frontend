@@ -37,7 +37,6 @@ interface OrderId {
 }
 
 const Pages = () => {
-
   const [orderId, setOrderId] = useState<OrderId[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [orderIds, setOrderIds] = useState<string[]>([]);
@@ -45,14 +44,14 @@ const Pages = () => {
 
   useEffect(() => {
     const getUserOrders = async () => {
+      const arr = [...orderId];
+
       orderIds.map(async (item) => {
         let response = await fetch(`${domain}/api/orders/${item}`);
         let data = await response.json();
 
-        let tmp = [...orderId];
-
-        tmp.push(data.data);
-        setOrderId(tmp);
+        arr.push(data.data);
+        setOrderId(arr);
       });
     };
     getUserOrders();
@@ -64,7 +63,9 @@ const Pages = () => {
     const filterData = data.filter((item) => item != "0");
 
     console.log(filterData);
+
     setOrderIds(filterData);
+    console.log(orderIds);
     setLoading(false);
   }, [loading]);
 
@@ -87,7 +88,7 @@ const Pages = () => {
                   Order #{item.id}
                 </div>
               </div>
-              <div className="grid grid-cols-2 gap-4">    
+              <div className="grid grid-cols-2 gap-4">
                 <div>
                   <p className="text-sm text-gray-500 dark:text-gray-400 mb-1">
                     Discount
@@ -142,11 +143,8 @@ const Pages = () => {
             </div>
           ))}
         </div>
-
       </main>
-
     </div>
-
   );
 };
 

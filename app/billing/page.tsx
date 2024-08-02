@@ -118,7 +118,6 @@ const Page = () => {
     try {
       let res;
       if (billingId) {
-        alert("working");
         res = await fetch(`${domain}/api/billing-addresses/${billingId}`, {
           method: "PUT",
           headers: {

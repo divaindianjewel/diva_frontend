@@ -231,7 +231,7 @@ const Page = () => {
 
     addOrderedProduct();
     updateOrderId();
-    stockHandling();
+    // stockHandling();
   }, [orderLoading]);
 
   return (
