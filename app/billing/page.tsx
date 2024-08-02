@@ -36,7 +36,7 @@ interface userAddress {
 const Page = () => {
   const router = useRouter();
 
-  const [state, setState] = useState("");
+  const [state, setState] = useState("Maharashtra");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");

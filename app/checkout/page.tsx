@@ -69,6 +69,9 @@ interface discounts {
   attributes: {
     code: string;
     amount: number;
+    Number_of_times: number;
+    Condition: string;
+    discount_type: string;
   };
 }
 
@@ -113,10 +116,14 @@ const Page = () => {
   const [selectedMethod, setSelectedMethod] = useState("online");
   const [tmpUserData, setTmpUserData] = useState<any>();
   const [dataPresent, setDataPresent] = useState<boolean>(false);
+  const [billingLoading, setBillingLoading] = useState<boolean>(true);
+
+  // DISCOUNT STATES
   const [discountCodeText, setDiscountCodeText] = useState<string>("");
   const [discountAmount, setDiscountAmount] = useState<number>(0);
   const [isDiscounted, setIsDiscounted] = useState<boolean>(false);
-  const [billingLoading, setBillingLoading] = useState<boolean>(true);
+
+  const [discountType, setDiscountType] = useState<string>("");
 
   // FUNCTION FOR APPLYING DISCOUNT
   const applyDiscount = async (code: string) => {
@@ -125,12 +132,19 @@ const Page = () => {
     const filteredData: discounts[] = data.data.filter(
       (item: discounts) => item.attributes.code == code
     );
-    if (!filteredData[0]) {
+
+    const discountInfo = filteredData[0];
+
+    if (!discountInfo) {
       errorTost("Invalid Discount Code!");
       return false;
     } else {
-      const TmpDiscountAmount = filteredData[0].attributes.amount;
+      const TmpDiscountAmount = discountInfo.attributes.amount;
+      const tmpDiscountType = discountInfo.attributes.discount_type;
+      
+      setDiscountType(tmpDiscountType);
       setDiscountAmount(TmpDiscountAmount);
+      
       setIsDiscounted(true);
       successTost("This Code is Available");
     }
@@ -300,7 +314,7 @@ const Page = () => {
           const userName = firstName + " " + lastName;
           const total_items = cookiesCartData.length;
           const tmpCity = city + " - " + pinCode;
-          
+
           errorTost("third create id");
 
           const response = await CreateOrderId(
@@ -403,12 +417,14 @@ const Page = () => {
 
   return (
     <>
+
       <div className="sticky top-0 left-0 z-[100]">
         <Navbar />
       </div>
 
       <div className="flex items-center justify-center px-3 flex-col w-fit mx-auto gap-5">
         <Card className="my-5">
+          
           <CardHeader>
             <CardTitle className="text-center">Payment Method</CardTitle>
           </CardHeader>
@@ -421,6 +437,7 @@ const Page = () => {
                 }`}
                 htmlFor="online"
               >
+
                 <input
                   checked={selectedMethod === "online"}
                   onChange={handleMethodChange}
@@ -428,6 +445,7 @@ const Page = () => {
                   name="paymentMethod"
                   id="online"
                 />
+
                 <div className="plan-content">
                   <div className="plan-details w-[10rem]">
                     <span>Pay online</span>
@@ -454,6 +472,7 @@ const Page = () => {
                     </div>
                   </div>
                 </div>
+
               </label>
 
               <label

@@ -7,8 +7,7 @@ import { FaWhatsapp } from "react-icons/fa";
 
 import CustomerReviews from "../../../components/custom/reviews/reviewBox";
 import { addToCart } from "../../../backend/add-to-cart";
-import { useAuth, useUser } from "@clerk/nextjs";
-import { domain, updateCart } from "../../../components/backend/apiRouth";
+import { domain } from "../../../components/backend/apiRouth";
 
 import {
   BlocksRenderer,
@@ -105,6 +104,7 @@ interface ReviewAttributes {
     updatedAt: string;
   };
 }
+
 const Page = () => {
   const [cartItem, setCartItem] = useState<cartItemProps | undefined>();
   const [userLocalId, setUserLocalId] = useState<string | undefined>("");
@@ -294,6 +294,7 @@ const Page = () => {
 
   return (
     <>
+
       <FadingBanner />
 
       <div className="sticky top-0 left-0 z-[100]">
@@ -348,6 +349,7 @@ const Page = () => {
                   )}
                 </div>
               </h1>
+
               <div className="mb-4 my-3">
                 {product?.attributes.category.data.id != 17 ? (
                   <div className="flex item-center justify-start flex-col my-5 gap-3">
@@ -419,11 +421,13 @@ const Page = () => {
               )}
 
               <div className="flex flex-col gap-3 mt-3 w-fit mx-auto">
-                {loading ? (
+                {loading ? 
+                (
                   <>
                     <Skeleton className="h-[35px] w-[250px] rounded-xl mt-3 skeleton-bg" />
                   </>
-                ) : (
+                ) : 
+                (
                   <div className="hidden md:flex w-fit items-center justify-center flex-col gap-3 md:flex-row lg:flex-col">
                     {product?.attributes.stock != 0 ? (
                       <button
@@ -434,7 +438,9 @@ const Page = () => {
                       >
                         <FaShoppingCart /> Add To cart
                       </button>
-                    ) : (
+                    )
+                     :
+                    (
                       <Link
                         className="rounded-md text-xl font-semibold text-white bg-[#212020] py-2 flex items-center justify-center gap-3  w-[15rem] md:w-[20rem] lg:w-[25rem]"
                         type="button"
@@ -445,6 +451,7 @@ const Page = () => {
                     )}
                   </div>
                 )}
+
               </div>
             </div>
           </div>
@@ -493,7 +500,7 @@ const Page = () => {
               <Link
                 className="rounded-md text-xl font-semibold text-white bg-[#212020] py-2 flex items-center justify-center gap-3  w-[15rem] md:w-[20rem] lg:w-[25rem]"
                 type="button"
-                href={`whatsapp://send?phone=+918888282229&text=Hey There i want \n${window.location.href}`}
+                href={`whatsapp://send?phone=+918888282229&text=Hey There i want\t\t${window.location.href}`}
               >
                 <FaWhatsapp /> Contact Us Now
               </Link>
