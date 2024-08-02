@@ -207,6 +207,9 @@ const Page = () => {
 
         const qnt = data.data.attributes.stock;
 
+        console.log("Qnt : " + qnt);
+        console.log(" Product " + item);
+
         let response = await fetch(`${domain}/api/products/${item.id}`, {
           method: "PUT",
           headers: {

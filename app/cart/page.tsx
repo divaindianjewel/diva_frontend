@@ -16,7 +16,6 @@ import FadingBanner from "../../components/custom/Fade";
 
 // importing Cookies
 import Cookies from "js-cookie";
-import { formControlClasses } from "@mui/material";
 
 interface CartItem {
   id: number;
