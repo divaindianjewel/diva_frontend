@@ -7,7 +7,7 @@
 
 .custom-swiper .swiper-pagination-bullet-active {
   background-color: #7d7d7d; /* Change this to your desired active color */
-  width: 40px; /* Desired width for the active bullet */
-  height: 10px; /* Keep the height consistent */
-  border-radius: 4px; /* Optional: Make the active bullet rounded */
+  width: 18px; /* Desired width for the active bullet */
+  height: 18px; /* Keep the height consistent */
+  border-radius: 50%; /* Optional: Make the active bullet rounded */
 }

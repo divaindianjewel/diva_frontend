@@ -16,6 +16,7 @@ import FadingBanner from "../../components/custom/Fade";
 
 // importing Cookies
 import Cookies from "js-cookie";
+import { formControlClasses } from "@mui/material";
 
 interface CartItem {
   id: number;
@@ -55,6 +56,7 @@ export default function Component() {
     const cartString = Cookies.get("DIVAcart");
     const cartData: cartItemProps[] = cartString ? JSON.parse(cartString) : [];
     setCartData2(cartData);
+    console.log(cartData);
     setLoading2(false);
   }, [loading2, randomNum]);
 

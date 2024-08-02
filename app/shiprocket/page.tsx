@@ -5,18 +5,6 @@ import { domain } from "../../components/backend/apiRouth";
 import addOrder from "../../backend/shiprocket/addOrder";
 import Cookies from "js-cookie";
 
-interface CartItem {
-  id: number;
-  attributes: {
-    user_id: string;
-    Product_id: number;
-    product_name: string;
-    product_price: number;
-    qnt: number;
-    img: any;
-  };
-}
-
 export interface addressProps {
   id: number;
   attributes: {
@@ -30,18 +18,6 @@ export interface addressProps {
     email: string;
     phone_number: number;
     user_id: string;
-  };
-}
-
-interface order {
-  id: number;
-  attributes: {
-    user_id: string;
-    order_date: string;
-    total_price: number;
-    discount: number;
-    user_name: string;
-    ordered: boolean;
   };
 }
 
@@ -110,7 +86,6 @@ const Page = () => {
 
     if (userData != undefined) {
       const newData: divaAddressProps = JSON.parse(userData);
-      console.log(newData);
       setUserObj(newData);
     }
   }, [userLocalId]);
@@ -131,6 +106,7 @@ const Page = () => {
   }, [loading]);
 
   // GETTING THE PAYMENT METHOD
+
   useEffect(() => {
     const getPaymentMethod = async () => {
       const res = await fetch(`${domain}/api/orders/${orderId}`);
@@ -224,8 +200,35 @@ const Page = () => {
       setOrderLoading(false);
     };
 
+    const stockHandling = async () => {
+      cookiesCartData.map(async (item) => {
+        const resQnt = await fetch(`${domain}/api/products/${item.id}`);
+        const data = await resQnt.json();
+
+        const qnt = data.data.attributes.stock;
+
+        let response = await fetch(`${domain}/api/products/${item.id}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+
+          body: JSON.stringify({
+            data: {
+              stock: qnt - item.qnt,
+            },
+          }),
+        });
+
+        if (response.ok) {
+          console.log("success...!!!");
+        }
+      });
+    };
+
     addOrderedProduct();
     updateOrderId();
+    stockHandling();
   }, [orderLoading]);
 
   return (

@@ -250,7 +250,7 @@ const Page = () => {
           </CardHeader>
           <CardContent>
             <FormControl fullWidth>
-              <div id="state" className="my-3 w-[25rem]">
+              <div id="state" className="my-3 w-full">
                 <InputLabel variant="standard" htmlFor="uncontrolled-native">
                   Select State
                 </InputLabel>
@@ -277,7 +277,7 @@ const Page = () => {
 
               <div
                 id="name"
-                className="flex flex-col md:flex-row gap-5 justify-between my-3 w-[25rem]"
+                className="flex flex-col md:flex-row gap-5 justify-between my-3 w-full"
               >
                 <TextField
                   id="standard-basic"
@@ -300,7 +300,7 @@ const Page = () => {
 
               <div
                 id="phone"
-                className="my-3 flex gap-5 flex-col md:flex-row w-[25rem]"
+                className="my-3 flex gap-5 flex-col md:flex-row w-full"
               >
                 <TextField
                   id="standard-basic"
@@ -324,7 +324,7 @@ const Page = () => {
 
               <div
                 id="info"
-                className="flex gap-5  justify-between my-3 flex-col md:flex-row w-[25rem]"
+                className="flex gap-5  justify-between my-3 flex-col md:flex-row w-full"
               >
                 <TextField
                   id="standard-basic"
@@ -345,7 +345,7 @@ const Page = () => {
                 />
               </div>
 
-              <div id="address" className="my-3 w-[25rem]">
+              <div id="address" className="my-3 w-full">
                 <textarea
                   id="standard-basic"
                   onChange={(e) => {

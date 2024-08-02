@@ -300,7 +300,9 @@ const Page = () => {
           const userName = firstName + " " + lastName;
           const total_items = cookiesCartData.length;
           const tmpCity = city + " - " + pinCode;
+          
           errorTost("third create id");
+
           const response = await CreateOrderId(
             total,
             discountAmount,
@@ -312,6 +314,7 @@ const Page = () => {
             state,
             selectedMethod
           );
+
           Cookies.set("DivaOrderId", String(response.id), {
             expires: 365,
             secure: window.location.protocol === "https:",

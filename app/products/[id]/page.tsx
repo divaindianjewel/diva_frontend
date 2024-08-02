@@ -349,34 +349,38 @@ const Page = () => {
                 </div>
               </h1>
               <div className="mb-4 my-3">
-                <div className="flex item-center justify-start flex-col my-5 gap-3">
-                  <Link href={`/return`}>
-                    <div className="flex gap-5 items-center justify-start">
-                      <Image
-                        src={returnIcon}
-                        alt="return icons"
-                        width={IconWidth}
-                        height={IconHeight}
-                      />
-                      <p className="text-base font-semibold capitalize">
-                        15 days return policy
-                      </p>
-                    </div>
-                  </Link>
-                  <Link href={"/return"}>
-                    <div className="flex gap-5 items-center justify-start">
-                      <Image
-                        src={warranty}
-                        alt="return icons"
-                        width={IconWidth}
-                        height={IconHeight}
-                      />
-                      <p className="text-base font-semibold capitalize">
-                        6 months warranty
-                      </p>
-                    </div>
-                  </Link>
-                </div>
+                {product?.attributes.category.data.id != 17 ? (
+                  <div className="flex item-center justify-start flex-col my-5 gap-3">
+                    <Link href={`/return`}>
+                      <div className="flex gap-5 items-center justify-start">
+                        <Image
+                          src={returnIcon}
+                          alt="return icons"
+                          width={IconWidth}
+                          height={IconHeight}
+                        />
+                        <p className="text-base font-semibold capitalize">
+                          15 days return policy
+                        </p>
+                      </div>
+                    </Link>
+                    <Link href={"/return"}>
+                      <div className="flex gap-5 items-center justify-start">
+                        <Image
+                          src={warranty}
+                          alt="return icons"
+                          width={IconWidth}
+                          height={IconHeight}
+                        />
+                        <p className="text-base font-semibold capitalize">
+                          6 months warranty
+                        </p>
+                      </div>
+                    </Link>
+                  </div>
+                ) : (
+                  ""
+                )}
 
                 {loading ? (
                   <>
@@ -476,7 +480,7 @@ const Page = () => {
           <div className="w-full flex items-center justify-center flex-col gap-3 md:flex-row lg:flex-col">
             {/* */}
 
-            {product?.attributes.stock == 0 ? (
+            {product?.attributes.stock != 0 ? (
               <button
                 className="w-[90%] rounded-md text-xl font-semibold text-white bg-[#212020] py-2 flex items-center justify-center  gap-3 md:w-[20rem] lg:w-[25rem]"
                 type="button"
