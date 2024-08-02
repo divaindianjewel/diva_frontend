@@ -1,16 +1,11 @@
-import RakhiPackaging from "@/components/eventComponents/SpecialRakhiPackaging";
-import Rakhi from "@/components/rakhi";
+import RakhiProducts from "@/components/eventComponents/RakhiProducts";
 import React from "react";
 
 const Page = () => {
   return (
-
     <>
-
-      <RakhiPackaging />
-      
+      <RakhiProducts price={550} />
     </>
-
   );
 };
 

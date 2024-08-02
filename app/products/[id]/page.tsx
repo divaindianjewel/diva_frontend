@@ -31,6 +31,7 @@ import returnIcon from "@/app/assets/icons/exchange.png";
 import warranty from "@/app/assets/icons/warranty.png";
 import Image from "next/image";
 import Link from "next/link";
+import RakhiProducts from "@/components/eventComponents/RakhiProducts";
 
 interface ProductData {
   id: number;
@@ -294,7 +295,6 @@ const Page = () => {
 
   return (
     <>
-
       <FadingBanner />
 
       <div className="sticky top-0 left-0 z-[100]">
@@ -379,27 +379,28 @@ const Page = () => {
                         </p>
                       </div>
                     </Link>
+
+                    {loading ? (
+                      <>
+                        <Skeleton className="h-[15px] w-[340px] rounded-xl skeleton-bg" />
+                        <Skeleton className="h-[15px] w-[340px] rounded-xl skeleton-bg mt-1" />
+                        <Skeleton className="h-[15px] w-[340px] rounded-xl skeleton-bg mt-1" />
+                      </>
+                    ) : product?.attributes.description ? (
+                      handelDescription(product?.attributes.description)
+                    ) : (
+                      "No Description"
+                    )}
                   </div>
                 ) : (
-                  ""
+                  <div>
+                    <h1 className="text-xl font-semibold">
+                      {" "}
+                      Select Your Rakhi
+                    </h1>
+                    <RakhiProducts price={550} />
+                  </div>
                 )}
-
-                {loading ? (
-                  <>
-                    <Skeleton className="h-[15px] w-[340px] rounded-xl skeleton-bg" />
-                    <Skeleton className="h-[15px] w-[340px] rounded-xl skeleton-bg mt-1" />
-                    <Skeleton className="h-[15px] w-[340px] rounded-xl skeleton-bg mt-1" />
-                  </>
-                ) : product?.attributes.description ? (
-                  handelDescription(product?.attributes.description)
-                ) : (
-                  "No Description"
-                )}
-              </div>
-
-              <div className="flex mt-6 items-center pb-5 border-b-2 border-gray-100 mb-5">
-                <div className="flex"></div>
-                <div className="flex ml-6 items-center"></div>
               </div>
 
               {loading ? (
@@ -421,13 +422,11 @@ const Page = () => {
               )}
 
               <div className="flex flex-col gap-3 mt-3 w-fit mx-auto">
-                {loading ? 
-                (
+                {loading ? (
                   <>
                     <Skeleton className="h-[35px] w-[250px] rounded-xl mt-3 skeleton-bg" />
                   </>
-                ) : 
-                (
+                ) : (
                   <div className="hidden md:flex w-fit items-center justify-center flex-col gap-3 md:flex-row lg:flex-col">
                     {product?.attributes.stock != 0 ? (
                       <button
@@ -438,9 +437,7 @@ const Page = () => {
                       >
                         <FaShoppingCart /> Add To cart
                       </button>
-                    )
-                     :
-                    (
+                    ) : (
                       <Link
                         className="rounded-md text-xl font-semibold text-white bg-[#212020] py-2 flex items-center justify-center gap-3  w-[15rem] md:w-[20rem] lg:w-[25rem]"
                         type="button"
@@ -451,7 +448,6 @@ const Page = () => {
                     )}
                   </div>
                 )}
-
               </div>
             </div>
           </div>

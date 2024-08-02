@@ -69,16 +69,11 @@ const Page = () => {
 
       setAllProducts(tmp);
 
-      console.log(allProducts);
-
-      const categoryProduct1 = tmp.filter(
+       const categoryProduct1 = tmp.filter(
         (i: Product) => i.attributes.category.data.id == categoryId
       );
 
       console.log(categoryProduct1);
-      categoryProduct1.map((item: Product) =>
-        console.log(item.attributes.category.data.id)
-      );
       setCategoryProduct(categoryProduct1);
       setProductLoaded(false);
     };

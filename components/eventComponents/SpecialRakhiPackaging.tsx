@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 
 import img from "@/app/assets/rakhi packaging.jpg";
 import Image from "next/image";
+import Link from "next/link";
 
 const SpecialRakhiPackaging = () => {
   return (
@@ -47,7 +48,9 @@ const SpecialRakhiPackaging = () => {
                   Ferrore rocher
                 </li>
               </ul>
-              <Button className="w-full mt-4">Buy Now</Button>
+              <Link href={`/products/300`}>
+                <Button className="w-full mt-4">Buy Now</Button>
+              </Link>
             </div>
             <div className="bg-background rounded-lg p-6 shadow-sm">
               <h3 className="text-xl font-semibold">Special Silver Rakhi</h3>
@@ -80,7 +83,9 @@ const SpecialRakhiPackaging = () => {
                   Ferrore rocher
                 </li>
               </ul>
-              <Button className="w-full mt-4">Buy Now</Button>
+              <Link href={`/products/300`}>
+                <Button className="w-full mt-4">Buy Now</Button>
+              </Link>
             </div>
           </div>
         </div>
