@@ -4,7 +4,6 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import { domain } from "../backend/apiRouth";
 import Image from "next/image";
-import Link from "next/link";
 import { Button } from "../ui/button";
 
 interface ProductData {
@@ -30,40 +29,11 @@ interface ProductData {
   };
 }
 
-const RakhiProducts: React.FC<{ price: number }> = ({ price }) => {
-  const [selectedRakhi, setSelectedRakhi] = useState<string>("268");
-  const [products, setProducts] = useState<ProductData[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
-
-  useEffect(() => {
-    const getData = async () => {
-      setLoading(true);
-      try {
-        const res = await fetch(
-          `${domain}/api/products?populate=*&filters[$and][0][category][id][$eq]=16`
-        );
-        if (!res.ok) {
-          throw new Error("Failed to fetch data");
-        }
-        const data = await res.json();
-
-        const filteredData = data.data.filter(
-          (item: ProductData) => item.attributes.price === price
-        );
-
-        setProducts(filteredData);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-    getData();
-  }, [price]);
-
-  if (loading) {
-    return <div>Loading...</div>;
-  }
+const RakhiProducts: React.FC<{
+  products: any[];
+  selectedRakhi: any;
+  setSelectedRakhi: any;
+}> = ({ products, selectedRakhi, setSelectedRakhi }) => {
 
   return (
     <div className="no-scrollbar grid gap-6 w-fit mx-auto px-4 md:px-6 py-12 h-[35rem] overflow-y-scroll">

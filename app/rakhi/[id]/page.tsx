@@ -30,7 +30,7 @@ import returnIcon from "@/app/assets/icons/exchange.png";
 import warranty from "@/app/assets/icons/warranty.png";
 import Image from "next/image";
 import Link from "next/link";
-import RakhiProducts from "@/components/eventComponents/RakhiProducts";
+import RakhiProduct from "@/components/eventComponents/RakhiProducts";
 
 interface ProductData {
   id: number;
@@ -121,19 +121,42 @@ const Page = () => {
   const [totalReviews, setTotalReviews] = useState<number>(0);
   const [avgReviews, setAvgReviews] = useState<number>(0);
 
-  
+  // Rakhi States
+  const [selectedRakhi, setSelectedRakhi] = useState<string>("");
+  const [RakhiProducts, setRakhiProducts] = useState<ProductData[]>([]);
+  const [rakhiLoading, setRakhiLoading] = useState<boolean>(true);
 
-  const generateRandomNumber = () => {
-    const randomNumber = Math.floor(Math.random() * 100) + 1;
-    setRandomNum(randomNumber);
-  };
-
+  //  getting the productId
   const params = useParams();
   let productId = 0;
 
   if (params) {
     productId = Number(params.id);
   }
+
+  // Getting the rakhi products
+  useEffect(() => {
+    const getData = async () => {
+      const price = productId == 300 ? 550 : 260;
+
+      const res = await fetch(
+        `${domain}/api/products?populate=*&filters[$and][0][category][id][$eq]=16`
+      );
+      const data = await res.json();
+      const filteredData = data.data.filter(
+        (item: ProductData) => item.attributes.price === price
+      );
+      setRakhiProducts(filteredData);
+      setRakhiLoading(false);
+    };
+
+    getData();
+  }, [rakhiLoading]);
+
+  const generateRandomNumber = () => {
+    const randomNumber = Math.floor(Math.random() * 100) + 1;
+    setRandomNum(randomNumber);
+  };
 
   //  FUNCTION TO ADD THE PRODUCT TO THE CART
   const handleAddToCart = () => {
@@ -151,15 +174,13 @@ const Page = () => {
       } else {
         if (userLocalId) {
           generateRandomNumber();
-
           addToCart(
             String(productId),
             userLocalId,
-            product?.attributes.name,
+            product?.attributes.name + selectedRakhi,
             product?.attributes.price,
             product?.attributes.images.data[0].attributes.url
           );
-
           cartItems.push(cartItem);
           Cookies.set("DIVAcart", JSON.stringify(cartItems), {
             expires: 365,
@@ -178,7 +199,6 @@ const Page = () => {
             domain: window.location.hostname,
           });
         }
-
         successTost("Product added to cart");
         const randomNumber = Math.floor(Math.random() * 100) + 1;
         setRandomNum(randomNumber);
@@ -186,7 +206,6 @@ const Page = () => {
     } else {
       console.log("cart Item is undefined");
     }
-
     setTimeout(() => {
       setCartDisable(false);
     }, 3500);
@@ -233,11 +252,10 @@ const Page = () => {
         const cartProduct: cartItemProps = {
           id: product?.id,
           img: product?.attributes.images.data[0].attributes.url,
-          name: product?.attributes.name,
+          name: product?.attributes.name + " - " + selectedRakhi,
           price: product?.attributes.price,
           qnt: 1,
         };
-
         setCartItem(cartProduct);
 
         setLoading(false);
@@ -399,6 +417,12 @@ const Page = () => {
                       {" "}
                       Select Your Rakhi
                     </h1>
+
+                    <RakhiProduct
+                      products={RakhiProducts}
+                      selectedRakhi={selectedRakhi}
+                      setSelectedRakhi={setSelectedRakhi}
+                    />
                   </div>
                 )}
               </div>
