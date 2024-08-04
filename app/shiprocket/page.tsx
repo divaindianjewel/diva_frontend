@@ -202,23 +202,14 @@ const Page = () => {
 
     const stockHandling = async () => {
       cookiesCartData.map(async (item) => {
-        const resQnt = await fetch(`${domain}/api/products/${item.id}`);
-        const data = await resQnt.json();
-
-        const qnt = data.data.attributes.stock;
-
-        console.log("Qnt : " + qnt);
-        console.log(" Product " + item);
-
         let response = await fetch(`${domain}/api/products/${item.id}`, {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
           },
-
           body: JSON.stringify({
             data: {
-              stock: qnt - item.qnt,
+              stock: 0
             },
           }),
         });
@@ -231,7 +222,7 @@ const Page = () => {
 
     addOrderedProduct();
     updateOrderId();
-    // stockHandling();
+    stockHandling();
   }, [orderLoading]);
 
   return (
