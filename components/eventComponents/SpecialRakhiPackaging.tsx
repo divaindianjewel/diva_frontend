@@ -29,7 +29,11 @@ const SpecialRakhiPackaging = () => {
               <ul className="space-y-2 text-muted-foreground">
                 <li>
                   <CheckIcon className="w-4 h-4 mr-2 inline-block text-primary" />
-                  1 Silver Coin Of worth ₹XXX
+                  1 Silver Rakhi At worth of ₹280
+                </li>
+                <li>
+                  <CheckIcon className="w-4 h-4 mr-2 inline-block text-primary" />
+                  1 Silver Coin
                 </li>
                 <li>
                   <CheckIcon className="w-4 h-4 mr-2 inline-block text-primary" />
@@ -48,7 +52,7 @@ const SpecialRakhiPackaging = () => {
                   Ferrore rocher
                 </li>
               </ul>
-              <Link href={`/rakhi/300`}>
+              <Link href={`/rakhi/301`}>
                 <Button className="w-full mt-4">Buy Now</Button>
               </Link>
             </div>
@@ -64,7 +68,11 @@ const SpecialRakhiPackaging = () => {
               <ul className="space-y-2 text-muted-foreground">
                 <li>
                   <CheckIcon className="w-4 h-4 mr-2 inline-block text-primary" />
-                  1 Silver Coin Of worth ₹XXX
+                  1 Silver Rakhi At worth of ₹550
+                </li>
+                <li>
+                  <CheckIcon className="w-4 h-4 mr-2 inline-block text-primary" />
+                  1 Silver Coin
                 </li>
                 <li>
                   <CheckIcon className="w-4 h-4 mr-2 inline-block text-primary" />

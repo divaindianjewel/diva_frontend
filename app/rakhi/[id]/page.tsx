@@ -165,7 +165,7 @@ const Page = () => {
     const existingCart = Cookies.get("DIVAcart");
     const cartItems: cartItemProps[] = existingCart
       ? JSON.parse(existingCart)
-      : [];
+      : []; 
 
     if (cartItem != undefined) {
       const isProductInCart = cartItems.some((item) => item.id === cartItem.id);
