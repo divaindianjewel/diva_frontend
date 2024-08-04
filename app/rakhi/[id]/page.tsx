@@ -175,7 +175,7 @@ const Page = () => {
         if (userLocalId) {
           generateRandomNumber();
           addToCart(
-            String(productId),
+            String(selectedRakhi),
             userLocalId,
             product?.attributes.name + selectedRakhi,
             product?.attributes.price,
