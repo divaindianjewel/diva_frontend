@@ -5,6 +5,7 @@ import { Label } from "@/components/ui/label";
 import { domain } from "../backend/apiRouth";
 import Image from "next/image";
 import { Button } from "../ui/button";
+import Link from "next/link";
 
 interface ProductData {
   id: number;
@@ -34,7 +35,6 @@ const RakhiProducts: React.FC<{
   selectedRakhi: any;
   setSelectedRakhi: any;
 }> = ({ products, selectedRakhi, setSelectedRakhi }) => {
-
   return (
     <div className="no-scrollbar grid gap-6 w-fit mx-auto px-4 md:px-6 py-12 h-[35rem] overflow-y-scroll">
       <RadioGroup
@@ -73,7 +73,9 @@ const RakhiProducts: React.FC<{
                   Price : {item.attributes.price}
                 </p>
               </div>
-              <Button>View Product</Button>
+              <Link href={`/products/${item.id}`}>
+                <Button>View Rakhi</Button>
+              </Link>
             </Label>
           </div>
         ))}
