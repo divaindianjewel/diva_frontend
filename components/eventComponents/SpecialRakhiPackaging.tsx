@@ -63,7 +63,7 @@ const SpecialRakhiPackaging = () => {
               </p>
               <div className="flex items-end gap-2 my-4">
                 <span className="text-4xl font-bold">₹1499</span>
-                <span className="text-muted-foreground">/month</span>
+                <span className="text-muted-foreground">/per box</span>
               </div>
               <ul className="space-y-2 text-muted-foreground">
                 <li>
