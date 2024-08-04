@@ -202,6 +202,7 @@ const Page = () => {
 
     const stockHandling = async () => {
       cookiesCartData.map(async (item) => {
+        console.log(item.id);
         let response = await fetch(`${domain}/api/products/${item.id}`, {
           method: "PUT",
           headers: {
@@ -209,7 +210,7 @@ const Page = () => {
           },
           body: JSON.stringify({
             data: {
-              stock: 0
+              stock: 0,
             },
           }),
         });
