@@ -48,7 +48,7 @@ const SpecialRakhiPackaging = () => {
                   Ferrore rocher
                 </li>
               </ul>
-              <Link href={`/products/300`}>
+              <Link href={`/rakhi/300`}>
                 <Button className="w-full mt-4">Buy Now</Button>
               </Link>
             </div>
@@ -83,7 +83,7 @@ const SpecialRakhiPackaging = () => {
                   Ferrore rocher
                 </li>
               </ul>
-              <Link href={`/products/300`}>
+              <Link href={`/rakhi/300`}>
                 <Button className="w-full mt-4">Buy Now</Button>
               </Link>
             </div>
