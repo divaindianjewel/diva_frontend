@@ -81,7 +81,6 @@ const ReviewFormDialog: React.FC<{
     getReviewData();
   }, [randomNum, userLocalId]);
 
-  
   const submitHandler = async (e: React.FormEvent) => {
     e.preventDefault();
     if (userLocalId !== "null") {

@@ -1,14 +1,11 @@
 "use client";
 import React, { useState } from "react";
 import Image from "next/image";
-
 import { Button } from "../../components/ui/button";
 import { Input } from "../../components/ui/input";
 import { MdAdd } from "react-icons/md";
-
 import { FaMinus } from "react-icons/fa6";
 import { FaTrashAlt } from "react-icons/fa";
-
 import Link from "next/link";
 import { successTost } from "../toast/allTost";
 import Cookies from "js-cookie";
@@ -192,6 +189,7 @@ const CartItems: React.FC<{
       <div className="border-t" />
     </>
   );
+
 };
 
 export default CartItems;

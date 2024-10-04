@@ -44,7 +44,6 @@ export default function Component() {
   const [subtotal, setSubtotal] = useState<number>(0);
   const [total, setTotal] = useState<number>(0);
   const [randomNum, setRandomNum] = useState<number>(0);
-  const [loading, setLoading] = useState<boolean>(true);
 
   const generateRandomNumber = () => {
     const randomNumber = Math.floor(Math.random() * 100) + 1;

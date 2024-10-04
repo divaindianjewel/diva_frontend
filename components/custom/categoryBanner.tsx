@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { domain } from "../backend/apiRouth";
-
 import bannerImage from "../../public/banner-2.jpg";
 import { Skeleton } from "../ui/skeleton";
 

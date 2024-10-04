@@ -48,7 +48,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
           <Image
             height={1}
             width={1}
-            alt="" // Empty alt for decorative image
+            alt=""
             style={{ display: "none" }}
             src="https://www.facebook.com/tr?id=1093686505680831&ev=PageView&noscript=1"
           />

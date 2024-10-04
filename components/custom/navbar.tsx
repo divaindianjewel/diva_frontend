@@ -3,9 +3,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import Image from "next/image";
 
-// clerk
-import { useAuth } from "@clerk/nextjs";
-
 // Logo
 import Logo from "../../public/logo.png";
 import Link from "next/link";
@@ -63,10 +60,6 @@ const Navbar: React.FC<{ randomNum?: number }> = ({ randomNum }) => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, [isSearchActive]);
-
-  // Hardcoded categories and best-selling products
-  const categories = ["Electronics", "Fashion", "Home & Garden", "Sports"];
-  const bestSellers = ["Best Seller 1", "Best Seller 2", "Best Seller 3"];
 
   return (
     <div>

@@ -69,7 +69,7 @@ const Page = () => {
 
       setAllProducts(tmp);
 
-       const categoryProduct1 = tmp.filter(
+      const categoryProduct1 = tmp.filter(
         (i: Product) => i.attributes.category.data.id == categoryId
       );
 

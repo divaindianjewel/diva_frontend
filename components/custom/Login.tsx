@@ -78,7 +78,7 @@ const Login: React.FC = () => {
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: -50 }}
         transition={{ duration: 0.5 }}
-        className="bg-white p-8 rounded-lg w-80" // Adjusted width
+        className="bg-white p-8 rounded-lg w-80"
       >
         <h2 className="text-2xl mb-6 text-black font-semibold">
           {isRegister ? "Register Now" : "Login Now"}

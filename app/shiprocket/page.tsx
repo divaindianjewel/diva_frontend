@@ -106,17 +106,13 @@ const Page = () => {
   }, [loading]);
 
   // GETTING THE PAYMENT METHOD
-
   useEffect(() => {
     const getPaymentMethod = async () => {
       const res = await fetch(`${domain}/api/orders/${orderId}`);
-
       const data = await res.json();
-
       console.log(orderId);
       console.log(data.data.attributes.payment_method);
       setPaymentMethod(data.data.attributes.payment_method);
-
       setPaymentLoading(false);
     };
 
@@ -125,11 +121,8 @@ const Page = () => {
 
   const addOrderCookies = (addOrderCookies: string) => {
     let orderArr = Cookies.get("divaOrders");
-
     let data: string[] = orderArr ? JSON.parse(orderArr) : [];
-
     data.push(addOrderCookies);
-
     Cookies.set("divaOrders", JSON.stringify(data), {
       expires: 365 * 3,
       secure: window.location.protocol === "https:",
@@ -198,6 +191,7 @@ const Page = () => {
       Cookies.remove("DIVAcart");
 
       setOrderLoading(false);
+
     };
 
     const stockHandling = async () => {
@@ -208,6 +202,7 @@ const Page = () => {
           headers: {
             "Content-Type": "application/json",
           },
+
           body: JSON.stringify({
             data: {
               stock: 0,

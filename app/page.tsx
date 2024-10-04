@@ -15,9 +15,9 @@ export default async function Home() {
       <div className="sticky top-0 left-0 z-[100]">
         <Navbar />
       </div>
+
       <HomeBanner />
       <ShopByPrice />
-      <RakhiPackaging />
       <FeaturesSection />
       <Categories />
       <MensFeatureSection />

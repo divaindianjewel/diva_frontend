@@ -92,9 +92,7 @@ const HomeBanner = () => {
         className="mySwiper custom-swiper"
       >
         {banner.map((banner, index) => (
-
           <SwiperSlide key={index}>
-
             <Link href={`/category/${banner.attributes.category.data.id}`}>
               <Image
                 src={`${banner.attributes.banner.data.attributes.url}`}
@@ -103,7 +101,6 @@ const HomeBanner = () => {
                 height={700}
               />
             </Link>
-
           </SwiperSlide>
         ))}
       </Swiper>

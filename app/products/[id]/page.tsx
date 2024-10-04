@@ -121,8 +121,6 @@ const Page = () => {
   const [totalReviews, setTotalReviews] = useState<number>(0);
   const [avgReviews, setAvgReviews] = useState<number>(0);
 
-  
-
   const generateRandomNumber = () => {
     const randomNumber = Math.floor(Math.random() * 100) + 1;
     setRandomNum(randomNumber);
@@ -284,7 +282,7 @@ const Page = () => {
     };
 
     fetchReview();
-  }, [productId, domain, randomNum]);
+  }, [productId, randomNum]);
 
   const handelDescription = (content: BlocksContent) => {
     return <BlocksRenderer content={content} />;
