@@ -10,7 +10,6 @@
     "postinstall": "next build"
   },
   "dependencies": {
-    "@clerk/nextjs": "^4.29.9",
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.5",
     "@fileforge/react-print": "^0.1.141",
@@ -49,7 +48,6 @@
     "proxy": "^2.1.1",
     "radix-ui": "^1.0.1",
     "react": "^18",
-    "react-autocomplete": "^1.8.1",
     "react-dom": "^18",
     "react-feather": "^2.0.10",
     "react-hook-form": "^7.50.1",
